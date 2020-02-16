@@ -27,32 +27,33 @@
     <div style="background-color:#09161c;color:rgb(240,240,240);">
       <h2>Function Tester:</h2>
       <h3>Editor</h3>
-      <textarea id="tester">// Use write(value) to print the value in the output below</textarea>
+      <textarea id="tester">// Use console.log(value) to print the value in the output below</textarea>
       <button onclick="run();">Run</button>
       <h3>Output</h3>
       <textarea readonly id="tester-output"></textarea>
     </div>
   </body>
   <script>
-    function write(val)
-    {
-      let str;
-      switch(typeof val)
-      {
-        case "number":
-          str=val;
-          break;
-        case "string":
-          str='"'+val+'"';
-          break;
-        case "object":
-          str="Object: "+JSON.stringify(val);
-          break;
-      }
-      document.getElementById("tester-output").value+=str+"\n";
-    }
     function run()
     {
+      let a=console.log;
+      console.log =  function(val)
+      {
+        let str;
+        switch(typeof val)
+        {
+          case "number":
+            str=val;
+            break;
+          case "string":
+            str='"'+val+'"';
+            break;
+          case "object":
+            str="Object: "+JSON.stringify(val);
+            break;
+        }
+        document.getElementById("tester-output").value+=str+"\n";
+      }
       let output=document.getElementById("tester-output");
       output.removeAttribute("style");
       output.value="";
@@ -65,6 +66,7 @@
         output.setAttribute("style","color:red");
         output.value=e.name+": "+e.message;
       }
+      console.log=a;
     }
   </script>
 </html>
