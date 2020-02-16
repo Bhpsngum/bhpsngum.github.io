@@ -52,15 +52,16 @@
     }
     function run()
     {
+      let output=document.getElementById("tester-output");
       output.removeAttribute("style");
-      let input=document.getElementById("tester").value,output=document.getElementById("tester-output");
       try
       {
-        eval(input);
+        output.value="undefined";
+        eval(document.getElementById("tester").value);
       }
       catch(e)
       {
-        output.setAttribute("style","color:#D8000C");
+        output.setAttribute("style","color:red");
         output.value=e.name+": "+e.message;
       }
     }
