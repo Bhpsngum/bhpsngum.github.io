@@ -33,13 +33,26 @@
     </div>
   </body>
   <script>
-    let input=document.getElementById("tester").value,output=document.getElementById("tester-output");
     function write(val)
     {
-      output.value=val;
+      let str;
+      switch(typeof val)
+      {
+        case "number":
+          str=val;
+          break;
+        case "string":
+          str='"'+val+'"';
+          break;
+        case "object":
+          str="Object: "+JSON.stringify(val);
+          break;
+      }
+      document.getElementById("tester-output").innerText=str;
     }
     function run()
     {
+      let input=document.getElementById("tester").value,output=document.getElementById("tester-output");
       try
       {
         eval(input);
