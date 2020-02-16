@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Bhpsngum's function tester</title>
     <link rel="icon" href="/icon.png">
     <style>
       body {
@@ -15,6 +16,26 @@
     <ul style="background-color:#09161c;color:rgb(240,240,240);">
       <li><a href="https://1drv.ms/u/s!AvIkDZcZHgimlmGELH3C5O8VT834?e=9bHTie">Click here to download Starblast Enhancements Tools extensions (update regularly - chrome browser only)</a></li>
       <li>Want offline converter? <a href="https://1drv.ms/u/s!AvIkDZcZHgimiEaJBJytvMEJ8Pb3">Download the StarblastConverter application here (Windows only)</a></li>
+      <h2>Tester:</h2>
+      <textarea style="background-color:rgb(15,15,15);color: rgb(140,240,240)" id="tester"></textarea>
+      <button onclick="run();">Run</button>
+      <h3>Output:</h3>
+      <textarea readonly style="background-color:rgb(15,15,15)" id="tester-output"></textarea>
     </ul>
   </body>
+  <script>
+    function run()
+    {
+      let input=document.getElementById("tester").getValue(),output=document.getElementById("tester-output");
+      try
+      {
+        output.setValue(eval(input));
+      }
+      catch(e)
+      {
+        output.setAttribute("style","background-color:rgb(15,15,15);color:rgb(240,15,15)");
+        output.setValue(e.stack);
+      }
+    }
+  </script>
 </html>
