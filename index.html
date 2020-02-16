@@ -26,15 +26,15 @@
   <script>
     function run()
     {
-      let input=document.getElementById("tester").value,output=document.getElementById("tester-output").value;
+      let input=document.getElementById("tester").value,output=document.getElementById("tester-output");
       try
       {
-        output=eval(input);
+        output.value=eval(input);
       }
       catch(e)
       {
         output.setAttribute("style","background-color:rgb(15,15,15);color:rgb(240,15,15)");
-        output=e.stack;
+        output.value=e.stack;
       }
     }
   </script>
