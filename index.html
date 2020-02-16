@@ -9,6 +9,13 @@
         height: 100%;
         background-image: url("Starblastio_background18.jpg");
       }
+      textarea {
+        width:300px;
+        height:100px;
+        background-color:rgb(15,15,15);
+        color: rgb(240,240,240);
+        font-size: 12pt;
+      }
     </style>
     <script type="text/javascript" src="https://gitcdn.link/repo/Bhpsngum/UltitiesNstuffs/master/getProperJSVariableName.js"></script>
   </head>
@@ -17,10 +24,10 @@
       <li><a href="https://1drv.ms/u/s!AvIkDZcZHgimlmGELH3C5O8VT834?e=9bHTie">Click here to download Starblast Enhancements Tools extensions (update regularly - chrome browser only)</a></li>
       <li>Want offline converter? <a href="https://1drv.ms/u/s!AvIkDZcZHgimiEaJBJytvMEJ8Pb3">Download the StarblastConverter application here (Windows only)</a></li>
       <h2>Tester:</h2>
-      <textarea style="background-color:rgb(15,15,15);color: rgb(240,240,240)" id="tester"></textarea>
+      <textarea id="tester"></textarea>
       <button onclick="run();">Run</button>
       <h3>Output:</h3>
-      <textarea readonly style="background-color:rgb(15,15,15);color: rgb(240,240,240)" id="tester-output"></textarea>
+      <textarea readonly id="tester-output"></textarea>
     </ul>
   </body>
   <script>
@@ -33,8 +40,8 @@
       }
       catch(e)
       {
-        output.setAttribute("style","background-color:rgb(15,15,15);color:rgb(240,15,15)");
-        output.value=e.stack;
+        output.setAttribute("style","color:#D8000C");
+        output.value=e.name+": "+e.message;
       }
     }
   </script>
