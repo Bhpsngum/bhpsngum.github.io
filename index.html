@@ -52,6 +52,7 @@
     }
     function run()
     {
+      output.removeAttribute("style");
       let input=document.getElementById("tester").value,output=document.getElementById("tester-output");
       try
       {
@@ -61,7 +62,6 @@
       {
         output.setAttribute("style","color:#D8000C");
         output.value=e.name+": "+e.message;
-        output.setAttribute("style","color: rgb(240,240,240);")
       }
     }
   </script>
