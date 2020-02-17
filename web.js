@@ -10,12 +10,12 @@ function run()
         str='"'+val+'"';
         break;
       case "object":
-        str="Object:  "+JSON.stringify(val);
+        str="Object: "+JSON.stringify(val);
         break;
       default:
-        str=(val||"undefined").toString();
+        str=(val||"").toString();
     }
-    document.getElementById("tester-output").value+=str+"\n";
+    document.getElementById("tester-output").value+="> "+str+"\n";
   }
   let output=document.getElementById("tester-output");
   output.removeAttribute("style");
