@@ -4,7 +4,7 @@ function run()
   console.log =  function(val)
   {
     let str;
-    switch(typeof val)
+    switch(typeof (val||""))
     {
       case "string":
         str='"'+val+'"';
@@ -16,7 +16,7 @@ function run()
         str="undefined";
         break;
       default:
-        str=(val||"").toString();
+        str=val.toString();
     }
     document.getElementById("tester-output").value+="> "+str+"\n";
   }
