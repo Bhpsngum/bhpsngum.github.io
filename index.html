@@ -46,10 +46,10 @@
             str='"'+val+'"';
             break;
           case "object":
-            str="Object: "+JSON.stringify(val);
+            str="Object:  "+JSON.stringify(val);
             break;
           default:
-            str=val;
+            str=(val||"undefined").toString();
         }
         document.getElementById("tester-output").value+=str+"\n";
       }
