@@ -1,0 +1,12 @@
+body {
+  width: 100%;
+  height: 100%;
+  background-image: url("Starblastio_background18.jpg");
+}
+textarea {
+  width:300px;
+  height:100px;
+  background-color:rgb(15,15,15);
+  color: rgb(240,240,240);
+  font-size: 12pt;
+}

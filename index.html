@@ -3,21 +3,8 @@
   <head>
     <title>Bhpsngum's function tester</title>
     <link rel="icon" href="/icon.png">
-    <style>
-      body {
-        width: 100%;
-        height: 100%;
-        background-image: url("Starblastio_background18.jpg");
-      }
-      textarea {
-        width:300px;
-        height:100px;
-        background-color:rgb(15,15,15);
-        color: rgb(240,240,240);
-        font-size: 12pt;
-      }
-    </style>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Bhpsngum/UltitiesNstuffs/getProperJSVariableName.min.js"></script>
+    <link rel="stylesheet" href="/web.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Bhpsngum/UltitiesNstuffs@latest/getProperJSVariableName.min.js"></script>
   </head>
   <body>
     <ul style="background-color:#09161c;color:rgb(240,240,240);">
@@ -28,44 +15,10 @@
       <h2>Function Tester:</h2>
       <h3>Editor</h3>
       <textarea id="tester">// Use console.log(value) to print the value in the output below</textarea>
-      <button onclick="run();">Run</button>
+      <button id="run">Run</button>
       <h3>Output</h3>
       <textarea readonly id="tester-output"></textarea>
     </div>
   </body>
-  <script>
-    function run()
-    {
-      let a=console.log;
-      console.log =  function(val)
-      {
-        let str;
-        switch(typeof val)
-        {
-          case "string":
-            str='"'+val+'"';
-            break;
-          case "object":
-            str="Object:  "+JSON.stringify(val);
-            break;
-          default:
-            str=(val||"undefined").toString();
-        }
-        document.getElementById("tester-output").value+=str+"\n";
-      }
-      let output=document.getElementById("tester-output");
-      output.removeAttribute("style");
-      output.value="";
-      try
-      {
-        eval(document.getElementById("tester").value);
-      }
-      catch(e)
-      {
-        output.setAttribute("style","color:red");
-        output.value=e.name+": "+e.message;
-      }
-      console.log=a;
-    }
-  </script>
+  <script src="/web.js"></script>
 </html>
