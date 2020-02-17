@@ -12,6 +12,9 @@ function run()
       case "object":
         str="Object: "+JSON.stringify(val);
         break;
+      case "undefined":
+        str="undefined";
+        break;
       default:
         str=(val||"").toString();
     }
