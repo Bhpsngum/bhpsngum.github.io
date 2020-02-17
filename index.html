@@ -42,15 +42,14 @@
         let str;
         switch(typeof val)
         {
-          case "number":
-            str=val;
-            break;
           case "string":
             str='"'+val+'"';
             break;
           case "object":
             str="Object: "+JSON.stringify(val);
             break;
+          default:
+            str=val;
         }
         document.getElementById("tester-output").value+=str+"\n";
       }
