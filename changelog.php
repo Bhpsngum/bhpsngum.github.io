@@ -1,2 +1,2 @@
-$arr = array("element1","element2",array("element31","element32"));
-$arr['name'] = "response";
+$arr = ["element1","element2",["element31","element32"]];
+echo($arr);
