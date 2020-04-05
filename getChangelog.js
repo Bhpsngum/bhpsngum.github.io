@@ -1,3 +1,3 @@
 let src=document.createElement("script");
-src.src="getChangelog.php";
+src.src="https://bhpsngum.github.io/getChangelog.php";
 document.body.appendChild(src);
