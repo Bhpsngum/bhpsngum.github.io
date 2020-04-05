@@ -1,1 +1,1 @@
-$.get("https://starblast.io/changelog.txt", function(data) {console.log(data)});
+$.get("https://starblast.io/changelog.txt", function(data) {alert(data)});
