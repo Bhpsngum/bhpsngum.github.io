@@ -2,6 +2,8 @@ body {
   width: 100%;
   height: 100%;
   background-image: url("Starblastio_background18.jpg");
+}
+div {
   background-color:#09161c;
   color:rgb(240,240,240);
 }
