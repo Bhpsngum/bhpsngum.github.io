@@ -1,0 +1,22 @@
+body {
+  font-family: sans-serif;
+  text-align:center;
+}
+input type="text" {
+  width:500px;
+  height: 40px;
+}
+.bar {
+  font-size:30px;
+  text-align:center;
+}
+#error {
+  color:red;
+  font-size:15px;
+  width:500px;
+  height:60px;
+}
+button {
+  margin:10px;
+  font-size:25px;
+}
