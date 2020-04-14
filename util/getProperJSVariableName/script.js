@@ -35,6 +35,8 @@ $("#submit").on("click", function(){
     {
       inp.css("background-color","green");
       $("#error-info").html("Your input name is a valid JavaScript variable name (newest version)");
+      $("#error").css("display","none");
+      $("#error-info").css("display","none");
     }
     else
     {
