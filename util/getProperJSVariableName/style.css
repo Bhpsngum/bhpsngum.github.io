@@ -4,7 +4,7 @@ body {
   background-color:#09161c;
   color:rgb(240,240,240);
 }
-input type="text" {
+input[type="text"] {
   width:500px;
   height: 40px;
   color: inherit;
