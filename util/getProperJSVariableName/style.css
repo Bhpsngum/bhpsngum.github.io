@@ -1,6 +1,7 @@
 body {
   font-family: sans-serif;
   text-align:center;
+  background: rgb(24,26,27);
 }
 input type="text" {
   width:500px;
