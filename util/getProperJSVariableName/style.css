@@ -7,8 +7,8 @@ body {
 input type="text" {
   width:500px;
   height: 40px;
-  color: rgb(240,240,240);
-  background-color:#09161c;
+  color: inherit;
+  background-color:inherit;
   border-color: #3e4a41;
 }
 .bar {
@@ -24,6 +24,6 @@ input type="text" {
 button {
   margin:10px;
   font-size:25px;
-  color: rgb(240,240,240);
+  color: inherit;
   background-color: #3e4a41;
 }
