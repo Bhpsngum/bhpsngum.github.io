@@ -2,6 +2,7 @@ body {
   font-family: sans-serif;
   text-align:center;
   background-color:#09161c;
+  color:rgb(240,240,240);
 }
 input type="text" {
   width:500px;
