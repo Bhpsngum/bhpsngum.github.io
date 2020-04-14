@@ -7,8 +7,9 @@ body {
 input type="text" {
   width:500px;
   height: 40px;
-  color: inherit;
-  background-color:inherit;
+  color: rgb(240,240,240);
+  background-color:#09161c;
+  border-color: ##3e4a41;
 }
 .bar {
   font-size:30px;
@@ -19,10 +20,12 @@ input type="text" {
   font-size:15px;
   width:500px;
   height:60px;
+  background-color:#09161c;
+  border-color:#3e4a41;
 }
 button {
   margin:10px;
   font-size:25px;
-  color: inherit;
+  color: rgb(240,240,240);
   background-color: #3e4a41;
 }
