@@ -75,9 +75,9 @@ function process()
           erinf=e.message;
         }
       $("#error").html(erinf);
+      $("#warning").css("display","none");
     }
     $("#output").val(checked);
-    $("#warning").css("display","none");
   }
 }
 let f="";
