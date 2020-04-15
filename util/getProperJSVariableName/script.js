@@ -42,7 +42,7 @@ function process()
     else
     {
       inp.css("background-color","red");
-      $("#error").css("display","inline-block");
+      $("#output").css("background-color","red");
       $("#error-info").html("Your input name is an invalid JavaScript variable name according to the latest version because of the following error:");
       let u=0,erinf;
       for (let i of data)
