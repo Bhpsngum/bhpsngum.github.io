@@ -21,10 +21,23 @@ function process()
     
     if (data==checked)
     {
-      inp.css("background-color","green");
       $("#error-info").html("Your input name is a valid JavaScript variable name according to the latest version");
+      switch(data)
+      {
+        case "NaN":
+        case "undefined":
+        case "Infinity":
+        case "window":
+          inp.css("background-color","yellow");
+          $("#output").css("background-color","yellow");
+          $("#warning").css("display","inline-block");
+          break;
+        default:
+          inp.css("background-color","green");
+          $("#output").css("background-color","green");
+          $("#warning").css("display","none");
+      }
       $("#error").css("display","none");
-      $("#error-info").css("display","none");
     }
     else
     {
@@ -61,10 +74,8 @@ function process()
         {
           erinf=e.message;
         }
-      $("#error").val(erinf);
+      $("#error").html(erinf);
     }
-    $("#error-info").css("display","inline-block");
-    $("#output").css("background-color","green");
     $("#output").val(checked);
   }
 }
@@ -81,7 +92,7 @@ setInterval(function() {
       $("#output").css("background-color","inherit");
       $("#output").val("");
       $("#error").css("display","none");
-      $("#error-info").css("display","none");
+      $("#error-info").html("");
     }
   }
 },10);
