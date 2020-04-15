@@ -73,10 +73,10 @@ setInterval(function() {
   let raw=$("#input").val();
   if (raw!=f)
   {
+    f=raw;
     if ($("#auto").is(":checked") && raw) process();
     else
     {
-      f=raw;
       $("#input").css("background-color","inherit");
       $("#output").css("background-color","inherit");
       $("#output").val("");
