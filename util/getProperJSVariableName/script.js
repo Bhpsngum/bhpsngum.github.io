@@ -67,6 +67,7 @@ $("#submit").on("click", function(){
         try
         {
           eval(d+"var "+data);
+          eval(d+"let "+data);
         }
         catch(e)
         {
