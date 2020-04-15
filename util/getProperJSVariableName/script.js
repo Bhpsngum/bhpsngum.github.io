@@ -85,6 +85,9 @@ setInterval(function() {
     }
   }
 },10);
+$("#strict").on("change",function(){
+  if ($("#auto").is(":checked")) process();
+});
 $("#submit").on("click",process);
 $("#copy").on("click", function() {
   let cp=$("#output").val();
