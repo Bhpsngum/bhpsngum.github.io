@@ -37,7 +37,7 @@ function process()
           $("#output").css("background-color","green");
           $("#warning").css("display","none");
       }
-      $("#error").css("display","none");
+      $("#error").html("");
     }
     else
     {
@@ -91,7 +91,7 @@ setInterval(function() {
       $("#input").css("background-color","inherit");
       $("#output").css("background-color","inherit");
       $("#output").val("");
-      $("#error").css("display","none");
+      $("#error").html("");
       $("#error-info").html("");
       $("#warning").css("display","none");
     }
