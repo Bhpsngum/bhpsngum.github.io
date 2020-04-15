@@ -88,6 +88,9 @@ setInterval(function() {
 $("#strict").on("change",function(){
   if ($("#auto").is(":checked")) process();
 });
+$("#auto").on("change",function(){
+  if ($("#auto").is(":checked")) process();
+});
 $("#submit").on("click",process);
 $("#copy").on("click", function() {
   let cp=$("#output").val();
