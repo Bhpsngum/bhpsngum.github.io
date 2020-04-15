@@ -27,3 +27,9 @@ button {
   color: inherit;
   background-color: #3e4a41;
 }
+a {
+  color: cyan;
+}
+a:active {
+  color:blue;
+}
