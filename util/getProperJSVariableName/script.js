@@ -93,6 +93,7 @@ setInterval(function() {
       $("#output").val("");
       $("#error").css("display","none");
       $("#error-info").html("");
+      $("#warning").css("display","none");
     }
   }
 },10);
