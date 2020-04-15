@@ -34,7 +34,7 @@ $("#submit").on("click", function(){
     if (data==checked)
     {
       inp.css("background-color","green");
-      $("#error-info").html("Your input name is a valid JavaScript variable name (newest version)");
+      $("#error-info").html("Your input name is a valid JavaScript variable name according to the latest version");
       $("#error").css("display","none");
       $("#error-info").css("display","none");
     }
@@ -42,7 +42,7 @@ $("#submit").on("click", function(){
     {
       inp.css("background-color","red");
       $("#error").css("display","inline-block");
-      $("#error-info").html("Your input name is an invalid JavaScript variable name because of the following error:");
+      $("#error-info").html("Your input name is an invalid JavaScript variable name according to the latest version because of the following error:");
       let u=0,erinf;
       for (let i of data)
       {
