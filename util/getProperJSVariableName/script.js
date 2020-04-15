@@ -6,20 +6,8 @@ function copyToClipboard(text) {
   document.execCommand('copy');
   document.body.removeChild(dummy);
 }
-let f="";
-setInterval(function() {
-  let raw=$("#input").val();
-  if (raw!=f)
-  {
-    f=raw;
-    $("#input").css("background-color","inherit");
-    $("#output").css("background-color","inherit");
-    $("#output").val("");
-    $("#error").css("display","none");
-    $("#error-info").css("display","none");
-  }
-},10);
-$("#submit").on("click", function(){
+function process()
+{
   let inp=$("#input"),data=inp.val();
   if (data)
   {
@@ -79,7 +67,25 @@ $("#submit").on("click", function(){
     $("#output").css("background-color","green");
     $("#output").val(checked);
   }
-});
+}
+let f="";
+setInterval(function() {
+  let raw=$("#input").val();
+  if (raw!=f)
+  {
+    if ($("#auto").is(":checked")) process();
+    else
+    {
+      f=raw;
+      $("#input").css("background-color","inherit");
+      $("#output").css("background-color","inherit");
+      $("#output").val("");
+      $("#error").css("display","none");
+      $("#error-info").css("display","none");
+    }
+  }
+},10);
+$("#submit").on("click",process);
 $("#copy").on("click", function() {
   let cp=$("#output").val();
   if (cp)
