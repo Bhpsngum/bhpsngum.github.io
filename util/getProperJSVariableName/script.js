@@ -73,7 +73,7 @@ setInterval(function() {
   let raw=$("#input").val();
   if (raw!=f)
   {
-    if ($("#auto").is(":checked")) process();
+    if ($("#auto").is(":checked") && raw) process();
     else
     {
       f=raw;
