@@ -6,6 +6,7 @@ function copyToClipboard(text) {
   document.execCommand('copy');
   document.body.removeChild(dummy);
 }
+for (let i of ["auto","strict"]) $("#"+id).prop("checked",Number(localStorage[id]));
 function process()
 {
   let inp=$("#input"),data=inp.val();
@@ -95,11 +96,16 @@ setInterval(function() {
     }
   }
 },10);
+function change(id)
+{
+  localStorage.setItem(id,$("#"+id).is(":checked"));
+  if ($("#auto").is(":checked");) process();
+}
 $("#strict").on("change",function(){
-  if ($("#auto").is(":checked")) process();
+  change("strict");
 });
 $("#auto").on("change",function(){
-  if ($("#auto").is(":checked")) process();
+  change("auto");
 });
 $("#submit").on("click",process);
 $("#copy").on("click", function() {
