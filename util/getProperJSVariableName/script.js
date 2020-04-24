@@ -99,7 +99,7 @@ setInterval(function() {
 function change(id)
 {
   localStorage.setItem(id,$("#"+id).is(":checked"));
-  if ($("#auto").is(":checked");) process();
+  if ($("#auto").is(":checked")) process();
 }
 $("#strict").on("change",function(){
   change("strict");
