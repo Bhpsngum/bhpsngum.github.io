@@ -19,23 +19,20 @@ function process()
     }
     let checked=data.getProperJSVariableName(s);
     
-    if (data==checked)
+    if (data==checked.name)
     {
       $("#error-info").html("Your input name is a valid JavaScript variable name according to the latest version");
-      switch(data)
+      if (!checked.mutable)
       {
-        case "NaN":
-        case "undefined":
-        case "Infinity":
-        case "window":
-          inp.css("background-color","yellow");
-          $("#output").css("background-color","yellow");
-          $("#warning").css("display","inline-block");
-          break;
-        default:
-          inp.css("background-color","green");
-          $("#output").css("background-color","green");
-          $("#warning").css("display","none");
+        inp.css("background-color","yellow");
+        $("#output").css("background-color","yellow");
+        $("#warning").css("display","inline-block");
+      }
+      else
+      {
+        inp.css("background-color","green");
+        $("#output").css("background-color","green");
+        $("#warning").css("display","none");
       }
       $("#error").html("");
     }
