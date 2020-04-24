@@ -103,7 +103,7 @@ function change(id)
 for (let id of ["auto","strict"])
 {
   let f=$("#"+id);
-  f.prop("checked",Number(localStorage[id]));
+  f.prop("checked",Number(localStorage[id]||0));
   f.on("change",function(){
     change(id);
   });
