@@ -6,7 +6,6 @@ function copyToClipboard(text) {
   document.execCommand('copy');
   document.body.removeChild(dummy);
 }
-for (let i of ["auto","strict"]) $("#"+id).prop("checked",Number(localStorage[id]));
 function process()
 {
   let inp=$("#input"),data=inp.val();
@@ -101,12 +100,14 @@ function change(id)
   localStorage.setItem(id,$("#"+id).is(":checked"));
   if ($("#auto").is(":checked")) process();
 }
-$("#strict").on("change",function(){
-  change("strict");
-});
-$("#auto").on("change",function(){
-  change("auto");
-});
+for (let id of ["auto","strict"])
+{
+  let f=$("#"+id);
+  f.prop("checked",Number(localStorage[id]));
+  f.on("change",function(){
+    change(id);
+  });
+}
 $("#submit").on("click",process);
 $("#copy").on("click", function() {
   let cp=$("#output").val();
