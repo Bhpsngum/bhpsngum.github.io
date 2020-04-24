@@ -22,7 +22,7 @@ function process()
     if (data==checked.name)
     {
       $("#error-info").html("Your input name is a valid JavaScript variable name according to the latest version");
-      if (!checked.mutable)
+      if (!checked.mutable && !($("#strictWarning").is(":checked")))
       {
         inp.css("background-color","yellow");
         $("#output").css("background-color","yellow");
@@ -30,6 +30,7 @@ function process()
       }
       else
       {
+        checked = data.getProperJSVariableName(s,1);
         inp.css("background-color","green");
         $("#output").css("background-color","green");
         $("#warning").css("display","none");
@@ -100,7 +101,7 @@ function change(id)
   localStorage.setItem(id,$("#"+id).is(":checked"));
   if ($("#auto").is(":checked")) process();
 }
-for (let id of ["auto","strict"])
+for (let id of ["auto","strict","strictWarning"])
 {
   let f=$("#"+id);
   f.prop("checked",(localStorage[id]==="true")?true:false);
