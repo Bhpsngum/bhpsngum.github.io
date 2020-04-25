@@ -84,6 +84,7 @@ setInterval(function() {
   if (raw!=f)
   {
     f=raw;
+    localStorage.setItem("value",f);
     if ($("#auto").is(":checked") && raw) process();
     else
     {
@@ -101,6 +102,7 @@ function change(id)
   localStorage.setItem(id,$("#"+id).is(":checked"));
   if ($("#auto").is(":checked")) process();
 }
+$("#input").val(localStorage.value);
 for (let id of ["auto","strict","strictWarning"])
 {
   let f=$("#"+id);
