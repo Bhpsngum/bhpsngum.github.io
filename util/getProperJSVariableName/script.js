@@ -78,6 +78,9 @@ function process()
     $("#output").val(checked.name);
   }
 }
+$("#esi").on("click",function(){
+  $("#strictWarning").prop("checked",true);
+});
 let f="";
 setInterval(function() {
   let raw=$("#input").val();
