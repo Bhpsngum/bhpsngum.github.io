@@ -78,10 +78,6 @@ function process()
     $("#output").val(checked.name);
   }
 }
-$("#esi").on("click",function(){
-  $("#strictWarning").prop("checked",true);
-  change("strictWarning");
-});
 let f="";
 setInterval(function() {
   let raw=$("#input").val();
@@ -106,6 +102,10 @@ function change(id)
   localStorage.setItem(id,$("#"+id).is(":checked"));
   if ($("#auto").is(":checked")) process();
 }
+$("#esi").on("click",function(){
+  $("#strictWarning").prop("checked",true);
+  change("strictWarning");
+});
 $("#input").val(localStorage.value);
 for (let id of ["auto","strict","strictWarning"])
 {
