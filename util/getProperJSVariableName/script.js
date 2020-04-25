@@ -80,6 +80,7 @@ function process()
 }
 $("#esi").on("click",function(){
   $("#strictWarning").prop("checked",true);
+  change("strictWarning");
 });
 let f="";
 setInterval(function() {
