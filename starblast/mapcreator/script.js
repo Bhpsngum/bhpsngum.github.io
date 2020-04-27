@@ -113,24 +113,7 @@ function parseMap(data)
     if (typeof parse() != 'string') throw "Not a string";
     else
     {
-      let u=parse().split("\n"),len=[];
-      for (let i of u) len.push(i.length);
-      if (Math.max(...len) != u.length) throw "Invalid";
-      else
-      {
-        for (let i=0;i<u.length;i++)
-        {
-          let t=[];
-          if (typeof u[i] != "string") throw "Not a string";
-          else for (let j=0;j<u.length;j++)
-          {
-            let ms=Number(u[i][j]||0);
-            if (isNaN(ms)) ms=0;
-            t.push(ms);
-          }
-          map.push(t);
-        }
-      }
+      map=parse().split("\n");
     }
   }
   catch(e){fail=1;}
