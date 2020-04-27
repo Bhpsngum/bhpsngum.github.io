@@ -1,25 +1,32 @@
 ﻿let mapSize = $("#map_size"),trail=-1;
-function change(element,num)
+function singlechange(x,y,num)
 {
-  let d=element.querySelector("img");
-  let size=(num != void 0)?num:localStorage.as_size;
-  size=isNaN(Number(size))?9:Number(size);
-  d.height=size*3;
-  d.width=size*3;
-  let g=element.id;
+  $(`#p${x}-${y} > img`).heigth(num);
+  $(`#p${x}-${y} > img`).width(num);
   let u=JSON.parse(localStorage.array||1);
   if (Array.isArray(u))
   {
-    let k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
-    l=Number(g.replace(/p\d+-(\d+)/g,"$1"))
-    if (Array.isArray(u[k]))
+    if (Array.isArray(u[x]))
     {
-      u[k][l]=size;
+      u[x][y]=size;
       localStorage.setItem("array",JSON.stringify(u));
     }
     else modifyMap();
   }
   else modifyMap();
+}
+function change(x,y,num)
+{
+  let br=Number(localStorage.brush)||0,
+  size=Number(localStorage.as_size)||0;
+  for (let i=x-br;i<=x+br;i++)
+    for (let j=y-br;j<=y+br;i++)
+      singlechange(i,j,size);
+}
+{
+  let g=element.id;k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
+  l=Number(g.replace(/p\d+-(\d+)/g,"$1")),l=Number(localStorage.brush)||0;
+  (for (let i=0;i<))
 }
 function changeASSize(num)
 {
@@ -36,14 +43,12 @@ function modifyMap()
   }
   localStorage.setItem("array",JSON.stringify(d));
 }
-function viewXY(element)
+function viewXY(x,y)
 {
-  let g=element.id;k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
-    l=Number(g.replace(/p\d+-(\d+)/g,"$1"));
-  let d=Math.round(Number(element.querySelector("img").width)/3),gl="No Asteroids";
+  let d=Math.round($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
   if (isNaN(d)) d=0;
   if (d) gl="Asteroid size: "+d.toString();
-  $("#XY").html(`(${k+1};${l+1}). ${gl}`);
+  $("#XY").html(`(${x+1};${y+1}). ${gl}`);
   if (trail != -1) change(element,trail);
 }
 function startTrail(element)
@@ -79,8 +84,8 @@ function loadMap(data)
       for (let j=0;j<d;j++)
       {
         let check=h[i][j]||0;
-        document.querySelector(`#p${i}-${j}`).querySelector("img").width=Math.round(h[i][j])*3;
-        document.querySelector(`#p${i}-${j}`).querySelector("img").height=Math.round(h[i][j])*3;
+        $(`#p${i}-${j} > img`).width(Math.round(h[i][j])*3);
+        $(`#p${i}-${j} > img`).height(Math.round(h[i][j])*3);
       }
   }
   else check=false;
@@ -98,7 +103,7 @@ function changeMap(data,tf)
   for (let i=0;i<size;i++)
   {
     tb+="<tr>"
-    for (let j=0;j<size;j++) tb+=`<td id='p${i}-${j}' onclick = 'change(this);' oncontextmenu='change(this,0);return false;' onmouseover='viewXY(this);' onmousedown='startTrail(this);' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='0' width='0'></td>`;
+    for (let j=0;j<size;j++) tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(this,0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(this);' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='0' width='0'></td>`;
     tb+="</tr>"
   }
   $("#map").html(tb);
