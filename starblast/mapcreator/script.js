@@ -8,7 +8,7 @@ function change(element,num)
   d.height=size*3;
   d.width=size*3;
   let g=element.id;
-  let u=JSON.parse(localStorage.array);
+  let u=JSON.parse(localStorage.array||1);
   if (Array.isArray(u))
   {
     let k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
@@ -64,7 +64,7 @@ function stopTrail()
 }
 function loadMap()
 {
-  let h=JSON.parse(localStorage.array);
+  let h=JSON.parse(localStorage.array||1);
   if (Array.isArray(h))
   {
     for (let i=0;i<h.length;i++)
@@ -97,7 +97,7 @@ function changeMap(data,tf)
 function process()
 {
   modifyMap();
-  let parsed=JSON.parse(localStorage.array);str='"';
+  let parsed=JSON.parse(localStorage.array||1);str='"';
   if (Array.isArray(parsed))
   {
     for (let i of parsed)
