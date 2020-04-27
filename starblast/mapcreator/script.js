@@ -220,19 +220,19 @@ document.onkeypress = function(e)
   {
     case 119:
     case 87:
-      scrollWin(0,-40);
+      scrollBy(0,-40);
       break;
     case 115:
     case 83:
-      scrollWin(0,40);
+      scrollBy(0,40);
       break;
     case 100:
     case 68:
-      scrollWin(40,0);
+      scrollBy(40,0);
       break;
     case 97:
     case 65:
-      scrollWin(-40,0);
+      scrollBy(-40,0);
       break;
   }
 }
