@@ -2,8 +2,8 @@
 function singlechange(x,y,num)
 {
   let element=$(`#p${x}-${y} > img`);
-  element.height(num);
-  element.width(num);
+  element.height(num*3);
+  element.width(num*3);
   if (element.length)
   {
     let u=JSON.parse(localStorage.array||1);
@@ -168,6 +168,7 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
+$("#brush_size").val(localStorage.brush||0);
 let cas="<tr>";
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
@@ -178,6 +179,13 @@ loadMap();
 mapSize.on("change",function(){changeMap(mapSize.val())});
 $("#clearMap").on("click",function(){
   changeMap(localStorage.size);
+});
+$("#brush_size").on("change", function() {
+  let size=$("#brush_size").val(),max=Number(localStorage.size)||20;
+  if (size>max) size=max;
+  else if (size<0) size=0;
+  $("#brush_size").val(size);
+  localStorage.setItem("brush",size);
 });
 $("#export").on("click",function() {
   var text=process();
