@@ -66,7 +66,7 @@ function stopTrail()
 }
 function loadMap(data)
 {
-  let h=JSON.parse(data||(localStorage.array||1)),check=true;
+  let h=JSON.parse(JSON.stringify(data)||(localStorage.array||1)),check=true;
   if (Array.isArray(h))
   {
     $("#map_size").val(h.length);
@@ -200,10 +200,16 @@ $("#copyMap").on("click",function() {
 })
 $("#loadMap").on("change", function(e) {
   let file=e.target.files[0];
-  if (e.type.match("plain") || e.type.match("javascript")) {
+  if (file.type.match("plain") || file.type.match("javascript")) {
     let fr = new FileReader();
-    fr.addEventListener("load",function(t) {
-      parseMap(t.target);
-    });
+    fr.onload = (function(reader)
+    {
+        return function()
+        {
+            parseMap(reader.result);
+        }
+    })(fr);
+    fr.readAsText(file);
   }
+  else alert("Unsupported file format!");
 });
