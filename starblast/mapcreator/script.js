@@ -32,7 +32,7 @@ function modifyMap()
   for (let i=0;i<localStorage.size;i++)
   {
     d.push([]);
-    for (let j=0;j<localStorage.size;j++) d[i].push(Number(document.querySelector(`#p${i}-${j}`).querySelector("img").width)/3);
+    for (let j=0;j<localStorage.size;j++) d[i].push(Math.trunc(Number(document.querySelector(`#p${i}-${j}`).querySelector("img").width)/3));
   }
   localStorage.setItem("array",JSON.stringify(d));
 }
@@ -40,7 +40,7 @@ function viewXY(element)
 {
   let g=element.id;k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
     l=Number(g.replace(/p\d+-(\d+)/g,"$1"));
-  let d=Number(element.querySelector("img").width)/3,gl="No Asteroids";
+  let d=Math.trunc(Number(element.querySelector("img").width)/3),gl="No Asteroids";
   if (isNaN(d)) d=0;
   if (d) gl="Asteroid size: "+d.toString();
   $("#XY").html(`(${k+1};${l+1}). ${gl}`);
@@ -79,8 +79,8 @@ function loadMap(data)
       for (let j=0;j<d;j++)
       {
         let check=h[i][j]||0;
-        document.querySelector(`#p${i}-${j}`).querySelector("img").width=h[i][j]*3;
-        document.querySelector(`#p${i}-${j}`).querySelector("img").height=h[i][j]*3;
+        document.querySelector(`#p${i}-${j}`).querySelector("img").width=Math.trunc(h[i][j])*3;
+        document.querySelector(`#p${i}-${j}`).querySelector("img").height=Math.trunc(h[i][j])*3;
       }
   }
   else check=false;
