@@ -23,11 +23,6 @@ function change(x,y,num)
     for (let j=y-br;j<=y+br;i++)
       singlechange(i,j,size);
 }
-{
-  let g=element.id;k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
-  l=Number(g.replace(/p\d+-(\d+)/g,"$1")),l=Number(localStorage.brush)||0;
-  (for (let i=0;i<))
-}
 function changeASSize(num)
 {
   localStorage.as_size=num;
