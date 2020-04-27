@@ -35,10 +35,10 @@ function changeASSize(num)
 function modifyMap()
 {
   let d=[];
-  for (let i=0;i<localStorage.size;i++)
+  for (let i=0;i<Number(localStorage.size)||20;i++)
   {
     d.push([]);
-    for (let j=0;j<Number(localStorage.size)||0;j++) d[i].push(Math.round(Number($(`#p${i}-${j} >img`).width())/3));
+    for (let j=0;j<Number(localStorage.size)||20;j++) d[i].push(Math.round(Number($(`#p${i}-${j} >img`).width())/3));
   }
   localStorage.setItem("array",JSON.stringify(d));
 }
