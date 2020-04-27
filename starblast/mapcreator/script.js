@@ -76,7 +76,10 @@ function loadMap()
           document.querySelector(`#p${i}-${j}`).querySelector("img").width=h[i][j]*3;
           document.querySelector(`#p${i}-${j}`).querySelector("img").height=h[i][j]*3;
         }
+        else return false;
   }
+  else return false;
+  return true;
 }
 function changeMap(data,tf)
 {
@@ -95,6 +98,11 @@ function changeMap(data,tf)
   $("#map").html(tb);
   $("#map").css("width",(size*42).toString()+"px");
   (!tf) && modifyMap();
+}
+function parseMap(data)
+{
+  eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
+  return parse();
 }
 function process()
 {
