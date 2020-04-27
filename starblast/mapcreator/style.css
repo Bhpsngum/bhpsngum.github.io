@@ -21,16 +21,8 @@ p {
   left:1px;
   margin:0px;
 }
-label {
-  cursor:pointer;
-  background-color:inherit;
-  border: 2px solid #575757;
-  color:inherit;
-}
 #loadMap {
-  opacity: 0;
-  position: absolute;
-  z-index: -1;
+  display: none;
 }
 #map {
   padding-top:50px;
