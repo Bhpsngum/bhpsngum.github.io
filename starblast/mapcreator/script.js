@@ -1,7 +1,7 @@
 ﻿let mapSize = $("#map_size"),trail=-1;
 function singlechange(x,y,num)
 {
-  $(`#p${x}-${y} > img`).heigth(num);
+  $(`#p${x}-${y} > img`).height(num);
   $(`#p${x}-${y} > img`).width(num);
   let u=JSON.parse(localStorage.array||1);
   if (Array.isArray(u))
