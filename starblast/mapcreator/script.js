@@ -80,7 +80,7 @@ function loadMap(data)
       }
   }
   else check=false;
-  localStorage.setItem("array",JSON.parse(h));
+  if (check) localStorage.setItem("array",JSON.stringify(h));
   return check;
 }
 function changeMap(data,tf)
