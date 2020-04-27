@@ -64,9 +64,9 @@ function stopTrail()
 {
   trail = -1;
 }
-function loadMap()
+function loadMap(data)
 {
-  let h=JSON.parse(localStorage.array||1);
+  let h=JSON.parse(data||localStorage.array||1);
   if (Array.isArray(h))
   {
     for (let i=0;i<h.length;i++)
@@ -79,6 +79,7 @@ function loadMap()
         else return false;
   }
   else return false;
+  localStorage.setItem("array",JSON.parse(h));
   return true;
 }
 function changeMap(data,tf)
@@ -101,8 +102,39 @@ function changeMap(data,tf)
 }
 function parseMap(data)
 {
-  eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
-  return parse();
+  let fail=0,map=[];
+  try {
+    eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
+    if (typeof parse() != 'string') throw "Not a string";
+    else
+    {
+      let u=parse().split("\n"),len=[];
+      for (let i of u) len.push(i.length);
+      if (Math.max(...len) != u.length) throw "Invalid";
+      else
+      {
+        for (let i=0;i<u.length;i++)
+        {
+          let t=[];
+          if (typeof u[i] != "string") throw "Not a string";
+          else for (let j=0;j<u.length;j++)
+          {
+            let ms=Number(u[i][j]||0);
+            if (isNaN(ms)) ms=0;
+            t.push(ms);
+          }
+          map.push(t);
+        }
+      }
+    }
+  }
+  catch(e){fail=1;}
+  if (!fail)
+  {
+    if (!loadMap(map)) alert("Invalid map pattern!");
+    else localStorage.setItem("array",JSON.stringify(map));
+  }
+  else alert("Invalid map pattern!");
 }
 function process()
 {
@@ -165,3 +197,12 @@ $("#export").on("click",function() {
 $("#copyMap").on("click",function() {
   copyToClipboard(process());
 })
+$("#loadMap").on("change", function(e) {
+  let file=e.target.files[0];
+  if (e.type.match("plain") || e.type.match("javascript")) {
+    let fr = new FileReader();
+    fr.addEventListener("load",function(t) {
+      parseMap(t.target);
+    });
+  }
+});
