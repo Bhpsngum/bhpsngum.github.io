@@ -40,7 +40,7 @@ function modifyMap()
 }
 function viewXY(x,y)
 {
-  let d=Math.round($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
+  let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
   if (isNaN(d)) d=0;
   if (d) gl="Asteroid size: "+d.toString();
   $("#XY").html(`(${x+1};${y+1}). ${gl}`);
