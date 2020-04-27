@@ -69,11 +69,14 @@ function loadMap(data)
   let h=JSON.parse(JSON.stringify(data)||(localStorage.array||1)),check=true;
   if (Array.isArray(h))
   {
-    $("#map_size").val(h.length);
-    localStorage.setItem("size",h.length);
+    let d=h.length;
+    if (d>200) d=200;
+    else if (d<20) d=20;
+    $("#map_size").val(d);
+    localStorage.setItem("size",d);
     changeMap(Number(localStorage.size));
-    for (let i=0;i<h.length;i++)
-      for (let j=0;j<h.length;j++)
+    for (let i=0;i<d;i++)
+      for (let j=0;j<d;j++)
       {
         let check=h[i][j]||0;
         document.querySelector(`#p${i}-${j}`).querySelector("img").width=h[i][j]*3;
