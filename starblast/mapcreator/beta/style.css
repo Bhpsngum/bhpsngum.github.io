@@ -1,0 +1,38 @@
+body {
+  background-color:#181a1b;
+  color:rgb(240,240,240);
+}
+#menu {
+  width:100%;
+  position: fixed;
+  top:5px;
+  left:5px;
+}
+button,input {
+  float:left;
+  margin:5px;
+  border-color: #575757;
+  background-color:inherit;
+  color:inherit;
+}
+p {
+  position: fixed;
+  bottom:1px;
+  left:1px;
+  margin:0px;
+}
+#loadMap {
+  display: none;
+}
+#map {
+  padding-top:50px;
+  padding-bottom:20px;
+  overflow:scroll;
+}
+td {
+  height:35px;
+  width:35px;
+  text-align:center;
+  border: 1px solid rgb(102, 102, 102);
+  user-select:none;
+}
