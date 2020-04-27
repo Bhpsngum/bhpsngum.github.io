@@ -25,7 +25,7 @@ function change(element,num)
 function changeASSize(num)
 {
   localStorage.as_size=num;
-  for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(240,240,240)";
+  for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid #e8e6e3";
 }
 function modifyMap()
 {
@@ -41,7 +41,10 @@ function viewXY(element)
 {
   let g=element.id;k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
     l=Number(g.replace(/p\d+-(\d+)/g,"$1"));
-  $("#XY").html(`(${k+1};${l+1})`);
+  let d=Number(element.querySelector("img").width),gl="No Asteroids";
+  if (isNaN) d=0;
+  if (d) gl="Asteroid size: "+d.toString();
+  $("#XY").html(`(${k+1};${l+1}). ${gl}`);
   if (trail != -1) change(element,trail);
 }
 function startTrail(element)
@@ -135,10 +138,10 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 let cas="<tr>";
-for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(240,240,240)";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
+for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid #e8e6e3";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size)) 
-document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(240,240,240)";
+document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid #e8e6e3";
 changeMap(localStorage.size||20,1);
 loadMap();
 mapSize.on("change",function(){changeMap(mapSize.val())});
