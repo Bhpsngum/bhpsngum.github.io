@@ -41,7 +41,7 @@ function viewXY(element)
 {
   let g=element.id;k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
     l=Number(g.replace(/p\d+-(\d+)/g,"$1"));
-  let d=Number(element.querySelector("img").width),gl="No Asteroids";
+  let d=Number(element.querySelector("img").width)/3,gl="No Asteroids";
   if (isNaN) d=0;
   if (d) gl="Asteroid size: "+d.toString();
   $("#XY").html(`(${k+1};${l+1}). ${gl}`);
