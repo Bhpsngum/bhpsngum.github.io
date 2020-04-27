@@ -25,7 +25,7 @@ function change(element,num)
 function changeASSize(num)
 {
   localStorage.as_size=num;
-  for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid black";
+  for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(240,240,240)";
 }
 function modifyMap()
 {
@@ -135,10 +135,10 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 let cas="<tr>";
-for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid black";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
+for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(240,240,240)";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size)) 
-document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid black";
+document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(240,240,240)";
 changeMap(localStorage.size||20,1);
 loadMap();
 mapSize.on("change",function(){changeMap(mapSize.val())});
