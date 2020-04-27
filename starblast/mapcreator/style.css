@@ -1,5 +1,5 @@
 body {
-  background-color:#09161c;
+  background-color:#575757;
   color:rgb(240,240,240);
 }
 #menu {
@@ -29,6 +29,6 @@ td {
   height:35px;
   width:35px;
   text-align:center;
-  border: 1px solid rgb(240,240,240);
+  border: 1px solid #e8e6e3;
   user-select:none;
 }
