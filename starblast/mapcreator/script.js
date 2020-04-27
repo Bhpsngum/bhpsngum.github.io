@@ -12,7 +12,7 @@ function change(element,num)
   {
     let k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
     l=Number(g.replace(/p\d+-(\d+)/g,"$1"))
-    if (Array.isArray(u[k])) 
+    if (Array.isArray(u[k]))
     {
       u[k][l]=size;
       localStorage.setItem("array",JSON.stringify(u));
@@ -50,19 +50,19 @@ function startTrail(element)
 {
   let e = window.event;
   switch (e.which) {
-    case 1: 
+    case 1:
       trail=Number(localStorage.as_size);
       if (isNaN(trail)) trail=-1;
       change(element,trail);
       break;
     case 3:
       trail=0;
-      break; 
+      break;
   }
 }
 function stopTrail()
 {
-  trail = -1; 
+  trail = -1;
 }
 function loadMap()
 {
@@ -99,22 +99,23 @@ function changeMap(data,tf)
 function process()
 {
   modifyMap();
-  let parsed=JSON.parse(localStorage.array||1);str='"';
+  let parsed=JSON.parse(localStorage.array||1);str=[];
   if (Array.isArray(parsed))
   {
     for (let i of parsed)
     {
+      let d="";
       if (Array.isArray(i))
       {
-        for (let j=0;j<i.length-1;j++) str+=i[j]||" ";
-        str+=i[i.length-1]||" ";
+        for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
+        d+=i[i.length-1]||" ";
       }
       else return "";
-      str+='\\n"+\n"';
+      str.push(d);
     }
   }
   else return "";
-  return str.slice(0,-6)+'";';
+  return '"'+str.join('\\n"+\n"')+'";';
 }
 function copyToClipboard(text) {
     var dummy = document.createElement("textarea");
@@ -139,7 +140,7 @@ function download(filename, text) {
 let cas="<tr>";
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
-if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size)) 
+if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size))
 document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(102, 102, 102)";
 changeMap(localStorage.size||20,1);
 loadMap();
@@ -151,7 +152,7 @@ $("#export").on("click",function() {
   var text=process();
   var d=new Date();
   var suff=d.getFullYear().toString()+(d.getMonth()+1).toString()+d.getDate().toString()+d.getHours().toString()+d.getMinutes().toString()+d.getSeconds().toString();
-  download("starblast-custommap_" + suff, text);
+  download("starblast-map_" + suff, text);
 });
 $("#copyMap").on("click",function() {
   copyToClipboard(process());
