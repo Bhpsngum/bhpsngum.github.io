@@ -1,26 +1,30 @@
 ﻿let mapSize = $("#map_size"),trail=-1;
 function singlechange(x,y,num)
 {
-  $(`#p${x}-${y} > img`).height(num);
-  $(`#p${x}-${y} > img`).width(num);
-  let u=JSON.parse(localStorage.array||1);
-  if (Array.isArray(u))
+  let element=$(`#p${x}-${y} > img`);
+  element.height(num);
+  element.width(num);
+  if (element.length)
   {
-    if (Array.isArray(u[x]))
+    let u=JSON.parse(localStorage.array||1);
+    if (Array.isArray(u))
     {
-      u[x][y]=num;
-      localStorage.setItem("array",JSON.stringify(u));
+      if (Array.isArray(u[x]))
+      {
+        u[x][y]=num;
+        localStorage.setItem("array",JSON.stringify(u));
+      }
+      else modifyMap();
     }
     else modifyMap();
   }
-  else modifyMap();
 }
 function change(x,y,num)
 {
   let br=Number(localStorage.brush)||0,
-  size=Number(localStorage.as_size)||0;
+  size=(num != void 0)?num:(Number(localStorage.as_size)||0);
   for (let i=x-br;i<=x+br;i++)
-    for (let j=y-br;j<=y+br;i++)
+    for (let j=y-br;j<=y+br;j++)
       singlechange(i,j,size);
 }
 function changeASSize(num)
@@ -34,7 +38,7 @@ function modifyMap()
   for (let i=0;i<localStorage.size;i++)
   {
     d.push([]);
-    for (let j=0;j<localStorage.size;j++) d[i].push(Math.round(Number(document.querySelector(`#p${i}-${j}`).querySelector("img").width)/3));
+    for (let j=0;j<Number(localStorage.size)||0;j++) d[i].push(Math.round(Number($(`#p${i}-${j} >img`).width())/3));
   }
   localStorage.setItem("array",JSON.stringify(d));
 }
@@ -43,16 +47,16 @@ function viewXY(x,y)
   let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
   if (d) gl="Asteroid size: "+d.toString();
   $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-  if (trail != -1) change(element,trail);
+  if (trail != -1) change(x,y,trail);
 }
-function startTrail(element)
+function startTrail(x,y)
 {
   let e = window.event;
   switch (e.which) {
     case 1:
       trail=Number(localStorage.as_size);
       if (isNaN(trail)) trail=-1;
-      change(element,trail);
+      change(x,y,trail);
       break;
     case 3:
       trail=0;
@@ -97,7 +101,7 @@ function changeMap(data,tf)
   for (let i=0;i<size;i++)
   {
     tb+="<tr>"
-    for (let j=0;j<size;j++) tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(this,0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(this);' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='0' width='0'></td>`;
+    for (let j=0;j<size;j++) tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='0' width='0'></td>`;
     tb+="</tr>"
   }
   $("#map").html(tb);
