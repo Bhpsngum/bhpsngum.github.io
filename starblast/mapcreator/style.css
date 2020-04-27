@@ -1,5 +1,5 @@
 body {
-  background-color:#575757;
+  background-color:#181a1b;
   color:rgb(240,240,240);
 }
 #menu {
@@ -11,6 +11,7 @@ body {
 button,input {
   float:left;
   margin:5px;
+  border-color: #575757;
   background-color:inherit;
   color:inherit;
 }
