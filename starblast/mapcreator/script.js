@@ -66,21 +66,22 @@ function stopTrail()
 }
 function loadMap(data)
 {
-  let h=JSON.parse(data||localStorage.array||1);
+  let h=JSON.parse(data||(localStorage.array||1)),check=true;
   if (Array.isArray(h))
   {
+    $("#map_size").val(h.length);
+    localStorage.setItem("size",h.length);
     for (let i=0;i<h.length;i++)
       for (let j=0;j<h.length;j++)
-        if (h[i][j])
-        {
-          document.querySelector(`#p${i}-${j}`).querySelector("img").width=h[i][j]*3;
-          document.querySelector(`#p${i}-${j}`).querySelector("img").height=h[i][j]*3;
-        }
-        else return false;
+      {
+        let check=h[i][j]||0;
+        document.querySelector(`#p${i}-${j}`).querySelector("img").width=h[i][j]*3;
+        document.querySelector(`#p${i}-${j}`).querySelector("img").height=h[i][j]*3;
+      }
   }
-  else return false;
+  else check=false;
   localStorage.setItem("array",JSON.parse(h));
-  return true;
+  return check;
 }
 function changeMap(data,tf)
 {
