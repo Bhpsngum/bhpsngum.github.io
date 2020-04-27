@@ -35,10 +35,10 @@ function changeASSize(num)
 function modifyMap()
 {
   let d=[];
-  for (let i=0;i<Number(localStorage.size)||20;i++)
+  for (let i=0;i<localStorage.size;i++)
   {
     d.push([]);
-    for (let j=0;j<Number(localStorage.size)||20;j++) d[i].push(Math.round((Number($(`#p${i}-${j} >img`).width())||0)/3));
+    for (let j=0;j<Number(localStorage.size)||0;j++) d[i].push(Math.round(Number($(`#p${i}-${j} >img`).width())/3));
   }
   localStorage.setItem("array",JSON.stringify(d));
 }
@@ -77,13 +77,13 @@ function loadMap(data)
     else if (d<20) d=20;
     $("#map_size").val(d);
     localStorage.setItem("size",d);
-    changeMap(Number(localStorage.size)||20);
+    changeMap(Number(localStorage.size));
     for (let i=0;i<d;i++)
       for (let j=0;j<d;j++)
       {
-        let size=h[i][j]||0;
-        $(`#p${i}-${j} > img`).width(Math.round(size)*3);
-        $(`#p${i}-${j} > img`).height(Math.round(size)*3);
+        let check=h[i][j]||0;
+        $(`#p${i}-${j} > img`).width(Math.round(h[i][j])*3);
+        $(`#p${i}-${j} > img`).height(Math.round(h[i][j])*3);
       }
   }
   else check=false;
