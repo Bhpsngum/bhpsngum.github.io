@@ -1,4 +1,8 @@
-﻿#menu {
+body {
+  background-color:#09161c;
+  color:rgb(240,240,240);
+}
+#menu {
   width:100%;
   position: fixed;
   top:5px;
