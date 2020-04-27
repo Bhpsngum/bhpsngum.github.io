@@ -76,14 +76,13 @@ function loadMap(data)
     if (d>200) d=200;
     else if (d<20) d=20;
     $("#map_size").val(d);
-    localStorage.setItem("size",d);
-    changeMap(Number(localStorage.size)||20);
+    changeMap(d);
     for (let i=0;i<d;i++)
       for (let j=0;j<d;j++)
       {
-        let check=h[i][j]||0;
-        $(`#p${i}-${j} > img`).width(Math.round(h[i][j])*3);
-        $(`#p${i}-${j} > img`).height(Math.round(h[i][j])*3);
+        let size=h[i][j]||0;
+        $(`#p${i}-${j} > img`).width(Math.round(size)*3);
+        $(`#p${i}-${j} > img`).height(Math.round(size)*3);
       }
   }
   else check=false;
