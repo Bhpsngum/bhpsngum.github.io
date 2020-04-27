@@ -8,7 +8,7 @@ function singlechange(x,y,num)
   {
     if (Array.isArray(u[x]))
     {
-      u[x][y]=size;
+      u[x][y]=num;
       localStorage.setItem("array",JSON.stringify(u));
     }
     else modifyMap();
