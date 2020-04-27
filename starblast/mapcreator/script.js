@@ -1,25 +1,31 @@
-﻿let mapSize = $("#map_size"),trail=-1;
-function change(element,num)
+let mapSize = $("#map_size"),trail=-1;
+function singlechange(x,y,num)
 {
-  let d=element.querySelector("img");
-  let size=(num != void 0)?num:localStorage.as_size;
-  size=isNaN(Number(size))?9:Number(size);
-  d.height=size*3;
-  d.width=size*3;
-  let g=element.id;
-  let u=JSON.parse(localStorage.array||1);
-  if (Array.isArray(u))
+  let element=$(`#p${x}-${y} > img`);
+  element.height(num*3);
+  element.width(num*3);
+  if (element.length)
   {
-    let k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
-    l=Number(g.replace(/p\d+-(\d+)/g,"$1"))
-    if (Array.isArray(u[k]))
+    let u=JSON.parse(localStorage.array||1);
+    if (Array.isArray(u))
     {
-      u[k][l]=size;
-      localStorage.setItem("array",JSON.stringify(u));
+      if (Array.isArray(u[x]))
+      {
+        u[x][y]=num;
+        localStorage.setItem("array",JSON.stringify(u));
+      }
+      else modifyMap();
     }
     else modifyMap();
   }
-  else modifyMap();
+}
+function change(x,y,num)
+{
+  let br=Number(localStorage.brush)||0,
+  size=(num != void 0)?num:(Number(localStorage.as_size)||0);
+  for (let i=x-br;i<=x+br;i++)
+    for (let j=y-br;j<=y+br;j++)
+      singlechange(i,j,size);
 }
 function changeASSize(num)
 {
@@ -29,31 +35,28 @@ function changeASSize(num)
 function modifyMap()
 {
   let d=[];
-  for (let i=0;i<localStorage.size;i++)
+  for (let i=0;i<Number(localStorage.size)||20;i++)
   {
     d.push([]);
-    for (let j=0;j<localStorage.size;j++) d[i].push(Math.round(Number(document.querySelector(`#p${i}-${j}`).querySelector("img").width)/3));
+    for (let j=0;j<Number(localStorage.size)||20;j++) d[i].push(Math.round(Number($(`#p${i}-${j} >img`).width())/3));
   }
   localStorage.setItem("array",JSON.stringify(d));
 }
-function viewXY(element)
+function viewXY(x,y)
 {
-  let g=element.id;k=Number(g.replace(/p(\d+)-\d+/g,"$1")),
-    l=Number(g.replace(/p\d+-(\d+)/g,"$1"));
-  let d=Math.round(Number(element.querySelector("img").width)/3),gl="No Asteroids";
-  if (isNaN(d)) d=0;
+  let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
   if (d) gl="Asteroid size: "+d.toString();
-  $("#XY").html(`(${k+1};${l+1}). ${gl}`);
-  if (trail != -1) change(element,trail);
+  $("#XY").html(`(${x+1};${y+1}). ${gl}`);
+  if (trail != -1) change(x,y,trail);
 }
-function startTrail(element)
+function startTrail(x,y)
 {
   let e = window.event;
   switch (e.which) {
     case 1:
       trail=Number(localStorage.as_size);
       if (isNaN(trail)) trail=-1;
-      change(element,trail);
+      change(x,y,trail);
       break;
     case 3:
       trail=0;
@@ -74,13 +77,13 @@ function loadMap(data)
     else if (d<20) d=20;
     $("#map_size").val(d);
     localStorage.setItem("size",d);
-    changeMap(Number(localStorage.size));
+    changeMap(Number(localStorage.size)||20);
     for (let i=0;i<d;i++)
       for (let j=0;j<d;j++)
       {
         let check=h[i][j]||0;
-        document.querySelector(`#p${i}-${j}`).querySelector("img").width=Math.round(h[i][j])*3;
-        document.querySelector(`#p${i}-${j}`).querySelector("img").height=Math.round(h[i][j])*3;
+        $(`#p${i}-${j} > img`).width(Math.round(h[i][j])*3);
+        $(`#p${i}-${j} > img`).height(Math.round(h[i][j])*3);
       }
   }
   else check=false;
@@ -98,7 +101,7 @@ function changeMap(data,tf)
   for (let i=0;i<size;i++)
   {
     tb+="<tr>"
-    for (let j=0;j<size;j++) tb+=`<td id='p${i}-${j}' onclick = 'change(this);' oncontextmenu='change(this,0);return false;' onmouseover='viewXY(this);' onmousedown='startTrail(this);' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='0' width='0'></td>`;
+    for (let j=0;j<size;j++) tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='0' width='0'></td>`;
     tb+="</tr>"
   }
   $("#map").html(tb);
@@ -165,16 +168,24 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
+$("#brush_size").val(localStorage.brush||0);
 let cas="<tr>";
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size))
 document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(102, 102, 102)";
-changeMap(localStorage.size||20,1);
+changeMap(Number(localStorage.size)||20,1);
 loadMap();
 mapSize.on("change",function(){changeMap(mapSize.val())});
 $("#clearMap").on("click",function(){
-  changeMap(localStorage.size);
+  changeMap(Number(localStorage.size)||20);
+});
+$("#brush_size").on("change", function() {
+  let size=$("#brush_size").val(),max=Number(localStorage.size)||20;
+  if (size>max) size=max;
+  else if (size<0) size=0;
+  $("#brush_size").val(size);
+  localStorage.setItem("brush",size);
 });
 $("#export").on("click",function() {
   var text=process();
