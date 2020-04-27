@@ -92,7 +92,7 @@ function loadMap(data)
 }
 function changeMap(data,tf)
 {
-  let size=isNaN(Number(data))?20:Number(data);
+  let size=data;
   if (size>200) size=200;
   else if (size<20) size=20;
   mapSize.val(size);
