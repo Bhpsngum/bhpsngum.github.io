@@ -1,7 +1,6 @@
 window.maparray=[];window.trail=-1;
 let mapSize = $("#map_size")
-function singlechange(x,y,num)
-{
+function singlechange(x,y,num) {
   let element=$(`#p${x}-${y} > img`);
   if (element.length)
   {
@@ -15,20 +14,18 @@ function singlechange(x,y,num)
     }
   }
 }
-function checkMap(data)
-{
+function checkMap(data) {
   if (Array.isArray(data))
   {
     for (let index of data)
     {
-      let check=Array.isArray(index) && (index.length||0)==data.length;
-      if (!check) return check;
+      if (!(Array.isArray(index) && (index.length||0)==data.length)) return false;
     }
   }
+  else return false;
   return true;
 }
-function syncMap(num)
-{
+function syncMap(num) {
   //0 to refresh both-side, 1 to push to server and 2 to pull from server
   switch(num)
   {
@@ -51,28 +48,24 @@ function syncMap(num)
       break;
   }
 }
-function change(x,y,num)
-{
+function change(x,y,num) {
   let br=Number(localStorage.brush)||0,
   size=(num != void 0)?num:(Number(localStorage.as_size)||0);
   for (let i=x-br;i<=x+br;i++)
     for (let j=y-br;j<=y+br;j++)
       singlechange(i,j,size);
 }
-function changeASSize(num)
-{
+function changeASSize(num) {
   localStorage.as_size=num;
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
-function viewXY(x,y)
-{
+function viewXY(x,y) {
   let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
   if (d) gl="Asteroid size: "+d.toString();
   $("#XY").html(`(${x+1};${y+1}). ${gl}`);
   if (window.trail != -1) change(x,y,window.trail);
 }
-function startTrail(x,y)
-{
+function startTrail(x,y) {
   let e = window.event;
   switch (e.which) {
     case 1:
@@ -85,61 +78,49 @@ function startTrail(x,y)
       break;
   }
 }
-function stopTrail()
-{
+function stopTrail() {
   window.trail = -1;
 }
-function loadMap(data,initial)
+function loadMap(data,size,alsize,initial)
 {
-  if (!data) syncMap(0);
+  if (!data) syncMap(2);
   let h=(data)?data:window.maparray;check=true;
   if (Array.isArray(h))
   {
-    let d=h.length;
+    let d=(size != void 0)?size:h.length;
     if (d>200) d=200;
     else if (d<20) d=20;
     $("#map_size").val(d);
-    localStorage.setItem("size",d);
-    changeMap(h.length,initial);
-    for (let i=0;i<d;i++)
-      for (let j=0;j<d;j++)
+    if (d != (Number(localStorage.size)||20) || initial)
+    {
+      localStorage.setItem("size",d);
+      mapSize.val(size);
+      let tb="";
+      localStorage.setItem("size",size)
+      for (let i=0;i<size;i++)
       {
-        let size=Number(h[i][j])||0;
-        $(`#p${i}-${j} > img`).width(Math.round(size)*3);
-        $(`#p${i}-${j} > img`).height(Math.round(size)*3);
+        tb+="<tr>";
+        for (let j=0;j<size;j++)
+        {
+          let wh=(alsize != void 0)?h[i][j]:alsize;
+          tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='${wh}' width='${wh}'></td>`;
+        }
+        tb+="</tr>";
       }
+      $("#map").html(tb);
+      $("#map").css("width",(size*42).toString()+"px");
+    }
+    else
+    {
+      for (let i=0;i<size;i++)
+        for (let j=0;j<size;j++) singlechange(i,j,0);
+    }
   }
   else check=false;
   if (check) syncMap(1);
   return check;
 }
-function changeMap(data,initial)
-{
-  let size=data||(Number(localStorage.size)||20);
-  if (size>200) size=200;
-  else if (size<20) size=20;
-  if (size != (Number(localStorage.size)||20) || initial)
-  {
-    mapSize.val(size);
-    let tb="";
-    localStorage.setItem("size",size)
-    for (let i=0;i<size;i++)
-    {
-      tb+="<tr>"
-      for (let j=0;j<size;j++) tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='0' width='0'></td>`;
-      tb+="</tr>"
-    }
-    $("#map").html(tb);
-    $("#map").css("width",(size*42).toString()+"px");
-  }
-  else
-  {
-    for (let i=0;i<size;i++)
-      for (let j=0;j<size;j++) singlechange(i,j,0);
-  }
-}
-function parseMap(data)
-{
+function parseMap(data) {
   let fail=0,map=[];
   try {
     eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
@@ -156,8 +137,7 @@ function parseMap(data)
   }
   else alert("Invalid map pattern!");
 }
-function process()
-{
+function process() {
   syncMap(0);
   for (let i of window.maparray)
   {
@@ -195,10 +175,10 @@ $("#asChoose").html(cas+"</tr>");
 if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size))
 document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(102, 102, 102)";
 syncMap(2);
-loadMap(null,1);
-mapSize.on("change",function(){changeMap(mapSize.val())});
+loadMap(null,null,null,1);
+mapSize.on("change",function(){loadMap(null,mapSize.val())});
 $("#clearMap").on("click",function(){
-  changeMap();
+  loadMap(null,null,0);
 });
 $("#brush_size").on("change", function() {
   let size=$("#brush_size").val(),max=Number(localStorage.size)||20;
