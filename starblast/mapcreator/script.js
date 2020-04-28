@@ -213,6 +213,7 @@ $("#loadMap").on("change", function(e) {
 });
 document.onkeypress = function(e)
 {
+  if (!($("#brush_size").is(":focus") || $("#map_size").is(":focus")))
   switch (e.which)
   {
     case 119:
