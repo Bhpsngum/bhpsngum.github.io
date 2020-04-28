@@ -116,7 +116,7 @@ function changeMap(data,tf)
   else
   {
     for (let i=0;i<size;i++)
-      for (let j=0;j<size;j++) change(i,j,0);
+      for (let j=0;j<size;j++) singlechange(i,j,0);
   }
 }
 function parseMap(data)
