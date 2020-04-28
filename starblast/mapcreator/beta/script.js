@@ -101,7 +101,7 @@ function loadMap(data,size,alsize,initial)
         for (let j=0;j<d;j++)
         {
           let wh=(alsize != void 0)?alsize:h[i][j];
-          tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='${wh}' width='${wh}'></td>`;
+          tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='${wh*3}' width='${wh*3}'></td>`;
         }
         tb+="</tr>";
       }
