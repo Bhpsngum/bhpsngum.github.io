@@ -2,10 +2,13 @@ let mapSize = $("#map_size"),trail=-1;
 function singlechange(x,y,num)
 {
   let element=$(`#p${x}-${y} > img`);
-  element.height(num*3);
-  element.width(num*3);
   if (element.length)
   {
+    if (!(Math.round(element.width()/3) == num && Math.round(element.width()/3) == num))
+    {
+      element.width(num*3);
+      element.height(num*3);
+    }
     let u=JSON.parse(localStorage.array||1);
     if (Array.isArray(u))
     {
@@ -77,7 +80,7 @@ function loadMap(data)
     else if (d<20) d=20;
     $("#map_size").val(d);
     localStorage.setItem("size",d);
-    changeMap(Number(localStorage.size)||20);
+    changeMap();
     for (let i=0;i<d;i++)
       for (let j=0;j<d;j++)
       {
@@ -92,21 +95,29 @@ function loadMap(data)
 }
 function changeMap(data,tf)
 {
-  let size=isNaN(Number(data))?20:Number(data);
+  let size=data||(Number(localStorage.size)||20);
   if (size>200) size=200;
   else if (size<20) size=20;
-  mapSize.val(size);
-  let tb="";
-  localStorage.setItem("size",size)
-  for (let i=0;i<size;i++)
+  if (size != (Number(localStorage.size)||20) ||tf)
   {
-    tb+="<tr>"
-    for (let j=0;j<size;j++) tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='0' width='0'></td>`;
-    tb+="</tr>"
+    mapSize.val(size);
+    let tb="";
+    localStorage.setItem("size",size)
+    for (let i=0;i<size;i++)
+    {
+      tb+="<tr>"
+      for (let j=0;j<size;j++) tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='0' width='0'></td>`;
+      tb+="</tr>"
+    }
+    $("#map").html(tb);
+    $("#map").css("width",(size*42).toString()+"px");
+    (!tf) && modifyMap();
   }
-  $("#map").html(tb);
-  $("#map").css("width",(size*42).toString()+"px");
-  (!tf) && modifyMap();
+  else
+  {
+    for (let i=0;i<size;i++)
+      for (let j=0;j<size;j++) singlechange(i,j,0);
+  }
 }
 function parseMap(data)
 {
@@ -174,11 +185,11 @@ for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this
 $("#asChoose").html(cas+"</tr>");
 if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size))
 document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(102, 102, 102)";
-changeMap(Number(localStorage.size)||20,1);
+changeMap(null,1);
 loadMap();
 mapSize.on("change",function(){changeMap(mapSize.val())});
 $("#clearMap").on("click",function(){
-  changeMap(Number(localStorage.size));
+  changeMap();
 });
 $("#brush_size").on("change", function() {
   let size=$("#brush_size").val(),max=Number(localStorage.size)||20;
