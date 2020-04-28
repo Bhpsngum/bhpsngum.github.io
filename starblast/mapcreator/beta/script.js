@@ -92,7 +92,7 @@ function stopTrail()
 function loadMap(data)
 {
   if (!data) syncMap(0);
-  let h=(data)?data:window.maparray;
+  let h=(data)?data:window.maparray;check=true;
   if (Array.isArray(h))
   {
     let d=h.length;
@@ -104,7 +104,7 @@ function loadMap(data)
     for (let i=0;i<d;i++)
       for (let j=0;j<d;j++)
       {
-        let size=h[i][j]||0;
+        let size=Number(h[i][j])||0;
         $(`#p${i}-${j} > img`).width(Math.round(size)*3);
         $(`#p${i}-${j} > img`).height(Math.round(size)*3);
       }
