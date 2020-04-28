@@ -115,7 +115,7 @@ function loadMap(data,initial)
 }
 function changeMap(data,initial)
 {
-  let size=((data)?data.length):Number(localStorage.size))||20;
+  let size=((data)?data.length:Number(localStorage.size))||20;
   if (size>200) size=200;
   else if (size<20) size=20;
   if (size != (Number(localStorage.size)||20) || initial)
