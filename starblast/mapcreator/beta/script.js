@@ -100,7 +100,7 @@ function loadMap(data,size,alsize,initial)
         tb+="<tr>";
         for (let j=0;j<d;j++)
         {
-          let wh=(alsize != void 0)?alsize:((size!= void 0)?0:(h[i][j]||0));
+          let wh=(alsize != void 0)?alsize:((size!= void 0)?0:(Number(h[i][j])||0));
           tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='${wh*3}' width='${wh*3}'></td>`;
         }
         tb+="</tr>";
@@ -113,7 +113,7 @@ function loadMap(data,size,alsize,initial)
       for (let i=0;i<d;i++)
         for (let j=0;j<d;j++)
         {
-          let gh=(alsize != void 0)?alsize:h[i][j];
+          let gh=(alsize != void 0)?alsize:(Number(h[i][j])||0);
           singlechange(i,j,gh);
         }
     }
