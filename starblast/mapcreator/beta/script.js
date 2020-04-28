@@ -35,10 +35,10 @@ function changeASSize(num)
 function modifyMap()
 {
   let d=[];
-  for (let i=0;i<Number(localStorage.size)||20;i++)
+  for (let i=0;i<(Number(localStorage.size)||20);i++)
   {
     d.push([]);
-    for (let j=0;j<Number(localStorage.size)||20;j++) d[i].push(Math.round(Number($(`#p${i}-${j} >img`).width())/3));
+    for (let j=0;j<(Number(localStorage.size)||20);j++) d[i].push(Math.round(($(`#p${i}-${j} >img`).width()||0)/3));
   }
   localStorage.setItem("array",JSON.stringify(d));
 }
@@ -77,13 +77,13 @@ function loadMap(data)
     else if (d<20) d=20;
     $("#map_size").val(d);
     localStorage.setItem("size",d);
-    changeMap(Number(localStorage.size));
+    changeMap(Number(localStorage.size)||20);
     for (let i=0;i<d;i++)
       for (let j=0;j<d;j++)
       {
-        let check=h[i][j]||0;
-        $(`#p${i}-${j} > img`).width(Math.round(h[i][j])*3);
-        $(`#p${i}-${j} > img`).height(Math.round(h[i][j])*3);
+        let size=h[i][j]||0;
+        $(`#p${i}-${j} > img`).width(Math.round(size)*3);
+        $(`#p${i}-${j} > img`).height(Math.round(size)*3);
       }
   }
   else check=false;
@@ -174,11 +174,11 @@ for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this
 $("#asChoose").html(cas+"</tr>");
 if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size))
 document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(102, 102, 102)";
-changeMap(localStorage.size||20,1);
+changeMap(Number(localStorage.size)||20,1);
 loadMap();
 mapSize.on("change",function(){changeMap(mapSize.val())});
 $("#clearMap").on("click",function(){
-  changeMap(localStorage.size);
+  changeMap(Number(localStorage.size));
 });
 $("#brush_size").on("change", function() {
   let size=$("#brush_size").val(),max=Number(localStorage.size)||20;
