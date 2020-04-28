@@ -90,17 +90,15 @@ function loadMap(data,size,alsize,initial)
     let d=(size != void 0)?size:h.length;
     if (d>200) d=200;
     else if (d<20) d=20;
-    $("#map_size").val(d);
+    mapSize.val(d);
     if (d != (Number(localStorage.size)||20) || initial)
     {
       localStorage.setItem("size",d);
-      mapSize.val(size);
       let tb="";
-      localStorage.setItem("size",size)
-      for (let i=0;i<size;i++)
+      for (let i=0;i<d;i++)
       {
         tb+="<tr>";
-        for (let j=0;j<size;j++)
+        for (let j=0;j<d;j++)
         {
           let wh=(alsize != void 0)?alsize:h[i][j];
           tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='${wh}' width='${wh}'></td>`;
@@ -108,12 +106,12 @@ function loadMap(data,size,alsize,initial)
         tb+="</tr>";
       }
       $("#map").html(tb);
-      $("#map").css("width",(size*42).toString()+"px");
+      $("#map").css("width",(d*42).toString()+"px");
     }
     else
     {
-      for (let i=0;i<size;i++)
-        for (let j=0;j<size;j++)
+      for (let i=0;i<d;i++)
+        for (let j=0;j<d;j++)
         {
           let gh=(alsize != void 0)?alsize:h[i][j];
           singlechange(i,j,gh);
@@ -121,7 +119,7 @@ function loadMap(data,size,alsize,initial)
     }
   }
   else check=false;
-  if (check) syncMap(1);
+  syncMap(0);
   return check;
 }
 function parseMap(data) {
