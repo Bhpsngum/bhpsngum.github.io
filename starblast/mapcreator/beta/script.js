@@ -1,4 +1,5 @@
-let mapSize = $("#map_size"),trail=-1;
+window.maparray=[];window.trail=-1;
+let mapSize = $("#map_size")
 function singlechange(x,y,num)
 {
   let element=$(`#p${x}-${y} > img`);
@@ -8,18 +9,46 @@ function singlechange(x,y,num)
     {
       element.width(num*3);
       element.height(num*3);
+      syncMap(2);
+      window.maparray[x][y]=num;
+      syncMap(1);
     }
-    let u=JSON.parse(localStorage.array||1);
-    if (Array.isArray(u))
+  }
+}
+function checkMap(data)
+{
+  if (Array.isArray(data))
+  {
+    for (let index of data)
     {
-      if (Array.isArray(u[x]))
-      {
-        u[x][y]=num;
-        localStorage.setItem("array",JSON.stringify(u));
-      }
-      else modifyMap();
+      let check=Array.isArray(index) && (index.length||0)==data.length;
+      if (!check) return check;
     }
-    else modifyMap();
+  }
+  return true;
+}
+function syncMap(num)
+{
+  //0 to refresh both-side, 1 to push to server and 2 to pull from server
+  switch(num)
+  {
+    case 0:
+      window.maparray=[];
+      for (let i=0;i<(Number(localStorage.size)||20);i++)
+      {
+        window.maparray.push([]);
+        for (let j=0;j<(Number(localStorage.size)||20);j++) window.maparray[i].push(Math.round(($(`#p${i}-${j} >img`).width()||0)/3));
+      }
+      localStorage.setItem("array",JSON.stringify(window.maparray));
+      break;
+    case 1:
+      if (!checkMap(window.maparray)) syncMap(0);
+      else localStorage.setItem("array",JSON.stringify(window.maparray));
+      break;
+    case 2:
+      window.maparray=JSON.parse(localStorage.array);
+      (!checkMap(window.maparray)) && syncMap(0);
+      break;
   }
 }
 function change(x,y,num)
@@ -35,44 +64,35 @@ function changeASSize(num)
   localStorage.as_size=num;
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
-function modifyMap()
-{
-  let d=[];
-  for (let i=0;i<(Number(localStorage.size)||20);i++)
-  {
-    d.push([]);
-    for (let j=0;j<(Number(localStorage.size)||20);j++) d[i].push(Math.round(($(`#p${i}-${j} >img`).width()||0)/3));
-  }
-  localStorage.setItem("array",JSON.stringify(d));
-}
 function viewXY(x,y)
 {
   let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
   if (d) gl="Asteroid size: "+d.toString();
   $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-  if (trail != -1) change(x,y,trail);
+  if (window.trail != -1) change(x,y,window.trail);
 }
 function startTrail(x,y)
 {
   let e = window.event;
   switch (e.which) {
     case 1:
-      trail=Number(localStorage.as_size);
-      if (isNaN(trail)) trail=-1;
-      change(x,y,trail);
+      window.trail=Number(localStorage.as_size);
+      if (isNaN(window.trail)) window.trail=-1;
+      change(x,y,window.trail);
       break;
     case 3:
-      trail=0;
+      window.trail=0;
       break;
   }
 }
 function stopTrail()
 {
-  trail = -1;
+  window.trail = -1;
 }
 function loadMap(data)
 {
-  let h=JSON.parse(JSON.stringify(data)||(localStorage.array||1)),check=true;
+  if (!data) syncMap(0);
+  let h=(data)?data:window.maparray;
   if (Array.isArray(h))
   {
     let d=h.length;
@@ -90,15 +110,15 @@ function loadMap(data)
       }
   }
   else check=false;
-  if (check) localStorage.setItem("array",JSON.stringify(h));
+  if (check) syncMap(1);
   return check;
 }
-function changeMap(data,tf)
+function changeMap(data)
 {
   let size=data||(Number(localStorage.size)||20);
   if (size>200) size=200;
   else if (size<20) size=20;
-  if (size != (Number(localStorage.size)||20) ||tf)
+  if (size != (Number(localStorage.size)||20))
   {
     mapSize.val(size);
     let tb="";
@@ -111,7 +131,6 @@ function changeMap(data,tf)
     }
     $("#map").html(tb);
     $("#map").css("width",(size*42).toString()+"px");
-    (!tf) && modifyMap();
   }
   else
   {
@@ -133,30 +152,20 @@ function parseMap(data)
   catch(e){fail=1;}
   if (!fail)
   {
-    if (!loadMap(map)) alert("Invalid map pattern!");
-    else localStorage.setItem("array",JSON.stringify(map));
+    (!loadMap(map)) && alert("Invalid map pattern!");
   }
   else alert("Invalid map pattern!");
 }
 function process()
 {
-  modifyMap();
-  let parsed=JSON.parse(localStorage.array||1);str=[];
-  if (Array.isArray(parsed))
+  syncMap(0);
+  for (let i of window.maparray)
   {
-    for (let i of parsed)
-    {
-      let d="";
-      if (Array.isArray(i))
-      {
-        for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
-        d+=i[i.length-1]||" ";
-      }
-      else return "";
-      str.push(d);
-    }
+    let d="";
+    for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
+    d+=i[i.length-1]||" ";
+    str.push(d);
   }
-  else return "";
   return '"'+str.join('\\n"+\n"')+'";';
 }
 function copyToClipboard(text) {
@@ -185,7 +194,7 @@ for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this
 $("#asChoose").html(cas+"</tr>");
 if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size))
 document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(102, 102, 102)";
-changeMap(null,1);
+syncMap(2);
 loadMap();
 mapSize.on("change",function(){changeMap(mapSize.val())});
 $("#clearMap").on("click",function(){
