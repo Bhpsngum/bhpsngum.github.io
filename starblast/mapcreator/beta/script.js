@@ -98,7 +98,7 @@ function changeMap(data,tf)
   let size=data||(Number(localStorage.size)||20);
   if (size>200) size=200;
   else if (size<20) size=20;
-  if (size != (Number(localStorage.size)||20))
+  if (size != (Number(localStorage.size)||20) ||tf)
   {
     mapSize.val(size);
     let tb="";
