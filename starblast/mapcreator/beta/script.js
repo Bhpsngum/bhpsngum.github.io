@@ -141,6 +141,7 @@ function parseMap(data) {
 }
 function process() {
   syncMap(0);
+  let str=[];
   for (let i of window.maparray)
   {
     let d="";
