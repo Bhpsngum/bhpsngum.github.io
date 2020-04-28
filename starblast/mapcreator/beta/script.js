@@ -89,7 +89,7 @@ function stopTrail()
 {
   window.trail = -1;
 }
-function loadMap(data)
+function loadMap(data,initial)
 {
   if (!data) syncMap(0);
   let h=(data)?data:window.maparray;check=true;
@@ -100,7 +100,7 @@ function loadMap(data)
     else if (d<20) d=20;
     $("#map_size").val(d);
     localStorage.setItem("size",d);
-    changeMap();
+    changeMap(null,initial);
     for (let i=0;i<d;i++)
       for (let j=0;j<d;j++)
       {
@@ -113,12 +113,12 @@ function loadMap(data)
   if (check) syncMap(1);
   return check;
 }
-function changeMap(data)
+function changeMap(data,initial)
 {
   let size=data||(Number(localStorage.size)||20);
   if (size>200) size=200;
   else if (size<20) size=20;
-  if (size != (Number(localStorage.size)||20))
+  if (size != (Number(localStorage.size)||20) || initial)
   {
     mapSize.val(size);
     let tb="";
@@ -195,7 +195,7 @@ $("#asChoose").html(cas+"</tr>");
 if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size))
 document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(102, 102, 102)";
 syncMap(2);
-loadMap();
+loadMap(null,1);
 mapSize.on("change",function(){changeMap(mapSize.val())});
 $("#clearMap").on("click",function(){
   changeMap();
