@@ -236,3 +236,5 @@ document.onkeypress = function(e)
       if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
   }
 }
+$("#brush_size").on("keypress",function(e){if (e.which == 13) $("#brush_size").blur()});
+mapSize.on("keypress",function(e){if (e.which == 13) mapSize.blur()});
