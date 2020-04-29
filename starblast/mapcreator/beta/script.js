@@ -79,7 +79,7 @@ function change(x,y,num) {
       singlechange(i,j,size);
 }
 function changeASSize(num) {
-  document.body.style=`cursor: url('resouces/Asteroid${applySize("as_size")*3}.png'),auto;`;
+  document.body.style=`cursor: url('resources/Asteroid${applySize("as_size")*3}.png'),auto;`;
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
 function viewXY(x,y) {
