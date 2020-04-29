@@ -196,11 +196,11 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
-changeASSize();
 $("#brush_size").val(applyBrushSize());
 let cas="<tr>";
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
+changeASSize();
 document.querySelector("#asc"+applySize("as_size")).style= "border: 3px solid rgb(102, 102, 102)";
 syncMap(2);
 loadMap(null,null,null,1);
