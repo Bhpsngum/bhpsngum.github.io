@@ -7,7 +7,7 @@ function applyBrushSize(num) {
   localStorage.setItem("brush",size);
   return size;
 }
-function applySize(key,num) {
+function applySize(key,num,isApply) {
   let template= {
     as_size: {
       min:0,
@@ -20,7 +20,7 @@ function applySize(key,num) {
   }
   let size=Math.round((num != void 0)?num:(Number(localStorage[key])||template[key].min));
   size=Math.max(Math.min(template[key].max,size),template[key].min);
-  localStorage.setItem(key,size);
+  (isApply) && localStorage.setItem(key,size);
   return size;
 }
 function singlechange(x,y,num) {
@@ -79,7 +79,7 @@ function change(x,y,num) {
       singlechange(i,j,size);
 }
 function changeASSize(num) {
-  document.body.style=`cursor: url('resources/Asteroid${applySize("as_size",num)*3}.png'),auto;`;
+  document.body.style=`cursor: url('resources/Asteroid${applySize("as_size",num,1)*3}.png'),auto;`;
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
 function viewXY(x,y) {
@@ -93,17 +93,14 @@ function startTrail(x,y) {
   switch (e.which) {
     case 1:
       window.trail=applySize("as_size");
-      if (isNaN(window.trail)) window.trail=-1;
       change(x,y,window.trail);
       break;
     case 3:
-    document.body.style='cursor: url("resources/Asteroid0.png"),auto;';
       window.trail=0;
       break;
   }
 }
 function stopTrail() {
-  changeASSize();
   window.trail = -1;
 }
 function loadMap(data,size,alsize,initial)
