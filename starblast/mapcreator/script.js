@@ -213,6 +213,7 @@ $("#loadMap").on("change", function(e) {
     fr.readAsText(file);
   }
   else alert("Unsupported file format!");
+  $("#loadMap").val("");
 });
 document.onkeypress = function(e)
 {
