@@ -79,7 +79,9 @@ function change(x,y,num) {
       singlechange(i,j,size);
 }
 function changeASSize(num) {
-  document.body.style=`cursor: url('Asteroid${applySize("as_size",num)*3}.png'),auto;`;
+  let size=applySize("as_size");
+  if (!size) document.body.style="";
+  else document.body.style=`cursor: url('Asteroid${size*3}.png'),auto;`;
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
 function viewXY(x,y) {
@@ -194,7 +196,7 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
-document.body.style=`cursor: url('Asteroid${applySize("as_size")*3}.png'),auto;`;
+changeASSize();
 $("#brush_size").val(applyBrushSize());
 let cas="<tr>";
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
