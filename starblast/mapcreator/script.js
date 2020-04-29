@@ -78,8 +78,6 @@ function loadMap(data)
     let d=h.length;
     if (d>200) d=200;
     else if (d<20) d=20;
-    $("#map_size").val(d);
-    localStorage.setItem("size",d);
     changeMap(d);
     for (let i=0;i<d;i++)
       for (let j=0;j<d;j++)
