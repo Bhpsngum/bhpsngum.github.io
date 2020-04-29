@@ -97,11 +97,13 @@ function startTrail(x,y) {
       change(x,y,window.trail);
       break;
     case 3:
+    document.body.style='cursor: url("resources/Asteroid0.png"),auto;';
       window.trail=0;
       break;
   }
 }
 function stopTrail() {
+  changeASSize();
   window.trail = -1;
 }
 function loadMap(data,size,alsize,initial)
