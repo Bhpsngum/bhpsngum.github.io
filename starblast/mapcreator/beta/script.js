@@ -79,9 +79,7 @@ function change(x,y,num) {
       singlechange(i,j,size);
 }
 function changeASSize(num) {
-  let size=applySize("as_size");
-  if (!size) document.body.style="";
-  else document.body.style=`cursor: url('Asteroid${size*3}.png'),auto;`;
+  document.body.style=`cursor: url('resouces/Asteroid${applySize("as_size")*3}.png'),auto;`;
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
 function viewXY(x,y) {
@@ -126,7 +124,7 @@ function loadMap(data,size,alsize,initial)
         for (let j=0;j<d;j++)
         {
           let wh=(alsize != void 0)?alsize:((size!= void 0)?0:(Number(h[i][j])||0));
-          tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='${wh*3}' width='${wh*3}'></td>`;
+          tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='resources/Asteroid.png' draggable=false height='${wh*3}' width='${wh*3}'></td>`;
         }
         tb+="</tr>";
       }
@@ -198,7 +196,7 @@ function download(filename, text) {
 }
 $("#brush_size").val(applyBrushSize());
 let cas="<tr>";
-for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
+for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 changeASSize();
 document.querySelector("#asc"+applySize("as_size")).style= "border: 3px solid rgb(102, 102, 102)";
