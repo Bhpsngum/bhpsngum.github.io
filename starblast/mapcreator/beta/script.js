@@ -267,4 +267,4 @@ document.onkeypress = function(e)
 $("#brush_size").on("keypress",function(e){if (e.which == 13) $("#brush_size").blur()});
 mapSize.on("keypress",function(e){if (e.which == 13) mapSize.blur()});
 let states=["dark","light"];
-for (let state of states) (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) && document.querySelector("link").href=`icon_${state}.png`;
+for (let state of states) if (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) document.querySelector("link").href=`icon_${state}.png`;
