@@ -97,11 +97,13 @@ function startTrail(x,y) {
       change(x,y,window.trail);
       break;
     case 3:
+      changeASSize(0);
       window.trail=0;
       break;
   }
 }
 function stopTrail() {
+  changeASSize();
   window.trail = -1;
 }
 function loadMap(data,size,alsize,initial)
