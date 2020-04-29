@@ -1,6 +1,6 @@
-let mapSize = $("#map_size"),trail=-1;
-function singlechange(x,y,num)
-{
+window.maparray=[];window.trail=-1;
+let mapSize = $("#map_size")
+function singlechange(x,y,num) {
   let element=$(`#p${x}-${y} > img`);
   if (element.length)
   {
@@ -8,117 +8,121 @@ function singlechange(x,y,num)
     {
       element.width(num*3);
       element.height(num*3);
+      syncMap(2);
+      window.maparray[x][y]=num;
+      syncMap(1);
     }
-    let u=JSON.parse(localStorage.array||1);
-    if (Array.isArray(u))
-    {
-      if (Array.isArray(u[x]))
-      {
-        u[x][y]=num;
-        localStorage.setItem("array",JSON.stringify(u));
-      }
-      else modifyMap();
-    }
-    else modifyMap();
   }
 }
-function change(x,y,num)
-{
+function checkMap(data) {
+  if (Array.isArray(data))
+  {
+    for (let index of data)
+    {
+      if (!(Array.isArray(index) && (index.length||0)==data.length)) return false;
+    }
+  }
+  else return false;
+  return true;
+}
+function syncMap(num) {
+  //0 to refresh both-side, 1 to push to server and 2 to pull from server
+  switch(num)
+  {
+    case 0:
+      window.maparray=[];
+      for (let i=0;i<(Number(localStorage.size)||20);i++)
+      {
+        window.maparray.push([]);
+        for (let j=0;j<(Number(localStorage.size)||20);j++) window.maparray[i].push(Math.round(($(`#p${i}-${j} >img`).width()||0)/3));
+      }
+      localStorage.setItem("array",JSON.stringify(window.maparray));
+      break;
+    case 1:
+      if (!checkMap(window.maparray)) syncMap(0);
+      else localStorage.setItem("array",JSON.stringify(window.maparray));
+      break;
+    case 2:
+      window.maparray=JSON.parse(localStorage.array);
+      (!checkMap(window.maparray)) && syncMap(0);
+      break;
+  }
+}
+function change(x,y,num) {
   let br=Number(localStorage.brush)||0,
   size=(num != void 0)?num:(Number(localStorage.as_size)||0);
   for (let i=x-br;i<=x+br;i++)
     for (let j=y-br;j<=y+br;j++)
       singlechange(i,j,size);
 }
-function changeASSize(num)
-{
+function changeASSize(num) {
   localStorage.as_size=num;
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
-function modifyMap()
-{
-  let d=[];
-  for (let i=0;i<(Number(localStorage.size)||20);i++)
-  {
-    d.push([]);
-    for (let j=0;j<(Number(localStorage.size)||20);j++) d[i].push(Math.round(($(`#p${i}-${j} >img`).width()||0)/3));
-  }
-  localStorage.setItem("array",JSON.stringify(d));
-}
-function viewXY(x,y)
-{
+function viewXY(x,y) {
   let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
   if (d) gl="Asteroid size: "+d.toString();
   $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-  if (trail != -1) change(x,y,trail);
+  if (window.trail != -1) change(x,y,window.trail);
 }
-function startTrail(x,y)
-{
+function startTrail(x,y) {
   let e = window.event;
   switch (e.which) {
     case 1:
-      trail=Number(localStorage.as_size);
-      if (isNaN(trail)) trail=-1;
-      change(x,y,trail);
+      window.trail=Number(localStorage.as_size);
+      if (isNaN(window.trail)) window.trail=-1;
+      change(x,y,window.trail);
       break;
     case 3:
-      trail=0;
+      window.trail=0;
       break;
   }
 }
-function stopTrail()
-{
-  trail = -1;
+function stopTrail() {
+  window.trail = -1;
 }
-function loadMap(data)
+function loadMap(data,size,alsize,initial)
 {
-  let h=JSON.parse(JSON.stringify(data)||(localStorage.array||1)),check=true;
+  if (!data) syncMap(2);
+  let h=(data)?data:window.maparray;check=true;
   if (Array.isArray(h))
   {
-    let d=h.length;
+    let d=(size != void 0)?size:h.length;
     if (d>200) d=200;
     else if (d<20) d=20;
-    changeMap(d);
-    for (let i=0;i<d;i++)
-      for (let j=0;j<d;j++)
+    mapSize.val(d);
+    if (d != (Number(localStorage.size)||20) || initial)
+    {
+      localStorage.setItem("size",d);
+      let tb="";
+      for (let i=0;i<d;i++)
       {
-        let size=h[i][j]||0;
-        $(`#p${i}-${j} > img`).width(Math.round(size)*3);
-        $(`#p${i}-${j} > img`).height(Math.round(size)*3);
+        tb+="<tr>";
+        for (let j=0;j<d;j++)
+        {
+          let wh=(alsize != void 0)?alsize:((size!= void 0)?0:(Number(h[i][j])||0));
+          tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='${wh*3}' width='${wh*3}'></td>`;
+        }
+        tb+="</tr>";
       }
+      $("#map").html(tb);
+      $("#map").css("width",(d*42).toString()+"px");
+    }
+    else
+    {
+      for (let i=0;i<d;i++)
+        for (let j=0;j<d;j++)
+        {
+          let gh=(alsize != void 0)?alsize:(Number(h[i][j])||0);
+          singlechange(i,j,gh);
+        }
+    }
   }
   else check=false;
-  if (check) localStorage.setItem("array",JSON.stringify(h));
+  syncMap(0);
   return check;
 }
-function changeMap(data,tf)
-{
-  let size=data||(Number(localStorage.size)||20);
-  if (size>200) size=200;
-  else if (size<20) size=20;
-  if (size != (Number(localStorage.size)||20) ||tf)
-  {
-    mapSize.val(size);
-    let tb="";
-    localStorage.setItem("size",size)
-    for (let i=0;i<size;i++)
-    {
-      tb+="<tr>"
-      for (let j=0;j<size;j++) tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);return false;' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='Asteroid.png' draggable=false height='0' width='0'></td>`;
-      tb+="</tr>"
-    }
-    $("#map").html(tb);
-    $("#map").css("width",(size*42).toString()+"px");
-    (!tf) && modifyMap();
-  }
-  else
-  {
-    for (let i=0;i<size;i++)
-      for (let j=0;j<size;j++) singlechange(i,j,0);
-  }
-}
-function parseMap(data)
-{
+function parseMap(data) {
   let fail=0,map=[];
   try {
     eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
@@ -131,30 +135,20 @@ function parseMap(data)
   catch(e){fail=1;}
   if (!fail)
   {
-    if (!loadMap(map)) alert("Invalid map pattern!");
-    else localStorage.setItem("array",JSON.stringify(map));
+    (!loadMap(map)) && alert("Invalid map pattern!");
   }
   else alert("Invalid map pattern!");
 }
-function process()
-{
-  modifyMap();
-  let parsed=JSON.parse(localStorage.array||1);str=[];
-  if (Array.isArray(parsed))
+function process() {
+  syncMap(0);
+  let str=[];
+  for (let i of window.maparray)
   {
-    for (let i of parsed)
-    {
-      let d="";
-      if (Array.isArray(i))
-      {
-        for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
-        d+=i[i.length-1]||" ";
-      }
-      else return "";
-      str.push(d);
-    }
+    let d="";
+    for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
+    d+=i[i.length-1]||" ";
+    str.push(d);
   }
-  else return "";
   return '"'+str.join('\\n"+\n"')+'";';
 }
 function copyToClipboard(text) {
@@ -183,11 +177,11 @@ for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this
 $("#asChoose").html(cas+"</tr>");
 if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size))
 document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(102, 102, 102)";
-changeMap(null,1);
-loadMap();
-mapSize.on("change",function(){changeMap(mapSize.val())});
+syncMap(2);
+loadMap(null,null,null,1);
+mapSize.on("change",function(){loadMap(null,mapSize.val())});
 $("#clearMap").on("click",function(){
-  changeMap();
+  loadMap(null,null,0);
 });
 $("#brush_size").on("change", function() {
   let size=$("#brush_size").val(),max=Number(localStorage.size)||20;
