@@ -1,5 +1,28 @@
 window.maparray=[];window.trail=-1;
 let mapSize = $("#map_size")
+function applyBrushSize(num) {
+  let max=applySize("size");
+  let size=Math.round((num != void 0)?num:(Number(localStorage.brush)||0));
+  size=Math.max(Math.min(max,size),0);
+  localStorage.setItem("brush",size);
+  return size;
+}
+function applySize(key,num) {
+  let template= {
+    as_size: {
+      min:0,
+      max:9
+    },
+    size: {
+      min:20,
+      max:200
+    }
+  }
+  let size=Math.round((num != void 0)?num:(Number(localStorage[key])||template[key].min));
+  size=Math.max(Math.min(template[key].max,size),template[key].min);
+  localStorage.setItem(key,size);
+  return size;
+}
 function singlechange(x,y,num) {
   let element=$(`#p${x}-${y} > img`);
   if (element.length)
@@ -31,10 +54,10 @@ function syncMap(num) {
   {
     case 0:
       window.maparray=[];
-      for (let i=0;i<(Number(localStorage.size)||20);i++)
+      for (let i=0;i<applySize("size");i++)
       {
         window.maparray.push([]);
-        for (let j=0;j<(Number(localStorage.size)||20);j++) window.maparray[i].push(Math.round(($(`#p${i}-${j} >img`).width()||0)/3));
+        for (let j=0;j<applySize("size");j++) window.maparray[i].push(Math.round(($(`#p${i}-${j} >img`).width()||0)/3));
       }
       localStorage.setItem("array",JSON.stringify(window.maparray));
       break;
@@ -49,14 +72,14 @@ function syncMap(num) {
   }
 }
 function change(x,y,num) {
-  let br=Number(localStorage.brush)||0,
-  size=(num != void 0)?num:(Number(localStorage.as_size)||0);
+  let br=applyBrushSize();
+  size=applySize("as_size",num);
   for (let i=x-br;i<=x+br;i++)
     for (let j=y-br;j<=y+br;j++)
       singlechange(i,j,size);
 }
 function changeASSize(num) {
-  localStorage.as_size=num;
+  applySize("as_size",num);
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
 function viewXY(x,y) {
@@ -69,7 +92,7 @@ function startTrail(x,y) {
   let e = window.event;
   switch (e.which) {
     case 1:
-      window.trail=Number(localStorage.as_size);
+      window.trail=applySize("as_size");
       if (isNaN(window.trail)) window.trail=-1;
       change(x,y,window.trail);
       break;
@@ -91,7 +114,7 @@ function loadMap(data,size,alsize,initial)
     if (d>200) d=200;
     else if (d<20) d=20;
     mapSize.val(d);
-    if (d != (Number(localStorage.size)||20) || initial)
+    if (d != applySize("size") || initial)
     {
       localStorage.setItem("size",d);
       let tb="";
@@ -171,12 +194,12 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
-$("#brush_size").val(localStorage.brush||0);
+document.body.style=`cursor: url('Asteroid${applySize("as_size")*3}.png')`;
+$("#brush_size").val(applyBrushSize());
 let cas="<tr>";
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
-if (!isNaN(Number(localStorage.as_size)) && Number(localStorage.as_size))
-document.querySelector("#asc"+Number(localStorage.as_size)).style= "border: 3px solid rgb(102, 102, 102)";
+document.querySelector("#asc"+applySize("as_size")).style= "border: 3px solid rgb(102, 102, 102)";
 syncMap(2);
 loadMap(null,null,null,1);
 mapSize.on("change",function(){loadMap(null,mapSize.val())});
@@ -184,7 +207,7 @@ $("#clearMap").on("click",function(){
   loadMap(null,null,0);
 });
 $("#brush_size").on("change", function() {
-  let size=$("#brush_size").val(),max=Number(localStorage.size)||20;
+  let size=$("#brush_size").val(),max=applySize("size");
   if (size>max) size=max;
   else if (size<0) size=0;
   $("#brush_size").val(size);
