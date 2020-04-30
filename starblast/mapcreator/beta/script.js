@@ -66,8 +66,12 @@ function syncMap(num) {
       else localStorage.setItem("array",JSON.stringify(window.maparray));
       break;
     case 2:
-      window.maparray=JSON.parse(localStorage.array);
-      (!checkMap(window.maparray)) && syncMap(0);
+      let er=0;
+      try {
+        window.maparray=JSON.parse((localStorage.array);
+      }
+      catch(e){er=1;syncMap(0)};
+      (!(er && checkMap(window.maparray))) syncMap(0);
       break;
   }
 }
