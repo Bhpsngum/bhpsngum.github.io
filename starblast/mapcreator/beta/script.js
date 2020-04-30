@@ -71,7 +71,7 @@ function syncMap(num) {
         window.maparray=JSON.parse(localStorage.array);
       }
       catch(e){er=1;syncMap(0)};
-      (!(er && checkMap(window.maparray))) syncMap(0);
+      (!(er && checkMap(window.maparray))) && syncMap(0);
       break;
   }
 }
