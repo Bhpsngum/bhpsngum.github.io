@@ -19,8 +19,13 @@ button,input {
 p {
   position: fixed;
   bottom:1px;
-  left:1px;
   margin:0px;
+}
+#XY {
+  left:1px;
+}
+#info {
+  right:1px;
 }
 #loadMap {
   display: none;
