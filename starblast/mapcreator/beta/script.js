@@ -138,7 +138,7 @@ function loadMap(data,size,alsize,initial)
         for (let j=0;j<d;j++)
         {
           let wh=(alsize != void 0)?alsize:((size!= void 0)?0:(Number(h[i][j])||0));
-          tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);' onmouseover='viewXY(${i},${j});viewinfo("Left-click to apply asteroid, right-click to remove, drag for trails");' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='resources/Asteroid.png' draggable=false height='${wh*3}' width='${wh*3}'></td>`;
+          tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img src='resources/Asteroid.png' draggable=false height='${wh*3}' width='${wh*3}'></td>`;
         }
         tb+="</tr>";
       }

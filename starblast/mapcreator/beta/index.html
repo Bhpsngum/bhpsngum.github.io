@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
   </head>
   <body oncontextmenu="return false;">
-    <table id="map"></table>
+    <table id="map" onmouseover='viewinfo("Left-click to apply asteroid, right-click to remove, drag for trails");'></table>
     <div id="menu">
       <input id="map_size" type="number" placeholder="Map size" value="20" min="20" max="200" onmouseover="viewinfo('Toggle map size (20 to 200)')"></input>
       <table style="float:left" id="asChoose"></table>
@@ -22,8 +22,8 @@
       <input id="loadMap" type="file" accept="text/plain,text/javascript">
       <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link','_blank')" onmouseover="viewinfo('Give us a feedback')">Feedback</button>
     </div>
-    <p id="XY" onmouseover="viewinfo()">(0;0)</p>
-    <p id="info" onmouseover="viewinfo()"></p>
+    <p id="XY" onmouseover="viewinfo('Your cursor position in the map. Hover the map for details')">(0;0)</p>
+    <p id="info"></p>
     <script type="text/javascript" src="script.js"></script>
   </body>
 </html>
