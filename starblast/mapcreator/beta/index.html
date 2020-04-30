@@ -11,18 +11,19 @@
   <body oncontextmenu="return false;">
     <table id="map"></table>
     <div id="menu">
-      <input id="map_size" type="number" placeholder="Map size" value="20" min="20" max="200"></input>
+      <input id="map_size" type="number" placeholder="Map size" value="20" min="20" max="200" onmouseover="viewinfo('Toggle map size (20 to 200)')"></input>
       <table style="float:left" id="asChoose"></table>
-      <input id="brush_size" placeholder="Brush radius" type="number" min="0" value="0"></input>
-      <button id="asc0" onclick="changeASSize(0)";>Remove Asteroids</button>
-      <button id="clearMap">Clear Map</button>
-      <button id="export">Export Map</button>
-      <button id="copyMap">Copy Map</button>
-      <button><label for="loadMap">Import Map</label></button>
+      <input id="brush_size" placeholder="Brush radius" type="number" min="0" value="0" onmouseover="viewinfo('Toggle brush radius (0 to current map size)')"></input>
+      <button id="asc0" onclick="changeASSize(0)"; onmouseover="viewinfo('Remove asteroids in the map (Hotkey 0)')">Remove Asteroids</button>
+      <button id="clearMap" onmouseover="viewinfo('Clear all asteroids in the current map')">Clear Map</button>
+      <button id="export" onmouseover="viewinfo('Export map as an text/plain (*.txt) file')">Export Map</button>
+      <button id="copyMap" onmouseover="viewinfo('Copy current map pattern to clipboard')">Copy Map</button>
+      <button><label for="loadMap" onmouseover="viewinfo('Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js))')">Import Map</label></button>
       <input id="loadMap" type="file" accept="text/plain,text/javascript">
-      <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link','_blank')">Feedback</button>
+      <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link','_blank')" onmouseover="viewinfo('Give us a feedback')">Feedback</button>
     </div>
-    <p id="XY">(0;0)</p>
+    <p id="XY" onmouseover="viewinfo()">(0;0)</p>
+    <p id="info" onmouseover="viewinfo()"></p>
     <script type="text/javascript" src="script.js"></script>
   </body>
 </html>
