@@ -1,6 +1,7 @@
 body {
   background-color:#181a1b;
   color:rgb(240,240,240);
+  user-select:none;
 }
 #menu {
   width:100%;
@@ -40,5 +41,4 @@ td {
   width:35px;
   text-align:center;
   border: 1px solid rgb(102, 102, 102);
-  user-select:none;
 }
