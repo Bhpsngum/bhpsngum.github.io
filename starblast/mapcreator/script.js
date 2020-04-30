@@ -66,8 +66,17 @@ function syncMap(num) {
       else localStorage.setItem("array",JSON.stringify(window.maparray));
       break;
     case 2:
-      window.maparray=JSON.parse(localStorage.array);
-      (!checkMap(window.maparray)) && syncMap(0);
+      let er=0,data;
+      try {
+        data=JSON.parse(localStorage.array);
+      }
+      catch(e){er=1;syncMap(0)};
+      if (!er)
+      {
+        if (!checkMap(JSON.parse(localStorage.array))) syncMap(0);
+        else window.maparray=data;
+      }
+      else window.maparray=data;
       break;
   }
 }
@@ -266,3 +275,6 @@ document.onkeypress = function(e)
 }
 $("#brush_size").on("keypress",function(e){if (e.which == 13) $("#brush_size").blur()});
 mapSize.on("keypress",function(e){if (e.which == 13) mapSize.blur()});
+let states=["dark","light"];
+if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
+else for (let state of states) if (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) document.querySelector("link").href=`icon_${state}.png`;
