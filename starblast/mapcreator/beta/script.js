@@ -68,10 +68,13 @@ function syncMap(num) {
     case 2:
       let er=0;
       try {
-        window.maparray=JSON.parse(localStorage.array);
+        JSON.parse(localStorage.array);
       }
       catch(e){er=1;syncMap(0)};
-      (!(er && checkMap(window.maparray))) && syncMap(0);
+      if (!er)
+      {
+        if (!checkMap(JSON.parse(localStorage.array))) syncMap(0);
+      }
       break;
   }
 }
