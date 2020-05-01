@@ -18,7 +18,10 @@ button,input {
 }
 button {
   width: 70px;
-  height:30px;
+  height:36px;
+}
+input {
+  width:65px;
 }
 p {
   position: fixed;
