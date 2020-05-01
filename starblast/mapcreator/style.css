@@ -5,6 +5,7 @@ body {
 }
 #menu {
   width:100%;
+  background-color:inherit;
   position: fixed;
   top:5px;
   left:5px;
