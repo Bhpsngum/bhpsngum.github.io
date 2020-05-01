@@ -98,6 +98,7 @@ function viewXY(x,y) {
   let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
   if (d) gl="Asteroid size: "+d.toString();
   $("#XY").html(`(${x+1};${y+1}). ${gl}`);
+  if (window.trail == 0) document.body.style='cursor: url("resources/Asteroid0.png"),auto;';
   if (window.trail != -1) change(x,y,window.trail);
 }
 function startTrail(x,y) {
