@@ -11,7 +11,7 @@ body {
 }
 button,input {
   float:left;
-  margin:5px;
+  margin:3px;
   border-color: #575757;
   background-color:inherit;
   color:inherit;
