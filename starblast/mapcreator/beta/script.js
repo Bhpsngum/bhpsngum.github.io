@@ -218,6 +218,11 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
+function setMapURL(newMap)
+{
+  let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
+  window.history.pushState({path:url+clear+newMap},'',url+clear+newMap);
+}
 let querydata=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
 if (querydata === "") error=1;
 else
@@ -246,7 +251,7 @@ else
   else
   {
     error=1;
-    window.location.search="?";
+    setMapURL();
   }
 }
 if (error)
@@ -324,9 +329,8 @@ document.onkeypress = function(e)
 $("#permalink").on("click", function(){
   let check=process().replace(/[^123456789]/g,"");
   let done=(check==="")?applySize("size"):process();
-  let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(done);
-  window.history.pushState({path:newurl},'',newurl);
-  copyToClipboard(newurl);
+  setMapURL(encodeURI(done));
+  copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(done));
 });
 $("#brush_size").on("keypress",function(e){if (e.which == 13) $("#brush_size").blur()});
 mapSize.on("keypress",function(e){if (e.which == 13) mapSize.blur()});
