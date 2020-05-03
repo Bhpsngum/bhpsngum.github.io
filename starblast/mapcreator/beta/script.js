@@ -91,8 +91,8 @@ function changeASSize(num) {
   document.body.style=`cursor: url('resources/Asteroid${applySize("as_size",num,1)*3}.png'),auto;`;
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
-function viewinfo(text) {
-  $("#info").html(text||"");
+function viewinfo(title,text) {
+  $("#info").html(`<strong>${title||""}: </strong>${text||""}`);
 }
 function viewXY(x,y) {
   let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
@@ -211,7 +211,7 @@ function download(filename, text) {
 }
 $("#brush_size").val(applyBrushSize());
 let cas="<tr>";
-for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";' onmouseover='viewinfo("Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
+for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 changeASSize();
 document.querySelector("#asc"+applySize("as_size")).style= "border: 3px solid rgb(102, 102, 102)";
