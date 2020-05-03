@@ -177,6 +177,7 @@ function parseMap(data) {
     {
       alert("Invalid map pattern!");
       return false;
+    }
   }
   else
   {
