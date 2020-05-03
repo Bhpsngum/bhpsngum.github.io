@@ -222,24 +222,28 @@ let querydata=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
 if (querydata === "") error=1;
 else
 {
-  try {
-    eval(`function parseData(){return ${data}}`);
-    let map=parseData();
-    switch (typeof map)
-    {
-      case "number":
-        if (applySize("size",map)== map) loadMap(null,map);
-        else throw "Invalid map size";
-        break;
-      default:
-        if (Array.isArray(map))
-        {
-          if (!parseMap()) throw "Invalid map pattern";
-        }
-        else throw "Invalid map pattern";
+  if (confirm("Map pattern from URL detected!\nLoad the map?"))
+  {
+    try {
+      eval(`function parseData(){return ${data}}`);
+      let map=parseData();
+      switch (typeof map)
+      {
+        case "number":
+          if (applySize("size",map)== map) loadMap(null,map);
+          else throw "Invalid map size";
+          break;
+        default:
+          if (Array.isArray(map))
+          {
+            if (!parseMap()) throw "Invalid map pattern";
+          }
+          else throw "Invalid map pattern";
+      }
     }
+    catch(e) {error=1}
   }
-  catch(e) {error=!!e}
+  else error=1;
 }
 if (error)
 {
