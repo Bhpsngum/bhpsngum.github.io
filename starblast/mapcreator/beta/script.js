@@ -282,9 +282,9 @@ else
     if (dmap.length < 20 || math.length > 200)
     {
       alert("Invalid map pattern!");
-      return false;
+      error=1;
     }
-    if (!loadMap(dmap,null,null,1))
+    else if (!loadMap(dmap,null,null,1))
     {
       alert("Invalid map pattern!");
       error=1;
