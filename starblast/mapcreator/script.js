@@ -91,8 +91,8 @@ function changeASSize(num) {
   document.body.style=`cursor: url('resources/Asteroid${applySize("as_size",num,1)*3}.png'),auto;`;
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
-function viewinfo(text) {
-  $("#info").html(text||"");
+function viewinfo(title,text) {
+  $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
 }
 function viewXY(x,y) {
   let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
@@ -173,9 +173,18 @@ function parseMap(data) {
   catch(e){fail=1;}
   if (!fail)
   {
-    (!loadMap(map)) && alert("Invalid map pattern!");
+    if (!loadMap(map))
+    {
+      alert("Invalid map pattern!");
+      return false;
+    }
   }
-  else alert("Invalid map pattern!");
+  else
+  {
+    alert("Invalid map pattern!");
+    return false;
+  }
+  return true;
 }
 function process() {
   syncMap(0);
@@ -209,14 +218,49 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
-$("#brush_size").val(applyBrushSize());
+function setMapURL(newMap)
+{
+  let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
+  window.history.pushState({path:url+clear+(newMap||"")},'',url+clear+(newMap||""));
+}
+let querydata=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
+if (querydata === "") error=1;
+else
+{
+  if (confirm("Map pattern from URL detected!\nLoad the map?"))
+  {
+    try {
+      eval(`function parseData(){return ${querydata}}`);
+      let datamap=parseData();
+      switch (typeof datamap)
+      {
+        case "number":
+          if (applySize("size",datamap)== datamap) loadMap(null,datamap);
+          else throw "Invalid map size";
+          break;
+        case "string":
+          if (!parseMap(querydata)) throw "Invalid map pattern";
+          break;
+        default:
+          throw "Invalid map pattern";
+      }
+    }
+    catch(e) {error=1}
+  }
+  else error=1;
+  setMapURL();
+}
+if (error)
+{
+  syncMap(2);
+  loadMap(null,null,null,1);
+}
 let cas="<tr>";
-for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";' onmouseover='viewinfo("Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
+for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
+$("#brush_size").val(applyBrushSize());
 changeASSize();
 document.querySelector("#asc"+applySize("as_size")).style= "border: 3px solid rgb(102, 102, 102)";
-syncMap(2);
-loadMap(null,null,null,1);
 mapSize.on("change",function(){loadMap(null,mapSize.val())});
 $("#clearMap").on("click",function(){
   loadMap(null,null,0);
@@ -278,6 +322,12 @@ document.onkeypress = function(e)
       if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
   }
 }
+$("#permalink").on("click", function(){
+  let check=process().replace(/[^123456789]/g,"");
+  let done=(check==="")?applySize("size"):process();
+  setMapURL(encodeURI(done));
+  copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(done));
+});
 $("#brush_size").on("keypress",function(e){if (e.which == 13) $("#brush_size").blur()});
 mapSize.on("keypress",function(e){if (e.which == 13) mapSize.blur()});
 let states=["dark","light"];
