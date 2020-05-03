@@ -170,7 +170,7 @@ function parseMap(data) {
     else
     {
       map=parse().split("\n");
-      if (map.length < 20 || math.length > 200) throw "Invalid map size";
+      if (map.length < 20 || map.length > 200) throw "Invalid map size";
     }
   }
   catch(e){fail=1;}
