@@ -160,7 +160,7 @@ function loadMap(data,size,alsize,initial)
   syncMap(0);
   return check;
 }
-function parseMap(data) {
+function parseMap(data,init) {
   let fail=0,map=[];
   try {
     eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
@@ -173,7 +173,7 @@ function parseMap(data) {
   catch(e){fail=1;}
   if (!fail)
   {
-    if (!loadMap(map))
+    if (!loadMap(map,null,null,init))
     {
       alert("Invalid map pattern!");
       return false;
@@ -239,7 +239,7 @@ else
           else throw "Invalid map size";
           break;
         case "string":
-          if (!parseMap(querydata)) throw "Invalid map pattern";
+          if (!parseMap(querydata,1)) throw "Invalid map pattern";
           break;
         default:
           throw "Invalid map pattern";
