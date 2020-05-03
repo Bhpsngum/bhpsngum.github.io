@@ -222,7 +222,7 @@ let querydata=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
 if (querydata === "")
 {
   error=1;
-  window.location.query="?";
+  window.location.search="?";
 }
 else
 {
