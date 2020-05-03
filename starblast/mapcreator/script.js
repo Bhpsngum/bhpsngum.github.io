@@ -88,8 +88,10 @@ function change(x,y,num) {
       singlechange(i,j,size);
 }
 function changeASSize(num) {
-  document.body.style=`cursor: url('resources/Asteroid${applySize("as_size",num,1)*3}.png'),auto;`;
-  for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
+  let u=applySize("as_size",num,1);
+  document.body.style=`cursor: url('resources/Asteroid${u*3}.png'),auto;`;
+  for (let i=0;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
+  document.querySelector(`#asc${u}`).style="border: 3px solid rgb(102, 102, 102)";
 }
 function viewinfo(title,text) {
   $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
@@ -160,7 +162,7 @@ function loadMap(data,size,alsize,initial)
   syncMap(0);
   return check;
 }
-function parseMap(data,init) {
+function parseMap(data) {
   let fail=0,map=[];
   try {
     eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
@@ -173,7 +175,7 @@ function parseMap(data,init) {
   catch(e){fail=1;}
   if (!fail)
   {
-    if (!loadMap(map,null,null,init))
+    if (!loadMap(map))
     {
       alert("Invalid map pattern!");
       return false;
@@ -186,17 +188,50 @@ function parseMap(data,init) {
   }
   return true;
 }
-function process() {
+function process(type) {
   syncMap(0);
   let str=[];
-  for (let i of window.maparray)
+  switch(type.toLowerCase())
   {
-    let d="";
-    for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
-    d+=i[i.length-1]||" ";
-    str.push(d);
+    case "plain":
+      for (let i of window.maparray)
+      {
+        let d="";
+        for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
+        d+=i[i.length-1]||" ";
+        str.push(d);
+      }
+      return '"'+str.join('\\n"+\n"')+'";';
+    case "url":
+      let prevs,dups=0;
+      for (let i=0;i<window.maparray.length;i++)
+      {
+        let d="",prev=window.maparray[i][0],dup=1;
+        for (let j=1;j<window.maparray[i].length;j++)
+        {
+          if (window.maparray[i][j] == prev && j<window.maparray[i].length-1) dup++;
+          else
+          {
+            if (j==window.maparray[i].length-1) dup++;
+            if (dup<4) for (let g=0;g<dup;g++) d+=prev;
+            else d+=prev+"t"+dup+"d";
+            prev=window.maparray[i][j];
+            dup=1;
+          }
+        }
+        if (prevs === void 0) prevs = d;
+        if (prevs == d && i<window.maparray.length-1) dups++;
+        else
+        {
+            if (i==window.maparray.length-1) dups++;
+            if (dups==1) str.push(prevs);
+            else str.push("l"+prevs+"n"+dups);
+            prevs=d;
+            dups=1;
+        }
+      }
+      return str.join("e");
   }
-  return '"'+str.join('\\n"+\n"')+'";';
 }
 function copyToClipboard(text) {
     var dummy = document.createElement("textarea");
@@ -223,29 +258,31 @@ function setMapURL(newMap)
   let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
   window.history.pushState({path:url+clear+(newMap||"")},'',url+clear+(newMap||""));
 }
-let querydata=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
-if (querydata === "") error=1;
+let querymap=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
+if (querymap === "") error=1;
 else
 {
   if (confirm("Map pattern from URL detected!\nLoad the map?"))
   {
-    try {
-      eval(`function parseData(){return ${querydata}}`);
-      let datamap=parseData();
-      switch (typeof datamap)
-      {
-        case "number":
-          if (applySize("size",datamap)== datamap) loadMap(null,datamap);
-          else throw "Invalid map size";
-          break;
-        case "string":
-          if (!parseMap(querydata,1)) throw "Invalid map pattern";
-          break;
-        default:
-          throw "Invalid map pattern";
-      }
+    let smap=querymap.split('e'),dmap=[];
+    for (let i of smap)
+    {
+      let repeat=false,qstr=i.replace(/l(.+)n\d+/,"$1");
+      qstr=qstr.replace(/\dt\d+d/g,function(v){
+        let qd="";
+        for (let j=0;j<Number(v.replace(/\dt(\d+)d/g,"$1"));j++) qd+=v[0];
+        return qd;
+      });
+      dmap.push(qstr);
+      i.replace(/l.+n\d+/,function(v){repeat=true});
+      if (repeat)
+        for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) dmap.push(qstr);
     }
-    catch(e) {error=1}
+    if (!loadMap(dmap))
+    {
+      alert("Invalid map pattern!");
+      error=1;
+    }
   }
   else error=1;
   setMapURL();
@@ -255,8 +292,8 @@ if (error)
   syncMap(2);
   loadMap(null,null,null,1);
 }
-let cas="<tr>";
-for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
+let cas=`<tr><td id="asc0" onclick="changeASSize(0)"; onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser"></i></td>`;
+for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 $("#brush_size").val(applyBrushSize());
 changeASSize();
@@ -273,13 +310,13 @@ $("#brush_size").on("change", function() {
   localStorage.setItem("brush",size);
 });
 $("#export").on("click",function() {
-  var text=process();
+  var text=process("plain");
   var d=new Date();
   var suff=d.getFullYear().toString()+(d.getMonth()+1).toString()+d.getDate().toString()+d.getHours().toString()+d.getMinutes().toString()+d.getSeconds().toString();
   download("starblast-map_" + suff, text);
 });
 $("#copyMap").on("click",function() {
-  copyToClipboard(process());
+  copyToClipboard(process("plain"));
 })
 $("#loadMap").on("change", function(e) {
   let file=e.target.files[0];
@@ -323,8 +360,8 @@ document.onkeypress = function(e)
   }
 }
 $("#permalink").on("click", function(){
-  let check=process().replace(/[^123456789]/g,"");
-  let done=(check==="")?applySize("size"):process();
+  let check=process("url").replace(/[^123456789]/g,"");
+  let done=(check==="")?applySize("size"):process("url");
   setMapURL(encodeURI(done));
   copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(done));
 });
