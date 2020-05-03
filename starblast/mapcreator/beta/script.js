@@ -279,7 +279,7 @@ else
       if (repeat)
         for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) dmap.push(qstr);
     }
-    if (dmap.length < 20 || math.length > 200)
+    if (dmap.length < 20 || dmap.length > 200)
     {
       alert("Invalid map pattern!");
       error=1;
