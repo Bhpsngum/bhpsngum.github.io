@@ -170,6 +170,11 @@ function parseMap(data) {
     else
     {
       map=parse().split("\n");
+      if (map.length < 20 || math.length > 200)
+      {
+        alert("Invalid map pattern!");
+        return false;
+      }
     }
   }
   catch(e){fail=1;}
@@ -277,6 +282,11 @@ else
       i.replace(/l.+n\d+/,function(v){repeat=true});
       if (repeat)
         for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) dmap.push(qstr);
+    }
+    if (dmap.length < 20 || math.length > 200)
+    {
+      alert("Invalid map pattern!");
+      return false;
     }
     if (!loadMap(dmap,null,null,1))
     {
