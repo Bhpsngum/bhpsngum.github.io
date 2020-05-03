@@ -173,9 +173,17 @@ function parseMap(data) {
   catch(e){fail=1;}
   if (!fail)
   {
-    (!loadMap(map)) && alert("Invalid map pattern!");
+    if (!loadMap(map))
+    {
+      alert("Invalid map pattern!");
+      return false;
   }
-  else alert("Invalid map pattern!");
+  else
+  {
+    alert("Invalid map pattern!");
+    return false;
+  }
+  return true;
 }
 function process() {
   syncMap(0);
@@ -209,24 +217,40 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
-// let data=window.location.search.replace(/^\?/,""),error=0,alert=0;
-// try {
-//   eval(`function parseData(){return ${data}}`);
-//   let map=parseData();
-//   if (map[0])
-//   {
-//
-//   }
-//   else throw "no data";
-// }
-$("#brush_size").val(applyBrushSize());
+let data=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
+if (data === "") error=1;
+else
+{
+  try {
+    eval(`function parseData(){return ${data}}`);
+    let map=parseData();
+    switch (typeof map)
+    {
+      case "number":
+        if (applySize("size",map)== map) loadMap(null,map);
+        else throw "Invalid map size";
+        break;
+      default:
+        if (Array.isArray(map))
+        {
+          if (!parseMap()) throw "Invalid map pattern";
+        }
+        else throw "Invalid map pattern";
+    }
+  }
+  catch(e) {error=!!e}
+}
+if (error)
+{
+  syncMap(2);
+  loadMap(null,null,null,1);
+}
 let cas="<tr>";
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
+$("#brush_size").val(applyBrushSize());
 changeASSize();
 document.querySelector("#asc"+applySize("as_size")).style= "border: 3px solid rgb(102, 102, 102)";
-syncMap(2);
-loadMap(null,null,null,1);
 mapSize.on("change",function(){loadMap(null,mapSize.val())});
 $("#clearMap").on("click",function(){
   loadMap(null,null,0);
