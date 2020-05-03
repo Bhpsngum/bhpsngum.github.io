@@ -230,7 +230,7 @@ else
   if (confirm("Map pattern from URL detected!\nLoad the map?"))
   {
     try {
-      eval(`function parseData(){return ${data}}`);
+      eval(`function parseData(){return ${querydata}}`);
       let map=parseData();
       switch (typeof map)
       {
@@ -247,12 +247,9 @@ else
       }
     }
     catch(e) {error=1}
-  }
-  else
-  {
-    error=1;
     setMapURL();
   }
+  else error=1;
 }
 if (error)
 {
