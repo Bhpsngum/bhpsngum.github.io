@@ -232,7 +232,7 @@ else
     try {
       eval(`function parseData(){return ${querydata}}`);
       let datamap=parseData();
-      switch (typeof map)
+      switch (typeof datamap)
       {
         case "number":
           if (applySize("size",datamap)== datamap) loadMap(null,datamap);
