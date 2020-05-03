@@ -217,8 +217,8 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
-let data=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
-if (data === "") error=1;
+let querydata=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
+if (querydata === "") error=1;
 else
 {
   try {
