@@ -209,6 +209,16 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
+// let data=window.location.search.replace(/^\?/,""),error=0,alert=0;
+// try {
+//   eval(`function parseData(){return ${data}}`);
+//   let map=parseData();
+//   if (map[0])
+//   {
+//
+//   }
+//   else throw "no data";
+// }
 $("#brush_size").val(applyBrushSize());
 let cas="<tr>";
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
@@ -279,8 +289,11 @@ document.onkeypress = function(e)
   }
 }
 $("#permalink").on("click", function(){
-  var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(`[${applySize("size")},${process()}]`);
-window.history.pushState({path:newurl},'',newurl);
+  let check=process().replace(/[^123456789]/g,"");
+  let done=(check==="")?applySize("size"):process();
+  let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(done);
+  window.history.pushState({path:newurl},'',newurl);
+  copyToClipboard(newurl);
 });
 $("#brush_size").on("keypress",function(e){if (e.which == 13) $("#brush_size").blur()});
 mapSize.on("keypress",function(e){if (e.which == 13) mapSize.blur()});
