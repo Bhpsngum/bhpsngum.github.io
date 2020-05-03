@@ -221,7 +221,7 @@ function download(filename, text) {
 function setMapURL(newMap)
 {
   let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
-  window.history.pushState({path:url+clear+newMap},'',url+clear+newMap);
+  window.history.pushState({path:url+clear+(newMap||"")},'',url+clear+(newMap||""));
 }
 let querydata=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
 if (querydata === "") error=1;
