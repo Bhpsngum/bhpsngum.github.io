@@ -160,7 +160,7 @@ function loadMap(data,size,alsize,initial)
   syncMap(0);
   return check;
 }
-function parseMap(data,init) {
+function parseMap(data) {
   let fail=0,map=[];
   try {
     eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
@@ -173,7 +173,7 @@ function parseMap(data,init) {
   catch(e){fail=1;}
   if (!fail)
   {
-    if (!loadMap(map,null,null,init))
+    if (!loadMap(map))
     {
       alert("Invalid map pattern!");
       return false;
@@ -189,19 +189,46 @@ function parseMap(data,init) {
 function process(type) {
   syncMap(0);
   let str=[];
-  for (let i of window.maparray)
-  {
-    let d="";
-    for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
-    d+=i[i.length-1]||" ";
-    str.push(d);
-  }
   switch(type.toLowerCase())
   {
     case "plain":
+      for (let i of window.maparray)
+      {
+        let d="";
+        for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
+        d+=i[i.length-1]||" ";
+        str.push(d);
+      }
       return '"'+str.join('\\n"+\n"')+'";';
     case "url":
-      return ('"'+str.join("\\n")+'"').replace(/\s/g,"0");
+      let prevs,dups=0;
+      for (let i=0;i<window.maparray.length;i++)
+      {
+        let d="",prev=window.maparray[i][0],dup=1;
+        for (let j=1;j<window.maparray[i].length;j++)
+        {
+          if (window.maparray[i][j] == prev && j<window.maparray[i].length-1) dup++;
+          else
+          {
+            if (j==window.maparray[i].length-1) dup++;
+            if (dup<4) for (let g=0;g<dup;g++) d+=prev;
+            else d+=prev+"t"+dup+"d";
+            prev=window.maparray[i][j];
+            dup=1;
+          }
+        }
+        if (prevs === void 0) prevs = d;
+        if (prevs == d && i<window.maparray.length-1) dups++;
+        else
+        {
+            if (i==window.maparray.length-1) dups++;
+            if (dups==1) str.push(prevs);
+            else str.push("l"+prevs+"n"+dups);
+            prevs=d;
+            dups=1;
+        }
+      }
+      return str.join("e");
   }
 }
 function copyToClipboard(text) {
@@ -229,28 +256,31 @@ function setMapURL(newMap)
   let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
   window.history.pushState({path:url+clear+(newMap||"")},'',url+clear+(newMap||""));
 }
-let querydata=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
-if (querydata === "") error=1;
+let querymap=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
+if (querymap === "") error=1;
 else
 {
   if (confirm("Map pattern from URL detected!\nLoad the map?"))
   {
-    try {
-      let parsed=JSON.parse(querydata);
-      switch (typeof parsed)
-      {
-        case "number":
-          if (applySize("size",parsed)== parsed) loadMap(null,datamap);
-          else throw "Invalid map size";
-          break;
-        case "string":
-          if (!parseMap(parsed,1)) throw "Invalid map pattern";
-          break;
-        default:
-          throw "Invalid map pattern";
-      }
+    let smap=querymap.split('e'),dmap=[];
+    for (let i of smap)
+    {
+      let repeat=false,qstr=i.replace(/l(.+)n\d+/,"$1");
+      qstr=qstr.replace(/\dt\d+d/g,function(v){
+        let qd="";
+        for (let j=0;j<Number(v.replace(/\dt(\d+)d/g,"$1"));j++) qd+=v[0];
+        return qd;
+      });
+      dmap.push(qstr);
+      i.replace(/l.+n\d+/,function(v){repeat=true});
+      if (repeat)
+        for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) dmap.push(qstr);
     }
-    catch(e) {error=1}
+    if (!loadMap(dmap))
+    {
+      alert("Invalid map pattern!");
+      error=1;
+    }
   }
   else error=1;
   setMapURL();
