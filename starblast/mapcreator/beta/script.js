@@ -186,7 +186,7 @@ function parseMap(data,init) {
   }
   return true;
 }
-function process() {
+function process(type) {
   syncMap(0);
   let str=[];
   for (let i of window.maparray)
@@ -196,7 +196,13 @@ function process() {
     d+=i[i.length-1]||" ";
     str.push(d);
   }
-  return '"'+str.join('\\n"+\n"')+'";';
+  switch(type.toLowerCase())
+  {
+    case "plain":
+      return '"'+str.join('\\n"+\n"')+'";';
+    case "url":
+      return ('"'+str.join("\\n")+'"').replace(/\s/g,"0");
+  }
 }
 function copyToClipboard(text) {
     var dummy = document.createElement("textarea");
@@ -230,16 +236,15 @@ else
   if (confirm("Map pattern from URL detected!\nLoad the map?"))
   {
     try {
-      eval(`function parseData(){return ${querydata}}`);
-      let datamap=parseData();
-      switch (typeof datamap)
+      let parsed=JSON.parse(querydata);
+      switch (typeof parsed)
       {
         case "number":
-          if (applySize("size",datamap)== datamap) loadMap(null,datamap);
+          if (applySize("size",parsed)== parsed) loadMap(null,datamap);
           else throw "Invalid map size";
           break;
         case "string":
-          if (!parseMap(querydata,1)) throw "Invalid map pattern";
+          if (!parseMap(parsed,1)) throw "Invalid map pattern";
           break;
         default:
           throw "Invalid map pattern";
@@ -273,13 +278,13 @@ $("#brush_size").on("change", function() {
   localStorage.setItem("brush",size);
 });
 $("#export").on("click",function() {
-  var text=process();
+  var text=process("plain");
   var d=new Date();
   var suff=d.getFullYear().toString()+(d.getMonth()+1).toString()+d.getDate().toString()+d.getHours().toString()+d.getMinutes().toString()+d.getSeconds().toString();
   download("starblast-map_" + suff, text);
 });
 $("#copyMap").on("click",function() {
-  copyToClipboard(process());
+  copyToClipboard(process("plain"));
 })
 $("#loadMap").on("change", function(e) {
   let file=e.target.files[0];
@@ -323,8 +328,8 @@ document.onkeypress = function(e)
   }
 }
 $("#permalink").on("click", function(){
-  let check=process().replace(/[^123456789]/g,"");
-  let done=(check==="")?applySize("size"):process();
+  let check=process("url").replace(/[^123456789]/g,"");
+  let done=(check==="")?applySize("size"):process("url");
   setMapURL(encodeURI(done));
   copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(done));
 });
