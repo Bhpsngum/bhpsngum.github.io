@@ -278,7 +278,7 @@ else
       if (repeat)
         for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) dmap.push(qstr);
     }
-    if (!loadMap(dmap))
+    if (!loadMap(dmap,null,null,1))
     {
       alert("Invalid map pattern!");
       error=1;
