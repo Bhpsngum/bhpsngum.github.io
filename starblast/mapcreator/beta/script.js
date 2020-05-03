@@ -92,7 +92,7 @@ function changeASSize(num) {
   for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
 }
 function viewinfo(title,text) {
-  $("#info").html(`<strong>${title||""}: </strong>${text||""}`);
+  $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
 }
 function viewXY(x,y) {
   let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
@@ -278,6 +278,10 @@ document.onkeypress = function(e)
       if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
   }
 }
+$("#permalink").on("click", function(){
+  var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(`[${applySize("size")},${process()}]`);
+window.history.pushState({path:newurl},'',newurl);
+});
 $("#brush_size").on("keypress",function(e){if (e.which == 13) $("#brush_size").blur()});
 mapSize.on("keypress",function(e){if (e.which == 13) mapSize.blur()});
 let states=["dark","light"];
