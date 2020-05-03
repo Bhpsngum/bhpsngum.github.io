@@ -89,7 +89,8 @@ function change(x,y,num) {
 }
 function changeASSize(num) {
   document.body.style=`cursor: url('resources/Asteroid${applySize("as_size",num,1)*3}.png'),auto;`;
-  for (let i=1;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
+  for (let i=0;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
+  document.querySelector(`#asc${i}`).style="border: 1px solid rgb(102, 102, 102)";
 }
 function viewinfo(title,text) {
   $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
@@ -291,7 +292,7 @@ if (error)
   loadMap(null,null,null,1);
 }
 let cas=`<tr><td id="asc0" onclick="changeASSize(0)"; onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser"></i></td>`;
-for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});this.style="border: 3px solid rgb(102, 102, 102)";' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
+for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 $("#brush_size").val(applyBrushSize());
 changeASSize();
