@@ -219,11 +219,7 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 let querydata=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
-if (querydata === "")
-{
-  error=1;
-  window.location.search="?";
-}
+if (querydata === "") error=1;
 else
 {
   if (confirm("Map pattern from URL detected!\nLoad the map?"))
@@ -247,7 +243,11 @@ else
     }
     catch(e) {error=1}
   }
-  else error=1;
+  else
+  {
+    error=1;
+    window.location.search="?";
+  }
 }
 if (error)
 {
