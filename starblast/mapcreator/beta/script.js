@@ -88,9 +88,10 @@ function change(x,y,num) {
       singlechange(i,j,size);
 }
 function changeASSize(num) {
-  document.body.style=`cursor: url('resources/Asteroid${applySize("as_size",num,1)*3}.png'),auto;`;
+  let u=applySize("as_size",num,1);
+  document.body.style=`cursor: url('resources/Asteroid${u*3}.png'),auto;`;
   for (let i=0;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
-  document.querySelector(`#asc${i}`).style="border: 1px solid rgb(102, 102, 102)";
+  document.querySelector(`#asc${u}`).style="border: 1px solid rgb(102, 102, 102)";
 }
 function viewinfo(title,text) {
   $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
