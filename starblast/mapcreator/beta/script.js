@@ -231,25 +231,24 @@ else
   {
     try {
       eval(`function parseData(){return ${querydata}}`);
-      let map=parseData();
+      let datamap=parseData();
       switch (typeof map)
       {
         case "number":
-          if (applySize("size",map)== map) loadMap(null,map);
+          if (applySize("size",datamap)== datamap) loadMap(null,datamap);
           else throw "Invalid map size";
           break;
+        case "string":
+          if (!parseMap(querydata)) throw "Invalid map pattern";
+          break;
         default:
-          if (Array.isArray(map))
-          {
-            if (!parseMap()) throw "Invalid map pattern";
-          }
-          else throw "Invalid map pattern";
+          throw "Invalid map pattern";
       }
     }
     catch(e) {error=1}
-    setMapURL();
   }
   else error=1;
+  setMapURL();
 }
 if (error)
 {
