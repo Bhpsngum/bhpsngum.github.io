@@ -47,5 +47,6 @@ td {
   height:35px;
   width:35px;
   text-align:center;
-  border: 1px solid inherit;
+  border: 1px solid;
+  border-color: inherit;
 }
