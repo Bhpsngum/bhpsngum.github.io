@@ -127,8 +127,7 @@ function applyColor(param,inp)
       $('body').css(param,css);
       break;
     case "color":
-      let tbl=$('table');
-      for (let i=0;i<tbl.length;i++) tbl[i].css("color",css);
+      for (let i=0;i<$('table').length;i++) $('table')[i].css("color",css);
       break;
   }
 
