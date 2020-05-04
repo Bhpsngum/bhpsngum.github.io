@@ -114,7 +114,7 @@ function applyColor(param,inp)
         case "background-color":
           css="#181a1b";
           break;
-        case "color":
+        case "border-color":
           css="rgb(102,102,102)";
           break;
       }
