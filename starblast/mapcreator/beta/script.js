@@ -89,9 +89,9 @@ function change(x,y,num) {
 }
 function changeASSize(num) {
   let u=applySize("as_size",num,1);
-  document.body.style=`cursor: url('resources/Asteroid${u*3}.png'),auto;`;
-  for (let i=0;i<=9;i++) document.querySelector(`#asc${i}`).style = "border: 1px solid rgb(102, 102, 102)";
-  document.querySelector(`#asc${u}`).style="border: 3px solid rgb(102, 102, 102)";
+  $('body').css("cursor",`url('resources/Asteroid${u*3}.png'),auto;`);
+  for (let i=0;i<=9;i++) $(`#asc${i}`).css("border","1px solid rgb(102, 102, 102)");
+  $(`#asc${u}`).css("border","3px solid rgb(102, 102, 102)");
 }
 function viewinfo(title,text) {
   $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
@@ -100,8 +100,29 @@ function viewXY(x,y) {
   let d=Math.round(($(`#p${x}-${y} > img`).width()||0)/3),gl="No Asteroids";
   if (d) gl="Asteroid size: "+d.toString();
   $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-  if (window.trail == 0) document.body.style='cursor: url("resources/Asteroid0.png"),auto;';
+  if (window.trail == 0) $('body').css('cursor','url("resources/Asteroid0.png"),auto;');
   if (window.trail != -1) change(x,y,window.trail);
+}
+function applyColor(param,inp)
+{
+  let css;
+  if (inp == void 0)
+  {
+    if (localStorage[param] == void 0)
+      switch(param.toLowerCase())
+      {
+        case "background-color":
+          css="#181a1b";
+          break;
+        case "color":
+          css="rgb(240,240,240)";
+          break;
+      }
+    else css=localStorage[param];
+  }
+  else css=inp;
+  $('body').css(param,css);
+  localStorage.setItem(param,css);
 }
 function startTrail(x,y) {
   let e = window.event;
@@ -111,14 +132,14 @@ function startTrail(x,y) {
       change(x,y,window.trail);
       break;
     case 3:
-      document.body.style='cursor: url("resources/Asteroid0.png"),auto;';
+      $('body').css('cursor','url("resources/Asteroid0.png"),auto;');
       window.trail=0;
       change(x,y,0);
       break;
   }
 }
 function stopTrail() {
-  document.body.style=`cursor: url("resources/Asteroid${applySize("as_size")*3}.png"),auto;`;
+  $('body').css('cursor',`url("resources/Asteroid${applySize("as_size")*3}.png"),auto;`);
   window.trail = -1;
 }
 function loadMap(data,size,alsize,initial)
@@ -259,6 +280,8 @@ function setMapURL(newMap)
   let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
   window.history.pushState({path:url+clear+(newMap||"")},'',url+clear+(newMap||""));
 }
+applyColor("color");
+applyColor("background-color");
 let querymap=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
 if (querymap === "") error=1;
 else
@@ -303,7 +326,7 @@ for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' on
 $("#asChoose").html(cas+"</tr>");
 $("#brush_size").val(applyBrushSize());
 changeASSize();
-document.querySelector("#asc"+applySize("as_size")).style= "border: 3px solid rgb(102, 102, 102)";
+$("#asc"+applySize("as_size",1)).css("border","3px solid rgb(102, 102, 102)");
 mapSize.on("change",function(){loadMap(null,mapSize.val())});
 $("#clearMap").on("click",function(){
   loadMap(null,null,0);
@@ -314,6 +337,12 @@ $("#brush_size").on("change", function() {
   else if (size<0) size=0;
   $("#brush_size").val(size);
   localStorage.setItem("brush",size);
+});
+$("#background").on("change", function(){
+  applyColor("background-color",$("#background").val());
+});
+$("#line").on("change", function(){
+  applyColor("color",$("#line").val());
 });
 $("#export").on("click",function() {
   var text=process("plain");
@@ -371,8 +400,8 @@ $("#permalink").on("click", function(){
   setMapURL(encodeURI(done));
   copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(done));
 });
-$("#brush_size").on("keypress",function(e){if (e.which == 13) $("#brush_size").blur()});
-mapSize.on("keypress",function(e){if (e.which == 13) mapSize.blur()});
+for (let i of ["brush_size","map_size","line","background"])
+$("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
 let states=["dark","light"];
 if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
 else for (let state of states) if (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) document.querySelector("link").href=`icon_${state}.png`;
