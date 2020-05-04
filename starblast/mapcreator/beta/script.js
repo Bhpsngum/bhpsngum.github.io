@@ -121,16 +121,17 @@ function applyColor(param,inp)
     else css=localStorage[param];
   }
   else css=inp;
+  let elem="";
   switch (param)
   {
     case "background-color":
-      $('body').css(param,css);
+      elem='body';
       break;
-    case "color":
-      $('table').css("color",css);
+    case "border-color":
+      elem='table';
       break;
   }
-
+  $(elem).css(param,css);
   $("#"+param).val(css);
   localStorage.setItem(param,css);
 }
@@ -347,9 +348,9 @@ $("#brush_size").on("change", function() {
   $("#brush_size").val(size);
   localStorage.setItem("brush",size);
 });
-for (let i of ["","background-"])
-$("#"+i+"color").on("change", function(){
-  applyColor(i+"color",$("#"+i+"color").val());
+for (let i of ["border","background"])
+$("#"+i+"-color").on("change", function(){
+  applyColor(i+"-color",$("#"+i+"-color").val());
 });
 $("#export").on("click",function() {
   var text=process("plain");
