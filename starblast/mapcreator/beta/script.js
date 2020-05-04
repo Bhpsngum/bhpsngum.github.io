@@ -122,6 +122,7 @@ function applyColor(param,inp)
   }
   else css=inp;
   $('body').css(param,css);
+  $("#"+param).val(css);
   localStorage.setItem(param,css);
 }
 function startTrail(x,y) {
@@ -338,11 +339,9 @@ $("#brush_size").on("change", function() {
   $("#brush_size").val(size);
   localStorage.setItem("brush",size);
 });
-$("#background").on("change", function(){
-  applyColor("background-color",$("#background").val());
-});
-$("#line").on("change", function(){
-  applyColor("color",$("#line").val());
+for (let i of ["","background-"])
+$("#"+i+"color").on("change", function(){
+  applyColor(i+"color",$("#"+i+"color").val());
 });
 $("#export").on("click",function() {
   var text=process("plain");
