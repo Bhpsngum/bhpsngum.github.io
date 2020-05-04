@@ -90,8 +90,8 @@ function change(x,y,num) {
 function changeASSize(num) {
   let u=applySize("as_size",num,1);
   $('body').css("cursor",`url('resources/Asteroid${u*3}.png'),auto;`);
-  for (let i=0;i<=9;i++) $(`#asc${i}`).css("border","1px solid");
-  $(`#asc${u}`).css("border","3px solid");
+  for (let i=0;i<=9;i++) $(`#asc${i}`).css({'border':'1px solid','border-color':'inherit'});
+  $(`#asc${u}`).css({'border':'3px solid','border-color':'inherit'});
 }
 function viewinfo(title,text) {
   $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
