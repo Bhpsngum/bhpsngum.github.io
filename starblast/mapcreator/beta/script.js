@@ -379,7 +379,9 @@ $("#loadMap").on("change", function(e) {
 });
 document.onkeypress = function(e)
 {
-  if (!($("#brush_size").is(":focus") || $("#map_size").is(":focus")))
+  let size=["brush_size","map_size","background-color","border-color"],check=[];
+  for (let i of size) check.push($("#"+i).is(":focus"));
+  if (!Math.max(...check))
   switch (e.which)
   {
     case 119:
