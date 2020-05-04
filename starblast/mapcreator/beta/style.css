@@ -9,20 +9,22 @@ body {
   left:5px;
 }
 button,input {
+  color: rgb(240,240,240);
   float:left;
   margin:3px;
   border-color: #575757;
   background-color:inherit;
-  color:inherit;
 }
 button {
   width: 34px;
   height: 34px;
 }
 input {
+  color:rgb(240,240,240);
   width:65px;
 }
 p {
+  color:rgb(240,240,240);
   position: fixed;
   bottom:1px;
   margin:0px;
@@ -45,5 +47,5 @@ td {
   height:35px;
   width:35px;
   text-align:center;
-  border: 1px solid rgb(102, 102, 102);
+  border: 1px solid inherit;
 }
