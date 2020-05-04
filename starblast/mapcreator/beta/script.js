@@ -128,7 +128,7 @@ function applyColor(param,inp)
       break;
     case "color":
       let tbl=$('table');
-      for (let i=0;i<tbl;i++) tbl[i].css("color",css);
+      for (let i=0;i<tbl.length;i++) tbl[i].css("color",css);
       break;
   }
 
