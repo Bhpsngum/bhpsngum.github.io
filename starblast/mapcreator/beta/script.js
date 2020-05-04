@@ -327,7 +327,6 @@ for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' on
 $("#asChoose").html(cas+"</tr>");
 $("#brush_size").val(applyBrushSize());
 changeASSize();
-$("#asc"+applySize("as_size",1)).css("border","3px solid rgb(102, 102, 102)");
 mapSize.on("change",function(){loadMap(null,mapSize.val())});
 $("#clearMap").on("click",function(){
   loadMap(null,null,0);
