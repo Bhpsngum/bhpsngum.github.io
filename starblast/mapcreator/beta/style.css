@@ -24,7 +24,7 @@ input {
   width:65px;
 }
 p {
-  color:inherit
+  color:inherit;
   position: fixed;
   bottom:1px;
   margin:0px;
