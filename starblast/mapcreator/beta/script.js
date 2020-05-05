@@ -4,6 +4,7 @@ function applyBrushSize(num) {
   let max=applySize("size");
   let size=Math.round((num != void 0)?num:(Number(localStorage.brush)||0));
   size=Math.max(Math.min(max,size),0);
+  $("#brush_size").val(size);
   localStorage.setItem("brush",size);
   return size;
 }
@@ -20,7 +21,11 @@ function applySize(key,num,isApply) {
   }
   let size=Math.round((num != void 0)?num:(Number(localStorage[key])||template[key].min));
   size=Math.max(Math.min(template[key].max,size),template[key].min);
-  (isApply) && localStorage.setItem(key,size);
+  if (isApply)
+  {
+    (key == "size") $("#map_size").val(size);
+    localStorage.setItem(key,size);
+  }
   return size;
 }
 function singlechange(x,y,num) {
@@ -172,7 +177,7 @@ function loadMap(data,size,alsize,initial)
     mapSize.val(d);
     if (d != applySize("size") || initial)
     {
-      localStorage.setItem("size",d);
+      applySize("size",d,1);
       let tb="";
       for (let i=0;i<d;i++)
       {
@@ -349,11 +354,7 @@ $("#clearMap").on("click",function(){
   loadMap(null,null,0);
 });
 $("#brush_size").on("change", function() {
-  let size=$("#brush_size").val(),max=applySize("size");
-  if (size>max) size=max;
-  else if (size<0) size=0;
-  $("#brush_size").val(size);
-  localStorage.setItem("brush",size);
+  applyBrushSize();
 });
 for (let i of ["border","background"])
 $("#"+i+"-color").on("change", function(){
