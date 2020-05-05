@@ -23,7 +23,7 @@ function applySize(key,num,isApply) {
   size=Math.max(Math.min(template[key].max,size),template[key].min);
   if (isApply)
   {
-    (key == "size") $("#map_size").val(size);
+    (key == "size") && $("#map_size").val(size);
     localStorage.setItem(key,size);
   }
   return size;
