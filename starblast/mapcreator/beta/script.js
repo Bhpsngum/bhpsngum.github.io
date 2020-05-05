@@ -354,7 +354,7 @@ $("#clearMap").on("click",function(){
   loadMap(null,null,0);
 });
 $("#brush_size").on("change", function() {
-  applyBrushSize($("brush_size").val());
+  applyBrushSize($("#brush_size").val());
 });
 for (let i of ["border","background"])
 $("#"+i+"-color").on("change", function(){
