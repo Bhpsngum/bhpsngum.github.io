@@ -332,7 +332,7 @@ if (error)
   syncMap(2);
   loadMap(null,null,null,1);
 }
-let cas=`<tr><td id="asc0" onclick="changeASSize(0);" style="color:rgb(240,240,240);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser"></i></td>`;
+let cas=`<tr><td id="asc0" onclick="changeASSize(0);" style="color:rgb(102,102,102);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser"></i></td>`;
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='resources/Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 $("#brush_size").val(applyBrushSize());
