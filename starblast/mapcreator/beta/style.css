@@ -9,7 +9,7 @@ body {
   left:5px;
 }
 button,input {
-  color: inherit
+  color: inherit;
   float:left;
   margin:3px;
   border-color: #575757;
