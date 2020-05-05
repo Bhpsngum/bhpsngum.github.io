@@ -106,9 +106,9 @@ function viewXY(x,y) {
 function applyColor(param,inp)
 {
   let css;
-  if (inp == void 0 || (inp||"").toLowerCase=="default")
+  if (inp == void 0 || (inp||"").toLowerCase()=="default")
   {
-    if (localStorage[param] == void 0 || (inp||"").toLowerCase=="default")
+    if (localStorage[param] == void 0 || (inp||"").toLowerCase()=="default")
       switch(param.toLowerCase())
       {
         case "background-color":
