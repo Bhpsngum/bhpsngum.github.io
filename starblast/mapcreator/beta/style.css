@@ -9,7 +9,7 @@ body {
   left:5px;
 }
 button,input {
-  color: rgb(240,240,240);
+  color: inherit
   float:left;
   margin:3px;
   border-color: #575757;
@@ -20,11 +20,11 @@ button {
   height: 34px;
 }
 input {
-  color:rgb(240,240,240);
+  color:inherit;
   width:65px;
 }
 p {
-  color:rgb(240,240,240);
+  color:inherit
   position: fixed;
   bottom:1px;
   margin:0px;

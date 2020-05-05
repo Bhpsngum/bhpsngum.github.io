@@ -131,9 +131,14 @@ function applyColor(param,inp)
   }
   let precol=$(elem).css(param);
   $(elem).css(param,css);
-  if (precol != $(elem).css(param)) $("#"+param).val(css);
+  css=$(elem).css(param);
+  if (precol != css)
+  {
+    $("#"+param).val(css);
+    localStorage.setItem(param,css);
+    if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
+  }
   else $(elem).css(precol);
-  localStorage.setItem(param,css);
 }
 function startTrail(x,y) {
   let e = window.event;
