@@ -412,10 +412,8 @@ document.onkeypress = function(e)
   }
 }
 $("#permalink").on("click", function(){
-  let check=process("url").replace(/[^123456789]/g,"");
-  let done=(check==="")?applySize("size"):process("url");
-  setMapURL(encodeURI(done));
-  copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(done));
+  setMapURL(encodeURI(process("url")));
+  copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(process("url")));
 });
 for (let i of ["brush_size","map_size","border-color","background-color"])
 $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
