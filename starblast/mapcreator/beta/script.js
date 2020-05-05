@@ -132,7 +132,7 @@ function applyColor(param,inp)
   let precol=$(elem).css(param);
   $(elem).css(param,css);
   if (precol != $(elem).css(param)) $("#"+param).val(css);
-  else $(elem).precol(precol);
+  else $(elem).css(precol);
   localStorage.setItem(param,css);
 }
 function startTrail(x,y) {
