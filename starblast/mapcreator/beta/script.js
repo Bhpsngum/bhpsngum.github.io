@@ -129,8 +129,10 @@ function applyColor(param,inp)
       elem='table';
       break;
   }
+  let precol=$(elem).css(param);
   $(elem).css(param,css);
-  $("#"+param).val(css);
+  if (precol != $(elem).css(param)) $("#"+param).val(css);
+  else $(elem).precol(precol);
   localStorage.setItem(param,css);
 }
 function startTrail(x,y) {
@@ -329,7 +331,7 @@ if (error)
   loadMap(null,null,null,1);
 }
 let cas=`<tr><td id="asc0" onclick="changeASSize(0);" style="color:rgb(102,102,102);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser"></i></td>`;
-for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='Asteroid.png' height='${i*3}' width='${i*3}'></td>`;
+for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img src='Asteroid.png' draggable=false height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 $("#brush_size").val(applyBrushSize());
 changeASSize();
