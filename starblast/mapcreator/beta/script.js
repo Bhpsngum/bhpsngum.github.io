@@ -138,7 +138,11 @@ function applyColor(param,inp)
     localStorage.setItem(param,css);
     if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
   }
-  else $(elem).css(precol);
+  else
+  {
+    $(elem).css(precol);
+    $("#"+param).val(precol);
+  }
 }
 function startTrail(x,y) {
   let e = window.event;
