@@ -291,7 +291,7 @@ function setMapURL(newMap)
   let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
   window.history.pushState({path:url+clear+(newMap||"")},'',url+clear+(newMap||""));
 }
-applyColor("color");
+applyColor("border-color");
 applyColor("background-color");
 let querymap=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
 if (querymap === "") error=1;
