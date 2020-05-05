@@ -410,7 +410,7 @@ $("#permalink").on("click", function(){
   setMapURL(encodeURI(done));
   copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(done));
 });
-for (let i of ["brush_size","map_size","line","background"])
+for (let i of ["brush_size","map_size","border-color","background-color"])
 $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
 let states=["dark","light"];
 if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
