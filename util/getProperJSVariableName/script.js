@@ -12,13 +12,13 @@ function process()
   if (data)
   {
     let s="",d="";
-    if ($('#strict').is(":checked")) 
+    if ($('#strict').is(":checked"))
     {
       s="strict";
       d="'use strict';";
     }
-    let checked=data.getProperJSVariableName(s);
-    
+    let checked=data.getProperJSVariableName(s,null,true);
+
     if (data==checked.name)
     {
       $("#error-info").html("Your input name is a valid JavaScript variable name according to the latest version");
@@ -30,7 +30,7 @@ function process()
       }
       else
       {
-        checked = data.getProperJSVariableName(s,1);
+        checked = data.getProperJSVariableName(s,true);
         inp.css("background-color","green");
         $("#output").css("background-color","green");
         $("#warning").css("display","none");
