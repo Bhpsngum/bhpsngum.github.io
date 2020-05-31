@@ -30,7 +30,7 @@ function process()
       }
       else
       {
-        checked = data.getProperJSVariableName(s,true);
+        checked = data.getProperJSVariableName(s,true,true);
         inp.css("background-color","green");
         $("#output").css("background-color","green");
         $("#warning").css("display","none");
