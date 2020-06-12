@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Create and edit custom Starblast Maps, easy to use.">
+    <meta name="author" content="Bhpsngum">
+    <link rel="icon" href="icon_light.png">
+    <title>Starblast Map Editor</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" type="text/css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165879009-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-165879009-1');
+    </script>
+  </head>
+  <body oncontextmenu="return false;">
+    <table id="map" onmouseover='viewinfo(null,"Left-click to apply asteroid, right-click to remove, drag for trails");'></table>
+    <div id="menu">
+      <input id="map_size" type="number" placeholder="Map size" value="20" min="20" max="200" onmouseover="viewinfo(null,'Toggle map size (20 to 200)')"></input>
+      <table style="float:left" id="asChoose"></table>
+      <input id="brush_size" placeholder="Brush radius" type="number" min="0" value="0" onmouseover="viewinfo(null,'Toggle brush radius (0 to current map size)')"></input>
+      <input id="background-color" type="text" placeholder="Background color" onmouseover="viewinfo(null,'Toggle background color')"></input>
+      <input id="border-color" type="text" placeholder="Line color" onmouseover="viewinfo(null,'Toggle line color')"></input>
+      <button id="clearMap" onmouseover="viewinfo('Clear Map','Clear all asteroids in the current map')"><i class="fa fa-fw fa-remove"></i></button>
+      <button id="export" onmouseover="viewinfo('Export Map','Export map as a text/plain (*.txt) file')"><i class="fa fa-fw fa-download"></i></button>
+      <button id="copyMap" onmouseover="viewinfo('Copy Map','Copy current map pattern to clipboard')"><i class="fa fa-fw fa-clipboard"></i></button>
+      <button><label for="loadMap" onmouseover="viewinfo('Import Map','Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js) format)')"><i class="fa fa-fw fa-upload"></i></label></button>
+      <input id="loadMap" type="file" accept="text/plain,text/javascript">
+      <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link','_blank')" onmouseover="viewinfo('Feedback','Give us a feedback')"><i class="fa fa-fw fa-inbox"></i></button>
+      <button id="permalink" onmouseover="viewinfo('Permalink','Copy permalink to clipboard')"><i class="fa fa-fw fa-link"></i></button>
+    </div>
+    <p id="XY" onmouseover="viewinfo(null,'Your cursor position in the map. Hover the map for details')">(0;0)</p>
+    <p id="info"></p>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
