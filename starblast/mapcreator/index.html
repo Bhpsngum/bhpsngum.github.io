@@ -9,13 +9,16 @@
       <br>
       You will be redirected in a few seconds...
     </p>
+    <p>
+      Don't worry, your old data will be synced automagically!
+    </p>
   </body>
   <script>
-    var url="https://bhpsngum.github.io/starblast/mapeditor/",ul = document.getElementById("link");
-    ul.href=url;
-    ul.innerHTML=url;
+    var url="bhpsngum.github.io/starblast/mapeditor/",ul = document.getElementById("link");
+    ul.href="https://"+url;
+    ul.innerHTML="https://"+url;
     setTimeout(function(){
-      window.open(location.href.replace("bhpsngum.github.io/starblast/mapcreator/","bhpsngum.github.io/starblast/mapeditor/"),"_self");
+      window.open(location.href.replace("bhpsngum.github.io/starblast/mapcreator/",url),"_self");
     },2000);
   </script>
 </html>
