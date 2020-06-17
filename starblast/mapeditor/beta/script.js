@@ -136,7 +136,7 @@ function applyColor(param,inp)
     case "border-color":
       elem='table';
       break;
-    case "as-color";
+    case "as-color":
       elem='#color-test';
       break;
   }
