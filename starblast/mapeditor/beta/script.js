@@ -120,6 +120,9 @@ function applyColor(param,inp)
         case "border-color":
           css="rgb(102,102,102)";
           break;
+        case "as-color":
+          css="#FFF";
+          break;
       }
     else css=localStorage[param];
   }
@@ -132,6 +135,9 @@ function applyColor(param,inp)
       break;
     case "border-color":
       elem='table';
+      break;
+    case "as-color";
+      elem='.ASFilter';
       break;
   }
   let precol=$(elem).css(param);
@@ -303,8 +309,6 @@ function setMapURL(newMap)
   let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
   window.history.pushState({path:url+clear+(newMap||"")},'',url+clear+(newMap||""));
 }
-applyColor("border-color");
-applyColor("background-color");
 let querymap=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
 if (querymap === "") error=1;
 else
@@ -356,10 +360,13 @@ $("#clearMap").on("click",function(){
 $("#brush_size").on("change", function() {
   applyBrushSize($("#brush_size").val());
 });
-for (let i of ["border","background"])
-$("#"+i+"-color").on("change", function(){
-  applyColor(i+"-color",$("#"+i+"-color").val());
-});
+for (let i of ["border","background","as"])
+{
+  applyColor(i+"-color");
+  $("#"+i+"-color").on("change", function(){
+    applyColor(i+"-color",$("#"+i+"-color").val());
+  });
+}
 $("#export").on("click",function() {
   var text=process("plain");
   var d=new Date();

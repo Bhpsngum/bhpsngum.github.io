@@ -23,9 +23,10 @@
   <body oncontextmenu="return false;">
     <table id="map" onmouseover='viewinfo(null,"Left-click to apply asteroid, right-click to remove, drag for trails");'></table>
     <div id="menu">
-      <input id="map_size" type="number" placeholder="Map size" value="20" min="20" max="200" onmouseover="viewinfo(null,'Toggle map size (20 to 200)')"></input>
+      <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200" onmouseover="viewinfo(null,'Toggle map size (20 to 200)')"></input>
       <table style="float:left" id="asChoose"></table>
-      <input id="brush_size" placeholder="Brush radius" type="number" min="0" value="0" onmouseover="viewinfo(null,'Toggle brush radius (0 to current map size)')"></input>
+      <input id="brush_size" class="SmallInput" placeholder="Brush radius" type="number" min="0" value="0" onmouseover="viewinfo(null,'Toggle brush radius (0 to current map size)')"></input>
+      <input id="as-color" placeholder="Asteroid color" onmouseover="viewinfo(null,'Toggle asteroids color')"></input>
       <input id="background-color" type="text" placeholder="Background color" onmouseover="viewinfo(null,'Toggle background color')"></input>
       <input id="border-color" type="text" placeholder="Line color" onmouseover="viewinfo(null,'Toggle line color')"></input>
       <button id="clearMap" onmouseover="viewinfo('Clear Map','Clear all asteroids in the current map')"><i class="fa fa-fw fa-remove"></i></button>
