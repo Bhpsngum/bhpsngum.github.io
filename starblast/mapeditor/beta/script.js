@@ -150,7 +150,7 @@ function applyColor(param,inp)
       $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
       $("#color-test").css("color",css);
     }
-    else $("#"+rp).val(css);
+    $("#"+rp).val(css);
     localStorage.setItem(param,css);
     if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
   }
