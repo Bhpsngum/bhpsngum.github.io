@@ -43,6 +43,9 @@ p {
   padding-bottom:20px;
   overflow:scroll;
 }
+.SmallInput {
+  width: 40px;
+}
 td {
   height:35px;
   width:35px;

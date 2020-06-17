@@ -115,6 +115,7 @@ function applyColor(param,inp)
       switch(param.toLowerCase())
       {
         case "background-color":
+        case "as-color":
           css="#181a1b";
           break;
         case "border-color":
@@ -133,12 +134,20 @@ function applyColor(param,inp)
     case "border-color":
       elem='table';
       break;
+    case "as-color":
+      elem='#color-test';
+      break;
   }
-  let precol=$(elem).css(param);
-  $(elem).css(param,css);
-  css=$(elem).css(param);
+  let rp = (param=="as-color")?"color":param,precol = $(elem).css(rp);
+  $(elem).css(rp,css);
+  css=$(elem).css(rp);
   if (precol != css)
   {
+    if (rp == "color")
+    {
+      $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
+      $("#color-test").css("color",css);
+    }
     $("#"+param).val(css);
     localStorage.setItem(param,css);
     if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
@@ -303,8 +312,6 @@ function setMapURL(newMap)
   let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
   window.history.pushState({path:url+clear+(newMap||"")},'',url+clear+(newMap||""));
 }
-applyColor("border-color");
-applyColor("background-color");
 let querymap=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
 if (querymap === "") error=1;
 else
@@ -356,10 +363,13 @@ $("#clearMap").on("click",function(){
 $("#brush_size").on("change", function() {
   applyBrushSize($("#brush_size").val());
 });
-for (let i of ["border","background"])
-$("#"+i+"-color").on("change", function(){
-  applyColor(i+"-color",$("#"+i+"-color").val());
-});
+for (let i of ["border","background","as"])
+{
+  applyColor(i+"-color");
+  $("#"+i+"-color").on("change", function(){
+    applyColor(i+"-color",$("#"+i+"-color").val());
+  });
+}
 $("#export").on("click",function() {
   var text=process("plain");
   var d=new Date();

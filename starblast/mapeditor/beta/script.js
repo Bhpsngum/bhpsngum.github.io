@@ -115,13 +115,11 @@ function applyColor(param,inp)
       switch(param.toLowerCase())
       {
         case "background-color":
+        case "as-color":
           css="#181a1b";
           break;
         case "border-color":
           css="rgb(102,102,102)";
-          break;
-        case "as-color":
-          css="#FFF";
           break;
       }
     else css=localStorage[param];
