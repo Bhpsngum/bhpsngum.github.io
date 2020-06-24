@@ -180,7 +180,7 @@ function loadMap(data,size,alsize,initial)
   let h=(data)?data:window.maparray;check=true;
   if (Array.isArray(h))
   {
-    let d=(size != void 0)?size:Math.max(h.length,h.sort()[0].length);
+    let u=JSON.parse(JSON.stringify(h)).sort(),d=(size != void 0)?size:Math.max(h.length,u[u.length-1].length);
     if (d>200) d=200;
     else if (d<20) d=20;
     mapSize.val(d);
