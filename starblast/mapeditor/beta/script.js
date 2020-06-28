@@ -322,8 +322,6 @@ function randomMaze(size)
 
   var MAP_SIZE = size;
 
-  MAP_SIZE = Math.min(200, Math.max(MAP_SIZE,20));
-
   var CELLS = MAP_SIZE / 2;
   var DIRECTIONS = ['north', 'south', 'east', 'west'];
 
