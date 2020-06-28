@@ -530,9 +530,9 @@ $("#random").on("mouseover", function() {
   });
 });
 new ResizeSensor($('#menu')[0], function(){
-    $("#map").css("padding-top",$("#menu")[0].height+"px")
+    $("#map").css("padding-top",$("#menu").height()+"px")
 });
-mapSize.on("change",function(){loadMap(null,applySize("size",parseInt(mapSize.val())))});
+mapSize.on("change",function(){loadMap(null,applySize("size",Number(mapSize.val())))});
 $("#clearMap").on("click",function(){
   loadMap(null,null,0);
 });
