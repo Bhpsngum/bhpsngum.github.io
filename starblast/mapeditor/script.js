@@ -521,10 +521,7 @@ $("#asChoose").html(cas+"</tr>");
 $("#brush_size").val(applyBrushSize());
 changeASSize();
 $("#random").on("mouseover", function() {
-  viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a id="author_random" href = "#">@rvan_der</a>')
-  $("#author_random").on("click", function() {
-    window.open("https://github.com/rvan-der", "_blank");
-  });
+  viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
 });
 new ResizeSensor($('#menu')[0], function(){
     $("#map").css("padding-top",$("#menu").height()+"px")
