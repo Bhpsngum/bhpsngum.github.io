@@ -532,7 +532,7 @@ $("#random").on("mouseover", function() {
 new ResizeSensor($('#menu')[0], function(){
     $("#map").css("padding-top",$("#menu")[0].height+"px")
 });
-mapSize.on("change",function(){loadMap(null,applySize("size",mapSize.val(),1))});
+mapSize.on("change",function(){loadMap(null,applySize("size",parseInt(mapSize.val())))});
 $("#clearMap").on("click",function(){
   loadMap(null,null,0);
 });
