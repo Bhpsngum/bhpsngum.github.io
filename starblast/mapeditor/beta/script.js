@@ -529,7 +529,7 @@ $("#random").on("mouseover", function() {
   viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der">rvan_der</a>')
 });
 new ResizeSensor($('#menu')[0], function(){
-    $("#map").css("padding-top",$("#menu")[0].height)
+    $("#map").css("padding-top",$("#menu")[0].height+"px")
 });
 mapSize.on("change",function(){loadMap(null,mapSize.val())});
 $("#clearMap").on("click",function(){
