@@ -525,6 +525,9 @@ for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' on
 $("#asChoose").html(cas+"</tr>");
 $("#brush_size").val(applyBrushSize());
 changeASSize();
+$("#random").on("mouseover", function() {
+  viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der">rvan_der</a>')
+});
 new ResizeSensor($('#menu')[0], function(){
     $("#map").css("padding-top",$("#menu")[0].height)
 });
