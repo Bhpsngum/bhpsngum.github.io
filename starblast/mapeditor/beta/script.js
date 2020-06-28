@@ -21,13 +21,10 @@ function applySize(key,num,isApply) {
   }
   let size=Math.round((num != void 0)?num:(Number(localStorage[key])||template[key].min));
   size=Math.max(Math.min(template[key].max,size),template[key].min);
+  if (key == "size") size = Math.round(size/2) *2;
   if (isApply)
   {
-    if (key == "size")
-    {
-      size = Math.round(size/2) *2;
-      $("#map_size").val(size);
-    }
+    if (key == "size") $("#map_size").val(size);
     localStorage.setItem(key,size);
   }
   return size;
