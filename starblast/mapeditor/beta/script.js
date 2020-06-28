@@ -550,7 +550,7 @@ $("#export").on("click",function() {
   download("starblast-map_" + suff, text);
 });
 $("#random").on("click", function() {
-  while (!loadMap(randomMaze(applySize("size")))) loadMap(randomMaze(applySize("size")));
+  while (!loadMap(randomMaze(applySize("size")).split("\n"))) loadMap(randomMaze(applySize("size")).split("\n"));
 });
 $("#copyMap").on("click",function() {
   copyToClipboard(process("plain"));
