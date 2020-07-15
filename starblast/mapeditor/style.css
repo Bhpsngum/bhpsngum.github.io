@@ -18,6 +18,7 @@ button,input {
 button {
   width: 34px;
   height: 34px;
+  cursor: pointer;
 }
 input {
   color:inherit;
@@ -51,4 +52,5 @@ td {
   text-align:center;
   border: 1px solid;
   border-color:inherit;
+  cursor: pointer;
 }
