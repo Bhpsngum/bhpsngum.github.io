@@ -264,10 +264,11 @@ function process(type) {
         let d="",prev=window.maparray[i][0],dup=1;
         for (let j=1;j<window.maparray[i].length;j++)
         {
-          if (window.maparray[i][j] == prev && j<window.maparray[i].length-1) dup++;
-          else
+          let pass=1;
+          if (window.maparray[i][j] == prev) dup++;
+          else pass = 0;
+          if (!pass || !(j == window.maparray[i].length - 1))
           {
-            if (window.maparray[i][j] == prev && j == window.maparray[i].length-1) dup++;
             if (dup<4) d+=Array(dup).fill(prev).join("");
             else d+=prev+"t"+dup+"d";
             prev=window.maparray[i][j];
