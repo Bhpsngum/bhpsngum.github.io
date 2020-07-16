@@ -267,7 +267,7 @@ function process(type) {
           let pass=1;
           if (window.maparray[i][j] == prev) dup++;
           else pass = 0;
-          if (!pass || !(j == window.maparray[i].length - 1))
+          if (!pass || (j == window.maparray[i].length - 1))
           {
             if (dup<4) d+=Array(dup).fill(prev).join("");
             else d+=prev+"t"+dup+"d";
