@@ -258,30 +258,32 @@ function process(type) {
       }
       return '"'+str.join('\\n"+\n"')+'";';
     case "url":
-      let prevs,dups=0;
-      for (let i=0;i<window.maparray.length;i++)
+      let prevs,dups=0,u=window.maparray;
+      for (let i=0;i<u.length;i++)
       {
-        let d="",prev=window.maparray[i][0],dup=1;
-        for (let j=1;j<window.maparray[i].length;j++)
+        let d="",prev=u[i][0],dup=1,t=u[i],nqg = 0,cg = i == u.length -1;
+        for (let j=1;j<t.length;j++)
         {
-          let pass=1;
-          if (window.maparray[i][j] == prev) dup++;
-          else pass = 0;
-          if (!pass || (j == window.maparray[i].length - 1))
+          let nq=0,c= j == t.length -1;
+          if (t[j] === prev) dup++;
+          else nq = 1;
+          if (nq || c)
           {
             if (dup<4) d+=Array(dup).fill(prev).join("");
             else d+=prev+"t"+dup+"d";
-            prev=window.maparray[i][j];
+            if (nq&&c) d+=t[j];
+            prev=t[j];
             dup=1;
           }
         }
         if (prevs === void 0) prevs = d;
-        if (prevs == d && i<window.maparray.length-1) dups++;
-        else
+        if (prevs == d) dups++;
+        else nqg = 1;
+        if (nqg || cg)
         {
-            if (i==window.maparray.length-1) dups++;
             if (dups==1) str.push(prevs);
             else str.push("l"+prevs+"n"+dups);
+            if (nqg&&cg) str.push(d);
             prevs=d;
             dups=1;
         }
