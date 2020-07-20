@@ -110,7 +110,7 @@ function viewXY(x,y) {
 function applyColor(param,inp)
 {
   let css;
-  if (inp == void 0 || (inp||"").toLowerCase()=="default")
+  if (inp == void 0 || ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1)
   {
     if ((localStorage[param]||"undefined") == "undefined"  || ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1)
       switch(param.toLowerCase())
@@ -127,7 +127,7 @@ function applyColor(param,inp)
   }
   else css=inp;
   let elem="";
-  switch (param)
+  switch (param.toLowerCase())
   {
     case "background-color":
       elem='body';
