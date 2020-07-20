@@ -139,25 +139,17 @@ function applyColor(param,inp)
       elem='#color-test';
       break;
   }
-  let rp = (param=="as-color")?"color":param,precol = $(elem).css(rp);
+  let rp = (param=="as-color")?"color":param;
   $(elem).css(rp,css);
   css=$(elem).css(rp);
-  if (precol != css)
+  if (rp == "color")
   {
-    if (rp == "color")
-    {
-      $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
-      $("#color-test").css("color",css);
-    }
-    $("#"+param).val(css);
-    localStorage.setItem(param,css);
-    if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
+    $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
+    $("#color-test").css("color",css);
   }
-  else
-  {
-    $(elem).css(precol);
-    $("#"+param).val(precol);
-  }
+  $("#"+param).val(css);
+  localStorage.setItem(param,css);
+  if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
 }
 function startTrail(x,y) {
   let e = window.event;
