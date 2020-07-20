@@ -133,7 +133,7 @@ function applyColor(param,inp)
       elem='body';
       break;
     case "border-color":
-      elem='table';
+      elem='td';
       break;
     case "as-color":
       elem='#color-test';
@@ -142,11 +142,7 @@ function applyColor(param,inp)
   let rp = (param=="as-color")?"color":param;
   $(elem).css(rp,css);
   css=$(elem).css(rp);
-  if (rp == "color")
-  {
-    $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
-    $("#color-test").css("color",css);
-  }
+  (rp == "color") && $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
   $("#"+param).val(css);
   localStorage.setItem(param,css);
   if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
