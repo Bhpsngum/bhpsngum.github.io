@@ -139,9 +139,9 @@ function applyColor(param,inp)
       elem='#color-test';
       break;
   }
-  let rp = (param=="as-color")?"color":param;
+  let rp = (param=="as-color")?"color":((param=="border-color")?"border-start-color":param);
   $(elem).css(rp,css);
-  css=$(elem)[0].style[rp];
+  css=window.getComputedStyle($(elem)[0])[rp];
   (rp == "color") && $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
   $("#"+param).val(css);
   localStorage.setItem(param,css);
