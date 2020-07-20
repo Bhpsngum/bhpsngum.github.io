@@ -112,7 +112,7 @@ function applyColor(param,inp)
   let css;
   if (inp == void 0 || (inp||"").toLowerCase()=="default")
   {
-    if (localStorage[param] == void 0 || (inp||"").toLowerCase()=="default")
+    if ((localStorage[param]||"undefined") == "undefined"  || ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1)
       switch(param.toLowerCase())
       {
         case "background-color":
