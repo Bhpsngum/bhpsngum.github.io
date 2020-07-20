@@ -109,10 +109,10 @@ function viewXY(x,y) {
 }
 function applyColor(param,inp)
 {
-  let css;
-  if (inp == void 0 || ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1)
+  let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1;
+  if (inp == void 0 || defl)
   {
-    if ((localStorage[param]||"undefined") == "undefined"  || ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1)
+    if ((localStorage[param]||"undefined") == "undefined"  || defl)
       switch(param.toLowerCase())
       {
         case "background-color":

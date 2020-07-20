@@ -109,10 +109,10 @@ function viewXY(x,y) {
 }
 function applyColor(param,inp)
 {
-  let css;
-  if (inp == void 0 || (inp||"").toLowerCase()=="default")
+  let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1;
+  if (inp == void 0 || defl)
   {
-    if (localStorage[param] == void 0 || (inp||"").toLowerCase()=="default")
+    if ((localStorage[param]||"undefined") == "undefined"  || defl)
       switch(param.toLowerCase())
       {
         case "background-color":
@@ -127,37 +127,26 @@ function applyColor(param,inp)
   }
   else css=inp;
   let elem="";
-  switch (param)
+  switch (param.toLowerCase())
   {
     case "background-color":
       elem='body';
       break;
     case "border-color":
-      elem='table';
+      elem='td';
       break;
     case "as-color":
       elem='#color-test';
       break;
   }
-  let rp = (param=="as-color")?"color":param,precol = $(elem).css(rp);
+  let rp = (param=="as-color")?"color":param;
   $(elem).css(rp,css);
-  css=$(elem).css(rp);
-  if (precol != css)
-  {
-    if (rp == "color")
-    {
-      $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
-      $("#color-test").css("color",css);
-    }
-    $("#"+param).val(css);
-    localStorage.setItem(param,css);
-    if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
-  }
-  else
-  {
-    $(elem).css(precol);
-    $("#"+param).val(precol);
-  }
+  rp = (rp=="border-color")?"border-block-start-color":rp;
+  css=window.getComputedStyle($(elem)[0])[rp];
+  (rp == "color") && $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
+  $("#"+param).val(css);
+  localStorage.setItem(param,css);
+  if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
 }
 function startTrail(x,y) {
   let e = window.event;
