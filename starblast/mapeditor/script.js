@@ -95,8 +95,8 @@ function change(x,y,num) {
 }
 function changeASSize(num) {
   let u=applySize("as_size",num,1);
-  for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid","border-color":"inherit"});
-  $(`#asc${u}`).css({"border":"3px solid","border-color":"inherit"});
+  for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
+  $(`#asc${u}`).css({"border":"3px solid"});
 }
 function viewinfo(title,text) {
   $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
