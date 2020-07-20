@@ -141,7 +141,7 @@ function applyColor(param,inp)
   }
   let rp = (param=="as-color")?"color":param;
   $(elem).css(rp,css);
-  css=$(elem).css(rp);
+  css=$(elem)[0].style[rp];
   (rp == "color") && $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
   $("#"+param).val(css);
   localStorage.setItem(param,css);
