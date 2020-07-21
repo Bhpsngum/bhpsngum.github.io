@@ -185,7 +185,7 @@ function loadMap(data,size,alsize,initial)
         for (let j=0;j<d;j++)
         {
           let wh=(alsize != void 0)?alsize:((size!= void 0)?0:(Number(((h[i] != void 0)?h[i]:[])[j])||0));
-          tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false height='${wh*3}' width='${wh*3}'></td>`;
+          tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
         }
         tb+="</tr>";
       }
@@ -509,7 +509,7 @@ if (error)
   loadMap(null,null,null,1);
 }
 let cas=`<tr><td id="asc0" onclick="changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
-for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false height='${i*3}' width='${i*3}'></td>`;
+for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 $("#brush_size").val(applyBrushSize());
 changeASSize();
