@@ -1,4 +1,4 @@
-window.maparray=[];window.trail=-1;
+window.map={data:[], history:[]};window.trail=-1;
 let mapSize = $("#map_size")
 function applyBrushSize(num) {
   let max=applySize("size");
@@ -38,7 +38,7 @@ function singlechange(x,y,num) {
       element.width(num*3);
       element.height(num*3);
       syncMap(2);
-      window.maparray[x][y]=num;
+      window.map.data[x][y]=num;
       syncMap(1);
     }
   }
@@ -59,17 +59,17 @@ function syncMap(num) {
   switch(num)
   {
     case 0:
-      window.maparray=[];
+      window.map.data=[];
       for (let i=0;i<applySize("size");i++)
       {
-        window.maparray.push([]);
-        for (let j=0;j<applySize("size");j++) window.maparray[i].push(Math.round(($(`#p${i}-${j} >img`).width()||0)/3));
+        window.map.data.push([]);
+        for (let j=0;j<applySize("size");j++) window.map.data[i].push(Math.round(($(`#p${i}-${j} >img`).width()||0)/3));
       }
-      localStorage.setItem("array",JSON.stringify(window.maparray));
+      localStorage.setItem("array",JSON.stringify(window.map.data));
       break;
     case 1:
-      if (!checkMap(window.maparray)) syncMap(0);
-      else localStorage.setItem("array",JSON.stringify(window.maparray));
+      if (!checkMap(window.map.data)) syncMap(0);
+      else localStorage.setItem("array",JSON.stringify(window.map.data));
       break;
     case 2:
       let er=0,data;
@@ -80,9 +80,9 @@ function syncMap(num) {
       if (!er)
       {
         if (!checkMap(JSON.parse(localStorage.array))) syncMap(0);
-        else window.maparray=data;
+        else window.map.data=data;
       }
-      else window.maparray=data;
+      else window.map.data=data;
       break;
   }
 }
@@ -168,7 +168,7 @@ function stopTrail() {
 function loadMap(data,size,alsize,initial)
 {
   if (!data) syncMap(2);
-  let h=(data)?data:window.maparray;check=true;
+  let h=(data)?data:window.map.data;check=true;
   if (Array.isArray(h))
   {
     let u=JSON.parse(JSON.stringify(h)).sort(),d=(size != void 0)?size:Math.max(h.length,u[u.length-1].length);
@@ -239,7 +239,7 @@ function process(type) {
   switch(type.toLowerCase())
   {
     case "plain":
-      for (let i of window.maparray)
+      for (let i of window.map.data)
       {
         let d="";
         for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
@@ -248,7 +248,7 @@ function process(type) {
       }
       return '"'+str.join('\\n"+\n"')+'";';
     case "url":
-      let prevs,dups=0,u=window.maparray;
+      let prevs,dups=0,u=window.map.data;
       for (let i=0;i<u.length;i++)
       {
         let d="",prev=u[i][0],dup=1,t=u[i],nqg = 0,cg = i == u.length -1;
