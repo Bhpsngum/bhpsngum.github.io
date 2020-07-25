@@ -589,7 +589,7 @@ let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
 Engine.Brush.input.val(Engine.Brush.applySize());
-changeASSize();
+StarblastMap.Asteroids.changeSize();
 StarblastMap.Buttons.randomMaze.on("mouseover", function() {
   viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
 });
