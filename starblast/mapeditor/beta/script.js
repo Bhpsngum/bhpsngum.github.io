@@ -7,14 +7,92 @@ var StarblastMap = {
   history: [],
   pattern: [],
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
-  build: function() {
+  buildData: function(num) {
     this.data = new Array(Number(this.size)||20).fill(Array(Number(this.size)||20).fill(0));
   },
   load: function(data) {
-
+    let h=data||this.data;check=true;
+    if (Array.isArray(h))
+    {
+      let u=JSON.parse(JSON.stringify(h)).sort(),d=Engine.applySize("size",Math.max(h.length,u[u.length-1].length);
+      applySize("size",d);
+      (!data) && this.buildData();
+      if (d != this.size)
+      {
+        let tb="";
+        for (let i=0;i<d;i++)
+        {
+          tb+="<tr>";
+          for (let j=0;j<d;j++)
+          {
+            let wh=Number(((h[i] != void 0)?h[i]:[])[j])||0;
+            tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+          }
+          tb+="</tr>";
+        }
+        $("#map").html(tb);
+        $("#map").css("width",(d*42).toString()+"px");
+      }
+      else
+      {
+        for (let i=0;i<d;i++)
+          for (let j=0;j<d;j++)
+          {
+            let gh=Number(((h[i] != void 0)?h[i]:[])[j])||0;
+            this.updateCell(i,j,gh);
+          }
+      }
+    }
+    else check=false;
+    this.sync();
+    return check;
   },
   process: function (type) {
-
+    let str=[];
+    switch(type.toLowerCase())
+    {
+      case "plain":
+        for (let i of this.data)
+        {
+          let d="";
+          for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
+          d+=i[i.length-1]||" ";
+          str.push(d);
+        }
+        return '"'+str.join('\\n"+\n"')+'";';
+      case "url":
+        let prevs,dups=0,u=window.maparray;
+        for (let i=0;i<u.length;i++)
+        {
+          let d="",prev=u[i][0],dup=1,t=u[i],nqg = 0,cg = i == u.length -1;
+          for (let j=1;j<t.length;j++)
+          {
+            let nq=0,c= j == t.length -1;
+            if (t[j] === prev) dup++;
+            else nq = 1;
+            if (nq || c)
+            {
+              if (dup<4) d+=Array(dup).fill(prev).join("");
+              else d+=prev+"t"+dup+"d";
+              if (nq&&c) d+=t[j];
+              prev=t[j];
+              dup=1;
+            }
+          }
+          if (prevs === void 0) prevs = d;
+          if (prevs == d) dups++;
+          else nqg = 1;
+          if (nqg || cg)
+          {
+              if (dups==1) str.push(prevs);
+              else str.push("l"+prevs+"n"+dups);
+              if (nqg&&cg) str.push(d);
+              prevs=d;
+              dups=1;
+          }
+        }
+        return str.join("e");
+    }
   },
   clear: function() {
 
@@ -29,8 +107,14 @@ var StarblastMap = {
   load: function(map) {
 
   },
-  updateCell: function(x,y,size) {
-
+  updateCell: function(x,y,num) {
+    let element=$(`#p${x}-${y} > img`);
+    if (element.length && this.data[x][y] != num)
+    {
+      element.width(num*3);
+      element.height(num*3);
+      this.pattern.push([x,y,num]);
+    }
   },
   sync: function () {
     for (let i of this.pattern) this.data[i[0]][i[1]] = i[2];
@@ -38,7 +122,7 @@ var StarblastMap = {
   },
   Asteroids: {
     changeSize: function (num) {
-      let u=applySize("as_size",num,1);
+      let u=Engine.applySize("as_size",num,1);
       for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
       $(`#asc${u}`).css({"border":"3px solid"});
       Engine.applyColor("border-color");
@@ -533,6 +617,8 @@ window.viewXY = function (x,y) {
 //   setMapURL(encodeURI(process("url")));
 //   copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(process("url")));
 // });
+StarblastMap.buildData();
+StarblastMap.load();
 for (let i of ["brush_size","map_size","border-color","background-color"])
 $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
 let states=["dark","light"];
