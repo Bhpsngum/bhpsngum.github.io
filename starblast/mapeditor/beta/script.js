@@ -365,7 +365,9 @@ var StarblastMap = {
     {
       size = Math.round(size/2) *2;
       StarblastMap.sizeInput.val(size);
+      StarblastMap.size = size;
     }
+    else StarblastMap.Asteroids.size = size;
     localStorage.setItem(key,size);
     return size;
   },
@@ -426,6 +428,7 @@ var StarblastMap = {
   {
     this.trail = -1;
   },
+  menu: $("#menu")
 }
 Object.assign(StarblastMap.Asteroids,{
   color: Engine.applyColor("as-color"),
@@ -552,9 +555,9 @@ window.Misc = {
 // $("#random").on("mouseover", function() {
 //   viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
 // });
-// new ResizeSensor($('#menu')[0], function(){
-//     $("#map").css("padding-top",$("#menu").height()+"px")
-// });
+new ResizeSensor(Engine.menu[0], function(){
+    StarblastMap.map.css("padding-top",Engine.menu.height()+"px")
+});
 StarblastMap.sizeInput.on("change",function(){StarblastMap.create(Engine.applySize("size",StarblastMap.sizeInput.val()))});
 StarblastMap.clearButton.on("click",StarblastMap.create.bind(StarblastMap));
 // $("#brush_size").on("change", function() {
