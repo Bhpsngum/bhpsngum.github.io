@@ -39,7 +39,7 @@ var StarblastMap = {
               this.pattern.push([i,j,wh]);
               this.data[i][j]=wh;
             }
-            tb+=`<td id='p${i}-${j}' onclick = 'Utilities.modify(${i},${j});' oncontextmenu='Utilities.modify(${i},${j},0);' onmouseover='viewXY(${i},${j});' onmousedown='Utilities.startTrail(${i},${j});' onmouseup='stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+            tb+=`<td id='p${i}-${j}' onclick = 'Misc.modify(${i},${j});' oncontextmenu='Misc.modify(${i},${j},0);' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j});' onmouseup='Misc.stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
           }
           tb+="</tr>";
         }
@@ -432,10 +432,11 @@ Object.assign(StarblastMap.Asteroids,{
   color: Engine.applyColor("as-color"),
   size: Engine.applySize("as_size")
 });
-window.Utilities = {
+window.Misc = {
   startTrail: Engine.startTrail.bind(Engine),
   stopTrail: Engine.stopTrail.bind(Engine),
-  viewXY: StarblastMap.viewXY.bind(StarblastMap)
+  viewXY: StarblastMap.viewXY.bind(StarblastMap),
+  modify: StarblastMap.modify.bind(StarblastMap)
 }
 // function loadMap(data,size,alsize,initial)
 // {
