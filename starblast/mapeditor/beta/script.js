@@ -9,7 +9,7 @@ var StarblastMap = {
   pattern: [],
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
   buildData: function() {
-    this.data = new Array(Number(this.size)||20).fill(Array(Number(this.size)||20).fill(0));
+    this.data = new Array(Number(this.size)).fill(Array(Number(this.size)).fill(0));
   },
   load: function(data,init) {
     let h=data||this.data;check=true;
@@ -306,13 +306,6 @@ var StarblastMap = {
   }
 }, Engine = {
   trail: -1,
-  applyBrushSize: function (num) {
-    let max=StarblastMap.size;
-    let size=Math.round((num != void 0)?num:(Number(localStorage.brush)||0));
-    size=Math.max(Math.min(max,size),0);
-    $("#brush_size").val(size);
-    localStorage.setItem("brush",size);
-  },
   applyColor: function (param,inp) {
     let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1;
     if (inp == void 0 || defl)
@@ -377,7 +370,15 @@ var StarblastMap = {
   },
   Brush: {
     input: $("#brush_size"),
-    size: 0
+    size: 0,
+    applySize: function (num) {
+      let max=StarblastMap.size;
+      let size=Math.round((num != void 0)?num:(Number(localStorage.brush)||0));
+      size=Math.max(Math.min(max,size),0);
+      $("#brush_size").val(size);
+      this.size = size;
+      localStorage.setItem("brush",size);
+    },
   },
   copyToClipboard: function (text) {
       var dummy = document.createElement("textarea");
@@ -554,7 +555,7 @@ window.Misc = {
 //     $("#map").css("padding-top",$("#menu").height()+"px")
 // });
 StarblastMap.sizeInput.on("change",function(){StarblastMap.create(Engine.applySize("size",StarblastMap.sizeInput.val()))});
-StarblastMap.clearButton.on("click",StarblastMap.create);
+StarblastMap.clearButton.on("click",StarblastMap.create.bind(StarblastMap));
 // $("#brush_size").on("change", function() {
 //   applyBrushSize($("#brush_size").val());
 // });
