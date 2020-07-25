@@ -3,10 +3,17 @@ var LOAD = 0, SAVE = 1;
 var StarblastMap = {
   map: $("#map"),
   sizeInput: $("#map_size"),
+  clearButton: $("#clearMap"),
   data:[],
   history: [],
   pattern: [],
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
+  create: function(num)
+  {
+    let size = num||this.size;
+    this.buildData();
+    this.loadMap(null,1);
+  },
   buildData: function() {
     this.data = new Array(Number(this.size)||20).fill(Array(Number(this.size)||20).fill(0));
   },
@@ -32,7 +39,7 @@ var StarblastMap = {
               this.pattern.push([i,j,wh]);
               this.data[i][j]=wh;
             }
-            tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+            tb+=`<td id='p${i}-${j}' onclick = 'Utilities.modify(${i},${j});' oncontextmenu='Utilities.modify(${i},${j},0);' onmouseover='viewXY(${i},${j});' onmousedown='Utilities.startTrail(${i},${j});' onmouseup='stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
           }
           tb+="</tr>";
         }
@@ -99,9 +106,6 @@ var StarblastMap = {
         }
         return str.join("e");
     }
-  },
-  clear: function() {
-
   },
   modify: function(x,y,num) {
     let br=Properties.brushSize, size = this.size;
@@ -293,6 +297,12 @@ var StarblastMap = {
     }
 
     return generateMaze();
+  },
+  viewXY: function (x,y) {
+    let d= this.data[x][y],gl="No Asteroids";
+    if (d) gl="Asteroid size: "+d.toString();
+    $("#XY").html(`(${x+1};${y+1}). ${gl}`);
+    if (Engine.trail != -1) this.modify(x,y,Engine.trail);
   }
 }, Engine = {
   trail: -1,
@@ -365,22 +375,6 @@ var StarblastMap = {
     localStorage.setItem(key,size);
     return size;
   },
-  startTrail: function (x,y) {
-    let e = window.event;
-    switch (e.which) {
-      case 1:
-        this.trail=Asteroid.size;
-        StarblastMap.change(x,y,window.trail);
-        break;
-      case 3:
-        this.trail=0;
-        StarblastMap.change(x,y,0);
-        break;
-    }
-  },
-  stopTrail: function() {
-    this.trail = -1;
-  },
   brushInput: $("#brush_size"),
   copyToClipboard: function (text) {
       var dummy = document.createElement("textarea");
@@ -409,7 +403,24 @@ var StarblastMap = {
   {
     let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
     window.history.pushState({path:url+clear+(newMap||"")},'',url+clear+(newMap||""));
-  }
+  },
+  startTrail: function (x,y) {
+    let e = window.event;
+    switch (e.which) {
+      case 1:
+        this.trail=StarblastMap.Asteroids.size;
+        StarblastMap.modify(x,y,window.trail);
+        break;
+      case 3:
+        this.trail=0;
+        StarblastMap.modify(x,y,0);
+        break;
+    }
+  },
+  stopTrail: function()
+  {
+    this.trail = -1;
+  },
 }, Properties = {
   brush_size: 0,
   map_size: 20,
@@ -421,14 +432,11 @@ Object.assign(StarblastMap.Asteroids,{
   color: Engine.applyColor("as-color"),
   size: Engine.applySize("as_size")
 });
-
-window.viewXY = function (x,y) {
-  let d= StarblastMap.data[x][y],gl="No Asteroids";
-  if (d) gl="Asteroid size: "+d.toString();
-  $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-  if (Engine.trail != -1) StarblastMap.modify(x,y,Engine.trail);
+window.Utilities = {
+  startTrail: Engine.startTrail.bind(Engine),
+  stopTrail: Engine.stopTrail.bind(Engine),
+  viewXY: StarblastMap.viewXY.bind(StarblastMap)
 }
-
 // function loadMap(data,size,alsize,initial)
 // {
 //   if (!data) syncMap(2);
@@ -547,10 +555,8 @@ window.viewXY = function (x,y) {
 // new ResizeSensor($('#menu')[0], function(){
 //     $("#map").css("padding-top",$("#menu").height()+"px")
 // });
-// mapSize.on("change",function(){loadMap(null,applySize("size",Number(mapSize.val())))});
-// $("#clearMap").on("click",function(){
-//   loadMap(null,null,0);
-// });
+StarblastMap.sizeInput.on("change",function(){StarblastMap.create(Engine.applySize("size",StarblastMap.sizeInput.val()))});
+StarblastMap.clearButton.on("click",StarblastMap.create);
 // $("#brush_size").on("change", function() {
 //   applyBrushSize($("#brush_size").val());
 // });
@@ -620,8 +626,7 @@ window.viewXY = function (x,y) {
 //   setMapURL(encodeURI(process("url")));
 //   copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(process("url")));
 // });
-StarblastMap.buildData();
-StarblastMap.load(null,1);
+StarblastMap.create();
 for (let i of ["brush_size","map_size","border-color","background-color"])
 $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
 let states=["dark","light"];
