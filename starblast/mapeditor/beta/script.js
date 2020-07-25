@@ -108,7 +108,7 @@ var StarblastMap = {
     }
   },
   modify: function(x,y,num) {
-    let br=Properties.brushSize, size = (num!= void 0)?num:this.Asteroids.size;
+    let br=Engine.Brush.size, size = (num!= void 0)?num:this.Asteroids.size;
     for (let i=x-br;i<=x+br;i++)
       for (let j=y-br;j<=y+br;j++)
         this.updateCell(i,j,size);
@@ -375,7 +375,10 @@ var StarblastMap = {
     localStorage.setItem(key,size);
     return size;
   },
-  brushInput: $("#brush_size"),
+  Brush: {
+    input: $("#brush_size"),
+    size: 0
+  },
   copyToClipboard: function (text) {
       var dummy = document.createElement("textarea");
       document.body.appendChild(dummy);
@@ -421,12 +424,6 @@ var StarblastMap = {
   {
     this.trail = -1;
   },
-}, Properties = {
-  brush_size: 0,
-  map_size: 20,
-  color: {
-    "background-color": localStorage["background-color"]||"",
-  }
 }
 Object.assign(StarblastMap.Asteroids,{
   color: Engine.applyColor("as-color"),
