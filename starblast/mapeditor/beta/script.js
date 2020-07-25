@@ -9,7 +9,8 @@ var StarblastMap = {
   pattern: [],
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
   buildData: function() {
-    this.data = new Array(Number(this.size)).fill(new Array(Number(this.size)).fill(0));
+    this.data = [];
+    for (let i=0;i<this.size;i++) this.data.push(new Array(this.size).fill(0));
   },
   load: function(data,init) {
     let h=data||this.data;check=true;
