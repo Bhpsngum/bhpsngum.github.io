@@ -57,17 +57,12 @@ var StarblastMap = {
   },
   create: function(num)
   {
-    let psize = this.size;size = Engine.applySize("size",num||this.size);
+    let size = num||this.size;
     this.buildData();
-    if (psize != size) this.load(null,1);
-    else this.clear();
+    this.load(null,1);
   },
   clear: function() {
-    for (let i of this.pattern) updateCell(x,y,0);
-    this.pattern = [];
-  },
-  findCell: function(x,y) {
-    return $(`#p${x}-${y} > img`);
+    for (let i of this.pattern) this.updateCell(x,y,0);
   },
   export: function (type) {
     let str=[],map=this.data;
@@ -124,7 +119,7 @@ var StarblastMap = {
     this.sync();
   },
   updateCell: function(x,y,num) {
-    let element=this.findCell(x,y);
+    let element=$(`#p${x}-${y} > img`);
     if (element.length && this.data[x][y] != num)
     {
       element.width(num*3);
@@ -567,7 +562,7 @@ new ResizeSensor(Engine.menu[0], function(){
     StarblastMap.map.css("padding-top",Engine.menu.height()+"px")
 });
 StarblastMap.sizeInput.on("change",function(){StarblastMap.create(Engine.applySize("size",StarblastMap.sizeInput.val()))});
-StarblastMap.clearButton.on("click",StarblastMap.create.bind(StarblastMap));
+StarblastMap.clearButton.on("click",StarblastMap.clear.bind(StarblastMap));
 // $("#brush_size").on("change", function() {
 //   applyBrushSize($("#brush_size").val());
 // });
