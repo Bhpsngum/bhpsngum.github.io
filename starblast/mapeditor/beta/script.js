@@ -61,11 +61,11 @@ var StarblastMap = {
     this.load(null,1);
   },
   export: function (type) {
-    let str=[];
+    let str=[],map=this.data;
     switch(type.toLowerCase())
     {
       case "plain":
-        for (let i of this.data)
+        for (let i of map)
         {
           let d="";
           for (let j=0;j<i.length-1;j++) d+=i[j]||" ";
@@ -74,10 +74,10 @@ var StarblastMap = {
         }
         return '"'+str.join('\\n"+\n"')+'";';
       case "url":
-        let prevs,dups=0,u=window.maparray;
-        for (let i=0;i<u.length;i++)
+        let prevs,dups=0;
+        for (let i=0;i<map.length;i++)
         {
-          let d="",prev=u[i][0],dup=1,t=u[i],nqg = 0,cg = i == u.length -1;
+          let d="",prev=map[i][0],dup=1,t=map[i],nqg = 0,cg = i == map.length -1;
           for (let j=1;j<t.length;j++)
           {
             let nq=0,c= j == t.length -1;
@@ -113,6 +113,7 @@ var StarblastMap = {
       for (let j=y-br;j<=y+br;j++)
         this.updateCell(i,j,size);
     this.sync();
+    console.log(br);
   },
   updateCell: function(x,y,num) {
     let element=$(`#p${x}-${y} > img`);
@@ -375,7 +376,7 @@ var StarblastMap = {
       let max=StarblastMap.size;
       let size=Math.round((num != void 0)?num:(Number(localStorage.brush)||0));
       size=Math.max(Math.min(max,size),0);
-      $("#brush_size").val(size);
+      this.input.val(size);
       this.size = size;
       localStorage.setItem("brush",size);
     },
