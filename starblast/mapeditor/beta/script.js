@@ -332,7 +332,7 @@ var StarblastMap = {
     "background-color": localStorage["background-color"]||"",
   }
 }
-Object.assign(Starblast.Asteroids,{
+Object.assign(StarblastMap.Asteroids,{
   color: Engine.applyColor("as_color"),
   size: Engine.applySize("as_size")
 });
