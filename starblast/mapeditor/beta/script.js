@@ -14,7 +14,7 @@ var StarblastMap = {
     let h=data||this.data;check=true;
     if (Array.isArray(h))
     {
-      let u=JSON.parse(JSON.stringify(h)).sort(),d=Engine.applySize("size",Math.max(h.length,u[u.length-1].length);
+      let u=JSON.parse(JSON.stringify(h)).sort(),d=Engine.applySize("size",Math.max(h.length,u[u.length-1].length));
       applySize("size",d);
       (!data) && this.buildData();
       if (d != this.size)
