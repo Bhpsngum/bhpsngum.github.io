@@ -57,9 +57,17 @@ var StarblastMap = {
   },
   create: function(num)
   {
-    let size = num||this.size;
+    let psize = this.size;size = Engine.applySize("size",num||this.size);
     this.buildData();
-    this.load(null,1);
+    if (psize != size) this.load(null,1);
+    else this.clear();
+  },
+  clear: function() {
+    for (let i of this.pattern) updateCell(x,y,0);
+    this.pattern = [];
+  },
+  findCell: function(x,y) {
+    return $(`#p${x}-${y} > img`);
   },
   export: function (type) {
     let str=[],map=this.data;
@@ -116,7 +124,7 @@ var StarblastMap = {
     this.sync();
   },
   updateCell: function(x,y,num) {
-    let element=$(`#p${x}-${y} > img`);
+    let element=this.findCell(x,y);
     if (element.length && this.data[x][y] != num)
     {
       element.width(num*3);
