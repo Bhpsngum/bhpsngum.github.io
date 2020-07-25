@@ -5,7 +5,7 @@ var StarblastMap = {
   sizeInput: $("#map_size"),
   Buttons: {
     export: $("#export"),
-    clear: $("#clear"),
+    clear: $("#clearMap"),
     randomMaze: $("#random"),
     import: $("#loadMap"),
     copy: $("#copyMap"),
@@ -489,7 +489,8 @@ window.Misc = {
   startTrail: Engine.startTrail.bind(Engine),
   stopTrail: Engine.stopTrail.bind(Engine),
   viewXY: StarblastMap.viewXY.bind(StarblastMap),
-  modify: StarblastMap.modify.bind(StarblastMap)
+  modify: StarblastMap.modify.bind(StarblastMap),
+  changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap)
 }
 // function loadMap(data,size,alsize,initial)
 // {
@@ -584,11 +585,11 @@ window.Misc = {
 //   syncMap(2);
 //   loadMap(null,null,null,1);
 // }
-// let cas=`<tr><td id="asc0" onclick="changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
-// for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
-// $("#asChoose").html(cas+"</tr>");
-// $("#brush_size").val(applyBrushSize());
-// changeASSize();
+let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
+for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
+$("#asChoose").html(cas+"</tr>");
+$("#brush_size").val(applyBrushSize());
+changeASSize();
 StarblastMap.Buttons.randomMaze.on("mouseover", function() {
   viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
 });
