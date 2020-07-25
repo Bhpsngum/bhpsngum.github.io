@@ -7,7 +7,7 @@ var StarblastMap = {
   history: [],
   pattern: [],
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
-  buildData: function(num) {
+  buildData: function() {
     this.data = new Array(Number(this.size)||20).fill(Array(Number(this.size)||20).fill(0));
   },
   load: function(data) {
@@ -17,6 +17,7 @@ var StarblastMap = {
       let u=JSON.parse(JSON.stringify(h)).sort(),d=Engine.applySize("size",Math.max(h.length,u[u.length-1].length));
       applySize("size",d);
       (!data) && this.buildData();
+      this.pattern = [];
       if (d != this.size)
       {
         let tb="";
@@ -25,13 +26,18 @@ var StarblastMap = {
           tb+="<tr>";
           for (let j=0;j<d;j++)
           {
-            let wh=Number(((h[i] != void 0)?h[i]:[])[j])||0;
+            let wh=Number((h[i]||[])[j])||0;
+            if (wh!=0)
+            {
+              this.pattern.push([i,j,wh]);
+              this.data[i][j]=wh;
+            }
             tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
           }
           tb+="</tr>";
         }
-        $("#map").html(tb);
-        $("#map").css("width",(d*42).toString()+"px");
+        this.map.html(tb);
+        this.map.css("width",(d*42).toString()+"px");
       }
       else
       {
@@ -47,7 +53,7 @@ var StarblastMap = {
     this.sync();
     return check;
   },
-  process: function (type) {
+  export: function (type) {
     let str=[];
     switch(type.toLowerCase())
     {
@@ -114,10 +120,10 @@ var StarblastMap = {
       element.width(num*3);
       element.height(num*3);
       this.pattern.push([x,y,num]);
+      this.data[x][y]=num;
     }
   },
   sync: function () {
-    for (let i of this.pattern) this.data[i[0]][i[1]] = i[2];
     localStorage.setItem("map",JSON.stringify(this.data));
   },
   Asteroids: {
