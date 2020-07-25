@@ -11,7 +11,7 @@ var StarblastMap = {
     copy: $("#copyMap"),
     permalink: $("#permalink")
   },
-  data:[],
+  data: [],
   history: [],
   pattern: [],
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
@@ -500,7 +500,18 @@ else
   else error=1;
   Engine.setURL();
 }
-if (error) StarblastMap.load(null,1);
+if (error)
+{
+  let fail = 0;
+  try{
+    let storageMap = JSON.parse(localStorage.map);
+    if (Array.isArray(storageMap)) StarblastMap.data = strorageMap;
+    else throw "Nope";
+  }
+  catch(e){fail = 1}
+  if (fail) StarblastMap.create();
+  else StarblastMap.load(null,1);
+}
 let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
