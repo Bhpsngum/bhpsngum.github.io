@@ -608,7 +608,7 @@ StarblastMap.Buttons.clear.on("click",StarblastMap.clear.bind(StarblastMap));
 //   });
 // }
 StarblastMap.Buttons.export.on("click",function() {
-  var text=process("plain");
+  var text=StarblastMap.export("plain");
   var d=new Date();
   var suff=d.getFullYear().toString()+(d.getMonth()+1).toString()+d.getDate().toString()+d.getHours().toString()+d.getMinutes().toString()+d.getSeconds().toString();
   Engine.download("starblast-map_" + suff, text);
