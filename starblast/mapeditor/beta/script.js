@@ -110,9 +110,6 @@ var StarblastMap = {
         this.updateCell(i,j,size);
     this.sync();
   },
-  load: function(map) {
-
-  },
   updateCell: function(x,y,num) {
     let element=$(`#p${x}-${y} > img`);
     if (element.length && this.data[x][y] != num)
