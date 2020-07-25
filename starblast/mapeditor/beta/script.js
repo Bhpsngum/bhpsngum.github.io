@@ -494,12 +494,12 @@ window.Misc = {
 }
 let querymap=window.location.search.replace(/^\?/,""),error=0;
 if (querymap === "") error=1;
-else
-{
-  if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import(url,querymap);
-  else error=1;
-  Engine.setURL();
-}
+// else
+// {
+//   if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import(url,querymap);
+//   else error=1;
+//   Engine.setURL();
+// }
 if (error)
 {
   let fail = 0;
