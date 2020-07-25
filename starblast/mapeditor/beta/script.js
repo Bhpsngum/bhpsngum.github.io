@@ -62,7 +62,7 @@ var StarblastMap = {
     this.load(null,1);
   },
   clear: function() {
-    for (let i of this.pattern) this.updateCell(x,y,0);
+    for (let i of this.pattern) this.updateCell(i[0],i[1],0);
   },
   export: function (type) {
     let str=[],map=this.data;
