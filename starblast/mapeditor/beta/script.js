@@ -588,7 +588,7 @@ window.Misc = {
 let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
-Engine.Brush.input.val(Engine.Brush.applySize());
+Engine.Brush.applySize();
 StarblastMap.Asteroids.changeSize();
 StarblastMap.Buttons.randomMaze.on("mouseover", function() {
   viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
@@ -598,16 +598,16 @@ new ResizeSensor(Engine.menu[0], function(){
 });
 StarblastMap.sizeInput.on("change",function(){StarblastMap.create(Engine.applySize("size",StarblastMap.sizeInput.val()))});
 StarblastMap.Buttons.clear.on("click",StarblastMap.clear.bind(StarblastMap));
-// $("#brush_size").on("change", function() {
-//   applyBrushSize($("#brush_size").val());
-// });
-// for (let i of ["border","background","as"])
-// {
-//   applyColor(i+"-color");
-//   $("#"+i+"-color").on("change", function(){
-//     applyColor(i+"-color",$("#"+i+"-color").val());
-//   });
-// }
+Engine.Brush.input.on("change", function() {
+  Engine.Brush.applySize($("#brush_size").val());
+});
+for (let i of ["border","background","as"])
+{
+  applyColor(i+"-color");
+  $("#"+i+"-color").on("change", function(){
+    applyColor(i+"-color",$("#"+i+"-color").val());
+  });
+}
 StarblastMap.Buttons.export.on("click",function() {
   var text=StarblastMap.export("plain");
   var d=new Date();
