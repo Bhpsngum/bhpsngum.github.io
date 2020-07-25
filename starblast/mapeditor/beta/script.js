@@ -10,15 +10,15 @@ var StarblastMap = {
   buildData: function() {
     this.data = new Array(Number(this.size)||20).fill(Array(Number(this.size)||20).fill(0));
   },
-  load: function(data) {
+  load: function(data,init) {
     let h=data||this.data;check=true;
     if (Array.isArray(h))
     {
       let u=JSON.parse(JSON.stringify(h)).sort(),d=Engine.applySize("size",Math.max(h.length,u[u.length-1].length));
-      applySize("size",d);
+      Engine.applySize("size",d);
       (!data) && this.buildData();
       this.pattern = [];
-      if (d != this.size)
+      if (d != this.size || init)
       {
         let tb="";
         for (let i=0;i<d;i++)
@@ -44,7 +44,7 @@ var StarblastMap = {
         for (let i=0;i<d;i++)
           for (let j=0;j<d;j++)
           {
-            let gh=Number(((h[i] != void 0)?h[i]:[])[j])||0;
+            let gh=Number((h[i]||[])[j])||0;
             this.updateCell(i,j,gh);
           }
       }
@@ -621,7 +621,7 @@ window.viewXY = function (x,y) {
 //   copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(process("url")));
 // });
 StarblastMap.buildData();
-StarblastMap.load();
+StarblastMap.load(null,1);
 for (let i of ["brush_size","map_size","border-color","background-color"])
 $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
 let states=["dark","light"];
