@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html sandbox="allow-modals">
+<html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
@@ -21,6 +21,7 @@
 
       gtag('config', 'UA-165879009-1');
     </script>
+    <script type="text/javascript" src="init.js"></script>
   </head>
   <body oncontextmenu="return false;">
     <table id="map" onmouseover='viewinfo(null,"Left-click to apply asteroid, right-click to remove, drag for trails");'></table>
@@ -43,6 +44,9 @@
     </div>
     <p id="XY" onmouseover="viewinfo(null,'Your cursor position in the map. Hover the map for details')">(0;0)</p>
     <p id="info"></p>
+    <script>
+      if (window.confirm("This beta version is now broken\n\nGo to the main version?")) window.open(location.href.replace("/beta/","/"),"_self");
+    </script>
     <script type="text/javascript" src="script.js"></script>
   </body>
 </html>

@@ -1,7 +1,3 @@
-if (confirm("This beta version is now broken\n\nGo to the main version?")) window.open(location.href.replace("/beta/","/"),"_self");
-function viewinfo(title,text) {
-  $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
-}
 var LOAD = 0, SAVE = 1;
 var StarblastMap = {
   map: $("#map"),
@@ -44,7 +40,7 @@ var StarblastMap = {
       let u=applySize("as_size",num,1);
       for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
       $(`#asc${u}`).css({"border":"3px solid"});
-      applyColor("border-color");
+      Engine.applyColor("border-color");
     }
   },
   randomMaze: function (size)
