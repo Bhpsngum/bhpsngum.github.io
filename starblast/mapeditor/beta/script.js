@@ -12,7 +12,7 @@ var StarblastMap = {
   {
     let size = num||this.size;
     this.buildData();
-    this.loadMap(null,1);
+    this.load(null,1);
   },
   buildData: function() {
     this.data = new Array(Number(this.size)||20).fill(Array(Number(this.size)||20).fill(0));
