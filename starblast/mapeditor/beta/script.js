@@ -40,8 +40,6 @@ var StarblastMap = {
     localStorage.setItem("map",JSON.stringify(this.data));
   },
   Asteroids: {
-    color: "rgb(24,26,27)",
-    size: ,
     changeSize: function (num) {
       let u=applySize("as_size",num,1);
       for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
@@ -334,7 +332,11 @@ var StarblastMap = {
     "background-color": localStorage["background-color"]||"",
   }
 }
-StarblastMap.Asteroid.color = Engine.applyColor("as_color");
+Object.assign(Starblast.Asteroids,{
+  color: Engine.applyColor("as_color"),
+  size: Engine.applySize("as_size")
+});
+
 window.viewXY = function (x,y) {
   let d= StarblastMap.data[x][y],gl="No Asteroids";
   if (d) gl="Asteroid size: "+d.toString();
