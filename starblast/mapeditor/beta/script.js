@@ -616,7 +616,7 @@ StarblastMap.Buttons.export.on("click",function() {
 StarblastMap.Buttons.randomMaze.on("click", function() {
   StarblastMap.import("plain",StarblastMap.randomMaze(StarblastMap.size));
 });
-StarblastMap.Buttons.copy.on("click", StarblastMap.copy("plain").bind(StarblastMap));
+StarblastMap.Buttons.copy.on("click", StarblastMap.copy.bind(StarblastMap)("plain"));
 StarblastMap.Buttons.import.on("change", function(e) {
   let file=e.target.files[0];
   if (file.type.match("plain") || file.type.match("javascript")) {
