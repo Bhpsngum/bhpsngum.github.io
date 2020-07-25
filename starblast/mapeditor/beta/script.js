@@ -329,7 +329,7 @@ var StarblastMap = {
   }
 }
 Object.assign(StarblastMap.Asteroids,{
-  color: Engine.applyColor("as_color"),
+  color: Engine.applyColor("as-color"),
   size: Engine.applySize("as_size")
 });
 
