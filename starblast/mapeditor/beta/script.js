@@ -8,12 +8,6 @@ var StarblastMap = {
   history: [],
   pattern: [],
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
-  create: function(num)
-  {
-    let size = num||this.size;
-    this.buildData();
-    this.load(null,1);
-  },
   buildData: function() {
     this.data = new Array(Number(this.size)||20).fill(Array(Number(this.size)||20).fill(0));
   },
@@ -59,6 +53,12 @@ var StarblastMap = {
     else check=false;
     this.sync();
     return check;
+  },
+  create: function(num)
+  {
+    let size = num||this.size;
+    this.buildData();
+    this.load(null,1);
   },
   export: function (type) {
     let str=[];
