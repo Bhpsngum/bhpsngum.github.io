@@ -3,7 +3,14 @@ var LOAD = 0, SAVE = 1;
 var StarblastMap = {
   map: $("#map"),
   sizeInput: $("#map_size"),
-  clearButton: $("#clearMap"),
+  Buttons: {
+    export: $("#export"),
+    clear: $("#clear"),
+    randomMaze: $("#random"),
+    import: $("#loadMap"),
+    copy: $("#copyMap"),
+    permalink: $("#permalink")
+  },
   data:[],
   history: [],
   pattern: [],
@@ -11,6 +18,19 @@ var StarblastMap = {
   buildData: function() {
     this.data = [];
     for (let i=0;i<this.size;i++) this.data.push(new Array(this.size).fill(0));
+  },
+  copy: function(type) {
+    let map;
+    switch (type)
+    {
+      case "plain":
+        map = this.export("plain");
+        break;
+      case "url":
+        map = Engine.permalink(this.export("url"));
+        break;
+    }
+    Engine.copyToClipboard(map);
   },
   load: function(data,init) {
     let h=data||this.data;check=true;
@@ -110,6 +130,33 @@ var StarblastMap = {
         }
         return str.join("e");
     }
+  },
+  import: function (type, data) {
+    let map;
+    switch (type)
+    {
+      case "plain":
+        map = data.split("\n");
+        break;
+      case "url":
+        let smap=decodeURI(data).split('e');
+        map=[];
+        for (let i of smap)
+        {
+          let repeat=false,qstr=i.replace(/l(.+)n\d+/,"$1");
+          qstr=qstr.replace(/\dt\d+d/g,function(v){
+            let qd="";
+            for (let j=0;j<Number(v.replace(/\dt(\d+)d/g,"$1"));j++) qd+=v[0];
+            return qd;
+          });
+          map.push(qstr);
+          i.replace(/l.+n\d+/,function(v){repeat=true});
+          if (repeat)
+            for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) map.push(qstr);
+        }
+        break;
+    }
+    if (!this.load(map)) alert("Invalid Map!");
   },
   modify: function(x,y,num) {
     let br=Engine.Brush.size, size = (num!= void 0)?num:this.Asteroids.size;
@@ -394,9 +441,6 @@ var StarblastMap = {
       document.execCommand("copy");
       document.body.removeChild(dummy);
   },
-  resolve: function (type) {
-
-  },
   download: function (filename, text) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -409,10 +453,14 @@ var StarblastMap = {
 
     document.body.removeChild(element);
   },
+  permalink: function(newMap)
+  {
+    return `${window.location.protocol}//${window.location.host}${window.location.pathname}${(newMap)?"?":""}${encodeURI(newMap)}`;
+  },
   setURL: function (newMap)
   {
-    let url=window.location.protocol + "//" + window.location.host + window.location.pathname,clear=(newMap)?"?":"";
-    window.history.pushState({path:url+clear+(newMap||"")},'',url+clear+(newMap||""));
+    let url = this.permalink(newMap);
+    window.history.pushState({path:url},'',url);
   },
   startTrail: function (x,y) {
     let e = window.event;
@@ -517,20 +565,6 @@ window.Misc = {
 // {
 //   if (confirm("Map pattern from URL detected!\nLoad the map?"))
 //   {
-//     let smap=querymap.split('e'),dmap=[];
-//     for (let i of smap)
-//     {
-//       let repeat=false,qstr=i.replace(/l(.+)n\d+/,"$1");
-//       qstr=qstr.replace(/\dt\d+d/g,function(v){
-//         let qd="";
-//         for (let j=0;j<Number(v.replace(/\dt(\d+)d/g,"$1"));j++) qd+=v[0];
-//         return qd;
-//       });
-//       dmap.push(qstr);
-//       i.replace(/l.+n\d+/,function(v){repeat=true});
-//       if (repeat)
-//         for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) dmap.push(qstr);
-//     }
 //     if (dmap.length < 20 || dmap.length > 200)
 //     {
 //       alert("Invalid map pattern!");
@@ -555,14 +589,14 @@ window.Misc = {
 // $("#asChoose").html(cas+"</tr>");
 // $("#brush_size").val(applyBrushSize());
 // changeASSize();
-// $("#random").on("mouseover", function() {
-//   viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
-// });
+StarblastMap.Buttons.randomMaze.on("mouseover", function() {
+  viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
+});
 new ResizeSensor(Engine.menu[0], function(){
     StarblastMap.map.css("padding-top",Engine.menu.height()+"px")
 });
 StarblastMap.sizeInput.on("change",function(){StarblastMap.create(Engine.applySize("size",StarblastMap.sizeInput.val()))});
-StarblastMap.clearButton.on("click",StarblastMap.clear.bind(StarblastMap));
+StarblastMap.Buttons.clear.on("click",StarblastMap.clear.bind(StarblastMap));
 // $("#brush_size").on("change", function() {
 //   applyBrushSize($("#brush_size").val());
 // });
@@ -573,65 +607,64 @@ StarblastMap.clearButton.on("click",StarblastMap.clear.bind(StarblastMap));
 //     applyColor(i+"-color",$("#"+i+"-color").val());
 //   });
 // }
-// $("#export").on("click",function() {
-//   var text=process("plain");
-//   var d=new Date();
-//   var suff=d.getFullYear().toString()+(d.getMonth()+1).toString()+d.getDate().toString()+d.getHours().toString()+d.getMinutes().toString()+d.getSeconds().toString();
-//   download("starblast-map_" + suff, text);
-// });
-// $("#random").on("click", function() {
-//   while (!loadMap(randomMaze(applySize("size")).split("\n"))) loadMap(randomMaze(applySize("size")).split("\n"));
-// });
-// $("#copyMap").on("click",function() {
-//   copyToClipboard(process("plain"));
-// })
-// $("#loadMap").on("change", function(e) {
-//   let file=e.target.files[0];
-//   if (file.type.match("plain") || file.type.match("javascript")) {
-//     let fr = new FileReader();
-//     fr.onload = (function(reader)
-//     {
-//         return function()
-//         {
-//             parseMap(reader.result);
-//         }
-//     })(fr);
-//     fr.readAsText(file);
-//   }
-//   else alert("Unsupported file format!");
-//   $("#loadMap").val("");
-// });
-// document.onkeypress = function(e)
-// {
-//   let size=["brush_size","map_size","background-color","border-color","as-color"],check=[];
-//   for (let i of size) check.push($("#"+i).is(":focus"));
-//   if (!Math.max(...check))
-//   switch (e.which)
-//   {
-//     case 119:
-//     case 87:
-//       scrollBy(0,-40);
-//       break;
-//     case 115:
-//     case 83:
-//       scrollBy(0,40);
-//       break;
-//     case 100:
-//     case 68:
-//       scrollBy(40,0);
-//       break;
-//     case 97:
-//     case 65:
-//       scrollBy(-40,0);
-//       break;
-//     default:
-//       if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
-//   }
-// }
-// $("#permalink").on("click", function(){
-//   setMapURL(encodeURI(process("url")));
-//   copyToClipboard(window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+encodeURI(process("url")));
-// });
+StarblastMap.Buttons.export.on("click",function() {
+  var text=process("plain");
+  var d=new Date();
+  var suff=d.getFullYear().toString()+(d.getMonth()+1).toString()+d.getDate().toString()+d.getHours().toString()+d.getMinutes().toString()+d.getSeconds().toString();
+  Engine.download("starblast-map_" + suff, text);
+});
+StarblastMap.Buttons.randomMaze.on("click", function() {
+  StarblastMap.import("plain",StarblastMap.randomMaze(StarblastMap.size));
+});
+StarblastMap.Buttons.copy.on("click", StarblastMap.copy("plain").bind(StarblastMap));
+StarblastMap.Buttons.import.on("change", function(e) {
+  let file=e.target.files[0];
+  if (file.type.match("plain") || file.type.match("javascript")) {
+    let fr = new FileReader();
+    fr.onload = (function(reader)
+    {
+        return function()
+        {
+            StarblastMap.import("plain",reader.result);
+        }
+    })(fr);
+    fr.readAsText(file);
+  }
+  else alert("Unsupported file format!");
+  StarblastMap.Buttons.import.val("");
+});
+document.onkeypress = function(e)
+{
+  let size=["brush_size","map_size","background-color","border-color","as-color"],check=[];
+  for (let i of size) check.push($("#"+i).is(":focus"));
+  if (!Math.max(...check))
+  switch (e.which)
+  {
+    case 119:
+    case 87:
+      scrollBy(0,-40);
+      break;
+    case 115:
+    case 83:
+      scrollBy(0,40);
+      break;
+    case 100:
+    case 68:
+      scrollBy(40,0);
+      break;
+    case 97:
+    case 65:
+      scrollBy(-40,0);
+      break;
+    default:
+      if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
+  }
+}
+StarblastMap.Buttons.permalink.on("click", function(){
+  let map = StarblastMap.export("url");
+  Engine.setURL(map);
+  StarblastMap.copy("url");
+});
 StarblastMap.create();
 for (let i of ["brush_size","map_size","border-color","background-color"])
 $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
