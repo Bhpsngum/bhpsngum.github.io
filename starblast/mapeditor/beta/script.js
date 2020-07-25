@@ -426,7 +426,7 @@ var StarblastMap = {
     size: 0,
     applySize: function (num) {
       let max=StarblastMap.size;
-      let size=Math.round((num != void 0)?num:(Number(localStorage.brush)||0));
+      let size=Math.round((num != void 0)?num:this.size);
       size=Math.max(Math.min(max,size),0);
       this.input.val(size);
       this.size = size;
