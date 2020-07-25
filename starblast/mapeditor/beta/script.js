@@ -255,6 +255,7 @@ var StarblastMap = {
     $("#"+param).val(css);
     localStorage.setItem(param,css);
     if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
+    return css;
   },
   applySize: function (key,num) {
     let template= {
