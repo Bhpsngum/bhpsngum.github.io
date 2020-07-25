@@ -603,9 +603,9 @@ Engine.Brush.input.on("change", function() {
 });
 for (let i of ["border","background","as"])
 {
-  applyColor(i+"-color");
+  Engine.applyColor(i+"-color");
   $("#"+i+"-color").on("change", function(){
-    applyColor(i+"-color",$("#"+i+"-color").val());
+    Engine.applyColor(i+"-color",$("#"+i+"-color").val());
   });
 }
 StarblastMap.Buttons.export.on("click",function() {
