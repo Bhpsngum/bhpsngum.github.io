@@ -9,7 +9,7 @@ var StarblastMap = {
   pattern: [],
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
   buildData: function() {
-    this.data = new Array(Number(this.size)).fill(Array(Number(this.size)).fill(0));
+    this.data = new Array(Number(this.size)).fill(new Array(Number(this.size)).fill(0));
   },
   load: function(data,init) {
     let h=data||this.data;check=true;
@@ -113,7 +113,6 @@ var StarblastMap = {
       for (let j=y-br;j<=y+br;j++)
         this.updateCell(i,j,size);
     this.sync();
-    console.log(br);
   },
   updateCell: function(x,y,num) {
     let element=$(`#p${x}-${y} > img`);
