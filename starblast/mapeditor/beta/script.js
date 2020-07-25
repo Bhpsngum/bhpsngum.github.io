@@ -108,7 +108,7 @@ var StarblastMap = {
     }
   },
   modify: function(x,y,num) {
-    let br=Properties.brushSize, size = this.size;
+    let br=Properties.brushSize, size = (num!= void 0)?num:this.Asteroids.size;
     for (let i=x-br;i<=x+br;i++)
       for (let j=y-br;j<=y+br;j++)
         this.updateCell(i,j,size);
