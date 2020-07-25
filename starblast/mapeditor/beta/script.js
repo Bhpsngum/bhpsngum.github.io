@@ -505,7 +505,7 @@ if (error)
   let fail = 0;
   try{
     let storageMap = JSON.parse(localStorage.map);
-    if (Array.isArray(storageMap)) StarblastMap.data = strorageMap;
+    if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
     else throw "Nope";
   }
   catch(e){fail = 1}
