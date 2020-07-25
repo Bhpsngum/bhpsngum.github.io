@@ -1,3 +1,4 @@
+// if (window.confirm("This beta version is now broken\n\nGo to the main version?")) window.open(location.href.replace("/beta/","/"),"_self");
 var LOAD = 0, SAVE = 1;
 var StarblastMap = {
   map: $("#map"),
