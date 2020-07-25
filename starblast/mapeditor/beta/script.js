@@ -492,99 +492,15 @@ window.Misc = {
   modify: StarblastMap.modify.bind(StarblastMap),
   changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap)
 }
-// function loadMap(data,size,alsize,initial)
-// {
-//   if (!data) syncMap(2);
-//   let h=(data)?data:window.map.data;check=true;
-//   if (Array.isArray(h))
-//   {
-//     let u=JSON.parse(JSON.stringify(h)).sort(),d=(size != void 0)?size:Math.max(h.length,u[u.length-1].length);
-//     if (d>200) d=200;
-//     else if (d<20) d=20;
-//     mapSize.val(d);
-//     if (d != applySize("size") || initial)
-//     {
-//       applySize("size",d,1);
-//       let tb="";
-//       for (let i=0;i<d;i++)
-//       {
-//         tb+="<tr>";
-//         for (let j=0;j<d;j++)
-//         {
-//           let wh=(alsize != void 0)?alsize:((size!= void 0)?0:(Number(((h[i] != void 0)?h[i]:[])[j])||0));
-//           tb+=`<td id='p${i}-${j}' onclick = 'change(${i},${j});' oncontextmenu='change(${i},${j},0);' onmouseover='viewXY(${i},${j});' onmousedown='startTrail(${i},${j});' onmouseup='stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
-//         }
-//         tb+="</tr>";
-//       }
-//       $("#map").html(tb);
-//       $("#map").css("width",(d*42).toString()+"px");
-//     }
-//     else
-//     {
-//       for (let i=0;i<d;i++)
-//         for (let j=0;j<d;j++)
-//         {
-//           let gh=(alsize != void 0)?alsize:(Number(((h[i] != void 0)?h[i]:[])[j])||0);
-//           singlechange(i,j,gh);
-//         }
-//     }
-//   }
-//   else check=false;
-//   syncMap(0);
-//   return check;
-// }
-// function parseMap(data) {
-//   let fail=0,map=[];
-//   try {
-//     eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
-//     if (typeof parse() != 'string') throw "Not a string";
-//     else
-//     {
-//       map=parse().split("\n");
-//       if (map.length < 20 || map.length > 200) throw "Invalid map size";
-//     }
-//   }
-//   catch(e){fail=1;}
-//   if (!fail)
-//   {
-//     if (!loadMap(map))
-//     {
-//       alert("Invalid map pattern!");
-//       return false;
-//     }
-//   }
-//   else
-//   {
-//     alert("Invalid map pattern!");
-//     return false;
-//   }
-//   return true;
-// }
-// let querymap=decodeURI(window.location.search.replace(/^\?/,"")),error=0;
-// if (querymap === "") error=1;
-// else
-// {
-//   if (confirm("Map pattern from URL detected!\nLoad the map?"))
-//   {
-//     if (dmap.length < 20 || dmap.length > 200)
-//     {
-//       alert("Invalid map pattern!");
-//       error=1;
-//     }
-//     else if (!loadMap(dmap,null,null,1))
-//     {
-//       alert("Invalid map pattern!");
-//       error=1;
-//     }
-//   }
-//   else error=1;
-//   setMapURL();
-// }
-// if (error)
-// {
-//   syncMap(2);
-//   loadMap(null,null,null,1);
-// }
+let querymap=window.location.search.replace(/^\?/,""),error=0;
+if (querymap === "") error=1;
+else
+{
+  if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import(url,querymap);
+  else error=1;
+  Engine.setURL();
+}
+if (error) StarblastMap.load(null,1);
 let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
 $("#asChoose").html(cas+"</tr>");
@@ -666,7 +582,6 @@ StarblastMap.Buttons.permalink.on("click", function(){
   Engine.setURL(map);
   StarblastMap.copy("url");
 });
-StarblastMap.create();
 for (let i of ["brush_size","map_size","border-color","background-color"])
 $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
 let states=["dark","light"];
