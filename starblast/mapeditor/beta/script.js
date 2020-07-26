@@ -164,6 +164,7 @@ var StarblastMap = {
         }
         break;
     }
+    console.log(map);
     if (fail) alert("Invalid Map!");
     else if (!this.load(map)) alert("Invalid Map!");
   },
@@ -503,12 +504,12 @@ window.Misc = {
 }
 let querymap=window.location.search.replace(/^\?/,""),error=0;
 if (querymap === "") error=1;
-// else
-// {
-//   if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import(url,querymap);
-//   else error=1;
-//   Engine.setURL();
-// }
+else
+{
+  if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import(url,querymap);
+  else error=1;
+  Engine.setURL();
+}
 if (error)
 {
   let fail = 0;
@@ -551,7 +552,7 @@ StarblastMap.Buttons.export.on("click",function() {
   Engine.download("starblast-map_" + suff, text);
 });
 StarblastMap.Buttons.randomMaze.on("click", function() {
-  StarblastMap.import("plain",StarblastMap.randomMaze(StarblastMap.size));
+  StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
 });
 StarblastMap.Buttons.copy.on("click", StarblastMap.copy.bind(StarblastMap)("plain"));
 StarblastMap.Buttons.import.on("change", function(e) {
