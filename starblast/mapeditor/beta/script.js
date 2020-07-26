@@ -44,10 +44,10 @@ var StarblastMap = {
         this.pattern = new Map();
         this.buildData();
         let tb="";
-        for (let i=0;i<d;i++)
+        for (let i=0;i<this.size;i++)
         {
           tb+="<tr>";
-          for (let j=0;j<d;j++)
+          for (let j=0;j<this.size;j++)
           {
             let wh=Number((h[i]||[])[j])||0;
             if (wh!=0)
