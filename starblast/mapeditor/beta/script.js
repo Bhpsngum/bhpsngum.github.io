@@ -495,7 +495,7 @@ var StarblastMap = {
   stopTrail: function()
   {
     this.trail = -1;
-    StarblastMap.history.push(["m",this.session]);
+    StarblastMap.history.push(["m",StarblastMap.session]);
     StarblastMap.session = new Map();
   },
   menu: $("#menu")
