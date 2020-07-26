@@ -81,11 +81,14 @@ var StarblastMap = {
     this.load(null,1);
   },
   clear: function() {
+    let session = new Map();
     for (let i of this.pattern.keys())
     {
       let pos = i.split("-").map(x => Number(x));
+      session.set(i,[this.pattern.get(i),0]);
       this.updateCell(...pos, 0);
     }
+    this.history.push(["m",session]);
     this.sync();
   },
   export: function (type) {
