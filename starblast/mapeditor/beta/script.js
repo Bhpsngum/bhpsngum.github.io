@@ -40,7 +40,6 @@ var StarblastMap = {
       Engine.applySize("size",d);
       this.buildData();
       this.pattern = [];
-      console.log(oldSize, this.size);
       if (oldSize != this.size || init)
       {
         let tb="";
@@ -85,6 +84,7 @@ var StarblastMap = {
   clear: function() {
     for (let i of this.pattern) this.updateCell(i[0],i[1],0);
     this.pattern = [];
+    this.sync();
   },
   export: function (type) {
     let str=[],map=this.data;
