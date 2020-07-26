@@ -15,7 +15,8 @@ var StarblastMap = {
   future: [],
   pattern: new Map(),
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
-  buildData: function() {
+  buildData: function(dms) {
+    (!dms) && this.history.push(["n",this.data]);
     this.data = [];
     for (let i=0;i<this.size;i++) this.data.push(new Array(this.size).fill(0));
   },
@@ -79,8 +80,8 @@ var StarblastMap = {
   },
   create: function(dms)
   {
-    this.buildData();
-    this.load(null,1,dms);
+    this.buildData(dms);
+    this.load(null,1,1);
   },
   clear: function() {
     let session = new Map();
