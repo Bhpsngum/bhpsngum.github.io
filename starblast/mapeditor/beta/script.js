@@ -133,11 +133,17 @@ var StarblastMap = {
     }
   },
   import: function (type, data) {
-    let map;
+    let map,fail = 0;
     switch (type)
     {
       case "plain":
-        map = data.split("\n");
+        let parse;
+        try {
+          eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
+          if (typeof parse() != 'string') throw "Not a string";
+          else map=parse().split("\n");
+        }
+        catch(e){fail=1}
         break;
       case "url":
         let smap=decodeURI(data).split('e');
@@ -157,7 +163,8 @@ var StarblastMap = {
         }
         break;
     }
-    if (!this.load(map)) alert("Invalid Map!");
+    if (fail) alert("Invalid Map!");
+    else if (!this.load(map)) alert("Invalid Map!");
   },
   modify: function(x,y,num) {
     let br=Engine.Brush.size, size = (num!= void 0)?num:this.Asteroids.size;
