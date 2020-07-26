@@ -60,7 +60,7 @@ var StarblastMap = {
           tb+="</tr>";
         }
         this.map.html(tb);
-        this.map.css("width",(d*42).toString()+"px");
+        this.map.css("width",(this.size*42).toString()+"px");
         if (!dismiss_history) this.history.push(["n",prev]);
       }
       else
