@@ -61,17 +61,20 @@ var StarblastMap = {
         }
         this.map.html(tb);
         this.map.css("width",(d*42).toString()+"px");
+        if (!dismiss_history) this.history.push(["n",prev]);
       }
       else
       {
+        let session = new Map();
         for (let i=0;i<oldSize;i++)
           for (let j=0;j<oldSize;j++)
           {
             let gh=Number((h[i]||[])[j])||0;
-            this.updateCell(i,j,gh);
+            let data = this.updateCell(i,j,gh);
+            if (data.changed) session.set(`${i}-${j}`,[data.prev,num]);
           }
+        if (!dismiss_history) this.history.push(["m",session]);
       }
-      if (!dismiss_history) this.history.push(["n",prev]);
       this.sync();
       Engine.applyColor("as-color");
     }
