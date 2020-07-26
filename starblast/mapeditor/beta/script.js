@@ -71,6 +71,7 @@ var StarblastMap = {
           }
       }
       this.sync();
+      Engine.applyColor("as-color");
     }
     else check=false;
     return check;
