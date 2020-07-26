@@ -215,13 +215,13 @@ var StarblastMap = {
           let pos = i.split("-").map(x => Number(x));
           this.updateCell(...pos,actions.get(i)[0]);
         }
-        this.sync();
-        this.history.splice(this.history.length-1,1);
         break;
       case "n":
         this.load(lastAction[1],null,1);
         break;
     }
+    this.sync();
+    this.history.splice(this.history.length-1,1);
   },
   redo: function() {
     if (!this.future.length) return;
@@ -236,13 +236,13 @@ var StarblastMap = {
           let pos = i.split("-").map(x => Number(x));
           this.updateCell(...pos,actions.get(i)[1]);
         }
-        this.sync();
-        this.future.splice(0,1);
         break;
       case "n":
         this.load(futureAction[1],null,1);
         break;
     }
+    this.sync();
+    this.future.splice(0,1);
   },
   Asteroids: {
     changeSize: function (num) {
@@ -564,7 +564,10 @@ let querymap=window.location.search.replace(/^\?/,""),error=0;
 if (querymap === "") error=1;
 else
 {
-  if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import("url",querymap);
+  if (confirm("Map pattern from URL detected!\nLoad the map?")) {
+    try{StarblastMap.load(StarblastMap.import("url",querymap),1,1)}
+    catch(e){}
+  }
   else error=1;
   Engine.setURL();
 }
