@@ -364,7 +364,7 @@ var StarblastMap = {
     let d= this.data[x][y],gl="No Asteroids";
     if (d) gl="Asteroid size: "+d.toString();
     $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-    if (Engine.trail != -1) this.modify(x,y,Engine.trail);
+    (Engine.trail != -1) && this.modify(x,y,Engine.trail);
   }
 }, Engine = {
   trail: -1,
@@ -478,7 +478,7 @@ var StarblastMap = {
     switch (e.which) {
       case 1:
         this.trail=StarblastMap.Asteroids.size;
-        StarblastMap.modify(x,y,window.trail);
+        StarblastMap.modify(x,y,this.trail);
         break;
       case 3:
         this.trail=0;
