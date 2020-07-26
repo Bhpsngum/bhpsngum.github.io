@@ -564,6 +564,7 @@ window.Misc = {
   changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap)
 }
 let querymap=window.location.search.replace(/^\?/,""),error=0;
+debugger;
 if (querymap !== "") error = 1;
 else
 {
