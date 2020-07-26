@@ -9,6 +9,7 @@ var StarblastMap = {
     copy: $("#copyMap"),
     permalink: $("#permalink")
   },
+  session: new Map(),
   data: [],
   history: [],
   pattern: new Map(),
@@ -172,11 +173,14 @@ var StarblastMap = {
     let br=Engine.Brush.size;
     for (let i=x-br;i<=x+br;i++)
       for (let j=y-br;j<=y+br;j++)
-        this.updateCell(i,j,num);
+      {
+        let data = this.updateCell(i,j,num);
+        if (data.changed) this.session.set(`${i}-${j}`,[data.prev,num]);
+      }
     this.sync();
   },
   updateCell: function(x,y,num) {
-    let element=$(`#p${x}-${y} > img`);
+    let element=$(`#p${x}-${y} > img`),prev=this.data[x][y];
     if (element.length && this.data[x][y] != num)
     {
       element.width(num*3);
@@ -184,7 +188,9 @@ var StarblastMap = {
       if (num == 0) this.pattern.delete(`${x}-${y}`);
       else this.pattern.set(`${x}-${y}`,num);
       this.data[x][y]=num;
+      return {changed: true, prev: prev};
     }
+    else return {changed:false};
   },
   sync: function () {
     localStorage.setItem("map",JSON.stringify(this.data));
@@ -489,6 +495,8 @@ var StarblastMap = {
   stopTrail: function()
   {
     this.trail = -1;
+    StarblastMap.history.push(["m",this.session]);
+    this.session = new Map();
   },
   menu: $("#menu")
 }
