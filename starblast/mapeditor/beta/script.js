@@ -83,7 +83,7 @@ var StarblastMap = {
   clear: function() {
     for (let i of this.pattern.keys())
     {
-      let pos = this.pattern.get(i).split("-").map(x => Number(x));
+      let pos = i.split("-").map(x => Number(x));
       this.updateCell(...pos, 0);
     }
     this.sync();
