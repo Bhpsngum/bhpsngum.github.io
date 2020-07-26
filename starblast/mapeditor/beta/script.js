@@ -230,10 +230,10 @@ var StarblastMap = {
   redo: function() {
     if (!this.future.length) return;
     let futureAction = this.future[0];
-    this.history.push(futureAction);
     switch(futureAction[0])
     {
       case "m":
+        this.history.push(futureAction);
         let actions = futureAction[1];
         for (let i of actions.keys())
         {
@@ -242,6 +242,7 @@ var StarblastMap = {
         }
         break;
       case "n":
+        this.history.push(["n",this.data]);
         this.load(futureAction[1],null,1);
         break;
     }
