@@ -200,7 +200,7 @@ var StarblastMap = {
     switch(lastAction[0])
     {
       case "m":
-        let actions = lastAction[0];
+        let actions = lastAction[1];
         for (let i of actions.keys())
         {
           let pos = i.split("-").map(x => Number(x));
