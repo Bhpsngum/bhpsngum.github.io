@@ -32,13 +32,13 @@ var StarblastMap = {
   },
   load: function(data,init) {
     let h=data||this.data;check=true;
-    this.pattern = new Map();
     if (Array.isArray(h))
     {
       let u=JSON.parse(JSON.stringify(h)).sort(),d=Math.max(h.length,u[u.length-1].length),oldSize = this.size;
       Engine.applySize("size",d);
       if (oldSize != this.size || init)
       {
+        this.pattern = new Map();
         this.buildData();
         let tb="";
         for (let i=0;i<d;i++)
@@ -179,6 +179,7 @@ var StarblastMap = {
   },
   updateCell: function(x,y,num) {
     let element=$(`#p${x}-${y} > img`);
+    console.log(this.data[x][y],num);
     if (element.length && this.data[x][y] != num)
     {
       element.width(num*3);
