@@ -32,7 +32,7 @@ var StarblastMap = {
     }
     Engine.copyToClipboard(map);
   },
-  load: function(data,init,dissmiss_history) {
+  load: function(data,init,dismiss_history) {
     let prev = this.data;h=data||prev;check=true;
     if (Array.isArray(h))
     {
