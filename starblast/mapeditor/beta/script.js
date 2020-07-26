@@ -603,16 +603,23 @@ StarblastMap.Buttons.import.on("change", function(e) {
 });
 document.onkeypress = function(e)
 {
+  e.preventDefault();
   let size=["brush_size","map_size","background-color","border-color","as-color"],check=[];
   for (let i of size) check.push($("#"+i).is(":focus"));
   if (!Math.max(...check))
   if (e.ctrlKey == true) switch(e.which)
   {
-    case "26":
+    case 122:
+    case 90:
       StarblastMap.undo();
       break;
-    case "25":
+    case 121:
+    case 89:
       StarblastMap.redo();
+      break;
+    case 115:
+    case 83:
+      StarblastMap.Buttons.export.click();
       break;
   }
   else switch (e.which)
