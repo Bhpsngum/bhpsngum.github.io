@@ -196,6 +196,7 @@ var StarblastMap = {
     localStorage.setItem("map",JSON.stringify(this.data));
   },
   undo: function() {
+    if (!this.history.length) return;
     let lastAction = this.history[this.history.length-1];
     switch(lastAction[0])
     {
@@ -206,6 +207,7 @@ var StarblastMap = {
           let pos = i.split("-").map(x => Number(x));
           this.updateCell(...pos,actions.get(i)[0]);
         }
+        this.sync();
         this.history.splice(this.history.length-1,1);
         break;
     }
@@ -601,7 +603,7 @@ StarblastMap.Buttons.import.on("change", function(e) {
   else alert("Unsupported file format!");
   StarblastMap.Buttons.import.val("");
 });
-document.onkeypress = function(e)
+document.onkeydown = function(e)
 {
   e.preventDefault();
   let size=["brush_size","map_size","background-color","border-color","as-color"],check=[];
@@ -616,10 +618,6 @@ document.onkeypress = function(e)
     case 121:
     case 89:
       StarblastMap.redo();
-      break;
-    case 115:
-    case 83:
-      StarblastMap.Buttons.export.click();
       break;
   }
   else switch (e.which)
