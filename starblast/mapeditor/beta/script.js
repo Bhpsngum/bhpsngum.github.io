@@ -1,5 +1,3 @@
-// if (window.confirm("This beta version is now broken\n\nGo to the main version?")) window.open(location.href.replace("/beta/","/"),"_self");
-var LOAD = 0, SAVE = 1;
 var StarblastMap = {
   map: $("#map"),
   sizeInput: $("#map_size"),
@@ -13,7 +11,7 @@ var StarblastMap = {
   },
   data: [],
   history: [],
-  pattern: [],
+  pattern: new Map(),
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
   buildData: function() {
     this.data = [];
@@ -34,7 +32,7 @@ var StarblastMap = {
   },
   load: function(data,init) {
     let h=data||this.data;check=true;
-    this.pattern = [];
+    this.pattern = new Map();
     if (Array.isArray(h))
     {
       let u=JSON.parse(JSON.stringify(h)).sort(),d=Math.max(h.length,u[u.length-1].length),oldSize = this.size;
@@ -51,7 +49,7 @@ var StarblastMap = {
             let wh=Number((h[i]||[])[j])||0;
             if (wh!=0)
             {
-              this.pattern.push([i,j,wh]);
+              this.pattern.set(`${i}-${j}`,wh);
               this.data[i][j]=wh;
             }
             tb+=`<td id='p${i}-${j}' onclick = 'Misc.modify(${i},${j});' oncontextmenu='Misc.modify(${i},${j},0);' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j});' onmouseup='Misc.stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
@@ -83,8 +81,11 @@ var StarblastMap = {
     this.load(null,1);
   },
   clear: function() {
-    for (let i of this.pattern) this.updateCell(i[0],i[1],0);
-    this.pattern = [];
+    for (let i of this.pattern.keys())
+    {
+      let pos = this.pattern.get(i).split("-").map(x => Number(x));
+      this.updateCell(...pos, 0);
+    }
     this.sync();
   },
   export: function (type) {
@@ -182,7 +183,8 @@ var StarblastMap = {
     {
       element.width(num*3);
       element.height(num*3);
-      this.pattern.push([x,y,num]);
+      if (num == 0) this.pattern.delete(`${x}-${y}`);
+      else this.pattern.set(`${x}-${y}`,num);
       this.data[x][y]=num;
     }
   },
