@@ -206,7 +206,7 @@ var StarblastMap = {
     switch(lastAction[0])
     {
       case "m":
-        this.future.shift(["m",this.pattern]);
+        this.future.unshift(["m",this.pattern]);
         let actions = lastAction[1];
         for (let i of actions.keys())
         {
