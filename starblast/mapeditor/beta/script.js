@@ -195,6 +195,24 @@ var StarblastMap = {
   sync: function () {
     localStorage.setItem("map",JSON.stringify(this.data));
   },
+  undo: function() {
+    let lastAction = this.history[this.history.length-1];
+    switch(lastAction[0])
+    {
+      case "m":
+        let actions = lastAction[0];
+        for (let i of actions.keys())
+        {
+          let pos = i.split("-").map(x => Number(x));
+          this.updateCell(...pos,actions.get(i)[0]);
+        }
+        this.history.splice(this.history.length-1,1);
+        break;
+    }
+  },
+  redo: function() {
+
+  },
   Asteroids: {
     changeSize: function (num) {
       let u=Engine.applySize("as_size",num);
@@ -588,7 +606,16 @@ document.onkeypress = function(e)
   let size=["brush_size","map_size","background-color","border-color","as-color"],check=[];
   for (let i of size) check.push($("#"+i).is(":focus"));
   if (!Math.max(...check))
-  switch (e.which)
+  if (e.ctrlKey == true) switch(e.which)
+  {
+    case "26":
+      StarblastMap.undo();
+      break;
+    case "25":
+      StarblastMap.redo();
+      break;
+  }
+  else switch (e.which)
   {
     case 119:
     case 87:
