@@ -12,6 +12,7 @@ var StarblastMap = {
   session: new Map(),
   data: [],
   history: [],
+  future: [],
   pattern: new Map(),
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
   buildData: function() {
@@ -180,6 +181,7 @@ var StarblastMap = {
         let data = this.updateCell(i,j,num);
         if (data.changed) this.session.set(`${i}-${j}`,[data.prev,num]);
       }
+    this.future = [];
     this.sync();
   },
   updateCell: function(x,y,num) {
@@ -204,6 +206,7 @@ var StarblastMap = {
     switch(lastAction[0])
     {
       case "m":
+        this.future.shift(["m",this.pattern]);
         let actions = lastAction[1];
         for (let i of actions.keys())
         {
@@ -216,7 +219,22 @@ var StarblastMap = {
     }
   },
   redo: function() {
-
+    if (!this.future.length) return;
+    let futureAction = this.future[0];
+    switch(futureAction[0])
+    {
+      case "m":
+        this.history.push(["m",this.pattern]);
+        let actions = futureAction[1];
+        for (let i of actions.keys())
+        {
+          let pos = i.split("-").map(x => Number(x));
+          this.updateCell(...pos,actions.get(i)[1]);
+        }
+        this.sync();
+        this.future.splice(0,1);
+        break;
+    }
   },
   Asteroids: {
     changeSize: function (num) {
@@ -608,41 +626,43 @@ StarblastMap.Buttons.import.on("change", function(e) {
 });
 document.onkeydown = function(e)
 {
-  e.preventDefault();
   let size=["brush_size","map_size","background-color","border-color","as-color"],check=[];
   for (let i of size) check.push($("#"+i).is(":focus"));
   if (!Math.max(...check))
-  if (e.ctrlKey == true) switch(e.which)
   {
-    case 122:
-    case 90:
-      StarblastMap.undo();
-      break;
-    case 121:
-    case 89:
-      StarblastMap.redo();
-      break;
-  }
-  else switch (e.which)
-  {
-    case 119:
-    case 87:
-      scrollBy(0,-40);
-      break;
-    case 115:
-    case 83:
-      scrollBy(0,40);
-      break;
-    case 100:
-    case 68:
-      scrollBy(40,0);
-      break;
-    case 97:
-    case 65:
-      scrollBy(-40,0);
-      break;
-    default:
-      if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
+    e.preventDefault();
+    if (e.ctrlKey == true) switch(e.which)
+    {
+      case 122:
+      case 90:
+        StarblastMap.undo();
+        break;
+      case 121:
+      case 89:
+        StarblastMap.redo();
+        break;
+    }
+    else switch (e.which)
+    {
+      case 119:
+      case 87:
+        scrollBy(0,-40);
+        break;
+      case 115:
+      case 83:
+        scrollBy(0,40);
+        break;
+      case 100:
+      case 68:
+        scrollBy(40,0);
+        break;
+      case 97:
+      case 65:
+        scrollBy(-40,0);
+        break;
+      default:
+        if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
+    }
   }
 }
 StarblastMap.Buttons.permalink.on("click", function(){
