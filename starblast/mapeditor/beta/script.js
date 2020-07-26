@@ -144,7 +144,7 @@ var StarblastMap = {
         return str.join("e");
     }
   },
-  import: function (type, data) {
+  import: function (type, data, init) {
     let map,fail = 0;
     switch (type)
     {
@@ -176,7 +176,7 @@ var StarblastMap = {
         break;
     }
     if (fail) alert("Invalid Map!");
-    else if (!this.load(map)) alert("Invalid Map!");
+    else if (!this.load(map,init)) alert("Invalid Map!");
   },
   modify: function(x,y,num = this.Asteroids.size) {
     let br=Engine.Brush.size;
@@ -564,10 +564,10 @@ window.Misc = {
   changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap)
 }
 let querymap=window.location.search.replace(/^\?/,""),error=0;
-if (querymap !== "") error = 1;
+if (querymap === "") error = 1;
 else
 {
-  if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import("url",querymap);
+  if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import("url",querymap,1);
   else error=1;
   Engine.setURL();
 }
