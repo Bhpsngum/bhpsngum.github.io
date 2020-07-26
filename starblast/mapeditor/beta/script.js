@@ -563,21 +563,25 @@ window.Misc = {
   modify: StarblastMap.modify.bind(StarblastMap),
   changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap)
 }
-let fail = 0;
-try{
-  let storageMap = JSON.parse(localStorage.map);
-  if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
-  else throw "Nope";
-}
-catch(e){fail = 1}
-if (fail) StarblastMap.create(1);
-else StarblastMap.load(null,1,1);
 let querymap=window.location.search.replace(/^\?/,""),error=0;
-if (querymap !== "")
+if (querymap !== "") error = 1;
+else
 {
   if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import("url",querymap);
   else error=1;
   Engine.setURL();
+}
+if (error)
+{
+  let fail = 0;
+  try{
+    let storageMap = JSON.parse(localStorage.map);
+    if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
+    else throw "Nope";
+  }
+  catch(e){fail = 1}
+  if (fail) StarblastMap.create(1);
+  else StarblastMap.load(null,1,1);
 }
 let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
