@@ -32,8 +32,8 @@ var StarblastMap = {
     }
     Engine.copyToClipboard(map);
   },
-  load: function(data,init) {
-    let h=data||this.data;check=true;
+  load: function(data,init,dissmiss_history) {
+    let prev = this.data;h=data||prev;check=true;
     if (Array.isArray(h))
     {
       let u=JSON.parse(JSON.stringify(h)).sort(),d=Math.max(h.length,u[u.length-1].length),oldSize = this.size;
@@ -70,16 +70,17 @@ var StarblastMap = {
             this.updateCell(i,j,gh);
           }
       }
+      if (!dismiss_history) this.history.push(["n",prev]);
       this.sync();
       Engine.applyColor("as-color");
     }
     else check=false;
     return check;
   },
-  create: function()
+  create: function(dms)
   {
     this.buildData();
-    this.load(null,1);
+    this.load(null,1,dms);
   },
   clear: function() {
     let session = new Map();
@@ -216,6 +217,9 @@ var StarblastMap = {
         this.sync();
         this.history.splice(this.history.length-1,1);
         break;
+      case "n":
+        this.load(lastAction[1],null,1);
+        break;
     }
   },
   redo: function() {
@@ -233,6 +237,9 @@ var StarblastMap = {
         }
         this.sync();
         this.future.splice(0,1);
+        break;
+      case "n":
+        this.load(futureAction[1],null,1);
         break;
     }
   },
@@ -556,7 +563,7 @@ let querymap=window.location.search.replace(/^\?/,""),error=0;
 if (querymap === "") error=1;
 else
 {
-  if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import(url,querymap);
+  if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import("url",querymap);
   else error=1;
   Engine.setURL();
 }
@@ -569,8 +576,8 @@ if (error)
     else throw "Nope";
   }
   catch(e){fail = 1}
-  if (fail) StarblastMap.create();
-  else StarblastMap.load(null,1);
+  if (fail) StarblastMap.create(1);
+  else StarblastMap.load(null,1,1);
 }
 let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
 for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
