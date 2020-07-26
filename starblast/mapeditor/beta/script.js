@@ -42,7 +42,7 @@ var StarblastMap = {
       if (oldSize != this.size || init)
       {
         this.pattern = new Map();
-        this.buildData();
+        this.buildData(dismiss_history);
         let tb="";
         for (let i=0;i<this.size;i++)
         {
@@ -580,7 +580,6 @@ if (error)
     else throw "Nope";
   }
   catch(e){fail = 1}
-  debugger;
   if (fail) StarblastMap.create(1);
   else StarblastMap.load(null,1,1);
 }
