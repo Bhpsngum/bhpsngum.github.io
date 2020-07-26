@@ -71,7 +71,7 @@ var StarblastMap = {
           {
             let gh=Number((h[i]||[])[j])||0;
             let data = this.updateCell(i,j,gh);
-            if (data.changed) session.set(`${i}-${j}`,[data.prev,num]);
+            if (data.changed) session.set(`${i}-${j}`,[data.prev,gh]);
           }
         if (!dismiss_history) this.history.push(["m",session]);
       }
@@ -580,6 +580,7 @@ if (error)
     else throw "Nope";
   }
   catch(e){fail = 1}
+  debugger;
   if (fail) StarblastMap.create(1);
   else StarblastMap.load(null,1,1);
 }
