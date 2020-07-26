@@ -30,8 +30,8 @@ var StarblastMap = {
     }
     Engine.copyToClipboard(map);
   },
-  load: function(data,init) {
-    let h=data||this.data;check=true;
+  load: function(data = this.data,init) {
+    let h=data;check=true;
     if (Array.isArray(h))
     {
       let u=JSON.parse(JSON.stringify(h)).sort(),d=Math.max(h.length,u[u.length-1].length),oldSize = this.size;
@@ -74,9 +74,8 @@ var StarblastMap = {
     else check=false;
     return check;
   },
-  create: function(num)
+  create: function()
   {
-    let size = num||this.size;
     this.buildData();
     this.load(null,1);
   },
@@ -166,15 +165,14 @@ var StarblastMap = {
         }
         break;
     }
-    console.log(map);
     if (fail) alert("Invalid Map!");
     else if (!this.load(map)) alert("Invalid Map!");
   },
-  modify: function(x,y,num) {
-    let br=Engine.Brush.size, size = (num!= void 0)?num:this.Asteroids.size;
+  modify: function(x,y,num = this.Asteroids.size) {
+    let br=Engine.Brush.size;
     for (let i=x-br;i<=x+br;i++)
       for (let j=y-br;j<=y+br;j++)
-        this.updateCell(i,j,size);
+        this.updateCell(i,j,num);
     this.sync();
   },
   updateCell: function(x,y,num) {
@@ -193,7 +191,7 @@ var StarblastMap = {
   },
   Asteroids: {
     changeSize: function (num) {
-      let u=Engine.applySize("as_size",num,1);
+      let u=Engine.applySize("as_size",num);
       for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
       $(`#asc${u}`).css({"border":"3px solid"});
       Engine.applyColor("border-color");
@@ -437,16 +435,16 @@ var StarblastMap = {
   Brush: {
     input: $("#brush_size"),
     size: 0,
-    applySize: function (num) {
+    applySize: function (num = this.size) {
       let max=StarblastMap.size;
-      let size=Math.round((num != void 0)?num:this.size);
+      let size=Math.round(num);
       size=Math.max(Math.min(max,size),0);
       this.input.val(size);
       this.size = size;
       localStorage.setItem("brush",size);
     },
   },
-  copyToClipboard: function (text) {
+  copyToClipboard: function (text = "") {
       var dummy = document.createElement("textarea");
       document.body.appendChild(dummy);
       dummy.value = text;
@@ -454,7 +452,7 @@ var StarblastMap = {
       document.execCommand("copy");
       document.body.removeChild(dummy);
   },
-  download: function (filename, text) {
+  download: function (filename, text = "") {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
@@ -466,11 +464,11 @@ var StarblastMap = {
 
     document.body.removeChild(element);
   },
-  permalink: function(newMap)
+  permalink: function(newMap = "")
   {
     return `${window.location.protocol}//${window.location.host}${window.location.pathname}${(newMap)?"?":""}${encodeURI(newMap)}`;
   },
-  setURL: function (newMap)
+  setURL: function (newMap = "")
   {
     let url = this.permalink(newMap);
     window.history.pushState({path:url},'',url);
@@ -536,7 +534,10 @@ StarblastMap.Buttons.randomMaze.on("mouseover", function() {
 new ResizeSensor(Engine.menu[0], function(){
     StarblastMap.map.css("padding-top",Engine.menu.height()+"px")
 });
-StarblastMap.sizeInput.on("change",function(){StarblastMap.create(Engine.applySize("size",StarblastMap.sizeInput.val()))});
+StarblastMap.sizeInput.on("change",function(){
+  Engine.applySize("size",StarblastMap.sizeInput.val());
+  StarblastMap.create();
+});
 StarblastMap.Buttons.clear.on("click",StarblastMap.clear.bind(StarblastMap));
 Engine.Brush.input.on("change", function() {
   Engine.Brush.applySize($("#brush_size").val());
