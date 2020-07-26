@@ -435,7 +435,7 @@ var StarblastMap = {
   Brush: {
     input: $("#brush_size"),
     size: 0,
-    applySize: function (num = this.size) {
+    applySize: function (num = (Number(localStorage.brush)||0)) {
       let max=StarblastMap.size;
       let size=Math.round(num);
       size=Math.max(Math.min(max,size),0);
