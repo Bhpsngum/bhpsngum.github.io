@@ -34,14 +34,14 @@ var StarblastMap = {
   },
   load: function(data,init) {
     let h=data||this.data;check=true;
+    this.pattern = [];
     if (Array.isArray(h))
     {
       let u=JSON.parse(JSON.stringify(h)).sort(),d=Math.max(h.length,u[u.length-1].length),oldSize = this.size;
       Engine.applySize("size",d);
-      this.buildData();
-      this.pattern = [];
       if (oldSize != this.size || init)
       {
+        this.buildData();
         let tb="";
         for (let i=0;i<d;i++)
         {
@@ -63,7 +63,6 @@ var StarblastMap = {
       }
       else
       {
-        this.clear(1);
         for (let i=0;i<oldSize;i++)
           for (let j=0;j<oldSize;j++)
           {
@@ -71,9 +70,9 @@ var StarblastMap = {
             this.updateCell(i,j,gh);
           }
       }
+      this.sync();
     }
     else check=false;
-    this.sync();
     return check;
   },
   create: function(num)
@@ -82,10 +81,10 @@ var StarblastMap = {
     this.buildData();
     this.load(null,1);
   },
-  clear: function(noSync) {
+  clear: function() {
     for (let i of this.pattern) this.updateCell(i[0],i[1],0);
     this.pattern = [];
-    (!noSync) && this.sync();
+    this.sync();
   },
   export: function (type) {
     let str=[],map=this.data;
