@@ -203,10 +203,10 @@ var StarblastMap = {
   undo: function() {
     if (!this.history.length) return;
     let lastAction = this.history[this.history.length-1];
+    this.future.unshift(lastAction);
     switch(lastAction[0])
     {
       case "m":
-        this.future.unshift(["m",this.pattern]);
         let actions = lastAction[1];
         for (let i of actions.keys())
         {
@@ -221,10 +221,10 @@ var StarblastMap = {
   redo: function() {
     if (!this.future.length) return;
     let futureAction = this.future[0];
+    this.history.push(futureAction);
     switch(futureAction[0])
     {
       case "m":
-        this.history.push(["m",this.pattern]);
         let actions = futureAction[1];
         for (let i of actions.keys())
         {
