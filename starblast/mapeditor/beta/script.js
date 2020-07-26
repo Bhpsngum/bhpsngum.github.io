@@ -36,11 +36,11 @@ var StarblastMap = {
     let h=data||this.data;check=true;
     if (Array.isArray(h))
     {
-      let u=JSON.parse(JSON.stringify(h)).sort(),d=Engine.applySize("size",Math.max(h.length,u[u.length-1].length));
+      let u=JSON.parse(JSON.stringify(h)).sort(),d=Engine.applySize("size",Math.max(h.length,u[u.length-1].length)),oldSize = this.size;
       Engine.applySize("size",d);
       this.buildData();
       this.pattern = [];
-      if (d != this.size || init)
+      if (oldSize != this.size || init)
       {
         let tb="";
         for (let i=0;i<d;i++)
