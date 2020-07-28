@@ -185,16 +185,16 @@
       let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0], action = ["push", "unshift"];
       return (JSON.stringify(life[u[i]]||"") !== JSON.stringify(session)) && life[action[i]](session);
     },
-    modify: function(x,y,num = this.Asteroids.size) {
+    modify: function(x,y,num = StarblastMap.Asteroids.size) {
       let br=Engine.Brush.size;
       for (let i=x-br;i<=x+br;i++)
         for (let j=y-br;j<=y+br;j++)
         {
-          let data = this.updateCell(i,j,num);
-          if (data.changed) this.session.set(`${i}-${j}`,[data.prev,num]);
+          let data = StarblastMap.updateCell(i,j,num);
+          if (data.changed) StarblastMap.session.set(`${i}-${j}`,[data.prev,num]);
         }
-      this.future = [];
-      this.sync();
+      StarblastMap.future = [];
+      StarblastMap.sync();
     },
     updateCell: function(x,y,num) {
       let element=$(`#p${x}-${y} > img`),prev=this.data[x][y];
@@ -428,10 +428,10 @@
       return generateMaze();
     },
     viewXY: function (x,y) {
-      let d= this.data[x][y],gl="No Asteroids";
+      let d= StarblastMap.data[x][y],gl="No Asteroids";
       if (d) gl="Asteroid size: "+d.toString();
       $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-      (Engine.trail != -1) && this.modify(x,y,Engine.trail);
+      (Engine.trail != -1) && StarblastMap.modify(x,y,Engine.trail);
     }
   }, Engine = {
     trail: -1,
@@ -544,18 +544,18 @@
       let e = window.event;
       switch (e.which) {
         case 1:
-          this.trail=StarblastMap.Asteroids.size;
-          StarblastMap.modify(x,y,this.trail);
+          Engine.trail=StarblastMap.Asteroids.size;
+          StarblastMap.modify(x,y,Engine.trail);
           break;
         case 3:
-          this.trail=0;
+          Engine.trail=0;
           StarblastMap.modify(x,y,0);
           break;
       }
     },
     stopTrail: function()
     {
-      this.trail = -1;
+      Engine.trail = -1;
       StarblastMap.pushSession("history",["m",StarblastMap.session]);
       StarblastMap.session = new Map();
     },
@@ -566,11 +566,11 @@
     size: Engine.applySize("as_size")
   });
   window.Misc = {
-    startTrail: Engine.startTrail.bind(Engine),
-    stopTrail: Engine.stopTrail.bind(Engine),
-    viewXY: StarblastMap.viewXY.bind(StarblastMap),
-    modify: StarblastMap.modify.bind(StarblastMap),
-    changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap)
+    startTrail: Engine.startTrail,
+    stopTrail: Engine.stopTrail,
+    viewXY: StarblastMap.viewXY,
+    modify: StarblastMap.modify,
+    changeASSize: StarblastMap.Asteroids.changeSize
   }
   let querymap=window.location.search.replace(/^\?/,""),error=0;
   if (querymap === "") error = 1;
