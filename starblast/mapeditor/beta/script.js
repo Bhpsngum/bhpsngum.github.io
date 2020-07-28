@@ -42,7 +42,7 @@ var StarblastMap = {
       if (oldSize != this.size || init)
       {
         this.pattern = new Map();
-        this.buildData(dismiss_history);
+        this.buildData(!dismiss_history);
         let tb="";
         for (let i=0;i<this.size;i++)
         {
