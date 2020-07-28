@@ -605,7 +605,6 @@ let Misc = function(){
     if (fail) StarblastMap.create(1);
     else StarblastMap.load(null,1,1);
   }
-  //StarblastMap.pushSession("history",["n",StarblastMap.data])
   let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
   for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
   $("#asChoose").html(cas+"</tr>");
