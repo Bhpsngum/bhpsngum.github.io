@@ -1,4 +1,4 @@
-(function(){
+let Misc = function(){
   var StarblastMap = {
     map: $("#map"),
     sizeInput: $("#map_size"),
@@ -565,7 +565,7 @@
     color: Engine.applyColor("as-color"),
     size: Engine.applySize("as_size")
   });
-  window.Misc = function(){"Hello World!"};
+  let Misc = function(){"Hello World!"};
   Object.assign(window.Misc, {
     startTrail: Engine.startTrail.bind(Engine),
     stopTrail: Engine.stopTrail.bind(Engine),
@@ -704,4 +704,5 @@
   console.log('%c Stop!!', 'font-weight: bold; font-size: 100px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38)');
   console.log('%cYou are accessing the Web Developing Area.\n\nPlease do not write/copy/paste/run any scripts here (unless you know what you\'re doing) to better protect yourself from loosing your map data, and even your other sensitive data.\n\nWe will not be responsible for any problems if you do not follow the warnings.', 'font-weight: bold; font-size: 15px;color: grey;');
   console.log('%cMap Creator, made by Bhpsngum,\n\nfeel free to distribute the code and make sure to credit my name if you intend to do that\n\nGitHub: https://github.com/Bhpsngum', 'font-weight: bold; font-size: 15px;color: Black;');
-}());
+  return Misc;
+}();
