@@ -182,8 +182,20 @@ let Misc = function(){
     },
     pushSession: function(frame,session)
     {
-      let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0], action = ["push", "unshift"];
-      return (JSON.stringify([...(life[u[i]]||[])]) !== JSON.stringify([...(session||[])])) && life[action[i]](session);
+      let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0],data = life[u[i]], action = ["push", "unshift"],same = data[0] == session[0];
+      if (same)
+      {
+        switch(session[0])
+        {
+          case "n":
+            same = JSON.stringify(session) == JSON.stringify(data);
+            break;
+          case "m":
+            same = JSON.stringify([...session[1]]) == JSON.stringify([...data[0]]);
+            break;
+        }
+      }
+      (!same) && life[action[i]](session);
     },
     modify: function(x,y,num = this.Asteroids.size) {
       let br=Engine.Brush.size;
