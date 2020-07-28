@@ -182,7 +182,7 @@ let Misc = function(){
     },
     pushSession: function(frame,session)
     {
-      let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0],data = life[u[i]], action = ["push", "unshift"],same = data[0] == session[0];
+      let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0],data = life[u[i]]||[], action = ["push", "unshift"],same = data[0] == session[0];
       if (same)
       {
         switch(session[0])
