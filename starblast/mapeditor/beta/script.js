@@ -78,7 +78,7 @@
         }
         this.sync();
         Engine.applyColor("as-color");
-        (!dismiss_history) && this.future = [];
+        if (!dismiss_history) this.future = [];
       }
       else check=false;
       return check;
