@@ -35,7 +35,7 @@ let Misc = function(){
       Engine.copyToClipboard(map);
     },
     load: function(data,init,dismiss_history) {
-      let prev = this.data;h=data||prev;check=true;
+      let prev = this.data,h=data||prev;check=true;
       if (Array.isArray(h))
       {
         let u=JSON.parse(JSON.stringify(h)).sort(),d=Math.max(h.length,u[u.length-1].length),oldSize = this.size;
@@ -183,7 +183,7 @@ let Misc = function(){
     pushSession: function(frame,session)
     {
       let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0], action = ["push", "unshift"];
-      return (JSON.stringify(life[u[i]]||"") !== JSON.stringify(session)) && life[action[i]](session);
+      return (JSON.stringify([...(life[u[i]]||[])]) !== JSON.stringify([...(session||[])])) && life[action[i]](session);
     },
     modify: function(x,y,num = this.Asteroids.size) {
       let br=Engine.Brush.size;
