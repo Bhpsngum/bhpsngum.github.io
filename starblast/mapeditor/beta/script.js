@@ -16,7 +16,7 @@ var StarblastMap = {
   pattern: new Map(),
   size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
   buildData: function(dms) {
-    (!dms) && this.history.push(["n",this.data]);
+    (!dms) && this.pushSession("history",["n",this.data]);
     this.data = [];
     for (let i=0;i<this.size;i++) this.data.push(new Array(this.size).fill(0));
   },
@@ -42,7 +42,7 @@ var StarblastMap = {
       if (oldSize != this.size || init)
       {
         this.pattern = new Map();
-        this.buildData(!dismiss_history);
+        this.buildData(dismiss_history);
         let tb="";
         for (let i=0;i<this.size;i++)
         {
@@ -61,7 +61,7 @@ var StarblastMap = {
         }
         this.map.html(tb);
         this.map.css("width",(this.size*42).toString()+"px");
-        if (!dismiss_history) this.history.push(["n",prev]);
+        if (!dismiss_history) this.pushSession("history",["n",prev]);
       }
       else
       {
@@ -73,7 +73,7 @@ var StarblastMap = {
             let data = this.updateCell(i,j,gh);
             if (data.changed) session.set(`${i}-${j}`,[data.prev,gh]);
           }
-        if (!dismiss_history) this.history.push(["m",session]);
+        if (!dismiss_history) this.pushSession("history",["m",session]);
       }
       this.sync();
       Engine.applyColor("as-color");
@@ -94,7 +94,7 @@ var StarblastMap = {
       session.set(i,[this.pattern.get(i),0]);
       this.updateCell(...pos, 0);
     }
-    this.history.push(["m",session]);
+    this.pushSession("history",["m",session]);
     this.sync();
   },
   export: function (type) {
@@ -178,6 +178,11 @@ var StarblastMap = {
     if (fail) alert("Invalid Map!");
     else if (!this.load(map,init)) alert("Invalid Map!");
   },
+  pushSession: function(frame,session)
+  {
+    let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0], action = ["push", "unshift"];
+    return (JSON.stringify(life[u[i]]||"") !== JSON.stringify(session)) && life[action[i]](session);
+  },
   modify: function(x,y,num = this.Asteroids.size) {
     let br=Engine.Brush.size;
     for (let i=x-br;i<=x+br;i++)
@@ -211,7 +216,7 @@ var StarblastMap = {
     switch(lastAction[0])
     {
       case "m":
-        this.future.unshift(lastAction);
+        this.pushSession("future",lastAction);
         let actions = lastAction[1];
         for (let i of actions.keys())
         {
@@ -220,7 +225,7 @@ var StarblastMap = {
         }
         break;
       case "n":
-        this.future.unshift(["n",this.data]);
+        this.pushSession("future",["n",this.data]);
         this.load(lastAction[1],null,1);
         break;
     }
@@ -233,7 +238,7 @@ var StarblastMap = {
     switch(futureAction[0])
     {
       case "m":
-        this.history.push(futureAction);
+        this.pushSession("history",futureAction);
         let actions = futureAction[1];
         for (let i of actions.keys())
         {
@@ -242,7 +247,7 @@ var StarblastMap = {
         }
         break;
       case "n":
-        this.history.push(["n",this.data]);
+        this.pushSession("history",["n",this.data]);
         this.load(futureAction[1],null,1);
         break;
     }
@@ -549,7 +554,7 @@ var StarblastMap = {
   stopTrail: function()
   {
     this.trail = -1;
-    StarblastMap.history.push(["m",StarblastMap.session]);
+    StarblastMap.pushSession("history",["m",StarblastMap.session]);
     StarblastMap.session = new Map();
   },
   menu: $("#menu")
