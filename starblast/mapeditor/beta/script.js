@@ -62,7 +62,7 @@
           }
           this.map.html(tb);
           this.map.css("width",(this.size*42).toString()+"px");
-          if (!dismiss_history) this.pushSession("history",["n",prev]);
+          (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
         else
         {
@@ -74,11 +74,11 @@
               let data = this.updateCell(i,j,gh);
               if (data.changed) session.set(`${i}-${j}`,[data.prev,gh]);
             }
-          if (!dismiss_history) this.pushSession("history",["m",session]);
+          (!dismiss_history) && this.pushSession("history",["m",session]);
         }
         this.sync();
         Engine.applyColor("as-color");
-        this.future = [];
+        (!dismiss_history) && this.future = [];
       }
       else check=false;
       return check;
