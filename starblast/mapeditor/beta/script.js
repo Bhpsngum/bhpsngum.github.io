@@ -565,13 +565,14 @@
     color: Engine.applyColor("as-color"),
     size: Engine.applySize("as_size")
   });
-  window.Misc = {
+  window.Misc = function(){"Hello World!"};
+  Object.assign(window.Misc, {
     startTrail: Engine.startTrail,
     stopTrail: Engine.stopTrail,
     viewXY: StarblastMap.viewXY,
     modify: StarblastMap.modify,
     changeASSize: StarblastMap.Asteroids.changeSize
-  }
+  });
   let querymap=window.location.search.replace(/^\?/,""),error=0;
   if (querymap === "") error = 1;
   else
