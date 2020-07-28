@@ -566,7 +566,7 @@ let Misc = function(){
     size: Engine.applySize("as_size")
   });
   let Misc = function(){"Hello World!"};
-  Object.assign(window.Misc, {
+  Object.assign(Misc, {
     startTrail: Engine.startTrail.bind(Engine),
     stopTrail: Engine.stopTrail.bind(Engine),
     viewXY: StarblastMap.viewXY.bind(StarblastMap),
