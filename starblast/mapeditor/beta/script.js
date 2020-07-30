@@ -39,7 +39,7 @@ let Misc = function(){
       if (Array.isArray(h))
       {
         let u=JSON.parse(JSON.stringify(h)).sort(),d=Math.max(h.length,u[u.length-1].length),oldSize = this.size;
-        Engine.applySize("size",d);
+        StarblastMap.applySize(d);
         if (oldSize != this.size || init)
         {
           this.pattern = new Map();
@@ -197,13 +197,13 @@ let Misc = function(){
       }
       (!same) && life[action[i]](session);
     },
-    modify: function(x,y,num = this.Asteroids.size) {
-      let br=Engine.Brush.size;
+    modify: function(x,y,num = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max)) {
+      let br=Engine.Brush.size,size = num;
       for (let i=x-br;i<=x+br;i++)
         for (let j=y-br;j<=y+br;j++)
         {
-          let data = this.updateCell(i,j,num);
-          if (data.changed) this.session.set(`${i}-${j}`,[data.prev,num]);
+          let data = this.updateCell(i,j,size);
+          if (data.changed) this.session.set(`${i}-${j}`,[data.prev,size]);
         }
       this.future = [];
       this.sync();
@@ -270,7 +270,7 @@ let Misc = function(){
     },
     Asteroids: {
       changeSize: function (num) {
-        let u=Engine.applySize("as_size",num);
+        let u=this.changeSize.applySize(num);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $(`#asc${u}`).css({"border":"3px solid"});
         Engine.applyColor("border-color");
@@ -278,6 +278,15 @@ let Misc = function(){
       input: {
         max: $("#maxASSize"),
         min: $("#minASSize")
+      },
+      randomSize: function()
+      {
+        for (let i in this.input) this.input[i].css("display","inline-block");
+        for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
+        $("#randomSize").css({"border":"3px solid"});
+        this.changeSize.max();
+        this.changeSize.min();
+        Engine.applyColor("border-color");
       }
     },
     randomMaze: function (size)
@@ -448,7 +457,20 @@ let Misc = function(){
       if (d) gl="Asteroid size: "+d.toString();
       $("#XY").html(`(${x+1};${y+1}). ${gl}`);
       (Engine.trail != -1) && this.modify(x,y,Engine.trail);
-    }
+    },
+    applySize: function (num) {
+      let size= {
+        min:20,
+        max:200
+      }
+      let size=Math.round((num != void 0)?num:(Number(localStorage[key])||size.min));
+      size=Math.max(Math.min(size.max,size),size.min);
+      size = Math.round(size/2) *2;
+      StarblastMap.sizeInput.val(size);
+      StarblastMap.size = size;
+      localStorage.size = size;
+      return size;
+    },
   }, Engine = {
     trail: -1,
     applyColor: function (param,inp) {
@@ -491,29 +513,6 @@ let Misc = function(){
       localStorage.setItem(param,css);
       if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
       return css;
-    },
-    applySize: function (key,num) {
-      let template= {
-        as_size: {
-          min:0,
-          max:9
-        },
-        size: {
-          min:20,
-          max:200
-        }
-      }
-      let size=Math.round((num != void 0)?num:(Number(localStorage[key])||template[key].min));
-      size=Math.max(Math.min(template[key].max,size),template[key].min);
-      if (key == "size")
-      {
-        size = Math.round(size/2) *2;
-        StarblastMap.sizeInput.val(size);
-        StarblastMap.size = size;
-      }
-      else StarblastMap.Asteroids.size = {max:size,min:size};
-      localStorage.setItem(key,size);
-      return size;
     },
     Brush: {
       input: $("#brush_size"),
@@ -582,16 +581,27 @@ let Misc = function(){
   }
   Object.assign(StarblastMap.Asteroids,{
     color: Engine.applyColor("as-color"),
-    size: Engine.applySize("as_size")
   });
   Object.assign(StarblastMap.Asteroids.changeSize,{
+    applySize: function(key)
+    {
+      return Math.min(Math.max(0,Number($("#"+key+"ASSize").val())||0),9);
+    },
     max: function(num)
     {
-       let min = 0;
+       let max = 9; min = this.applySize("min"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0),
+       size = Math.max(Math.min(d, max), min);
+       StarblastMap.Asteroids.size.input.max.val(size);
+       localStorage.ASSize_max = size;
+       StarblastMap.Asteroids.size.max = size;
     },
     min: function(num)
     {
-
+      let min = 0; max = this.applySize("max"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0),
+      size = Math.max(Math.min(d, max), min);
+      StarblastMap.Asteroids.size.input.min.val(size);
+      localStorage.ASSize_min = size;
+      StarblastMap.Asteroids.size.min = size;
     }
   });
   Object.assign(Engine.random, {
@@ -628,11 +638,13 @@ let Misc = function(){
     if (fail) StarblastMap.create(1);
     else StarblastMap.load(null,1,1);
   }
-  let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
+  let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`;
   for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
+  cas+=`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td>`
   $("#asChoose").html(cas+"</tr>");
+  $("#randomSize").on("click",StarblastMap.Asteroids.randomSize.bind(StarblastMap));
   Engine.Brush.applySize();
-  StarblastMap.Asteroids.changeSize();
+  StarblastMap.Asteroids.randomSize();
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
@@ -640,7 +652,7 @@ let Misc = function(){
       StarblastMap.map.css("padding-top",Engine.menu.height()+"px")
   });
   StarblastMap.sizeInput.on("change",function(){
-    Engine.applySize("size",StarblastMap.sizeInput.val());
+    StarblastMap.applySize(StarblastMap.sizeInput.val());
     StarblastMap.create();
   });
   StarblastMap.Buttons.clear.on("click",StarblastMap.clear.bind(StarblastMap));
@@ -663,6 +675,8 @@ let Misc = function(){
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
+  StarblastMap.Asteroids.size.input.max.on("change",function(){StarblastMap.Asteroids.changeSize.max.bind(StarblastMap)(StarblastMap.Asteroids.size.input.max.val())});
+  StarblastMap.Asteroids.size.input.min.on("change",function(){StarblastMap.Asteroids.changeSize.min.bind(StarblastMap)(StarblastMap.Asteroids.size.input.min.val())});
   StarblastMap.Buttons.copy.on("click", function(){StarblastMap.copy.bind(StarblastMap)("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
