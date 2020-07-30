@@ -622,7 +622,7 @@
     stopTrail: Engine.stopTrail.bind(Engine),
     viewXY: StarblastMap.viewXY.bind(StarblastMap),
     modify: StarblastMap.modify.bind(StarblastMap),
-    changeASSize: StarblastMap.Asteroids.changeSize
+    changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap.Asteroids)
   });
   let querymap=window.location.search.replace(/^\?/,""),error=0;
   if (querymap === "") error = 1;
