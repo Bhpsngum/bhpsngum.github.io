@@ -287,8 +287,11 @@
         $("#randomSize").css({"border":"3px solid"});
         this.changeSize.max();
         this.changeSize.min();
-        if (this.size.max == this.size.min) $("#asc"+this.size.min).click();
-        else if (!self_trigger) $("#randomSize").click();
+        if (self_trigger && this.size.max == this.size.min)
+        {
+          $("#asc"+this.size.min).click();
+          $("#randomSize").css({"border":"1px solid"});
+        }
         Engine.applyColor("border-color");
       },
       size:{
@@ -649,9 +652,9 @@
   for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
   cas+=`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td>`
   $("#asChoose").html(cas+"</tr>");
-  $("#randomSize").on("click",function(){StarblastMap.Asteroids.randomSize.bind(StarblastMap)(1)});
+  $("#randomSize").on("click",StarblastMap.Asteroids.randomSize.bind(StarblastMap));
   Engine.Brush.applySize();
-  StarblastMap.Asteroids.randomSize();
+  StarblastMap.Asteroids.randomSize(1);
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
