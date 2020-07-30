@@ -587,7 +587,7 @@ let Misc = function(){
   Object.assign(StarblastMap.Asteroids.changeSize,{
     max: function(num)
     {
-       let min = 0;max =
+       let min = 0;
     },
     min: function(num)
     {
