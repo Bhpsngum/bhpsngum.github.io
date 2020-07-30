@@ -289,6 +289,10 @@ let Misc = function(){
         this.changeSize.min();
         if (this.size.max == this.size.min) $("#asc"+this.size.min).click();
         Engine.applyColor("border-color");
+      },
+      size:{
+        max: 0,
+        min: 0
       }
     },
     randomMaze: function (size)
@@ -472,7 +476,7 @@ let Misc = function(){
       StarblastMap.size = size;
       localStorage.size = size;
       return size;
-    },
+    }
   }, Engine = {
     trail: -1,
     applyColor: function (param,inp) {
