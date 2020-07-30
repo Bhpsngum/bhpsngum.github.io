@@ -593,7 +593,7 @@ let Misc = function(){
     {
        let max = 9; min = this.applySize("min"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0):(Number(num)||0),
        size = Math.max(Math.min(d, max), min);
-       StarblastMap.Asteroids.size.input.max.val(size);
+       StarblastMap.Asteroids.input.max.val(size);
        localStorage.ASSize_max = size;
        StarblastMap.Asteroids.size.max = size;
     },
@@ -601,7 +601,7 @@ let Misc = function(){
     {
       let min = 0; max = this.applySize("max"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0):(Number(num)||0),
       size = Math.max(Math.min(d, max), min);
-      StarblastMap.Asteroids.size.input.min.val(size);
+      StarblastMap.Asteroids.input.min.val(size);
       localStorage.ASSize_min = size;
       StarblastMap.Asteroids.size.min = size;
     }
@@ -677,8 +677,8 @@ let Misc = function(){
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
-  StarblastMap.Asteroids.size.input.max.on("change",function(){StarblastMap.Asteroids.changeSize.max.bind(StarblastMap)(StarblastMap.Asteroids.size.input.max.val())});
-  StarblastMap.Asteroids.size.input.min.on("change",function(){StarblastMap.Asteroids.changeSize.min.bind(StarblastMap)(StarblastMap.Asteroids.size.input.min.val())});
+  StarblastMap.Asteroids.input.max.on("change",function(){StarblastMap.Asteroids.changeSize.max.bind(StarblastMap)(StarblastMap.Asteroids.input.max.val())});
+  StarblastMap.Asteroids.input.min.on("change",function(){StarblastMap.Asteroids.changeSize.min.bind(StarblastMap)(StarblastMap.Asteroids.input.min.val())});
   StarblastMap.Buttons.copy.on("click", function(){StarblastMap.copy.bind(StarblastMap)("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
