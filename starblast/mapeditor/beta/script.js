@@ -274,6 +274,10 @@ let Misc = function(){
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $(`#asc${u}`).css({"border":"3px solid"});
         Engine.applyColor("border-color");
+      },
+      input: {
+        max: $("#maxASSize"),
+        min: $("#minASSize")
       }
     },
     randomMaze: function (size)
@@ -507,7 +511,7 @@ let Misc = function(){
         StarblastMap.sizeInput.val(size);
         StarblastMap.size = size;
       }
-      else StarblastMap.Asteroids.size = size;
+      else StarblastMap.Asteroids.size = {max:size,min:size};
       localStorage.setItem(key,size);
       return size;
     },
@@ -571,11 +575,30 @@ let Misc = function(){
       StarblastMap.pushSession("history",["m",StarblastMap.session]);
       StarblastMap.session = new Map();
     },
-    menu: $("#menu")
+    menu: $("#menu"),
+    random: function(num) {
+      return ~~(Math.random()*num);
+    }
   }
   Object.assign(StarblastMap.Asteroids,{
     color: Engine.applyColor("as-color"),
     size: Engine.applySize("as_size")
+  });
+  Object.assign(StarblastMap.Asteroids.changeSize,{
+    max: function(num)
+    {
+       let min = 0;max =
+    },
+    min: function(num)
+    {
+
+    }
+  });
+  Object.assign(Engine.random, {
+    range: function(min,max)
+    {
+      return min+this(max-min+1);
+    }
   });
   let Misc = function(){"Hello World!"};
   Object.assign(Misc, {

@@ -28,6 +28,10 @@
     <div id="menu">
       <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200" onmouseover="viewinfo(null,'Toggle map size (20 to 200)')"></input>
       <table style="float:left" id="asChoose"></table>
+      <div>
+        <input id="minASSize" class="SmallInput" type="number" placeholder="Minimum Asteroid Size" value="0" min="0" onmouseover="viewinfo(null,'Toggle minimum Asteroid size (0 to Maximum Asteroid Size)')"></input>
+        <input id="maxASSize" class="SmallInput" type="number" placeholder="Maximum Asteroid Size" value="0" min="0" max="9" onmouseover="viewinfo(null,'Toggle maximum Asteroid size (Minimum Asteroid Size to 9)')"></input>
+      </div>
       <input id="brush_size" class="SmallInput" placeholder="Brush radius" type="number" min="0" value="0" onmouseover="viewinfo(null,'Toggle brush radius (0 to current map size)')"></input>
       <input id="as-color" placeholder="Asteroid color" onmouseover="viewinfo(null,'Toggle asteroids color')"></input>
       <input id="background-color" type="text" placeholder="Background color" onmouseover="viewinfo(null,'Toggle background color')"></input>
