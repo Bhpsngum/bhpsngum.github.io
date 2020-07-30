@@ -591,7 +591,7 @@ let Misc = function(){
     },
     max: function(num)
     {
-       let max = 9; min = this.applySize("min"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0),
+       let max = 9; min = this.applySize("min"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0):(Number(num)||0),
        size = Math.max(Math.min(d, max), min);
        StarblastMap.Asteroids.size.input.max.val(size);
        localStorage.ASSize_max = size;
@@ -599,7 +599,7 @@ let Misc = function(){
     },
     min: function(num)
     {
-      let min = 0; max = this.applySize("max"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0),
+      let min = 0; max = this.applySize("max"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0):(Number(num)||0),
       size = Math.max(Math.min(d, max), min);
       StarblastMap.Asteroids.size.input.min.val(size);
       localStorage.ASSize_min = size;
