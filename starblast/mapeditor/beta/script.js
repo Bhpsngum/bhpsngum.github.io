@@ -652,7 +652,7 @@
   for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
   cas+=`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td>`
   $("#asChoose").html(cas+"</tr>");
-  $("#randomSize").on("click",StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids));
+  $("#randomSize").on("click",function(){StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids)()});
   Engine.Brush.applySize();
   StarblastMap.Asteroids.randomSize(1);
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
