@@ -273,6 +273,7 @@ let Misc = function(){
         let u=this.changeSize.applySize(num);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $(`#asc${u}`).css({"border":"3px solid"});
+        for (let i in this.input) this.input[i].css("display","none");
         Engine.applyColor("border-color");
       },
       input: {
@@ -286,6 +287,7 @@ let Misc = function(){
         $("#randomSize").css({"border":"3px solid"});
         this.changeSize.max();
         this.changeSize.min();
+        if (this.size.max == this.size.min) $("#asc"+this.size.min).click();
         Engine.applyColor("border-color");
       }
     },
@@ -459,12 +461,12 @@ let Misc = function(){
       (Engine.trail != -1) && this.modify(x,y,Engine.trail);
     },
     applySize: function (num) {
-      let size= {
+      let dsize= {
         min:20,
         max:200
       }
-      let size=Math.round((num != void 0)?num:(Number(localStorage[key])||size.min));
-      size=Math.max(Math.min(size.max,size),size.min);
+      let size=Math.round((num != void 0)?num:(Number(localStorage.size)||dsize.min));
+      size=Math.max(Math.min(dsize.max,size),dsize.min);
       size = Math.round(size/2) *2;
       StarblastMap.sizeInput.val(size);
       StarblastMap.size = size;
