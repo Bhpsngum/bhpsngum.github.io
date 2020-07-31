@@ -619,7 +619,7 @@
   Object.assign(Engine.random, {
     range: function(min,max)
     {
-      return min+this(max-min+1);
+      return Number(min+this(max-min+1))||min;
     }
   });
   window.Misc = function(){"Hello World!"};
