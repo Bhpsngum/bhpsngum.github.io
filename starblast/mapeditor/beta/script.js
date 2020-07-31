@@ -468,7 +468,8 @@
       let d= this.data[x][y],gl="No Asteroids";
       if (d) gl="Asteroid size: "+d.toString();
       $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-      (Engine.trail != -1) && this.modify(x,y,Engine.trail);
+      if (Engine.trail == 0) this.modify(x,y,0);
+      else if (Engine.trail == 1) this.modify(x,y);
     },
     applySize: function (num) {
       let dsize= {
@@ -571,8 +572,8 @@
       let e = window.event;
       switch (e.which) {
         case 1:
-          this.trail=this.random.range(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max);
-          StarblastMap.modify(x,y,this.trail);
+          this.trail=1;
+          StarblastMap.modify(x,y);
           break;
         case 3:
           this.trail=0;
