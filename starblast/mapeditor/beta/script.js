@@ -274,8 +274,8 @@
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $("#randomSize").css("border","1px solid");
         $(`#asc${u}`).css({"border":"3px solid"});
-        this.changeSize.max(u);
         this.changeSize.min(u);
+        this.changeSize.max(u);
         for (let i in this.input) this.input[i].css("display","none");
         Engine.applyColor("border-color");
       },
@@ -603,7 +603,7 @@
     },
     max: function(num)
     {
-       let max = 9; min = this.applySize("min"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0):(Number(num)||0),
+       let max = 9, min = this.applySize("min"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0):(Number(num)||0),
        size = Math.max(Math.min(d, max), min);
        StarblastMap.Asteroids.input.max.val(size);
        localStorage.ASSize_max = size;
@@ -611,7 +611,7 @@
     },
     min: function(num)
     {
-      let min = 0; max = this.applySize("max"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0):(Number(num)||0),
+      let min = 0, max = this.applySize("max"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0):(Number(num)||0),
       size = Math.max(Math.min(d, max), min);
       StarblastMap.Asteroids.input.min.val(size);
       localStorage.ASSize_min = size;
