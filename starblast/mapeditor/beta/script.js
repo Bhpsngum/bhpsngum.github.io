@@ -690,8 +690,8 @@
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
   $("#applyRandom").on("click",function(){StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids)()});
-  StarblastMap.Asteroids.input.max.on("change",function(){StarblastMap.Asteroids.changeSize.max.bind(StarblastMap.Asteroids.changeSize)(StarblastMap.Asteroids.input.max.val())});
-  StarblastMap.Asteroids.input.min.on("change",function(){StarblastMap.Asteroids.changeSize.min.bind(StarblastMap.Asteroids.changeSize)(StarblastMap.Asteroids.input.min.val())});
+  // StarblastMap.Asteroids.input.max.on("change",function(){StarblastMap.Asteroids.changeSize.max.bind(StarblastMap.Asteroids.changeSize)(StarblastMap.Asteroids.input.max.val())});
+  // StarblastMap.Asteroids.input.min.on("change",function(){StarblastMap.Asteroids.changeSize.min.bind(StarblastMap.Asteroids.changeSize)(StarblastMap.Asteroids.input.min.val())});
   StarblastMap.Buttons.copy.on("click", function(){StarblastMap.copy.bind(StarblastMap)("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
