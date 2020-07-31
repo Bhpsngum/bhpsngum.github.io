@@ -748,6 +748,10 @@
         case 65:
           scrollBy(-40,0);
           break;
+        case 114:
+        case 82:
+          $("#randomSize").click();
+          break;
         default:
           if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
       }
