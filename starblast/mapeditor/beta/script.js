@@ -571,7 +571,7 @@
       let e = window.event;
       switch (e.which) {
         case 1:
-          this.trail=StarblastMap.Asteroids.size;
+          this.trail=this.random.range(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max);
           StarblastMap.modify(x,y,this.trail);
           break;
         case 3:
