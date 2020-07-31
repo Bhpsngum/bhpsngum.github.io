@@ -210,7 +210,7 @@
       this.sync();
     },
     updateCell: function(x,y,num) {
-      let element=$(`#p${x}-${y} > img`),prev=this.data[x][y];
+      let element=$(`#p${x}-${y} > img`),prev=(this.data[x]||[])[y]||0;
       if (element.length && this.data[x][y] != num)
       {
         element.width(num*3);
