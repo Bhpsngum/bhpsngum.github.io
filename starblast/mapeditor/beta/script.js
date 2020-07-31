@@ -285,7 +285,7 @@
       },
       randomSize: function(self_trigger)
       {
-        for (let i in this.input) this.input[i].css("display","inline-block");
+        $("#RandomOptions").css("display","block");
         for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $("#randomSize").css({"border":"3px solid"});
         this.changeSize.max();
@@ -656,7 +656,7 @@
   for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
   cas+=`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td>`
   $("#asChoose").html(cas+"</tr>");
-  $("#randomSize").on("click",function(){$("#RandomOptions").css("display","inline-block");StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids)()});
+  $("#randomSize").on("click",function(){StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids)()});
   Engine.Brush.applySize();
   StarblastMap.Asteroids.randomSize(1);
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
@@ -689,9 +689,8 @@
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
-  $("#applyRandom").on("click",function(){StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids)()});
-  // StarblastMap.Asteroids.input.max.on("change",function(){StarblastMap.Asteroids.changeSize.max.bind(StarblastMap.Asteroids.changeSize)(StarblastMap.Asteroids.input.max.val())});
-  // StarblastMap.Asteroids.input.min.on("change",function(){StarblastMap.Asteroids.changeSize.min.bind(StarblastMap.Asteroids.changeSize)(StarblastMap.Asteroids.input.min.val())});
+  StarblastMap.Asteroids.input.max.on("change",function(){StarblastMap.Asteroids.changeSize.max.bind(StarblastMap.Asteroids.changeSize)(StarblastMap.Asteroids.input.max.val())});
+  StarblastMap.Asteroids.input.min.on("change",function(){StarblastMap.Asteroids.changeSize.min.bind(StarblastMap.Asteroids.changeSize)(StarblastMap.Asteroids.input.min.val())});
   StarblastMap.Buttons.copy.on("click", function(){StarblastMap.copy.bind(StarblastMap)("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
@@ -711,7 +710,7 @@
   });
   document.onkeydown = function(e)
   {
-    let size=["brush_size","map_size","background-color","border-color","as-color"],check=[];
+    let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize"],check=[];
     for (let i of size) check.push($("#"+i).is(":focus"));
     if (!Math.max(...check))
     {
