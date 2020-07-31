@@ -273,6 +273,8 @@
         let u=this.changeSize.applySize(num);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $(`#asc${u}`).css({"border":"3px solid"});
+        this.changeSize.max(num);
+        this.changeSize.min(num);
         for (let i in this.input) this.input[i].css("display","none");
         Engine.applyColor("border-color");
       },
