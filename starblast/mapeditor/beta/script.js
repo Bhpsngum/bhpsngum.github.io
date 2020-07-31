@@ -642,6 +642,9 @@
     modify: StarblastMap.modify.bind(StarblastMap),
     changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap.Asteroids)
   });
+  let see = localStorage.randomized == "true";
+  Engine.Brush.randomCheck.prop("checked",see);
+  Engine.Brush.applyRandom();
   let querymap=window.location.search.replace(/^\?/,""),error=0;
   if (querymap === "") error = 1;
   else
