@@ -692,8 +692,8 @@
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
-  StarblastMap.Asteroids.input.max.on("change",function(){rSize()});
-  StarblastMap.Asteroids.input.min.on("change",function(){rSize()});
+  StarblastMap.Asteroids.input.max.on("change",rSize);
+  StarblastMap.Asteroids.input.min.on("change",rSize);
   StarblastMap.Buttons.copy.on("click", function(){StarblastMap.copy.bind(StarblastMap)("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
