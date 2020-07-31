@@ -198,10 +198,11 @@
       (!same) && life[action[i]](session);
     },
     modify: function(x,y,num = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max)) {
-      let br=Engine.Brush.size,size = num;
+      let br=Engine.Brush.size;
       for (let i=x-br;i<=x+br;i++)
         for (let j=y-br;j<=y+br;j++)
         {
+          let size = (Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):num;
           let data = this.updateCell(i,j,size);
           if (data.changed) this.session.set(`${i}-${j}`,[data.prev,size]);
         }
@@ -530,6 +531,15 @@
     },
     Brush: {
       input: $("#brush_size"),
+      randomCheck: $("#randomCheck"),
+      randomized:false,
+      applyRandom: function() {
+        let sign=["times","check"];
+        let u = this.randomCheck.is(":checked");
+        this.randomized = u;
+        $("#rInd").class("fas fa-fw fa-"+sign[Number(u)]);
+        localStorage.randomCheck = u;
+      },
       size: 0,
       applySize: function (num = (Number(localStorage.brush)||0)) {
         let max=StarblastMap.size;
@@ -676,6 +686,7 @@
   Engine.Brush.input.on("change", function() {
     Engine.Brush.applySize($("#brush_size").val());
   });
+  Engine.Brush.randomCheck.on("change",Engine.Brush.applyRandom.bind(Engine.Brush));
   for (let i of ["border","background","as"])
   {
     Engine.applyColor(i+"-color");

@@ -31,6 +31,17 @@
       <div id="RandomOptions">
         <input id="minASSize" class="SmallInput" type="number" placeholder="Minimum Asteroid Size" value="0" min="0" max="9" onmouseover="viewinfo(null,'Toggle minimum Asteroid size (0 to Maximum Asteroid Size)')"></input>
         <input id="maxASSize" class="SmallInput" type="number" placeholder="Maximum Asteroid Size" value="0" min="0" max="9" onmouseover="viewinfo(null,'Toggle maximum Asteroid size (Minimum Asteroid Size to 9)')"></input>
+        <input type="checkbox" id="randomCheck" style="display:none">
+        <label for="randomCheck">
+          <table>
+            <tr>
+              <td onmouseover="viewinfo('Random Asteroid Size in Brush','Random Asteroids Size in a single Brush')">
+                <i class="fas fa-fw fa-braille"></i>
+                <i class="fas fa-fw fa-times" id="rInd"></i>
+              </td>
+            </tr>
+          </table>
+        </label>
       </div>
       <input id="brush_size" class="SmallInput" placeholder="Brush radius" type="number" min="0" max="200" value="0" onmouseover="viewinfo(null,'Toggle brush radius (0 to current map size)')"></input>
       <input id="as-color" placeholder="Asteroid color" onmouseover="viewinfo(null,'Toggle asteroids color')"></input>
