@@ -538,7 +538,7 @@
         let u = this.randomCheck.is(":checked");
         this.randomized = u;
         $("#rInd").prop("class","fas fa-fw fa-"+sign[Number(u)]);
-        localStorage.randomCheck = u;
+        localStorage.randomizedBrush = u;
       },
       size: 0,
       applySize: function (num = (Number(localStorage.brush)||0)) {
@@ -642,7 +642,7 @@
     modify: StarblastMap.modify.bind(StarblastMap),
     changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap.Asteroids)
   });
-  let see = localStorage.randomized == "true";
+  let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
   Engine.Brush.applyRandom();
   let querymap=window.location.search.replace(/^\?/,""),error=0;
