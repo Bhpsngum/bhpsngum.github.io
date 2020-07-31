@@ -290,7 +290,7 @@
         $("#randomSize").css({"border":"3px solid"});
         this.changeSize.max();
         this.changeSize.min();
-        if (this.size.max == this.size.min)
+        if (self_trigger && this.size.max == this.size.min)
         {
           $("#asc"+this.size.min).click();
           $("#randomSize").css({"border":"1px solid"});
@@ -603,7 +603,7 @@
     },
     max: function(num)
     {
-       let max = 9, min = this.applySize("min"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0):(Number(num)||0),
+       let max = 9, min = this.applySize("min"),d=(num==void 0)?this.applySize("max"):(Number(num)||0),
        size = Math.max(Math.min(d, max), min);
        StarblastMap.Asteroids.input.max.val(size);
        localStorage.ASSize_max = size;
@@ -611,7 +611,7 @@
     },
     min: function(num)
     {
-      let min = 0, max = this.applySize("max"),d=(num==void 0)?(Number(localStorage.ASSize_max)||0):(Number(num)||0),
+      let min = 0, max = this.applySize("max"),d=(num==void 0)?this.applySize("min"):(Number(num)||0),
       size = Math.max(Math.min(d, max), min);
       StarblastMap.Asteroids.input.min.val(size);
       localStorage.ASSize_min = size;
@@ -656,9 +656,12 @@
   for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
   cas+=`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td>`
   $("#asChoose").html(cas+"</tr>");
-  $("#randomSize").on("click",function(){StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids)()});
+  StarblastMap.Asteroids.changeSize.min(StarblastMap.Asteroids.changeSize.applySize(localStorage.ASSize_min));
+  StarblastMap.Asteroids.changeSize.max(StarblastMap.Asteroids.changeSize.applySize(localStorage.ASSize_max));
+  let rSize = StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids);
+  $("#randomSize").on("click",function(){rSize()});
   Engine.Brush.applySize();
-  StarblastMap.Asteroids.randomSize(1);
+  rSize(1);
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
@@ -689,8 +692,8 @@
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
-  StarblastMap.Asteroids.input.max.on("change",function(){StarblastMap.Asteroids.changeSize.max.bind(StarblastMap.Asteroids.changeSize)(StarblastMap.Asteroids.input.max.val())});
-  StarblastMap.Asteroids.input.min.on("change",function(){StarblastMap.Asteroids.changeSize.min.bind(StarblastMap.Asteroids.changeSize)(StarblastMap.Asteroids.input.min.val())});
+  StarblastMap.Asteroids.input.max.on("change",function(){rSize()});
+  StarblastMap.Asteroids.input.min.on("change",function(){rSize()});
   StarblastMap.Buttons.copy.on("click", function(){StarblastMap.copy.bind(StarblastMap)("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
