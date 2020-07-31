@@ -290,7 +290,7 @@
         $("#randomSize").css({"border":"3px solid"});
         this.changeSize.max();
         this.changeSize.min();
-        if (self_trigger && this.size.max == this.size.min)
+        if (this.size.max == this.size.min)
         {
           $("#asc"+this.size.min).click();
           $("#randomSize").css({"border":"1px solid"});
@@ -762,7 +762,7 @@
     Engine.setURL(map);
     StarblastMap.copy("url");
   });
-  for (let i of ["brush_size","map_size","border-color","background-color"])
+  for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize"])
   $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
   let states=["dark","light"];
   if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
