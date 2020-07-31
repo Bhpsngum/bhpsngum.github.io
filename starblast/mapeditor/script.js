@@ -1,4 +1,4 @@
-let Misc = function(){
+(function(){
   var StarblastMap = {
     map: $("#map"),
     sizeInput: $("#map_size"),
@@ -39,7 +39,7 @@ let Misc = function(){
       if (Array.isArray(h))
       {
         let u=JSON.parse(JSON.stringify(h)).sort(),d=Math.max(h.length,u[u.length-1].length),oldSize = this.size;
-        Engine.applySize("size",d);
+        StarblastMap.applySize(d);
         if (oldSize != this.size || init)
         {
           this.pattern = new Map();
@@ -197,19 +197,20 @@ let Misc = function(){
       }
       (!same) && life[action[i]](session);
     },
-    modify: function(x,y,num = this.Asteroids.size) {
+    modify: function(x,y,num = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max)) {
       let br=Engine.Brush.size;
       for (let i=x-br;i<=x+br;i++)
         for (let j=y-br;j<=y+br;j++)
         {
-          let data = this.updateCell(i,j,num);
-          if (data.changed) this.session.set(`${i}-${j}`,[data.prev,num]);
+          let size = (Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):num;
+          let data = this.updateCell(i,j,size);
+          if (data.changed) this.session.set(`${i}-${j}`,[data.prev,size]);
         }
       this.future = [];
       this.sync();
     },
     updateCell: function(x,y,num) {
-      let element=$(`#p${x}-${y} > img`),prev=this.data[x][y];
+      let element=$(`#p${x}-${y} > img`),prev=(this.data[x]||[])[y]||0;
       if (element.length && this.data[x][y] != num)
       {
         element.width(num*3);
@@ -270,10 +271,36 @@ let Misc = function(){
     },
     Asteroids: {
       changeSize: function (num) {
-        let u=Engine.applySize("as_size",num);
+        let u=Math.min(Math.max(Number(num)||0,0),9);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
+        $("#randomSize").css("border","1px solid");
         $(`#asc${u}`).css({"border":"3px solid"});
+        this.changeSize.min(u);
+        this.changeSize.max(u);
+        $("#RandomOptions").css("display","none");
         Engine.applyColor("border-color");
+      },
+      input: {
+        max: $("#maxASSize"),
+        min: $("#minASSize")
+      },
+      randomSize: function(self_trigger)
+      {
+        $("#RandomOptions").css("display","block");
+        for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
+        $("#randomSize").css({"border":"3px solid"});
+        this.changeSize.max();
+        this.changeSize.min();
+        if (self_trigger && this.size.max == this.size.min)
+        {
+          $("#asc"+this.size.min).click();
+          $("#randomSize").css({"border":"1px solid"});
+        }
+        Engine.applyColor("border-color");
+      },
+      size:{
+        max: 0,
+        min: 0
       }
     },
     randomMaze: function (size)
@@ -443,7 +470,21 @@ let Misc = function(){
       let d= this.data[x][y],gl="No Asteroids";
       if (d) gl="Asteroid size: "+d.toString();
       $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-      (Engine.trail != -1) && this.modify(x,y,Engine.trail);
+      if (Engine.trail == 0) this.modify(x,y,0);
+      else if (Engine.trail == 1) this.modify(x,y);
+    },
+    applySize: function (num) {
+      let dsize= {
+        min:20,
+        max:200
+      }
+      let size=Math.round((num != void 0)?num:(Number(localStorage.size)||dsize.min));
+      size=Math.max(Math.min(dsize.max,size),dsize.min);
+      size = Math.round(size/2) *2;
+      StarblastMap.sizeInput.val(size);
+      StarblastMap.size = size;
+      localStorage.size = size;
+      return size;
     }
   }, Engine = {
     trail: -1,
@@ -488,31 +529,17 @@ let Misc = function(){
       if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
       return css;
     },
-    applySize: function (key,num) {
-      let template= {
-        as_size: {
-          min:0,
-          max:9
-        },
-        size: {
-          min:20,
-          max:200
-        }
-      }
-      let size=Math.round((num != void 0)?num:(Number(localStorage[key])||template[key].min));
-      size=Math.max(Math.min(template[key].max,size),template[key].min);
-      if (key == "size")
-      {
-        size = Math.round(size/2) *2;
-        StarblastMap.sizeInput.val(size);
-        StarblastMap.size = size;
-      }
-      else StarblastMap.Asteroids.size = size;
-      localStorage.setItem(key,size);
-      return size;
-    },
     Brush: {
       input: $("#brush_size"),
+      randomCheck: $("#randomCheck"),
+      randomized:false,
+      applyRandom: function() {
+        let sign=["times","check"];
+        let u = this.randomCheck.is(":checked");
+        this.randomized = u;
+        $("#rInd").prop("class","fas fa-fw fa-"+sign[Number(u)]);
+        localStorage.randomizedBrush = u;
+      },
       size: 0,
       applySize: function (num = (Number(localStorage.brush)||0)) {
         let max=StarblastMap.size;
@@ -556,8 +583,8 @@ let Misc = function(){
       let e = window.event;
       switch (e.which) {
         case 1:
-          this.trail=StarblastMap.Asteroids.size;
-          StarblastMap.modify(x,y,this.trail);
+          this.trail=1;
+          StarblastMap.modify(x,y);
           break;
         case 3:
           this.trail=0;
@@ -571,20 +598,53 @@ let Misc = function(){
       StarblastMap.pushSession("history",["m",StarblastMap.session]);
       StarblastMap.session = new Map();
     },
-    menu: $("#menu")
+    menu: $("#menu"),
+    random: function(num) {
+      return ~~(Math.random()*num);
+    }
   }
   Object.assign(StarblastMap.Asteroids,{
     color: Engine.applyColor("as-color"),
-    size: Engine.applySize("as_size")
   });
-  let Misc = function(){"Hello World!"};
-  Object.assign(Misc, {
+  Object.assign(StarblastMap.Asteroids.changeSize,{
+    applySize: function(key)
+    {
+      return Math.min(Math.max(0,Number($("#"+key+"ASSize").val())||0),9);
+    },
+    max: function(num)
+    {
+       let max = 9, min = this.applySize("min"),d=(num==void 0)?this.applySize("max"):(Number(num)||0),
+       size = Math.max(Math.min(d, max), min);
+       StarblastMap.Asteroids.input.max.val(size);
+       localStorage.ASSize_max = size;
+       StarblastMap.Asteroids.size.max = size;
+    },
+    min: function(num)
+    {
+      let min = 0, max = this.applySize("max"),d=(num==void 0)?this.applySize("min"):(Number(num)||0),
+      size = Math.max(Math.min(d, max), min);
+      StarblastMap.Asteroids.input.min.val(size);
+      localStorage.ASSize_min = size;
+      StarblastMap.Asteroids.size.min = size;
+    }
+  });
+  Object.assign(Engine.random, {
+    range: function(min,max)
+    {
+      return Number(min+this(max-min+1))||min;
+    }
+  });
+  window.Misc = function(){"Hello World!"};
+  Object.assign(window.Misc, {
     startTrail: Engine.startTrail.bind(Engine),
     stopTrail: Engine.stopTrail.bind(Engine),
     viewXY: StarblastMap.viewXY.bind(StarblastMap),
     modify: StarblastMap.modify.bind(StarblastMap),
-    changeASSize: StarblastMap.Asteroids.changeSize
+    changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap.Asteroids)
   });
+  let see = localStorage.randomizedBrush == "true";
+  Engine.Brush.randomCheck.prop("checked",see);
+  Engine.Brush.applyRandom();
   let querymap=window.location.search.replace(/^\?/,""),error=0;
   if (querymap === "") error = 1;
   else
@@ -605,11 +665,16 @@ let Misc = function(){
     if (fail) StarblastMap.create(1);
     else StarblastMap.load(null,1,1);
   }
-  let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fa fa-fw fa-eraser ASFilter"></i></td>`;
+  let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`;
   for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
+  cas+=`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td>`
   $("#asChoose").html(cas+"</tr>");
+  StarblastMap.Asteroids.changeSize.min(localStorage.ASSize_min);
+  StarblastMap.Asteroids.changeSize.max(localStorage.ASSize_max);
+  let rSize = StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids);
+  $("#randomSize").on("click",function(){rSize()});
   Engine.Brush.applySize();
-  StarblastMap.Asteroids.changeSize();
+  rSize(1);
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
@@ -617,13 +682,14 @@ let Misc = function(){
       StarblastMap.map.css("padding-top",Engine.menu.height()+"px")
   });
   StarblastMap.sizeInput.on("change",function(){
-    Engine.applySize("size",StarblastMap.sizeInput.val());
+    StarblastMap.applySize(StarblastMap.sizeInput.val());
     StarblastMap.create();
   });
   StarblastMap.Buttons.clear.on("click",StarblastMap.clear.bind(StarblastMap));
   Engine.Brush.input.on("change", function() {
     Engine.Brush.applySize($("#brush_size").val());
   });
+  Engine.Brush.randomCheck.on("change",Engine.Brush.applyRandom.bind(Engine.Brush));
   for (let i of ["border","background","as"])
   {
     Engine.applyColor(i+"-color");
@@ -640,6 +706,8 @@ let Misc = function(){
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
+  StarblastMap.Asteroids.input.max.on("change",rSize);
+  StarblastMap.Asteroids.input.min.on("change",rSize);
   StarblastMap.Buttons.copy.on("click", function(){StarblastMap.copy.bind(StarblastMap)("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
@@ -659,7 +727,7 @@ let Misc = function(){
   });
   document.onkeydown = function(e)
   {
-    let size=["brush_size","map_size","background-color","border-color","as-color"],check=[];
+    let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize"],check=[];
     for (let i of size) check.push($("#"+i).is(":focus"));
     if (!Math.max(...check))
     {
@@ -697,6 +765,10 @@ let Misc = function(){
         case 65:
           scrollBy(-40,0);
           break;
+        case 114:
+        case 82:
+          $("#randomSize").click();
+          break;
         default:
           if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
       }
@@ -707,7 +779,7 @@ let Misc = function(){
     Engine.setURL(map);
     StarblastMap.copy("url");
   });
-  for (let i of ["brush_size","map_size","border-color","background-color"])
+  for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize"])
   $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
   let states=["dark","light"];
   if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
@@ -715,5 +787,4 @@ let Misc = function(){
   console.log('%c Stop!!', 'font-weight: bold; font-size: 100px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38)');
   console.log('%cYou are accessing the Web Developing Area.\n\nPlease do not write/copy/paste/run any scripts here (unless you know what you\'re doing) to better protect yourself from loosing your map data, and even your other sensitive data.\n\nWe will not be responsible for any problems if you do not follow the warnings.', 'font-weight: bold; font-size: 15px;color: grey;');
   console.log('%cMap Creator, made by Bhpsngum,\n\nfeel free to distribute the code and make sure to credit my name if you intend to do that\n\nGitHub: https://github.com/Bhpsngum', 'font-weight: bold; font-size: 15px;color: Black;');
-  return Misc;
-}();
+}());
