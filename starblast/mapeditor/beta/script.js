@@ -537,7 +537,7 @@
         let sign=["times","check"];
         let u = this.randomCheck.is(":checked");
         this.randomized = u;
-        $("#rInd").class("fas fa-fw fa-"+sign[Number(u)]);
+        $("#rInd").prop("class","fas fa-fw fa-"+sign[Number(u)]);
         localStorage.randomCheck = u;
       },
       size: 0,
