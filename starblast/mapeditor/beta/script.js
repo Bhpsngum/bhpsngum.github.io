@@ -283,14 +283,14 @@
         max: $("#maxASSize"),
         min: $("#minASSize")
       },
-      randomSize: function(self_trigger)
+      randomSize: function()
       {
         for (let i in this.input) this.input[i].css("display","inline-block");
         for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $("#randomSize").css({"border":"3px solid"});
         this.changeSize.max();
         this.changeSize.min();
-        if (self_trigger && this.size.max == this.size.min)
+        if (this.size.max == this.size.min)
         {
           $("#asc"+this.size.min).click();
           $("#randomSize").css({"border":"1px solid"});
@@ -658,7 +658,7 @@
   $("#asChoose").html(cas+"</tr>");
   $("#randomSize").on("click",function(){StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids)()});
   Engine.Brush.applySize();
-  StarblastMap.Asteroids.randomSize(1);
+  StarblastMap.Asteroids.randomSize();
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
