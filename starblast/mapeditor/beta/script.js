@@ -296,7 +296,7 @@
         $("#RandomOptions").css("display","block");
         for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $("#randomSize").css({"border":"3px solid"});
-        let min = this.randomSize.applySize("min"), max = this.randomSize.applySize("max");
+        let min = this.changeSize.applySize("min"), max = this.changeSize.applySize("max");
         if (min > max)
         {
           switch (local) {
