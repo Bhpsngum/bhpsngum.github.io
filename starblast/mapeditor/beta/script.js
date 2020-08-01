@@ -299,17 +299,8 @@
         let min = this.changeSize.applySize("min"), max = this.changeSize.applySize("max");
         if (min > max)
         {
-          switch (local) {
-            case "min":
-              min = max;
-              break;
-            case "max":
-              max=min;
-              break;
-            default:
-              min = 0;
-              max = 0;
-          }
+          if (local == "max") max = min;
+          else min = max;
         }
         if (local) this.applyKey(local,(local=="min")?min:max);
         else
