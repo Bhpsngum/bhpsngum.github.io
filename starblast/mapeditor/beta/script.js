@@ -289,8 +289,8 @@
         $("#RandomOptions").css("display","block");
         for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $("#randomSize").css({"border":"3px solid"});
-        this.changeSize.max();
         this.changeSize.min();
+        this.changeSize.max();
         if (self_trigger && this.size.max == this.size.min)
         {
           $("#asc"+this.size.min).click();
@@ -584,9 +584,11 @@
       switch (e.which) {
         case 1:
           this.trail=1;
+          StarblastMap.modify(x,y);
           break;
         case 3:
           this.trail=0;
+          StarblastMap.modify(x,y,0);
           break;
       }
     },
