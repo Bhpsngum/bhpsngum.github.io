@@ -275,8 +275,9 @@
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $("#randomSize").css("border","1px solid");
         $(`#asc${u}`).css({"border":"3px solid"});
-        this.changeSize.min(u);
-        this.changeSize.max(u);
+        for (let i in this.input) this.input[i].val(u);
+        this.applyKey("min",u);
+        this.applyKey("max",u);
         $("#RandomOptions").css("display","none");
         Engine.applyColor("border-color");
       },
@@ -284,13 +285,38 @@
         max: $("#maxASSize"),
         min: $("#minASSize")
       },
-      randomSize: function(self_trigger)
+      applyKey: function(key,num){
+        let size = Math.min(Math.max(Number(num)||0,0),9);
+        this.size[key] = size;
+        localStorage["ASSize_"+key] = size;
+        this.input[key].val(size);
+      },
+      randomSize: function(self_trigger,local)
       {
         $("#RandomOptions").css("display","block");
         for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $("#randomSize").css({"border":"3px solid"});
-        this.changeSize.min();
-        this.changeSize.max();
+        let min = this.randomSize.applySize("min"), max = this.randomSize.applySize("max");
+        if (min > max)
+        {
+          switch (local) {
+            case "min":
+              min = max;
+              break;
+            case "max":
+              max=min;
+              break;
+            default:
+              min = 0;
+              max = 0;
+          }
+        }
+        if (local) this.applyKey(local,(local=="min")?min:max);
+        else
+        {
+          this.applyKey("min",min);
+          this.applyKey("max",max);
+        }
         if (self_trigger && this.size.max == this.size.min)
         {
           $("#asc"+this.size.min).click();
@@ -610,22 +636,6 @@
     applySize: function(key)
     {
       return Math.min(Math.max(0,Number($("#"+key+"ASSize").val())||0),9);
-    },
-    max: function(num)
-    {
-       let max = 9, min = this.applySize("min"),d=(num==void 0)?this.applySize("max"):(Number(num)||0),
-       size = Math.max(Math.min(d, max), min);
-       StarblastMap.Asteroids.input.max.val(size);
-       localStorage.ASSize_max = size;
-       StarblastMap.Asteroids.size.max = size;
-    },
-    min: function(num)
-    {
-      let min = 0, max = this.applySize("max"),d=(num==void 0)?this.applySize("min"):(Number(num)||0),
-      size = Math.max(Math.min(d, max), min);
-      StarblastMap.Asteroids.input.min.val(size);
-      localStorage.ASSize_min = size;
-      StarblastMap.Asteroids.size.min = size;
     }
   });
   Object.assign(Engine.random, {
@@ -669,8 +679,8 @@
   for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
   cas+=`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td>`
   $("#asChoose").html(cas+"</tr>");
-  StarblastMap.Asteroids.changeSize.min(localStorage.ASSize_min);
-  StarblastMap.Asteroids.changeSize.max(localStorage.ASSize_max);
+  StarblastMap.Asteroids.applyKey("min",localStorage.ASSize_min);
+  StarblastMap.Asteroids.applyKey("max",localStorage.ASSize_max);
   let rSize = StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids);
   $("#randomSize").on("click",function(){rSize()});
   Engine.Brush.applySize();
@@ -706,8 +716,8 @@
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
-  StarblastMap.Asteroids.input.max.on("change",rSize);
-  StarblastMap.Asteroids.input.min.on("change",rSize);
+  StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"min")});
+  StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"max")});
   StarblastMap.Buttons.copy.on("click", function(){StarblastMap.copy.bind(StarblastMap)("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
