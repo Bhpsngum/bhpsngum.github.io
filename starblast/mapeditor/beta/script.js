@@ -299,8 +299,8 @@
         let min = this.changeSize.applySize("min"), max = this.changeSize.applySize("max");
         if (min > max)
         {
-          if (local == "max") max = min;
-          else min = max;
+          if (local == "min") min = max;
+          else max = min;
         }
         if (local) this.applyKey(local,(local=="min")?min:max);
         else
