@@ -201,7 +201,7 @@
       $(`#p${x}-${y}`).attr('visited',false);
     },
     modify: function(x,y,num = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max)) {
-      if ($(`#p${x}-${y}`).attr("visited") != "true") return;
+      if ($(`#p${x}-${y}`).attr("visited") == "true") return;
       let br=Engine.Brush.size;
       for (let i=x-br;i<=x+br;i++)
         for (let j=y-br;j<=y+br;j++)
@@ -647,7 +647,7 @@
     viewXY: StarblastMap.viewXY.bind(StarblastMap),
     modify: StarblastMap.modify.bind(StarblastMap),
     changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap.Asteroids),
-    set: StarblastMap.freeCell.bind(StarblastMap)
+    set: StarblastMap.freeCell
   });
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
