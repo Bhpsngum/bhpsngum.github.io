@@ -197,12 +197,13 @@
       }
       (!same) && life[action[i]](session);
     },
-    modify: function(x,y,num = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max)) {
-      let br=Engine.Brush.size;
+    modify: function(x,y,num) {
+      let br=Engine.Brush.size,c = num == void 0,init;
+      (c) && init = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max);
       for (let i=x-br;i<=x+br;i++)
         for (let j=y-br;j<=y+br;j++)
         {
-          let size = (Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):num;
+          let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num;
           let data = this.updateCell(i,j,size);
           if (data.changed) this.session.set(`${i}-${j}`,[data.prev,size]);
         }
