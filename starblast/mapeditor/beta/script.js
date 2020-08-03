@@ -56,7 +56,7 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              tb+=`<td id='p${i}-${j}' onmouseout ='Misc.set(${i},${j})' onclick = 'Misc.modify(${i},${j});' oncontextmenu='Misc.modify(${i},${j},0);' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j});' onmouseup='Misc.stopTrail()' visited = false><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+              tb+=`<td id='p${i}-${j}' onclick = 'Misc.modify(${i},${j});' oncontextmenu='Misc.modify(${i},${j},0);' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j});' onmouseup='Misc.stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
             }
             tb+="</tr>";
           }
@@ -197,11 +197,7 @@
       }
       (!same) && life[action[i]](session);
     },
-    freeCell: function(x,y) {
-      $(`#p${x}-${y}`).attr('visited',false);
-    },
     modify: function(x,y,num = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max)) {
-      if ($(`#p${x}-${y}`).attr("visited") == "true") return;
       let br=Engine.Brush.size;
       for (let i=x-br;i<=x+br;i++)
         for (let j=y-br;j<=y+br;j++)
@@ -210,7 +206,6 @@
           let data = this.updateCell(i,j,size);
           if (data.changed) this.session.set(`${i}-${j}`,[data.prev,size]);
         }
-      $(`#p${x}-${y}`).attr("visited",true);
       this.future = [];
       this.sync();
     },
@@ -646,8 +641,7 @@
     stopTrail: Engine.stopTrail.bind(Engine),
     viewXY: StarblastMap.viewXY.bind(StarblastMap),
     modify: StarblastMap.modify.bind(StarblastMap),
-    changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap.Asteroids),
-    set: StarblastMap.freeCell
+    changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap.Asteroids)
   });
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
@@ -742,10 +736,12 @@
       {
         case 122:
         case 90:
+          e.preventDefault();
           StarblastMap.undo();
           break;
         case 121:
         case 89:
+          e.preventDefault();
           StarblastMap.redo();
           break;
         case 115:
