@@ -56,7 +56,7 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              tb+=`<td id='p${i}-${j}' onclick = 'Misc.modify(${i},${j});' oncontextmenu='Misc.modify(${i},${j},0);' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j});' onmouseup='Misc.stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);' onmouseup='Misc.stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
             }
             tb+="</tr>";
           }
@@ -197,12 +197,13 @@
       }
       (!same) && life[action[i]](session);
     },
-    modify: function(x,y,num = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max)) {
-      let br=Engine.Brush.size;
+    modify: function(x,y,num) {
+      let br=Engine.Brush.size,c = num == void 0,init;
+      if (c) init = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max);
       for (let i=x-br;i<=x+br;i++)
         for (let j=y-br;j<=y+br;j++)
         {
-          let size = (Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):num;
+          let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num;
           let data = this.updateCell(i,j,size);
           if (data.changed) this.session.set(`${i}-${j}`,[data.prev,size]);
         }
@@ -596,14 +597,13 @@
       let url = this.permalink(newMap);
       window.history.pushState({path:url},'',url);
     },
-    startTrail: function (x,y) {
-      let e = window.event;
-      switch (e.which) {
-        case 1:
+    startTrail: function (x,y,event) {
+      switch (event.button) {
+        case 0:
           this.trail=1;
           StarblastMap.modify(x,y);
           break;
-        case 3:
+        case 2:
           this.trail=0;
           StarblastMap.modify(x,y,0);
           break;
@@ -736,10 +736,12 @@
       {
         case 122:
         case 90:
+          e.preventDefault();
           StarblastMap.undo();
           break;
         case 121:
         case 89:
+          e.preventDefault();
           StarblastMap.redo();
           break;
         case 115:
