@@ -56,7 +56,7 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j});' onmouseup='Misc.stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);' onmouseup='Misc.stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
             }
             tb+="</tr>";
           }
@@ -596,14 +596,13 @@
       let url = this.permalink(newMap);
       window.history.pushState({path:url},'',url);
     },
-    startTrail: function (x,y) {
-      let e = window.event;
-      switch (e.which) {
-        case 1:
+    startTrail: function (x,y,event) {
+      switch (event.button) {
+        case 0:
           this.trail=1;
           StarblastMap.modify(x,y);
           break;
-        case 3:
+        case 2:
           this.trail=0;
           StarblastMap.modify(x,y,0);
           break;
