@@ -588,7 +588,7 @@
         }
         else {
           elem.prop("class","fas fa-fw fa-question");
-          elem[0].onmouseover = function(){viewinfo(null,"All-Corners mirror is disabled")};
+          elem[0].onmouseover = function(){viewinfo(null,"A secret function is disabled")};
         }
       },
       v:false,
