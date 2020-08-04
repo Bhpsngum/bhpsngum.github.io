@@ -203,9 +203,15 @@
       for (let i=x-br;i<=x+br;i++)
         for (let j=y-br;j<=y+br;j++)
         {
-          let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num;
-          let data = this.updateCell(i,j,size);
-          if (data.changed) this.session.set(`${i}-${j}`,[data.prev,size]);
+          let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num,list= [[i,j]];
+          if (Engine.Mirror.h) list.push(this.size-i-1,j);
+          if (Engine.Mirror.v) list.push(i,this.size-j-1);
+          if (Engine.Mirror.v && Engine.Mirror.h) list.push(j,i);
+          for (let k of list)
+          {
+            let data = this.updateCell(...k,size);
+            if (data.changed) this.session.set(`${k[0]}-${k[1]}`,[data.prev,size]);
+          }
         }
       this.future = [];
       this.sync();
