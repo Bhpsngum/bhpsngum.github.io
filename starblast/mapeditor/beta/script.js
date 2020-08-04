@@ -666,7 +666,7 @@
     if (fail) StarblastMap.create(1);
     else StarblastMap.load(null,1,1);
   }
-  $("#asChoose").html(`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`+new Array(9).map((x,i) => `<td id='asc${i+1}' onclick = 'Misc.changeASSize(${i+1});' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3+3}' width='${i*3+3}'></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td><tr>`);
+  $("#asChoose").html(`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onclick = 'Misc.changeASSize(${i+1});' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3+3}' width='${i*3+3}'></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td><tr>`);
   let mr = ["h","v"];
   // cas=mr.map(i => `<input type="checkbox" id="mirror-${i}">`).join("")+
   // for (let i of ["h","v"]) cas+=;
