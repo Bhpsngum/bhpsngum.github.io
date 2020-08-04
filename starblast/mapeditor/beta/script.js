@@ -584,11 +584,11 @@
         if (this.v && this.h)
         {
           elem.prop("class","fas fa-fw fa-arrows-alt");
-          elem[0].onmouseover = viewinfo(null,"All-Corners mirror is enabled");
+          elem[0].onmouseover = function(){viewinfo(null,"All-Corners mirror is enabled")};
         }
         else {
           elem.prop("class","");
-          elem[0].onmouseover = viewinfo(null,"All-Corners mirror is disabled");
+          elem[0].onmouseover = function(){viewinfo(null,"All-Corners mirror is disabled")};
         }
       },
       v:false,
