@@ -570,13 +570,11 @@
     },
     Mirror: {
       apply: function (p) {
-        function() {
-          let sign=["times","check"];
-          let u = $("#mirror-"+p).is(":checked");
-          this[p] = u;
-          $("#mrmark-"+i).prop("class","fas fa-fw fa-"+sign[Number(u)]);
-          localStorage[p] = u;
-        }
+        let sign=["times","check"];
+        let u = $("#mirror-"+p).is(":checked");
+        this[p] = u;
+        $("#mrmark-"+i).prop("class","fas fa-fw fa-"+sign[Number(u)]);
+        localStorage[p] = u;
       },
       v:false,
       h:false
