@@ -568,6 +568,19 @@
         localStorage.setItem("brush",size);
       },
     },
+    Mirror: {
+      apply: function (p) {
+        function() {
+          let sign=["times","check"];
+          let u = $("#mirror-"+p).is(":checked");
+          this[p] = u;
+          $("#mrmark-"+i).prop("class","fas fa-fw fa-"+sign[Number(u)]);
+          localStorage[p] = u;
+        }
+      },
+      v:false,
+      h:false
+    },
     copyToClipboard: function (text = "") {
         var dummy = document.createElement("textarea");
         document.body.appendChild(dummy);
@@ -668,7 +681,12 @@
   }
   $("#asChoose").html(`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onclick = 'Misc.changeASSize(${i+1});' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3+3}' width='${i*3+3}'></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
-  $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`)+"</tr>");
+  $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+"</tr>");
+  for (let i of mr)
+  {
+    $("#mirror-"+i).on("change",function(){Engine.Mirror.apply(i)})
+    $("#mr-"+i).on("click",$("#mirror-"+i).click);
+  }
   StarblastMap.Asteroids.applyKey("min",localStorage.ASSize_min);
   StarblastMap.Asteroids.applyKey("max",localStorage.ASSize_max);
   let rSize = StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids);
