@@ -204,8 +204,8 @@
         for (let j=y-br;j<=y+br;j++)
         {
           let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num,list= [[i,j]];
-          if (Engine.Mirror.h) list.push([this.size-i-1,j]);
-          if (Engine.Mirror.v) list.push([i,this.size-j-1]);
+          if (Engine.Mirror.v) list.push([this.size-i-1,j]);
+          if (Engine.Mirror.h) list.push([i,this.size-j-1]);
           if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-i-1,this.size-j-1]);
           for (let k of list)
           {
