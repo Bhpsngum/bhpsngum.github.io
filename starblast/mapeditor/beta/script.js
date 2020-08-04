@@ -206,7 +206,7 @@
           let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num,list= [[i,j]];
           if (Engine.Mirror.h) list.push([this.size-i-1,j]);
           if (Engine.Mirror.v) list.push([i,this.size-j-1]);
-          if (Engine.Mirror.v && Engine.Mirror.h) list.push([j,i]);
+          if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-i-1,this.size-j-1]);
           for (let k of list)
           {
             let data = this.updateCell(...k,size);
