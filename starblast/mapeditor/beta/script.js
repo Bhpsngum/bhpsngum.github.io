@@ -683,6 +683,7 @@
   for (let i of mr)
   {
     let see = localStorage["mirror_"+i] == "true";
+    Engine.Mirror.apply(i);
     $("#mirror-"+i).prop("checked",see);
     $("#mirror-"+i).on("change",function(){Engine.Mirror.apply(i)});
     $("#mr-"+i).on("click",function(){$("#mirror-"+i).click()});
