@@ -583,11 +583,11 @@
         localStorage["mirror_"+p] = u;
         if (this.v && this.h)
         {
-          elem.prop("class","fas fa-fw fa-arrows-alt");
+          elem.prop("class","fas fa-fw fa-expand-arrows-alt");
           elem[0].onmouseover = function(){viewinfo(null,"All-Corners mirror is enabled")};
         }
         else {
-          elem.prop("class","");
+          elem.prop("class","fas fa-fw fa-question");
           elem[0].onmouseover = function(){viewinfo(null,"All-Corners mirror is disabled")};
         }
       },
