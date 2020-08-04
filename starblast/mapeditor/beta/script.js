@@ -569,7 +569,7 @@
       },
     },
     Mirror: {
-      applyCheck: function (p) {
+      apply: function (p) {
         let sign=["times","check"];
         let u = $("#mirror-"+p).is(":checked");
         this[p] = u;
@@ -682,8 +682,10 @@
   $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+"</tr>");
   for (let i of mr)
   {
-    $("#mirror-"+i).on("change",function(){Engine.Mirror.applyCheck(i)});
-    $("#mr-"+i).on("click",$("#mirror-"+i).click);
+    let see = localStorage[i] == "true";
+    $("#mirror-"+i).prop("checked",see);
+    $("#mirror-"+i).on("change",function(){Engine.Mirror.apply(i)});
+    $("#mr-"+i).on("click",function(){$("#mirror-"+i).click()});
   }
   StarblastMap.Asteroids.applyKey("min",localStorage.ASSize_min);
   StarblastMap.Asteroids.applyKey("max",localStorage.ASSize_max);
