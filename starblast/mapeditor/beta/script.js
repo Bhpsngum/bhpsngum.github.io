@@ -56,7 +56,7 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);' onmouseup='Misc.stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
             }
             tb+="</tr>";
           }
@@ -777,6 +777,7 @@
       }
     }
   }
+  window.onmouseup = function(){return window.onblur = Misc.stopTrail}();
   StarblastMap.Buttons.permalink.on("click", function(){
     let map = StarblastMap.export("url");
     Engine.setURL(map);
