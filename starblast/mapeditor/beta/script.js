@@ -576,11 +576,20 @@
     },
     Mirror: {
       apply: function (p) {
-        let sign=["times","check"];
+        let sign=["times","check"],elem = $("#almr");
         let u = $("#mirror-"+p).is(":checked");
         this[p] = u;
         $("#mrmark-"+p).prop("class","fas fa-fw fa-"+sign[Number(u)]);
         localStorage["mirror_"+p] = u;
+        if (this.v && this.h)
+        {
+          elem.prop("class","fas fa-fw fa-arrows-alt");
+          elem[0].onmouseover = viewinfo(null,"All-Corners mirror is enabled");
+        }
+        else {
+          elem.prop("class","");
+          elem[0].onmouseover = viewinfo(null,"All-Corners mirror is disabled");
+        }
       },
       v:false,
       h:false
@@ -685,7 +694,7 @@
   }
   $("#asChoose").html(`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onclick = 'Misc.changeASSize(${i+1});' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3+3}' width='${i*3+3}'></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
-  $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+"</tr>");
+  $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
   for (let i of mr)
   {
     let see = localStorage["mirror_"+i] == "true";
