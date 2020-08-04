@@ -574,7 +574,7 @@
         let u = $("#mirror-"+p).is(":checked");
         this[p] = u;
         $("#mrmark-"+p).prop("class","fas fa-fw fa-"+sign[Number(u)]);
-        localStorage[p] = u;
+        localStorage["mirror_"+p] = u;
       },
       v:false,
       h:false
@@ -682,7 +682,7 @@
   $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+"</tr>");
   for (let i of mr)
   {
-    let see = localStorage[i] == "true";
+    let see = localStorage["mirror_"+i] == "true";
     $("#mirror-"+i).prop("checked",see);
     $("#mirror-"+i).on("change",function(){Engine.Mirror.apply(i)});
     $("#mr-"+i).on("click",function(){$("#mirror-"+i).click()});
