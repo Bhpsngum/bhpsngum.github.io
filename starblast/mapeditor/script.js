@@ -56,7 +56,7 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);' onmouseup='Misc.stopTrail()'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
             }
             tb+="</tr>";
           }
@@ -203,9 +203,15 @@
       for (let i=x-br;i<=x+br;i++)
         for (let j=y-br;j<=y+br;j++)
         {
-          let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num;
-          let data = this.updateCell(i,j,size);
-          if (data.changed) this.session.set(`${i}-${j}`,[data.prev,size]);
+          let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num,list= [[i,j]];
+          if (Engine.Mirror.v) list.push([this.size-i-1,j]);
+          if (Engine.Mirror.h) list.push([i,this.size-j-1]);
+          if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-i-1,this.size-j-1]);
+          for (let k of list)
+          {
+            let data = this.updateCell(...k,size);
+            if (data.changed) this.session.set(`${k[0]}-${k[1]}`,[data.prev,size]);
+          }
         }
       this.future = [];
       this.sync();
@@ -568,6 +574,26 @@
         localStorage.setItem("brush",size);
       },
     },
+    Mirror: {
+      apply: function (p) {
+        let sign=["times","check"],elem = $("#almr");
+        let u = $("#mirror-"+p).is(":checked");
+        this[p] = u;
+        $("#mrmark-"+p).prop("class","fas fa-fw fa-"+sign[Number(u)]);
+        localStorage["mirror_"+p] = u;
+        if (this.v && this.h)
+        {
+          elem.prop("class","fas fa-fw fa-expand-arrows-alt");
+          elem[0].onmouseover = function(){viewinfo(null,"All-Corners mirror is enabled")};
+        }
+        else {
+          elem.prop("class","fas fa-fw fa-question");
+          elem[0].onmouseover = function(){viewinfo(null,"A secret function is disabled")};
+        }
+      },
+      v:false,
+      h:false
+    },
     copyToClipboard: function (text = "") {
         var dummy = document.createElement("textarea");
         document.body.appendChild(dummy);
@@ -666,10 +692,17 @@
     if (fail) StarblastMap.create(1);
     else StarblastMap.load(null,1,1);
   }
-  let cas=`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`;
-  for (let i=1;i<=9;i++) cas+=`<td id='asc${i}' onclick = 'Misc.changeASSize(${i});' onmouseover='viewinfo(null,"Asteroid size ${i} (Hotkey ${i})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3}' width='${i*3}'></td>`;
-  cas+=`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td>`
-  $("#asChoose").html(cas+"</tr>");
+  $("#asChoose").html(`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onclick = 'Misc.changeASSize(${i+1});' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3+3}' width='${i*3+3}'></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td></tr>`);
+  let mr = ["h","v"],mdesc = ["horizontal","vertical"];
+  $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
+  for (let i of mr)
+  {
+    let see = localStorage["mirror_"+i] == "true";
+    $("#mirror-"+i).prop("checked",see);
+    Engine.Mirror.apply(i);
+    $("#mirror-"+i).on("change",function(){Engine.Mirror.apply(i)});
+    $("#mr-"+i).on("click",function(){$("#mirror-"+i).click()});
+  }
   StarblastMap.Asteroids.applyKey("min",localStorage.ASSize_min);
   StarblastMap.Asteroids.applyKey("max",localStorage.ASSize_max);
   let rSize = StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids);
@@ -777,6 +810,7 @@
       }
     }
   }
+  window.onmouseup = function(){return window.onblur = Misc.stopTrail}();
   StarblastMap.Buttons.permalink.on("click", function(){
     let map = StarblastMap.export("url");
     Engine.setURL(map);
