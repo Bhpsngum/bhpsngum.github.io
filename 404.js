@@ -8,7 +8,7 @@
     [null],
     [null]
   ]
-  let i = random(name.length), ind = random(styles[i].length), color = ;
+  let i = random(name.length), ind = random(styles[i].length);
   document.body.style = "color:"+(styles[i][ind]||"rgb(102,102,102)");
   document.querySelector("#message").innerHTML= `Here is a picture of ${name[i]} instead.`;
   let img_link = `https://bhpsngum.github.io/404_img/${name[i].replace(/\s/g,"_")}/${ind}.`;
