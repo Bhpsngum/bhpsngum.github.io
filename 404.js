@@ -16,8 +16,8 @@
     function testImage(i)
     {
       if (i<0) return;
-      let u = new Image(),lnk = img_link+img_types[i];
-      u.src = lnk;
+      let img = new Image(),lnk = img_link+img_types[i];
+      img.src = lnk;
       img.onload = function(){
         body.setAttribute("style",body.getAttribute("style")+`background-image:url(${lnk});`);
         document.querySelector("#link").href = lnk;
