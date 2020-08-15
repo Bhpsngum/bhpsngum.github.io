@@ -5,5 +5,8 @@ body {
 }
 p {
   margin: 10pt;
-  font-size: 10pt;
+  font-size: 16pt;
+}
+a, a:active, a:hover {
+  color: #33A1DE;
 }
