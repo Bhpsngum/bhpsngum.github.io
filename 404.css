@@ -1,4 +1,7 @@
 body {
   font-family: Verdana;
   background-color: rgb(24,26,27);
+  text-align: center;
+  margin: 5pt;
+  font-size: 20pt;
 }
