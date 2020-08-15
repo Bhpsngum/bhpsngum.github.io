@@ -3,7 +3,7 @@ body {
   background-color: rgb(24,26,27);
   text-align: center;
 }
-p {
+p,a {
   margin: 10pt;
   font-size: 16pt;
 }
