@@ -19,7 +19,7 @@
       let img = new Image(),lnk = img_link+img_types[i];
       img.src = lnk;
       img.onload = function(){
-        body.setAttribute("style",body.getAttribute("style")+`background-image:url(${lnk});`);
+        body.setAttribute("style",`${body.getAttribute("style")};background-image:url(${lnk});background-repeat: no-repeat;background-size: cover;background-position: center;height: 100vh;width: 100vw;`);
         document.querySelector("#link").href = lnk;
       }
       img.onerror = function(){testImage(i-1)}
