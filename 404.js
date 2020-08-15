@@ -5,7 +5,7 @@
   }
   let name = ["Megumin"],img_types = ["png","jpg"],
   styles = [
-    [null],
+    ["rgb(0,0,0)"],
     [null]
   ];
   document.addEventListener('DOMContentLoaded', function(){
