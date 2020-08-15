@@ -3,7 +3,7 @@
   {
     return ~~(Math.random()*num);
   }
-  let name = ["Megumin"],img_types = ["png","jpg"],
+  let name = ["Megumin","Black Hole"],img_types = ["png","jpg"],
   styles = [
     ["rgb(0,0,0)"],
     [null]
