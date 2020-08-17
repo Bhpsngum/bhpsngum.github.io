@@ -5,7 +5,7 @@
   }
   let name = ["Megumin","Black Hole"],img_types = ["png","jpg"],
   styles = [
-    ["rgb(0,0,0)",null,"rgb(0,0,0)",null,"rgb(0,0,0)",null,null],
+    ["rgb(0,0,0)",null,"rgb(0,0,0)",null,"rgb(0,0,0)",null,null,null],
     [null,null,null,null,"rgb(0,0,0)","rgb(0,0,0)",null,null,null,null,null]
   ];
   document.addEventListener('DOMContentLoaded', function(){
