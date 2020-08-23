@@ -1,10 +1,14 @@
 var ModInfo = function(data)
 {
   return `<div class="ModTab" id='${data.name||"unkonwn"}'>
-    <a href="${data.link.url}"><h4>${data.name}</h4></a>
-    <pre class="tab">  </pre><br>
-    <h5 class="version">${data.version||""}</h5>
-    <a href="${data.author.link||""}"><h6>${data.author.name}</h6></a>
+    <table>
+      <tr>
+        <th>
+          <h3><a href="${data.link.url}">${data.name}<sup>${data.version||""}</sup></a></h3>
+        </th>
+        <td><h5><a href="${data.author.link||""}">${data.author.name}</a></h5></td>
+      </tr>
+    </table>
   </div>`;
 }
 function loadError()

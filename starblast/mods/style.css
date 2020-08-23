@@ -4,21 +4,21 @@ body {
   color: rgb(102,102,102);
 }
 * {
-  margin: 0px;
-  float: left;
+  margin: 5pt;
 }
-.version {
+tr {
+  text-align: left;
+}
+a, a:active, a:hover, sup {
   color: #33A1DE;
-}
-.name {
-
-}
-a, a:active, a:hover {
-  color: #33A1DE;
+  text-decoration: none;
 }
 .down, .down:active, .down:hover {
   color: red;
 }
 .ModTab {
+  margin: 5px;
   background-color: rgb(110,110,110);
+  width: 500 px;
+  height: 100px;
 }
