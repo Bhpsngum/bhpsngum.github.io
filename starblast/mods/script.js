@@ -7,8 +7,16 @@ var ModInfo = function(data)
     <a href="${data.author.link||""}"><h6>${data.author.name}</h6></a>
   </div>`
 }
-function processData(json)
+function loadError()
 {
-  console.log(json);
+  console.log("Fetch failed");
 }
-$.getJSON("modsinfo.json").done((json) => {processData(json.data)}).fail(() => {console.log("Fetch failed")});
+function processData(mods)
+{
+  if (Array.isArray(mods))
+  {
+    for (let mod of mods) $("#modsinfo").append(ModInfo(mod));
+  }
+  else loadError();
+}
+$.getJSON("modsinfo.json").done((json) => {processData(json.data)}).fail(loadError);
