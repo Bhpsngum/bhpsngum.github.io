@@ -1,12 +1,15 @@
 {
-  {
-    "name": "Tag Mode",
-    "version": "",
-    "link": "https://github.com/Bhpsngum/StarblastTagMode",
-    "author": {
-      "name": ["Bhpsngum"],
-      "link": "https://github.com/Bhpsngum"
-    },
-    "official": false
-  }
+  "name":"Starblast Mods",
+  "data": [
+    {
+      "name": "Tag Mode",
+      "version": "",
+      "link": "https://github.com/Bhpsngum/StarblastTagMode",
+      "author": {
+        "name": ["Bhpsngum"],
+        "link": "https://github.com/Bhpsngum"
+      },
+      "official": false
+    }
+  ]
 }

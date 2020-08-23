@@ -2,4 +2,4 @@ function processData(json)
 {
   console.log(json);
 }
-$.getJSON("modsinfo.json").done(processData).fail(() => {console.log("Fetch failed")});
+$.getJSON("modsinfo.json").done((json) => {processData(json.data)}).fail(() => {console.log("Fetch failed")});
