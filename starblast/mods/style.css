@@ -1,0 +1,20 @@
+body {
+  font-family: Verdana;
+  background-color: rgb(24,26,27);
+  color: rgb(102,102,102);
+}
+.version {
+  color: #33A1DE;
+}
+.name {
+
+}
+a, a:active, a:hover {
+  color: #33A1DE;
+}
+.down, .down:active, .down:hover {
+  color: red;
+}
+.ModTab {
+  background-color: rgb(110,110,110);
+}

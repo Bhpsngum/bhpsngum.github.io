@@ -4,7 +4,10 @@
     {
       "name": "Tag Mode",
       "version": "",
-      "link": "https://github.com/Bhpsngum/StarblastTagMode",
+      "link": {
+        "url": "https://github.com/Bhpsngum/StarblastTagMode",
+        "state": 2
+      },
       "author": {
         "name": ["Bhpsngum"],
         "link": "https://github.com/Bhpsngum"
