@@ -2,12 +2,8 @@ var ModInfo = function(data)
 {
   return `<div class="ModTab" id='${data.name||"unkonwn"}'>
     <table>
-      <tr>
-        <th>
-          <h3><a href="${data.link.url}">${data.name}<sup>${data.version||""}</sup></a></h3>
-        </th>
-        <td><h5><a href="${data.author.link||""}">${data.author.name}</a></h5></td>
-      </tr>
+      <tr><td><h3><a href="${data.link.url}">${data.name}<sup>${data.version||""}</sup></a></h3></th></tr>
+      <tr><td><h5><a href="${data.author.link||""}">${data.author.name}</a></h5></td></tr>
     </table>
   </div>`;
 }
