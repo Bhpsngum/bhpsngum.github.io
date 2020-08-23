@@ -3,6 +3,10 @@ body {
   background-color: rgb(24,26,27);
   color: rgb(102,102,102);
 }
+* {
+  margin: 0px;
+  float: left;
+}
 .version {
   color: #33A1DE;
 }
