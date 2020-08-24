@@ -31,7 +31,24 @@ function processData(mods)
 {
   if (Array.isArray(mods))
   {
-    let res=[...mods];
+    let spc = decodeURI(window.location.search).split("&"), res, key = {}, reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift();
+    switch(d)
+    {
+      case "search":
+        spc.map(x => {
+          for (let i=0;i<reg.length;i++)
+          {
+            if (reg[i].test(x))
+            {
+              key[namespace[i]] = x.replace(reg[i],"");
+              return;
+            }
+          }
+        });
+        break;
+    }
+    console.log(key);
+    res=[...mods];
     for (let mod of res) $("#modsinfo").append(new ModInfo(mod).html);
     $("#results").html(`Found ${res.length} mod(s)`);
   }
