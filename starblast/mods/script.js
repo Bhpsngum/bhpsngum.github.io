@@ -54,7 +54,7 @@ function processData(mods)
         Search: for (let y of x.author)
           for (let z of x.name)
             if (t=z.includes(key.author),t) break Search;
-      return (!key.name || x.name.includes(key.name)) || t;
+      return (!key.name || x.name.includes(key.name)) && t;
     });
     for (let mod of res) $("#modsinfo").append(new ModInfo(mod).html);
     $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
