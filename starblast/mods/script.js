@@ -1,69 +1,78 @@
-var namespace = ["name","author"];
-var ModInfo = function(data)
-{
-  var state = ["down","private","active"][data.link.state||0];
-  this.html = `<div class="ModTab" id='${data.name||"unkonwn"}'>
-    <div style="float:left"><img src="${data.img||"img/default.png"}"></div>
-    <table>
-      <tr><td><h3><a class="${state}" title="This link is currently ${state}" href="${data.link.url}">${data.name}<sup>${data.version||""}</sup></a></h3></th></tr>
-      <tr><td><h5>${data.author.map(data => `<a href="${data.link||""}">${(data.name||[]).join("/")}</a>`).join()}</h5></td></tr>
-      ${(data.official)?"<tr title='This is currently an official mod in Modding Space'><td><p>Official mod</p></td></tr>":""}
-      <tr><td><p><b>Game Mode(s): </b>${data.modes||"Unspecified"}</p></td></tr>
-      <tr><td><p>${data.description||"No description provided"}</p></td></tr>
-    </table>
-  </div>`;
-}
-function loadError()
-{
-  alert("Fetch failed :(\nPlease reload the page and try again!");
-}
-$("#search").on("click", function(){
-  let data = [];
-  for (let name of namespace)
+(function(){
+  var namespace = ["name","author"];
+  var ModInfo = function(data)
   {
-    let d = $("#"+name).val();
-    (d) && data.push(name+"="+d);
+    var state = ["down","private","active"][data.link.state||0];
+    this.html = `<div class="ModTab" id='${data.name||"unkonwn"}'>
+      <div style="float:left"><img src="${data.img||"img/default.png"}"></div>
+      <table>
+        <tr><td><h3><a class="${state}" title="This link is currently ${state}" href="${data.link.url}">${data.name}<sup>${data.version||""}</sup></a></h3></th></tr>
+        <tr><td><h5>${data.author.map(data => `<a href="${data.link||""}">${(data.name||[]).join("/")}</a>`).join()}</h5></td></tr>
+        ${(data.official)?"<tr title='This is currently an official mod in Modding Space'><td><p>Official mod</p></td></tr>":""}
+        <tr><td><p><b>Game Mode(s): </b>${data.modes||"Unspecified"}</p></td></tr>
+        <tr><td><p>${data.description||"No description provided"}</p></td></tr>
+      </table>
+    </div>`;
   }
-  data.unshift("search");
-  window.open(encodeURI("?"+data.join("&")),"_self");
-});
-function processData(mods)
-{
-  if (Array.isArray(mods))
+  function loadError()
   {
-    let spc = decodeURI(window.location.search).toLowerCase().split("&"), key = {}, reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift().substring(1);
-    switch(d)
+    alert("Fetch failed :(\nPlease reload the page and try again!");
+  }
+  function performSearch()
+  {
+    let data = [];
+    for (let name of namespace)
     {
-      case "search":
-        spc.map(x => {
-          for (let i=0;i<reg.length;i++)
-          {
-            if (reg[i].test(x))
-            {
-              key[namespace[i]] = x.replace(reg[i],"");
-              return;
-            }
-          }
-        });
-        break;
+      let d = $("#"+name).val();
+      (d) && data.push(name+"="+d);
     }
-    for (let i in key) $("#"+i).val(key[i]);
-    if (!$.isEmptyObject(key)) $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
-    let res = mods.filter(x => {
-      let t=!key.author;
-      if (!t)
-        Search: for (let y of x.author)
-          for (let z of y.name)
-            if (t=z.toLowerCase().includes(key.author),t) break Search;
-      return (!key.name || x.name.toLowerCase().includes(key.name)) && t;
-    });
-    res.map(mod => {$("#modsinfo").append(new ModInfo(mod).html)});
-    $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
+    data.unshift("search");
+    window.open(encodeURI("?"+data.join("&")),"_self");
   }
-  else loadError();
-}
-$.getJSON("modsinfo.json").done((json) => {processData(json.data)}).fail(loadError);
-if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
-else for (let state of states) if (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) document.querySelector("link").href=`icon_${state}.png`;
-console.log('%c Stop!!', 'font-weight: bold; font-size: 100px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38)');
-console.log('%cYou are accessing the Web Developing Area.\n\nPlease do not write/copy/paste/run any scripts here (unless you know what you\'re doing) to better protect yourself from loosing your map data, and even your other sensitive data.\n\nWe will not be responsible for any problems if you do not follow the warnings.', 'font-weight: bold; font-size: 15px;color: grey;');
+  $("#search").on("click", performSearch);
+  document.onkeydown = function()
+  {
+    if (e.which == 13 && e.ctrlKey) performSearch();
+  }
+  function processData(mods)
+  {
+    if (Array.isArray(mods))
+    {
+      let spc = decodeURI(window.location.search).toLowerCase().split("&"), key = {}, reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift().substring(1);
+      switch(d)
+      {
+        case "search":
+          spc.map(x => {
+            for (let i=0;i<reg.length;i++)
+            {
+              if (reg[i].test(x))
+              {
+                key[namespace[i]] = x.replace(reg[i],"");
+                return;
+              }
+            }
+          });
+          break;
+      }
+      for (let i in key) $("#"+i).val(key[i]);
+      if (!$.isEmptyObject(key)) $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
+      let res = mods.filter(x => {
+        let t=!key.author;
+        if (!t)
+          Search: for (let y of x.author)
+            for (let z of y.name)
+              if (t=z.toLowerCase().includes(key.author),t) break Search;
+        return (!key.name || x.name.toLowerCase().includes(key.name)) && t;
+      });
+      res.map(mod => {$("#modsinfo").append(new ModInfo(mod).html)});
+      $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
+    }
+    else loadError();
+  }
+  $.getJSON("modsinfo.json").done((json) => {processData(json.data)}).fail(loadError);
+  let states=["dark","light"];
+  if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
+  else for (let state of states) if (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) document.querySelector("link").href=`icon_${state}.png`;
+  console.log('%c Stop!!', 'font-weight: bold; font-size: 100px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38)');
+  console.log('%cYou are accessing the Web Developing Area.\n\nPlease do not write/copy/paste/run any scripts here (unless you know what you\'re doing) to better protect yourself from loosing your map data, and even your other sensitive data.\n\nWe will not be responsible for any problems if you do not follow the warnings.', 'font-weight: bold; font-size: 15px;color: grey;');
+})();
