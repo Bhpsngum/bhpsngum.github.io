@@ -50,8 +50,9 @@
           });
           break;
       }
-      for (let i in key) $("#"+i).val(key[i]);
-      if (!$.isEmptyObject(key)) $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
+      for (let i in key) $("#"+i).val(key[i]||"");
+      if ($.isEmptyObject(key)) window.history.pushState({path:`${window.location.protocol}//${window.location.host}${window.location.pathname}`},'',`${window.location.protocol}//${window.location.host}${window.location.pathname}`);
+      else $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
       let res = mods.filter(x => {
         let t=!key.author;
         if (!t)
@@ -66,7 +67,7 @@
     else loadError();
   }
   $.getJSON("modsinfo.json").done((json) => {processData(json.data)}).fail(loadError);
-  namespace.map(x => {$("#"+x).on("keypress",function(e){(e.which == 13 && e.ctrlKey) && performSearch()})});
+  namespace.map(x => {$("#"+x).on("keydown",function(e){(e.which == 13 && e.ctrlKey) && performSearch()})});
   let states=["dark","light"];
   if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
   else for (let state of states) if (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) document.querySelector("link").href=`icon_${state}.png`;
