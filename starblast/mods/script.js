@@ -52,11 +52,11 @@ function processData(mods)
       let t=!key.author;
       if (!t)
         Search: for (let y of x.author)
-          for (let z of x.name)
+          for (let z of y.name)
             if (t=z.toLowerCase().includes(key.author),t) break Search;
       return (!key.name || x.name.toLowerCase().includes(key.name)) && t;
     });
-    for (let mod of res) $("#modsinfo").append(new ModInfo(mod).html);
+    res.map(mod => {$("#modsinfo").append(new ModInfo(mod).html)});
     $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
   }
   else loadError();
