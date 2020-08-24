@@ -1,3 +1,4 @@
+var namespace = ["name","author"];
 var ModInfo = function(data)
 {
   var state = ["down","private","active"][data.link.state||0];
@@ -17,8 +18,14 @@ function loadError()
   alert("Fetch failed :(\nPlease reload the page and try again!");
 }
 $("#search").on("click", function(){
-  let name=$("#name").val(), author = $("#author").val();
-  window.open(encodeURI(`?search&${(name)?"name="+name+"&":""}${(author)?"author=":""}${author}`),"_self");
+  let data = [];
+  for (let name of namespace)
+  {
+    let d = $("#"+name).val();
+    (d) && data.push(name+"="+d);
+  }
+  data.unshift("search");
+  window.open(encodeURI("?"+data.join("&")),"_self");
 });
 function processData(mods)
 {
