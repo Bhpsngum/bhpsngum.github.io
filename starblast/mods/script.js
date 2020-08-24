@@ -31,7 +31,7 @@ function processData(mods)
 {
   if (Array.isArray(mods))
   {
-    let spc = decodeURI(window.location.search).split("&"), res, key = {}, reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift().substring(1);
+    let spc = decodeURI(window.location.search).toLowerCase().split("&"), key = {}, reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift().substring(1);
     switch(d)
     {
       case "search":
@@ -47,10 +47,20 @@ function processData(mods)
         });
         break;
     }
-    console.log(key);
-    res=[...mods];
+    for (let i in key) $("#"+i).val(key[i]);
+    let res = mods.filter(x => {
+      let t=!key.author;
+      if (!t)
+      {
+        Search: for (let y of x.author)
+          for (let z of x.name)
+            if (t=z.includes(key.author),t) break Search;
+        }
+      }
+      return (!key.name || x.name.includes(key.name)) || t;
+    });
     for (let mod of res) $("#modsinfo").append(new ModInfo(mod).html);
-    $("#results").html(`Found ${res.length} mod(s)`);
+    $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
   }
   else loadError();
 }
