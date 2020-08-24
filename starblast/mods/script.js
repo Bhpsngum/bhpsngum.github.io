@@ -18,7 +18,7 @@ function loadError()
 }
 $("#search").on("click", function(){
   let name=$("#name").val(), author = $("#author").val();
-  window.open(encodeURI(`?search&${(name)?"name=":""}${name}&${(author)?"author=":""}${author}`),"_self");
+  window.open(encodeURI(`?search&${(name)?"name="+name+"&":""}${(author)?"author=":""}${author}`),"_self");
 });
 function processData(mods)
 {
