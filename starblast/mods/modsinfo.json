@@ -9,10 +9,16 @@
         "url": "https://github.com/Bhpsngum/StarblastTagMode",
         "state": 1
       },
-      "author": {
-        "name": [["Bhpsngum"],["Others"]],
-        "link": ["https://github.com/Bhpsngum","https://google.com"]
-      },
+      "author": [
+        {
+          "name": ["Bhpsngum"],
+          "link": "https://github.com/Bhpsngum"
+        },
+        {
+          "name": ["Others"],
+          "link": "https://google.com/"
+        }
+      ],
       "official": false
     }
   ]
