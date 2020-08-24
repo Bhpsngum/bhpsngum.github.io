@@ -51,12 +51,9 @@ function processData(mods)
     let res = mods.filter(x => {
       let t=!key.author;
       if (!t)
-      {
         Search: for (let y of x.author)
           for (let z of x.name)
             if (t=z.includes(key.author),t) break Search;
-        }
-      }
       return (!key.name || x.name.includes(key.name)) || t;
     });
     for (let mod of res) $("#modsinfo").append(new ModInfo(mod).html);
