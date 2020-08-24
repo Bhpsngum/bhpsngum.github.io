@@ -31,7 +31,7 @@ function processData(mods)
 {
   if (Array.isArray(mods))
   {
-    let spc = decodeURI(window.location.search).split("&"), res, key = {}, reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift();
+    let spc = decodeURI(window.location.search).split("&"), res, key = {}, reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift().substring(1);
     switch(d)
     {
       case "search":
