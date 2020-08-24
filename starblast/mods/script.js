@@ -28,7 +28,7 @@
       (d) && data.push(name+"="+d);
     }
     data.unshift("search");
-    window.open(encodeURI("?"+data.join("&")),"_self");
+    (data.length > 1) && window.open(encodeURI("?"+data.join("&")),"_self");
   }
   $("#search").on("click", performSearch);
   function processData(mods, response)
