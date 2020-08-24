@@ -17,7 +17,7 @@
           "link": "https://github.com/pmgl"
         }
       ],
-      "official": true
+      "official": 1
     },
     {
       "name": "U-Series",
@@ -35,7 +35,7 @@
           "link": "https://github.com/StarblastFinalizer"
         }
       ],
-      "official": true
+      "official": 1
     },
     {
       "name": "Alien Intrusion",
@@ -53,7 +53,7 @@
           "link": "https://github.com/GoldmanAeroSpace"
         }
       ],
-      "official": true
+      "official": 1
     },
     {
       "name": "Nautic Series",
@@ -71,7 +71,7 @@
           "link": "https://github.com/GoldmanAeroSpace"
         }
       ],
-      "official": true
+      "official": 1
     },
     {
       "name": "Starblast Racing Championship (SRC)",
@@ -93,7 +93,7 @@
           "link": "https://github.com/123-Notus"
         }
       ],
-      "official": true
+      "official": 1
     },
     {
       "name": "Original Racing",
@@ -111,12 +111,12 @@
           "link": "https://github.com/pmgl"
         }
       ],
-      "official": false
+      "official": 2
     },
     {
       "name": "Starblast Prototypes (SP)",
       "version": "",
-      "description": "",
+      "description": "Zero mining. Pure combat.",
       "modes": "",
       "img": "https://starblast.data.neuronality.com/modding/img/prototypes.jpg",
       "link": {
@@ -129,7 +129,7 @@
           "link": "https://bitbucket.org/strutinsky5386"
         }
       ],
-      "official": false
+      "official": 2
     },
     {
       "name": "Pirate Mod",
@@ -147,7 +147,7 @@
           "link": "https://github.com/StarblastFinalizer"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Capture The Flag (CTF)",
@@ -169,7 +169,7 @@
           "link": "https://github.com/45rfew/"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Money's Mod",
@@ -187,7 +187,7 @@
           "link": "https://github.com/45rfew/"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Rumble Mod",
@@ -205,7 +205,7 @@
           "link": "https://github.com/45rfew/"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Piranha Mod",
@@ -223,7 +223,7 @@
           "link": "https://github.com/45rfew/"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Team Deathmatch (TDM)",
@@ -245,7 +245,7 @@
           "link": "https://github.com/45rfew/"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Tag Mode",
@@ -263,7 +263,7 @@
           "link": "https://github.com/Bhpsngum"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Starfleet",
@@ -281,7 +281,7 @@
           "link": ""
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Alien Defence",
@@ -303,7 +303,7 @@
           "link": "https://github.com/45rfew/"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Lunatic Mod",
@@ -321,7 +321,7 @@
           "link": ""
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Money's Dueling Mod",
@@ -339,7 +339,7 @@
           "link": "https://github.com/45rfew/"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Malefor's Dueling Mod",
@@ -357,7 +357,7 @@
           "link": "https://github.com/MALEFOR27/"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Anarchy Mod",
@@ -375,7 +375,7 @@
           "link": "https://github.com/MALEFOR27/"
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Multi-Class Ship Tree (MCST)",
@@ -393,7 +393,7 @@
           "link": ""
         }
       ],
-      "official": false
+      "official": 0
     },
     {
       "name": "Kleinem's Enhanced Ship Tree (KEST)",
@@ -411,7 +411,7 @@
           "link": ""
         }
       ],
-      "official": false
+      "official": 0
     }
   ]
 }
