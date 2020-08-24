@@ -13,6 +13,12 @@ a, a:active, a:hover, sup {
   color: #33A1DE;
   text-decoration: none;
 }
+.active, .active:active, .active:hover {
+  color: #33A1DE;
+}
+.private, .private:active, .private:hover {
+  color: #orange;
+}
 .down, .down:active, .down:hover {
   color: red;
 }

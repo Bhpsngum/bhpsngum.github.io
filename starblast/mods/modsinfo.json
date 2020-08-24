@@ -4,13 +4,14 @@
     {
       "name": "Tag Mode",
       "version": "6.9.6",
+      "img": false,
       "link": {
         "url": "https://github.com/Bhpsngum/StarblastTagMode",
-        "state": 2
+        "state": 1
       },
       "author": {
-        "name": ["Bhpsngum"],
-        "link": "https://github.com/Bhpsngum"
+        "name": [["Bhpsngum"],["Others"]],
+        "link": ["https://github.com/Bhpsngum","https://google.com"]
       },
       "official": false
     }
