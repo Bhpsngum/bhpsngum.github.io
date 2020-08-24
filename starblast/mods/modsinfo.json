@@ -21,6 +21,27 @@
         }
       ],
       "official": false
+    },
+    {
+      "name": "Tag Mode",
+      "version": "6.9.6",
+      "description": "Just Tag Mode lol",
+      "img": false,
+      "link": {
+        "url": "https://github.com/Bhpsngum/StarblastTagMode",
+        "state": 1
+      },
+      "author": [
+        {
+          "name": ["Bhpsngum"],
+          "link": "https://github.com/Bhpsngum"
+        },
+        {
+          "name": ["Others"],
+          "link": "https://google.com/"
+        }
+      ],
+      "official": false
     }
   ]
 }
