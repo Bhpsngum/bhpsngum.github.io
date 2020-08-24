@@ -16,13 +16,17 @@ function loadError()
 {
   alert("Fetch failed :(\nPlease reload the page and try again!");
 }
+$("#search").on("click", function(){
+  let name=$("#name").val(), author = $("#author").val();
+  window.open(encodeURI(`?search&${(name)?"name=":""}${name}&${(author)?"author=":""}${author}`),"_self");
+});
 function processData(mods)
 {
   if (Array.isArray(mods))
   {
     let res=[...mods];
     for (let mod of res) $("#modsinfo").append(new ModInfo(mod).html);
-    $("#results").html(`Found ${res.length} mods`);
+    $("#results").html(`Found ${res.length} mod(s)`);
   }
   else loadError();
 }
