@@ -132,6 +132,122 @@
       "official": false
     },
     {
+      "name": "Pirate Mod",
+      "version": "0.0.3",
+      "description": "",
+      "modes": "Survival",
+      "img": "",
+      "link": {
+        "url": "https://github.com/Bhpsngum/starblast/blob/master/mods/Pirate_Mod.js",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["Finalizer"],
+          "link": "https://github.com/StarblastFinalizer"
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Capture The Flag (CTF)",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "https://github.com/45rfew/Capture-The-Flag/",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["Bhpsngum"],
+          "link": "https://github.com/Bhpsngum/"
+        },
+        {
+          "name": ["45rfew","Money"],
+          "link": "https://github.com/45rfew/"
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Money's Mod",
+      "version": "7.0",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "https://github.com/45rfew/Starblast-mods-n-objs/tree/master/Mods/",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["45rfew","Money"],
+          "link": "https://github.com/45rfew/"
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Rumble Mod",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "https://github.com/45rfew/Starblast-mods-n-objs/tree/master/Mods/Rumble%20mod.js",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["45rfew","Money"],
+          "link": "https://github.com/45rfew/"
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Piranha Mod",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "https://github.com/45rfew/Starblast-mods-n-objs/tree/master/Mods/Piranha%20mod.js",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["45rfew","Money"],
+          "link": "https://github.com/45rfew/"
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Team Deathmatch (TDM)",
+      "version": "0.96.71",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "https://github.com/Bhpsngum/TDM",
+        "state": 1
+      },
+      "author": [
+        {
+          "name": ["Bhpsngum"],
+          "link": "https://github.com/Bhpsngum"
+        },
+        {
+          "name": ["45rfew","Money"],
+          "link": "https://github.com/45rfew/"
+        }
+      ],
+      "official": false
+    },
+    {
       "name": "Tag Mode",
       "version": "",
       "description": "A Code to create a Tag Mod in Starblast",
@@ -148,6 +264,154 @@
         }
       ],
       "official": false
-    }
+    },
+    {
+      "name": "Starfleet",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "",
+        "state": 0
+      },
+      "author": [
+        {
+          "name": ["Interdictor"],
+          "link": ""
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Alien Defence",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "https://github.com/45rfew/Alien-Defence/",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["Serendibite"],
+          "link": ""
+        },
+        {
+          "name": ["45rfew","Money"],
+          "link": "https://github.com/45rfew/"
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Lunatic Mod",
+      "version": "1.5.23",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "https://github.com/Bhpsngum/starblast/blob/master/mods/Lunatic_Mod.js",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["Kirito","Absolute Kun"],
+          "link": ""
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Money's Dueling Mod",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "https://github.com/45rfew/Starblast-mods-n-objs/blob/master/Mods/Dueling%20mod.js",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["45rfew","Money"],
+          "link": "https://github.com/45rfew/"
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Malefor's Dueling Mod",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "https://github.com/MALEFOR27/Starblast-Dueling",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["Malefor","MaleficArtist"],
+          "link": "https://github.com/MALEFOR27/"
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Anarchy Mod",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "",
+      "link": {
+        "url": "https://github.com/MALEFOR27/Anarchy",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["Malefor","MaleficArtist"],
+          "link": "https://github.com/MALEFOR27/"
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Multi-Class Ship Tree (MCST)",
+      "version": "",
+      "description": "",
+      "modes": "Varies",
+      "img": "",
+      "link": {
+        "url": "",
+        "state": 0
+      },
+      "author": [
+        {
+          "name": ["Various authors"],
+          "link": ""
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Kleinem's Enhanced Ship Tree (KEST)",
+      "version": "1.2.0",
+      "description": "",
+      "modes": "Varies",
+      "img": "",
+      "link": {
+        "url": "https://pastebin.com/RpBqeAWW",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["Kleinem"],
+          "link": ""
+        }
+      ],
+      "official": false
+    },
   ]
 }
