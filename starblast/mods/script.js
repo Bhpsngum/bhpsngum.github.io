@@ -30,10 +30,6 @@
     window.open(encodeURI("?"+data.join("&")),"_self");
   }
   $("#search").on("click", performSearch);
-  document.onkeydown = function()
-  {
-    if (e.which == 13 && e.ctrlKey) performSearch();
-  }
   function processData(mods)
   {
     if (Array.isArray(mods))
@@ -70,6 +66,7 @@
     else loadError();
   }
   $.getJSON("modsinfo.json").done((json) => {processData(json.data)}).fail(loadError);
+  namespace.map(x => {$("#"+x).on("keypress",function(e){(e.which == 13 && e.ctrlKey) && performSearch()})});
   let states=["dark","light"];
   if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
   else for (let state of states) if (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) document.querySelector("link").href=`icon_${state}.png`;
