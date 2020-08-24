@@ -1,7 +1,7 @@
 body {
   font-family: Verdana;
   background-color: rgb(24,26,27);
-  color: rgb(102,102,102);
+  color: rgb(231,229,228);
 }
 * {
   margin: 5pt;
@@ -9,7 +9,7 @@ body {
 tr {
   text-align: left;
 }
-a, a:active, a:hover, sup {
+h5, a, a:active, a:hover, sup {
   color: #33A1DE;
   text-decoration: none;
 }
