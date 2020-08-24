@@ -2,6 +2,42 @@
   "name":"Starblast Mods",
   "data": [
     {
+      "name": "Battle Royale",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "https://starblast.data.neuronality.com/modding/img/battleroyale.jpg",
+      "link": {
+        "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/battleroyale.js",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["PMGL","Gilles"],
+          "link": "https://github.com/pmgl"
+        }
+      ],
+      "official": true
+    },
+    {
+      "name": "U-Series",
+      "version": "4.0",
+      "description": "",
+      "modes": "Team",
+      "img": "https://starblast.data.neuronality.com/modding/img/useries.jpg",
+      "link": {
+        "url": "https://github.com/Bhpsngum/starblast/blob/master/mods/U-Series.js",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["Finalizer"],
+          "link": "https://github.com/StarblastFinalizer"
+        }
+      ],
+      "official": true
+    },
+    {
       "name": "Alien Intrusion",
       "version": "5.0.5",
       "description": "",
@@ -58,6 +94,42 @@
         }
       ],
       "official": true
+    },
+    {
+      "name": "Original Racing",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "https://starblast.data.neuronality.com/modding/img/src.jpg",
+      "link": {
+        "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/racing.js",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["PMGL","Gilles"],
+          "link": "https://github.com/pmgl"
+        }
+      ],
+      "official": false
+    },
+    {
+      "name": "Starblast Prototypes (SP)",
+      "version": "",
+      "description": "",
+      "modes": "",
+      "img": "https://starblast.data.neuronality.com/modding/img/prototypes.jpg",
+      "link": {
+        "url": "https://bitbucket.org/strutinsky5386/starblast-prototypes/src/",
+        "state": 0
+      },
+      "author": [
+        {
+          "name": ["Uranus","UranusOrbiter"],
+          "link": "https://bitbucket.org/strutinsky5386"
+        }
+      ],
+      "official": false
     },
     {
       "name": "Tag Mode",

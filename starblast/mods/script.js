@@ -6,7 +6,7 @@ var ModInfo = function(data)
     <table>
       <tr><td><h3><a class="${state}" title="This link is currently ${state}" href="${data.link.url}">${data.name}<sup>${data.version||""}</sup></a></h3></th></tr>
       <tr><td><h5>${data.author.map(data => `<a href="${data.link||""}">${(data.name||[]).join("/")}</a>`).join()}</h5></td></tr>
-      ${(data.official)?"<tr title='This is an official mod'><td><p>Official mod</p></td></tr>":""}
+      ${(data.official)?"<tr title='This is currently an official mod in Modding Space'><td><p>Official mod</p></td></tr>":""}
       <tr><td><p><b>Game Mode(s): </b>${data.modes||"Unspecified"}</p></td></tr>
       <tr><td><p>${data.description||"No description provided"}</p></td></tr>
     </table>
