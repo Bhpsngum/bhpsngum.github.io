@@ -1,5 +1,6 @@
 (function(){
-  var namespace = ["name","author"];
+  var namespace = ["name","author"], domain = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+  $("#home")[0].href = domain;
   var ModInfo = function(data)
   {
     var state = ["down","private","active"][data.link.state||0];
@@ -51,7 +52,7 @@
           break;
       }
       for (let i in key) $("#"+i).val(key[i]||"");
-      if ($.isEmptyObject(key)) window.history.pushState({path:`${window.location.protocol}//${window.location.host}${window.location.pathname}`},'',`${window.location.protocol}//${window.location.host}${window.location.pathname}`);
+      if ($.isEmptyObject(key)) window.history.pushState({path:domain},'',domain);
       else $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
       let res = mods.filter(x => {
         let t=!key.author;
