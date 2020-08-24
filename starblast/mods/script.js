@@ -14,13 +14,15 @@ var ModInfo = function(data)
 }
 function loadError()
 {
-  console.log("Fetch failed");
+  alert("Fetch failed :(\nPlease reload the page and try again!");
 }
 function processData(mods)
 {
   if (Array.isArray(mods))
   {
-    for (let mod of mods) $("#modsinfo").append(new ModInfo(mod).html);
+    let res=[...mods];
+    for (let mod of res) $("#modsinfo").append(new ModInfo(mod).html);
+    $("#results").html(`Found ${res.length} mods`);
   }
   else loadError();
 }

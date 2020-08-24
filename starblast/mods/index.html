@@ -11,7 +11,7 @@
   </head>
   <body>
     <h1>Starblast Mods Archive</h1>
-    <div>
+    <div style = "display: inline-block">
       <h3>Search tools</h3>
       <div style="float:left">
         <h4>By name: </h4>
@@ -21,9 +21,11 @@
         <h4>By author(s): </h4>
         <input id="author" type="text">
       </div>
-      <button>Search</button>
+      <button id="search">Search</button>
     </div>
-    <div id="modsinfo"></div>
+    <div id="modsinfo">
+      <h3 id="results"></h3>
+    </div>
     <script type="text/javascript" src="script.js"></script>
   </body>
 </html>
