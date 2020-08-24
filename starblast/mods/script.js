@@ -62,7 +62,7 @@
         return (!key.name || x.name.toLowerCase().includes(key.name)) && t;
       });
       res.map(mod => {$("#modsinfo").append(new ModInfo(mod).html)});
-      $("#lastModified").append(response.getResponseHeader("last-Modified").toLocaleString());
+      $("#lastModified").append(new Date(response.getResponseHeader("last-Modified")).toString());
       $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
     }
     else loadError();
