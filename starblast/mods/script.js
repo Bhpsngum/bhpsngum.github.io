@@ -30,7 +30,7 @@
     window.open(encodeURI("?"+data.join("&")),"_self");
   }
   $("#search").on("click", performSearch);
-  function processData(mods)
+  function processData(mods, response)
   {
     if (Array.isArray(mods))
     {
@@ -62,11 +62,12 @@
         return (!key.name || x.name.toLowerCase().includes(key.name)) && t;
       });
       res.map(mod => {$("#modsinfo").append(new ModInfo(mod).html)});
+      $("#lastModified").append(response.getResponseHeader("last-Modified").toLocaleString());
       $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
     }
     else loadError();
   }
-  $.getJSON("modsinfo.json").done((json) => {processData(json.data)}).fail(loadError);
+  $.getJSON("modsinfo.json").done((json,a,resp) => {processData(json.data,resp)}).fail(loadError);
   namespace.map(x => {$("#"+x).on("keydown",function(e){(e.which == 13 && e.ctrlKey) && performSearch()})});
   let states=["dark","light"];
   if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
