@@ -2,43 +2,55 @@
   "name":"Starblast Mods",
   "data": [
     {
-      "name": "Tag Mode",
-      "version": "6.9.6",
-      "description": "Just Tag Mode lol",
-      "img": false,
+      "name": "Alien Intrusion",
+      "version": "5.0.5",
+      "description": "",
+      "modes": "Team",
+      "img": "https://starblast.data.neuronality.com/modding/img/useries.jpg",
       "link": {
-        "url": "https://github.com/Bhpsngum/StarblastTagMode",
-        "state": 1
+        "url": "https://pastebin.com/atKnxfJv",
+        "state": 2
       },
       "author": [
         {
-          "name": ["Bhpsngum"],
-          "link": "https://github.com/Bhpsngum"
-        },
-        {
-          "name": ["Others"],
-          "link": "https://google.com/"
+          "name": ["Goldman"],
+          "link": "https://github.com/GoldmanAeroSpace"
         }
       ],
-      "official": false
+      "official": true
+    },
+    {
+      "name": "Nautic Series",
+      "version": "3.1",
+      "description": "",
+      "modes": "Team",
+      "img": "https://starblast.data.neuronality.com/modding/img/nauticseries.jpg",
+      "link": {
+        "url": "https://pastebin.com/ciyyc8qK",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["Goldman"],
+          "link": "https://github.com/GoldmanAeroSpace"
+        }
+      ],
+      "official": true
     },
     {
       "name": "Tag Mode",
-      "version": "6.9.6",
-      "description": "Just Tag Mode lol",
-      "img": false,
+      "version": "",
+      "description": "A Code to create a Tag Mod in Starblast",
+      "modes": "",
+      "img": "",
       "link": {
         "url": "https://github.com/Bhpsngum/StarblastTagMode",
-        "state": 1
+        "state": 2
       },
       "author": [
         {
           "name": ["Bhpsngum"],
           "link": "https://github.com/Bhpsngum"
-        },
-        {
-          "name": ["Others"],
-          "link": "https://google.com/"
         }
       ],
       "official": false
