@@ -25,8 +25,11 @@ h5, a, a:active, a:hover, sup {
 p {
   font-size: 10pt;
 }
+img {
+  width: 100pt;
+}
 .ModTab {
-  margin: 5px;
+  margin: 10pt;
   background-color: rgb(47,79,79);
   width: auto;
   height: auto;

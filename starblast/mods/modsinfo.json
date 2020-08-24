@@ -6,7 +6,7 @@
       "version": "5.0.5",
       "description": "",
       "modes": "Team",
-      "img": "https://starblast.data.neuronality.com/modding/img/useries.jpg",
+      "img": "https://starblast.data.neuronality.com/modding/img/alienintrusion.jpg",
       "link": {
         "url": "https://pastebin.com/atKnxfJv",
         "state": 2
@@ -33,6 +33,28 @@
         {
           "name": ["Goldman"],
           "link": "https://github.com/GoldmanAeroSpace"
+        }
+      ],
+      "official": true
+    },
+    {
+      "name": "Starblast Racing Championship (SRC)",
+      "version": "2.0",
+      "description": "",
+      "modes": "",
+      "img": "https://starblast.data.neuronality.com/modding/img/src2.jpg",
+      "link": {
+        "url": "https://github.com/GoldmanAerospace/SRC-All-track-codes-/",
+        "state": 2
+      },
+      "author": [
+        {
+          "name": ["Goldman"],
+          "link": "https://github.com/GoldmanAeroSpace"
+        },
+        {
+          "name": ["Notus"],
+          "link": "https://github.com/123-Notus"
         }
       ],
       "official": true
