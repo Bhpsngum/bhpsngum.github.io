@@ -22,6 +22,9 @@ a, a:active, a:hover, sup {
 .down, .down:active, .down:hover {
   color: red;
 }
+p {
+  font-size: 10pt;
+}
 .ModTab {
   margin: 5px;
   background-color: rgb(47,79,79);
