@@ -672,7 +672,7 @@
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
   Engine.Brush.applyRandom();
-  let querymap=window.location.search.replace(/^\?/,""),error=0;
+  let querymap=window.location.search.replace(/^\?/,"").toLowerCase(),error=0;
   if (querymap === "") error = 1;
   else
   {
