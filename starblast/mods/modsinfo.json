@@ -3,7 +3,7 @@
   "data": [
     {
       "name": "Battle Royale",
-      "version": "",
+      "version": "2.0",
       "description": "",
       "modes": "",
       "img": "https://starblast.data.neuronality.com/modding/img/battleroyale.jpg",
@@ -75,7 +75,7 @@
     },
     {
       "name": "Starblast Racing Championship (SRC)",
-      "version": "2.0",
+      "version": "2.1",
       "description": "",
       "modes": "",
       "img": "https://starblast.data.neuronality.com/modding/img/src2.jpg",
@@ -96,8 +96,8 @@
       "official": 1
     },
     {
-      "name": "Original Racing",
-      "version": "",
+      "name": "Starblast Racing",
+      "version": "1.1",
       "description": "",
       "modes": "",
       "img": "https://starblast.data.neuronality.com/modding/img/src.jpg",
@@ -115,7 +115,7 @@
     },
     {
       "name": "Starblast Prototypes (SP)",
-      "version": "",
+      "version": "1.0.0",
       "description": "Zero mining. Pure combat.",
       "modes": "",
       "img": "https://starblast.data.neuronality.com/modding/img/prototypes.jpg",
