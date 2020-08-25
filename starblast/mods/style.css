@@ -30,8 +30,10 @@ img {
 }
 .ModTab {
   margin: 10pt;
+  margin-left:0px;
+  margin-right:0px;
   background-color: rgb(47,79,79);
-  width: auto;
+  width: 100%;
   height: auto;
   display: inline-block;
 }
