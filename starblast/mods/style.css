@@ -37,7 +37,11 @@ img {
   height: auto;
   display: inline-block;
 }
-m {
+mn {
   margin: 0px;
   background-color: #CCCC00;
+}
+ma {
+  margin: 0px;
+  background-color: #999900;
 }
