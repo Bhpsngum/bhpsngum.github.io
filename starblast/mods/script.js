@@ -1,14 +1,14 @@
 (function(){
   var namespace = ["name","author"], domain = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
   $("#home")[0].href = domain;
-  var ModInfo = function(data)
+  var ModInfo = function(data,key)
   {
     var state = ["down","private","active"][data.link.state||0];
     this.html = `<div class="ModTab" id='${data.name||"unkonwn"}'>
       <div style="float:left"><img src="${data.img||"img/default.png"}"></div>
       <table>
-        <tr><td><h3><a class="${state}" title="This link is currently ${state}" ${(data.link.url)?("href='"+data.link.url+"'"):""} target="_blank">${data.name}<sup>${data.version||""}</sup></a></h3></th></tr>
-        <tr><td><h5>${data.author.map(data => `<a ${(data.link)?("href='"+data.link+"'"):""} target="_blank">${(data.name||[]).join("/")}</a>`).join()}</h5></td></tr>
+        <tr><td><h3><a class="${state}" title="This link is currently ${state}" ${(data.link.url)?("href='"+data.link.url+"'"):""} target="_blank">${(key.name)?data.name:data.name.replace(key.name,"g",function(v){return `<m>${v}</m>`})}<sup>${data.version||""}</sup></a></h3></th></tr>
+        <tr><td><h5>${data.author.map(data => `<a ${(data.link)?("href='"+data.link+"'"):""} target="_blank">${(data.name||[]).map(data => (key.author)?data:data.replace(key.author,"g",function(v){return `<m>${v}</m>`})).join("/")}</a>`).join()}</h5></td></tr>
         ${(data.official)?("<tr "+((data.official<2)?"style='color:yellow'":"")+" title='This "+((data.official<2)?"is currently":"used to be")+" an official mod in Modding Space'><td><p><i class='fa fa-fw fa-star'></i>Official mod</p></td></tr>"):""}
         <tr><td><p><b>Game Mode(s): </b>${data.modes||"Unspecified"}</p></td></tr>
         <tr><td><p>${data.description||"No description provided."}</p></td></tr>
@@ -62,7 +62,7 @@
               if (t=z.toLowerCase().includes(key.author),t) break Search;
         return (!key.name || x.name.toLowerCase().includes(key.name)) && t;
       });
-      res.map(mod => {$("#modsinfo").append(new ModInfo(mod).html)});
+      res.map(mod => {$("#modsinfo").append(new ModInfo(mod,key).html)});
       $("#lastModified").append(new Date(response.getResponseHeader("last-Modified")).toString());
       $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
     }
