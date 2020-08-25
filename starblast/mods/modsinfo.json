@@ -228,9 +228,9 @@
     {
       "name": "Team Deathmatch (TDM)",
       "version": "0.96.71",
-      "description": "",
+      "description": "A combination between team battles and Pro DeatMatch (PDM)",
       "modes": "",
-      "img": "",
+      "img": "img/tdm.png",
       "link": {
         "url": "https://github.com/Bhpsngum/TDM",
         "state": 1
