@@ -8,7 +8,7 @@
     [null,null,"rgb(0,0,0)",null,"rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)"],
     ["rgb(0,0,0)",null,null,"rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)",null,"rgb(0,0,0)",null,null,"rgb(0,0,0)"]
   ];
-  (t) && document.addEventListener('DOMContentLoaded', function(){
+  (!t) && document.addEventListener('DOMContentLoaded', function(){
     let i = random(name.length), ind = random(styles[i].length), body = document.body;
     body.setAttribute("style", "color:"+(styles[i][ind]||"rgb(102,102,102)"));
     document.querySelector("#message").innerHTML= `Here is a picture of ${name[i]} instead.`;
