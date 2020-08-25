@@ -8,7 +8,13 @@
     [null,null,"rgb(0,0,0)",null,"rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)"],
     ["rgb(0,0,0)",null,null,"rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)",null,"rgb(0,0,0)",null,null,"rgb(0,0,0)"]
   ];
-  document.addEventListener('DOMContentLoaded', function(){
+  var t = window.location.pathname;
+  if (t.toLowerCase() != t)
+  {
+    document.write("A sec");
+    t = t.toLowerCase();
+  }
+  else document.addEventListener('DOMContentLoaded', function(){
     let i = random(name.length), ind = random(styles[i].length), body = document.body;
     body.setAttribute("style", "color:"+(styles[i][ind]||"rgb(102,102,102)"));
     document.querySelector("#message").innerHTML= `Here is a picture of ${name[i]} instead.`;
