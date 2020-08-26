@@ -78,6 +78,7 @@
         }
         this.sync();
         Engine.applyColor("as-color");
+        Engine.applyColor("border-color");
         if (!dismiss_history) this.future = [];
       }
       else check=false;
