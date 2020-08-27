@@ -4,6 +4,6 @@
   <Description>Search archived mods by name</Description>
   <InputEncoding>UTF-8</InputEncoding>
   <Image width="16" height="16" type="image/x-icon">https://bhpsngum.github.io/starblast/mods/favicon.ico</Image>
-  <Url type="text/html" method="get" template="https://bhpsngum.github.io/starblast/mods/?search&amp;name={searchTerms}" />
+  <Url type="text/html" method="get" template="http://bhpsngum.github.io/starblast/mods/?search&amp;name={searchTerms}" />
   <moz:SearchForm>https://bhpsngum.github.io/starblast/mods/</moz:SearchForm>
 </OpenSearchDescription>
