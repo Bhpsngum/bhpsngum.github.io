@@ -1,5 +1,5 @@
 (function(){
-  var namespace = ["name","author"], domain = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+  var namespace = ["name","author"], domain = `${window.location.protocol}//${window.location.host}${window.location.pathname}`, key = {}, modsinfo, lastDate;
   $("#home")[0].href = domain;
   var ModInfo = function(data,key)
   {
@@ -17,7 +17,8 @@
   }
   function loadError()
   {
-    alert("Fetch failed :(\nPlease reload the page and try again!");
+    if (modsinfo && lastDate) processData(modsinfo, null, lastDate);
+    else alert("Fetch failed :(\nPlease reload the page and try again!");
   }
   function performSearch()
   {
@@ -25,33 +26,46 @@
     for (let name of namespace)
     {
       let d = $("#"+name).val();
-      (d) && data.push(name+"="+d);
+      if (d)
+      {
+        data.push(name+"="+d);
+        key[name] = d;
+      }
     }
     data.unshift("search");
-    (data.length > 1) && window.open(encodeURI("?"+data.join("&")),"_self");
+    if (data.length > 1)
+    {
+      window.history.pushState({url:domain+encodeURI("?"+data.join("&"))},'',domain+encodeURI("?"+data.join("&")));
+      fetch();
+    }
   }
   $("#search").on("click", performSearch);
   function processData(mods, Aqua, response)
   {
     if (Array.isArray(mods))
     {
-      let spc = decodeURI(window.location.search).toLowerCase().split("&"), key = {}, reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift().substring(1);
-      switch(d)
+      modsinfo = mods;
+      $("#modsinfo").html("");
+      let spc = decodeURI(window.location.search).toLowerCase().split("&"), reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift().substring(1);
+      if ($.isEmptyObject(key))
       {
-        case "search":
-          spc.map(x => {
-            for (let i=0;i<reg.length;i++)
-            {
-              if (reg[i].test(x))
+        switch(d)
+        {
+          case "search":
+            spc.map(x => {
+              for (let i=0;i<reg.length;i++)
               {
-                key[namespace[i]] = x.replace(reg[i],"");
-                return;
+                if (reg[i].test(x))
+                {
+                  key[namespace[i]] = x.replace(reg[i],"");
+                  return;
+                }
               }
-            }
-          });
-          break;
+            });
+            break;
+        }
+        for (let i in key) $("#"+i).val(key[i]||"");
       }
-      for (let i in key) $("#"+i).val(key[i]||"");
       if ($.isEmptyObject(key)) window.history.pushState({path:domain},'',domain);
       else $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
       let res = mods.filter(x => {
@@ -63,12 +77,18 @@
         return (!key.name || x.name.toLowerCase().includes(key.name)) && t;
       });
       res.map(mod => {$("#modsinfo").append(new ModInfo(mod,key).html)});
-      $("#lastModified").append(new Date(response.getResponseHeader("last-Modified")).toString());
+      try {lastDate = new Date(response.getResponseHeader("last-Modified")).toString()}
+      catch(e){e}
+      $("#lastModified").append(lastDate);
       $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
     }
     else loadError();
   }
-  $.getJSON("modsinfo.json").done(processData).fail(loadError);
+  function fetch()
+  {
+    $.getJSON("modsinfo.json").done(processData).fail(loadError);
+  }
+  fetch();
   namespace.map(x => {$("#"+x).on("keydown",function(e){(e.which == 13 && e.ctrlKey) && performSearch()})});
   console.log('%c Stop!!', 'font-weight: bold; font-size: 100px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38)');
   console.log('%cYou are accessing the Web Developing Area.\n\nPlease do not write/copy/paste/run any scripts here (unless you know what you\'re doing) to better protect yourself from loosing your map data, and even your other sensitive data.\n\nWe will not be responsible for any problems if you do not follow the warnings.', 'font-weight: bold; font-size: 15px;color: grey;');
