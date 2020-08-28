@@ -1,8 +1,6 @@
 (function(){
-  var namespace = ["name","author"], domain = `${window.location.protocol}//${window.location.host}${window.location.pathname}`, key = {}, modsinfo, lastDate, main2 = $("<button></button>");
+  var namespace = ["name","author"], domain = `${window.location.protocol}//${window.location.host}${window.location.pathname}`, key = {}, modsinfo, lastDate;
   $("#home")[0].href = domain;
-  main2.on("click",showAll);
-  main2.html("View all mods");
   var ModInfo = function(data,key)
   {
     var state = ["down","private","active"][data.link.state||0];
@@ -88,6 +86,9 @@
       else
       {
         $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
+        let main2 = $("<button></button>");
+        main2.on("click",showAll);
+        main2.html("View all mods");
         $("#main2p").html(main2);
       }
       let res = mods.filter(x => {
