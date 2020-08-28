@@ -83,12 +83,13 @@
       for (let name of namespace) $("#"+name).val(key[name]||"");
       if ($.isEmptyObject(key))
       {
+        $('title')[0].innerHTML = "Starblast Mods Archive";
         window.history.pushState({path:domain},'',domain);
         $("#mainp").html("");
       }
       else
       {
-        $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
+        $('title')[0].innerHTML = "Search results - Starblast Mods Archive";
         let main = $("<button></button>");
         main.on("click",showAll);
         main.html("View all mods");
