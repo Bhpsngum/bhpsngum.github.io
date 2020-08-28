@@ -80,9 +80,13 @@
             });
             break;
         }
-        for (let i in key) $("#"+i).val(key[i]||"");
       }
-      if ($.isEmptyObject(key)) window.history.pushState({path:domain},'',domain);
+      for (let i in key) $("#"+i).val(key[i]||"");
+      if ($.isEmptyObject(key))
+      {
+        window.history.pushState({path:domain},'',domain);
+        $("#main2p").html("");
+      }
       else
       {
         $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
