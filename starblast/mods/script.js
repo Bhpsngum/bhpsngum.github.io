@@ -4,7 +4,7 @@
   var ModInfo = function(data,key)
   {
     var state = ["down","private","active"][data.link.state||0];
-    this.html = `<div class="ModTab" id='${data.name||"unkonwn"}'>
+    this.html = `<div class="ModTab" id='${data.name||"unknown"}'>
       <div style="float:left"><img src="${data.img||"img/default.png"}"></div>
       <table>
         <tr><td><h3><a class="${state}" title="This link is currently ${state}" ${(data.link.url)?("href='"+data.link.url+"'"):""} target="_blank">${(key.name)?data.name.replace(key.name,"gi",function(v){return `<mn>${v}</mn>`}):data.name}<sup>${data.version||""}</sup></a></h3></th></tr>
