@@ -79,7 +79,7 @@
       res.map(mod => {$("#modsinfo").append(new ModInfo(mod,key).html)});
       try {lastDate = new Date(response.getResponseHeader("last-Modified")).toString()}
       catch(e){e}
-      $("#lastModified").append(lastDate);
+      $("#lastModified").html(lastDate);
       $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
     }
     else loadError();
