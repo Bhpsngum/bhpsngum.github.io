@@ -1,6 +1,8 @@
 (function(){
-  var namespace = ["name","author"], domain = `${window.location.protocol}//${window.location.host}${window.location.pathname}`, key = {}, modsinfo, lastDate;
+  var namespace = ["name","author"], domain = `${window.location.protocol}//${window.location.host}${window.location.pathname}`, key = {}, modsinfo, lastDate, main2 = $("<button></button>");
   $("#home")[0].href = domain;
+  main2.on("click",showAll);
+  main2.html("View all mods");
   var ModInfo = function(data,key)
   {
     var state = ["down","private","active"][data.link.state||0];
@@ -44,11 +46,18 @@
     }
   }
   $("#search").on("click", performSearch);
+  $("#main1").on("click",showAll);
   $("#refresh").on("click", function() {
     $("#refresh-ico").prop("class","fa fa-fw fa-refresh fa-spin");
     $("#refresh-text").html("Refreshing...");
     fetch();
   });
+  function showAll()
+  {
+    key = {};
+    window.history.pushState({path:domain},'',domain);
+    fetch();
+  }
   function processData(mods, Aqua, response)
   {
     if (Array.isArray(mods))
@@ -76,7 +85,11 @@
         for (let i in key) $("#"+i).val(key[i]||"");
       }
       if ($.isEmptyObject(key)) window.history.pushState({path:domain},'',domain);
-      else $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
+      else
+      {
+        $('title')[0].innerHTML = "Search results - "+$('title')[0].innerHTML;
+        $("#main2p").html(main2);
+      }
       let res = mods.filter(x => {
         let t=!key.author;
         if (!t)
