@@ -81,7 +81,7 @@
             break;
         }
       }
-      for (let name of namespace) $("#"+i).val(key[name]||"");
+      for (let name of namespace) $("#"+name).val(key[name]||"");
       if ($.isEmptyObject(key))
       {
         window.history.pushState({path:domain},'',domain);
