@@ -28,7 +28,7 @@
         <input id="author" type="text" title="Search by author" placeholder="Search here...">
       </div>
       <div style="display: inline-block">
-        <button title="Left-click or Ctrl + Enter to search" id="search" style="width:100pt;height:40pt;cursor:pointer">
+        <button title="Left-click or Ctrl + Enter to search" id="search" style="width:100pt;height:40pt">
           <h3>Search</h3>
           <i class="fa fa-fw fa-search"></i>
         </button>
@@ -36,6 +36,11 @@
       </div>
     </div>
     <div>
+      <p style="float:left" id="status"></p>
+      <button style="font-size:8pt;margin:0px;" id="refresh">
+        <i style="float:left" class="fa fa-fw fa-refresh" id="refresh-ico"></i>
+        <p style="float:left;font-size:8pt" id="refresh-text">Refresh</p>
+      </button>
       <h3 id="results"></h3>
       <p>Can't find your mods or wrong mods' info? <a href="https://docs.google.com/forms/d/e/1FAIpQLSffBeH_dakpXfUgQqJZG6ePiM6hH7AqfeuKEQUKu0jlYirnTQ/viewform?usp=sf_link" target="_blank">Add mods or mods' info here</a></p>
       <div id="modsinfo"></div>

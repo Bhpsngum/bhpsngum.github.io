@@ -19,6 +19,10 @@
   {
     if (modsinfo && lastDate) processData(modsinfo, null, lastDate);
     else alert("Fetch failed :(\nPlease reload the page and try again!");
+    $("#status").html("You are accessing the local data due to internet connection problem");
+    $("#status").prop("style","color:red");
+    $("#refresh-ico").prop("class","fa fa-fw fa-refresh fa-spin");
+    $("#refresh-text").html("Refreshing...");
   }
   function performSearch()
   {
@@ -40,6 +44,11 @@
     }
   }
   $("#search").on("click", performSearch);
+  $("#refresh").on("click", function() {
+    $("#refresh-ico").prop("class","fa fa-fw fa-refresh fa-spin");
+    $("#refresh-text").html("Refreshing...");
+    fetch();
+  });
   function processData(mods, Aqua, response)
   {
     if (Array.isArray(mods))
@@ -80,6 +89,10 @@
       try {lastDate = new Date(response.getResponseHeader("last-Modified")).toString()}
       catch(e){e}
       $("#lastModified").html(lastDate);
+      $("#status").html("You are accessing the data that are loaded from our database");
+      $("#status").prop("style","color:green");
+      $("#refresh-ico").prop("class","fa fa-fw fa-refresh fa-spin");
+      $("#refresh-text").html("Refreshing...");
       $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
     }
     else loadError();

@@ -45,3 +45,6 @@ ma {
   margin: 0px;
   background-color: #333300;
 }
+button {
+  cursor: pointer;
+}
