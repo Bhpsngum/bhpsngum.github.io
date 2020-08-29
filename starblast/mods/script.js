@@ -74,9 +74,9 @@
             spc.map(x => {
               for (let i=0;i<name.length;i++)
               {
-                if (x.toLowerCase().startsWith(name[i]))
+                if (x.toLowerCase().startsWith(name[i]+"="))
                 {
-                  key[namespace[i]] = x.replace(name[i],"bi","");
+                  key[namespace[i]] = x.replace(name[i]+"=","bi","");
                   return;
                 }
               }
