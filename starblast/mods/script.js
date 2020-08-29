@@ -65,18 +65,18 @@
     {
       modsinfo = mods;
       $("#modsinfo").html("");
-      let spc = decodeURI(window.location.search).split("&"), reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift().substring(1);
+      let spc = decodeURI(window.location.search).split("&"), d=spc.shift().substring(1);
       if ($.isEmptyObject(key))
       {
         switch(d.toLowerCase())
         {
           case "search":
             spc.map(x => {
-              for (let i=0;i<reg.length;i++)
+              for (let i=0;i<name.length;i++)
               {
-                if (reg[i].test(x))
+                if (x.toLowerCase().startsWith(name[i]))
                 {
-                  key[namespace[i]] = x.replace(reg[i],"");
+                  key[namespace[i]] = x.replace(name[i],"bi","");
                   return;
                 }
               }
