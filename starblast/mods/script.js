@@ -100,7 +100,7 @@
         $("#mainp").html(main);
       }
       let res = mods.filter(x => {
-        let akey = processKey(key.author||""), t=!aKey;
+        let aKey = processKey(key.author||""), t=!aKey;
         if (!t)
           Search: for (let y of x.author)
             for (let z of y.name)
