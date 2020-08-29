@@ -72,11 +72,12 @@
         {
           case "search":
             spc.map(x => {
-              for (let i=0;i<name.length;i++)
+              for (let i=0;i<namespace.length;i++)
               {
-                if (x.toLowerCase().startsWith(name[i]+"="))
+                let u=namespace[i];
+                if (x.toLowerCase().startsWith(u+"=") && !key[u])
                 {
-                  key[namespace[i]] = x.replace(name[i]+"=","bi","");
+                  key[u] = x.replace(u+"=","bi","");
                   return;
                 }
               }
