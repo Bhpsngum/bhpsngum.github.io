@@ -23,6 +23,10 @@
     $("#refresh-ico").prop("class","fa fa-fw fa-refresh");
     $("#refresh-text").html("Refresh");
   }
+  function processKey(a)
+  {
+    return a.toLowerCase();
+  }
   function performSearch()
   {
     let data = [];
@@ -32,7 +36,7 @@
       if (d)
       {
         data.push(name+"="+d);
-        key[name] = d;
+        key[name] = processKey(d);
       }
     }
     data.unshift("search");
@@ -61,10 +65,10 @@
     {
       modsinfo = mods;
       $("#modsinfo").html("");
-      let spc = decodeURI(window.location.search).toLowerCase().split("&"), reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift().substring(1);
+      let spc = decodeURI(window.location.search).split("&"), reg = namespace.map(x => new RegExp("^"+x+"=")), d=spc.shift().substring(1);
       if ($.isEmptyObject(key))
       {
-        switch(d)
+        switch(d.toLowerCase())
         {
           case "search":
             spc.map(x => {
@@ -72,7 +76,7 @@
               {
                 if (reg[i].test(x))
                 {
-                  key[namespace[i]] = x.replace(reg[i],"");
+                  key[namespace[i]] = processKey(x.replace(reg[i],""));
                   return;
                 }
               }
