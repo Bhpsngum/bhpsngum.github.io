@@ -36,7 +36,7 @@
       if (d)
       {
         data.push(name+"="+d);
-        key[name] = processKey(d);
+        key[name] = d;
       }
     }
     data.unshift("search");
@@ -76,7 +76,7 @@
               {
                 if (reg[i].test(x))
                 {
-                  key[namespace[i]] = processKey(x.replace(reg[i],""));
+                  key[namespace[i]] = x.replace(reg[i],"");
                   return;
                 }
               }
@@ -100,12 +100,12 @@
         $("#mainp").html(main);
       }
       let res = mods.filter(x => {
-        let t=!key.author;
+        let akey = processKey(key.author||""), t=!aKey;
         if (!t)
           Search: for (let y of x.author)
             for (let z of y.name)
-              if (t=z.toLowerCase().includes(key.author),t) break Search;
-        return (!key.name || x.name.toLowerCase().includes(key.name)) && t;
+              if (t=processKey(z).includes(aKey),t) break Search;
+        return (!key.name || processKey(x.name).includes(processKey(key.name))) && t;
       });
       res.map(mod => {$("#modsinfo").append(new ModInfo(mod,key).html)});
       try {lastDate = new Date(response.getResponseHeader("last-Modified")).toString()}
