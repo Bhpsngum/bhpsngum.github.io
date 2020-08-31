@@ -111,7 +111,7 @@
       res.map(mod => {$("#modsinfo").append(new ModInfo(mod,key).html)});
       try {lastDate = new Date(response.getResponseHeader("last-Modified")).toString()}
       catch(e){e}
-      $("#lastModified").html(lastDate);
+      $("#lastModified").html("<b>Last Updated: </b>"+lastDate);
       $("#status").html("You are accessing the data that are loaded from our database");
       $("#status").prop("style","color:green;float:left");
       $("#refresh-ico").prop("class","fa fa-fw fa-refresh");
