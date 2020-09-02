@@ -410,5 +410,27 @@
       }
     ],
     "official": 0
+  },
+  {
+    "name": "H-Series",
+    "version": "",
+    "description": "",
+    "modes": "Varies",
+    "img": "",
+    "link": {
+      "url": "https://pastebin.com/T4a22y7S",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Void"],
+        "link": ""
+      },
+      {
+        "name": ["MGRocket"],
+        "link": ""
+      }
+    ],
+    "official": 0
   }
 ]
