@@ -50,8 +50,8 @@
           this.buildData(dismiss_history);
           let c2d = this.map.getContext('2d');
           c2d.clearRect(0,0,this.map.width, this.map.height);
-          this.map.width = this.size*46-36;
-          this.map.height = this.size*46-36;
+          this.map.width = this.size*44-36;
+          this.map.height = this.size*44-36;
           c2d.beginPath();
           c2d.lineWidth = 1
           c2d.strokeStyle = Engine.applyColor("border-color");
@@ -65,7 +65,7 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              c2d.rect(i*44+4,j*44+4,40,40);
+              c2d.rect(i*42+4,j*42+4,40,40);
               (wh) && c2d.drawImage(this.Asteroids.template,i*41+5+(40-wh*3)/2,j*41+5+(40-wh*3)/2,wh*3,wh*3);
             }
           }
