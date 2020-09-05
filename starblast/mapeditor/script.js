@@ -3,7 +3,11 @@
     map: $("#map"),
     sizeInput: $("#map_size"),
     Buttons: {
-      export: $("#export"),
+      export:
+      {
+        text: $("#exportText"),
+        img: $("#exportImg")
+      },
       clear: $("#clearMap"),
       randomMaze: $("#random"),
       import: $("#loadMap"),
@@ -61,7 +65,7 @@
             tb+="</tr>";
           }
           this.map.html(tb);
-          this.map.css("width",(this.size*42).toString()+"px");
+          $("#mapBox").css("width",(this.size*42).toString()+"px");
           (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
         else
@@ -548,7 +552,15 @@
       $(elem).css(rp,css);
       rp = (rp=="border-color")?"border-block-start-color":rp;
       css=window.getComputedStyle($(elem)[0])[rp];
-      (rp == "color") && $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
+      switch (rp)
+      {
+        case "color":
+          $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
+          break;
+        case "background-color":
+          $("#map").css(rp,css);
+          break;
+      }
       $("#"+param).val(css);
       localStorage.setItem(param,css);
       if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
@@ -595,6 +607,9 @@
       v:false,
       h:false
     },
+    generateName: function() {
+      return "starblast-map_" + (new Date).getTime();
+    },
     copyToClipboard: function (text = "") {
         var dummy = document.createElement("textarea");
         document.body.appendChild(dummy);
@@ -603,17 +618,28 @@
         document.execCommand("copy");
         document.body.removeChild(dummy);
     },
-    download: function (filename, text = "") {
-      var element = document.createElement('a');
-      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-      element.setAttribute('download', filename);
+    download:{
+        gen: function (data, name) {
+          var element = document.createElement('a');
+          element.setAttribute('href', data);
+          element.setAttribute('download', name);
 
-      element.style.display = 'none';
-      document.body.appendChild(element);
+          element.style.display = 'none';
+          document.body.appendChild(element);
 
-      element.click();
+          element.click();
 
-      document.body.removeChild(element);
+          document.body.removeChild(element);
+        },
+        text: function (filename, text = "") {
+          this.gen('data:text/plain;charset=utf-8,' + encodeURIComponent(text), filename);
+        },
+        image: function (filename) {
+          html2canvas(document.querySelector("#map"), {scrollX:-window.scrollX,scrollY:-window.scrollY}).then(canvas => {
+            $("#renderStats").html("");
+            Engine.download.gen(canvas.toDataURL(), filename);
+          });
+        }
     },
     permalink: function(newMap = "")
     {
@@ -710,11 +736,16 @@
   $("#randomSize").on("click",function(){rSize()});
   Engine.Brush.applySize();
   rSize(1);
+  if (localStorage.lastVer != $("#version").html())
+  {
+    alert("New feature added!!!\nFrom now on, you can take map screenshot by using 'Export Image' button or simply press Ctrl + I :)");
+    localStorage.setItem("lastVer",$("#version").html());
+  }
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
   new ResizeSensor(Engine.menu[0], function(){
-      StarblastMap.map.css("padding-top",Engine.menu.height()+"px")
+      $("#mapBox").css("padding-top",Engine.menu.height()+"px")
   });
   StarblastMap.sizeInput.on("change",function(){
     StarblastMap.applySize(StarblastMap.sizeInput.val());
@@ -732,11 +763,13 @@
       Engine.applyColor(i+"-color",$("#"+i+"-color").val());
     });
   }
-  StarblastMap.Buttons.export.on("click",function() {
+  StarblastMap.Buttons.export.text.on("click",function() {
     var text=StarblastMap.export("plain");
-    var d=new Date();
-    var suff=d.getFullYear().toString()+(d.getMonth()+1).toString()+d.getDate().toString()+d.getHours().toString()+d.getMinutes().toString()+d.getSeconds().toString();
-    Engine.download("starblast-map_" + suff, text);
+    Engine.download.text(Engine.generateName(), text);
+  });
+  StarblastMap.Buttons.export.img.on("click",function() {
+    $("#renderStats").html("Rendering...");
+    Engine.download.image(Engine.generateName());
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
@@ -781,7 +814,14 @@
         case 115:
         case 83:
           e.preventDefault();
-          StarblastMap.Buttons.export.click();
+          var text=StarblastMap.export("plain");
+          Engine.download.text(Engine.generateName(), text);
+          break;
+        case 105:
+        case 73:
+          e.preventDefault();
+          $("#renderStats").html("Rendering...");
+          Engine.download.image(Engine.generateName());
           break;
       }
       else switch (e.which)
@@ -804,10 +844,10 @@
           break;
         case 114:
         case 82:
-          $("#randomSize").click();
+          rSize();
           break;
         default:
-          if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
+          if (e.which>47 && e.which <58) changeASSize(e.which-48);
       }
     }
   }
@@ -824,5 +864,5 @@
   else for (let state of states) if (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) document.querySelector("link").href=`icon_${state}.png`;
   console.log('%c Stop!!', 'font-weight: bold; font-size: 100px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38)');
   console.log('%cYou are accessing the Web Developing Area.\n\nPlease do not write/copy/paste/run any scripts here (unless you know what you\'re doing) to better protect yourself from loosing your map data, and even your other sensitive data.\n\nWe will not be responsible for any problems if you do not follow the warnings.', 'font-weight: bold; font-size: 15px;color: grey;');
-  console.log('%cMap Creator, made by Bhpsngum,\n\nfeel free to distribute the code and make sure to credit my name if you intend to do that\n\nGitHub: https://github.com/Bhpsngum', 'font-weight: bold; font-size: 15px;color: Black;');
+  console.log('%cMap Editor, made by Bhpsngum,\n\nfeel free to distribute the code and make sure to credit my name if you intend to do that\n\nGitHub: https://github.com/Bhpsngum', 'font-weight: bold; font-size: 15px;color: Black;');
 }());

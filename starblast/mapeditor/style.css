@@ -24,7 +24,7 @@ input {
   color:inherit;
   width:65px;
 }
-p {
+#info, #XY {
   color:inherit;
   position: fixed;
   bottom:1px;
@@ -39,9 +39,12 @@ p {
 #loadMap {
   display: none;
 }
-#map {
+#mapBox {
   padding-bottom:20px;
-  overflow:scroll;
+  overflow:hidden;
+}
+#map {
+  overflow:hidden;
 }
 .SmallInput {
   width: 40px;
