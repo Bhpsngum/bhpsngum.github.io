@@ -608,7 +608,7 @@
       h:false
     },
     generateName: function() {
-      return "starblast_map" + (new Date).getTime();
+      return "starblast-map_" + (new Date).getTime();
     },
     copyToClipboard: function (text = "") {
         var dummy = document.createElement("textarea");
@@ -736,6 +736,11 @@
   $("#randomSize").on("click",function(){rSize()});
   Engine.Brush.applySize();
   rSize(1);
+  if (localStorage.lastVer != $("#version").html())
+  {
+    alert("New feature added!!!\nFrom now on, you can take map screenshot by using 'Export Image' button or simply press Ctrl + I :)");
+    localStorage.setItem("lastVer",$("#version").html());
+  }
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
@@ -762,7 +767,7 @@
     var text=StarblastMap.export("plain");
     Engine.download.text(Engine.generateName(), text);
   });
-  StarblastMap.Buttons.export.text.on("click",function() {
+  StarblastMap.Buttons.export.img.on("click",function() {
     $("#renderStats").html("Rendering...");
     Engine.download.image(Engine.generateName());
   });
@@ -815,7 +820,7 @@
         case 105:
         case 73:
           e.preventDefault();
-          $("#renderStats").html("Rendering");
+          $("#renderStats").html("Rendering...");
           Engine.download.image(Engine.generateName());
           break;
       }
