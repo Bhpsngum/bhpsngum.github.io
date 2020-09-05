@@ -41,7 +41,7 @@ p {
 }
 #mapBox {
   padding-bottom:20px;
-  overflow:scroll;
+  overflow:hidden;
 }
 #map {
   overflow:hidden;
