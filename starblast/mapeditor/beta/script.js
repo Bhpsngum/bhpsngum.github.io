@@ -1,6 +1,6 @@
 (function(){
   var StarblastMap = {
-    map: $("#map"),
+    map: $("#map")[0],
     sizeInput: $("#map_size"),
     Buttons: {
       export:
@@ -60,6 +60,20 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
+              let c2d = this.map.getContext('2d');
+              c2d.clearRect(0,0,this.map.width, this.map.height);
+              this.map.width = num*46-36;
+              this.map.height = num*46-36;
+              c2d.beginPath();
+              c2d.lineWidth = 1
+              c2d.strokeStyle = Engine.applyColor("border-color");
+              for (let i=0;i<num;i++)
+                  for (let j=0;j<num;j++)
+                  {
+                    c2d.rect(i*44+4,j*44+4,40,40);
+                    (wh) && c2d.drawImage(this.Asteroids.template,i*41+5+(40-wh*3)/2,j*41+5+(40-wh*3)/2,wh*3,wh*3);
+                  }
+              c2d.stroke();
               // tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);'><img class='ASFilter'src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
             }
             tb+="</tr>";
@@ -282,6 +296,7 @@
       this.future.splice(0,1);
     },
     Asteroids: {
+      template: new Img(),
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
@@ -699,26 +714,30 @@
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
   Engine.Brush.applyRandom();
-  let querymap=window.location.search.replace(/^\?/,"").toLowerCase(),error=0;
-  if (querymap === "") error = 1;
-  else
+  StarblastMap.Asteroids.template.onload = function()
   {
-    if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import("url",querymap,1);
-    else error=1;
-    Engine.setURL();
-  }
-  if (error)
-  {
-    let fail = 0;
-    try{
-      let storageMap = JSON.parse(localStorage.map);
-      if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
-      else throw "Nope";
+    let querymap=window.location.search.replace(/^\?/,"").toLowerCase(),error=0;
+    if (querymap === "") error = 1;
+    else
+    {
+      if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import("url",querymap,1);
+      else error=1;
+      Engine.setURL();
     }
-    catch(e){fail = 1}
-    if (fail) StarblastMap.create(1);
-    else StarblastMap.load(null,1,1);
+    if (error)
+    {
+      let fail = 0;
+      try{
+        let storageMap = JSON.parse(localStorage.map);
+        if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
+        else throw "Nope";
+      }
+      catch(e){fail = 1}
+      if (fail) StarblastMap.create(1);
+      else StarblastMap.load(null,1,1);
+    }
   }
+  StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
   $("#asChoose").html(`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onclick = 'Misc.changeASSize(${i+1});' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><img class='ASFilter' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC' draggable=false ondragstart="return false;" height='${i*3+3}' width='${i*3+3}'></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
   $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
