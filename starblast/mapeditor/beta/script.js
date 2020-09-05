@@ -50,8 +50,8 @@
           this.buildData(dismiss_history);
           let c2d = this.map.getContext('2d');
           c2d.clearRect(0,0,this.map.width, this.map.height);
-          this.map.width = this.size*44-36;
-          this.map.height = this.size*44-36;
+          this.map.width = this.size*40+4;
+          this.map.height = this.size*40+4;
           c2d.beginPath();
           c2d.lineWidth = 1
           c2d.strokeStyle = Engine.applyColor("border-color");
@@ -70,7 +70,7 @@
             }
           }
           c2d.stroke();
-          $("#mapBox").css("width",(this.size*42).toString()+"px");
+          $("#mapBox").css("width",(this.size*40+8).toString()+"px");
           (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
         else
