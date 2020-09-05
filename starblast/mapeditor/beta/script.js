@@ -604,7 +604,7 @@
       h:false
     },
     generateName: function() {
-      return "starblast_map"
+      return "starblast_map" + (new Date).getTime();
     },
     copyToClipboard: function (text = "") {
         var dummy = document.createElement("textarea");
@@ -632,7 +632,7 @@
         },
         image: function (filename) {
           html2canvas(document.querySelector("#map"), {scrollX:-window.scrollX,scrollY:-window.scrollY}).then(canvas => {
-            Engine.gen(canvas.toDataURL(), filename);
+            Engine.download.gen(canvas.toDataURL(), filename);
           });
         }
     },
