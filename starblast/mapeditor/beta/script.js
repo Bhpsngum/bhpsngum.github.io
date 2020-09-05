@@ -714,7 +714,7 @@
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
   new ResizeSensor(Engine.menu[0], function(){
-      StarblastMap.map.css("padding-top",Engine.menu.height()+"px")
+      $("#mapBox").css("padding-top",Engine.menu.height()+"px")
   });
   StarblastMap.sizeInput.on("change",function(){
     StarblastMap.applySize(StarblastMap.sizeInput.val());

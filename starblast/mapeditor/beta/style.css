@@ -39,8 +39,11 @@ p {
 #loadMap {
   display: none;
 }
-#map {
+#mapBox {
   padding-bottom:20px;
+  overflow:scroll;
+}
+#map {
   overflow:scroll;
 }
 .SmallInput {
