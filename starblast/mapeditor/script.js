@@ -738,7 +738,7 @@
   rSize(1);
   if (localStorage.lastVer != $("#version").html())
   {
-    alert("New feature added!!!\nFrom now on, you can take map screenshot by using 'Export Image' button or simply press Ctrl + I :)");
+    alert("New feature added!!! (BETA)\nFrom now on, you can take map screenshot by using 'Export Image' button or simply press Ctrl + I :)");
     localStorage.setItem("lastVer",$("#version").html());
   }
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
