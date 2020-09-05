@@ -60,7 +60,7 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);'><img class='ASFilter'src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
             }
             tb+="</tr>";
           }
@@ -719,7 +719,7 @@
     if (fail) StarblastMap.create(1);
     else StarblastMap.load(null,1,1);
   }
-  $("#asChoose").html(`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onclick = 'Misc.changeASSize(${i+1});' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3+3}' width='${i*3+3}'></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td></tr>`);
+  $("#asChoose").html(`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onclick = 'Misc.changeASSize(${i+1});' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><img class='ASFilter' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC' draggable=false ondragstart="return false;" height='${i*3+3}' width='${i*3+3}'></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
   $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
   for (let i of mr)
@@ -764,8 +764,7 @@
     });
   }
   StarblastMap.Buttons.export.text.on("click",function() {
-    var text=StarblastMap.export("plain");
-    Engine.download.text(Engine.generateName(), text);
+    Engine.download.text(Engine.generateName(), StarblastMap.export("plain"));
   });
   StarblastMap.Buttons.export.img.on("click",function() {
     $("#renderStats").html("Rendering...");
