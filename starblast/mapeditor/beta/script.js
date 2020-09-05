@@ -548,7 +548,15 @@
       $(elem).css(rp,css);
       rp = (rp=="border-color")?"border-block-start-color":rp;
       css=window.getComputedStyle($(elem)[0])[rp];
-      (rp == "color") && $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
+      switch (rp)
+      {
+        case "color":
+          $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
+          break;
+        case "background-color":
+          $("#map").css(rp,css);
+          break;
+      }
       $("#"+param).val(css);
       localStorage.setItem(param,css);
       if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
