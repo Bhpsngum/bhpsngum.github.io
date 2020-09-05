@@ -603,6 +603,9 @@
       v:false,
       h:false
     },
+    generateName: function() {
+      return "starblast_map"
+    },
     copyToClipboard: function (text = "") {
         var dummy = document.createElement("textarea");
         document.body.appendChild(dummy);
@@ -611,17 +614,27 @@
         document.execCommand("copy");
         document.body.removeChild(dummy);
     },
-    download: function (filename, text = "") {
-      var element = document.createElement('a');
-      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-      element.setAttribute('download', filename);
+    download:{
+        gen: function (data, name) {
+          var element = document.createElement('a');
+          element.setAttribute('href', data);
+          element.setAttribute('download', name);
 
-      element.style.display = 'none';
-      document.body.appendChild(element);
+          element.style.display = 'none';
+          document.body.appendChild(element);
 
-      element.click();
+          element.click();
 
-      document.body.removeChild(element);
+          document.body.removeChild(element);
+        },
+        text: function (filename, text = "") {
+          this.gen('data:text/plain;charset=utf-8,' + encodeURIComponent(text), filename);
+        },
+        image: function (filename) {
+          html2canvas(document.querySelector("#map"), {scrollX:-window.scrollX,scrollY:-window.scrollY}).then(canvas => {
+            Engine.gen(canvas.toDataURL(), filename);
+          });
+        }
     },
     permalink: function(newMap = "")
     {
@@ -742,9 +755,7 @@
   }
   StarblastMap.Buttons.export.on("click",function() {
     var text=StarblastMap.export("plain");
-    var d=new Date();
-    var suff=d.getFullYear().toString()+(d.getMonth()+1).toString()+d.getDate().toString()+d.getHours().toString()+d.getMinutes().toString()+d.getSeconds().toString();
-    Engine.download("starblast-map_" + suff, text);
+    Engine.download.text(Engine.generateName(), text);
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
@@ -832,5 +843,5 @@
   else for (let state of states) if (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) document.querySelector("link").href=`icon_${state}.png`;
   console.log('%c Stop!!', 'font-weight: bold; font-size: 100px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38)');
   console.log('%cYou are accessing the Web Developing Area.\n\nPlease do not write/copy/paste/run any scripts here (unless you know what you\'re doing) to better protect yourself from loosing your map data, and even your other sensitive data.\n\nWe will not be responsible for any problems if you do not follow the warnings.', 'font-weight: bold; font-size: 15px;color: grey;');
-  console.log('%cMap Creator, made by Bhpsngum,\n\nfeel free to distribute the code and make sure to credit my name if you intend to do that\n\nGitHub: https://github.com/Bhpsngum', 'font-weight: bold; font-size: 15px;color: Black;');
+  console.log('%cMap Editor, made by Bhpsngum,\n\nfeel free to distribute the code and make sure to credit my name if you intend to do that\n\nGitHub: https://github.com/Bhpsngum', 'font-weight: bold; font-size: 15px;color: Black;');
 }());
