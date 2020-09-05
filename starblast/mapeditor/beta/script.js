@@ -296,7 +296,7 @@
       this.future.splice(0,1);
     },
     Asteroids: {
-      template: new Img(),
+      template: new Image(),
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
