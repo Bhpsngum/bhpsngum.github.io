@@ -3,7 +3,11 @@
     map: $("#map"),
     sizeInput: $("#map_size"),
     Buttons: {
-      export: $("#export"),
+      export:
+      {
+        text: $("#exportText"),
+        img: $("#exportImg")
+      },
       clear: $("#clearMap"),
       randomMaze: $("#random"),
       import: $("#loadMap"),
@@ -632,6 +636,7 @@
         },
         image: function (filename) {
           html2canvas(document.querySelector("#map"), {scrollX:-window.scrollX,scrollY:-window.scrollY}).then(canvas => {
+            $("#renderStats").html("");
             Engine.download.gen(canvas.toDataURL(), filename);
           });
         }
@@ -753,9 +758,13 @@
       Engine.applyColor(i+"-color",$("#"+i+"-color").val());
     });
   }
-  StarblastMap.Buttons.export.on("click",function() {
+  StarblastMap.Buttons.export.text.on("click",function() {
     var text=StarblastMap.export("plain");
     Engine.download.text(Engine.generateName(), text);
+  });
+  StarblastMap.Buttons.export.text.on("click",function() {
+    $("#renderStats").html("Rendering...");
+    Engine.download.image(Engine.generateName());
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
@@ -800,7 +809,14 @@
         case 115:
         case 83:
           e.preventDefault();
-          StarblastMap.Buttons.export.click();
+          var text=StarblastMap.export("plain");
+          Engine.download.text(Engine.generateName(), text);
+          break;
+        case 105:
+        case 73:
+          e.preventDefault();
+          $("#renderStats").html("Rendering");
+          Engine.download.image(Engine.generateName());
           break;
       }
       else switch (e.which)
@@ -823,10 +839,10 @@
           break;
         case 114:
         case 82:
-          $("#randomSize").click();
+          rSize();
           break;
         default:
-          if (e.which>47 && e.which <58) $(`#asc${e.which-48}`).click();
+          if (e.which>47 && e.which <58) changeASSize(e.which-48);
       }
     }
   }

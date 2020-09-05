@@ -24,7 +24,7 @@ input {
   color:inherit;
   width:65px;
 }
-p {
+#info, #XY {
   color:inherit;
   position: fixed;
   bottom:1px;
