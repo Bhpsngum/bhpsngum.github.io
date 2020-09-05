@@ -61,7 +61,7 @@
             tb+="</tr>";
           }
           this.map.html(tb);
-          this.map.css("width",(this.size*42).toString()+"px");
+          $("#mapBox").css("width",(this.size*42).toString()+"px");
           (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
         else

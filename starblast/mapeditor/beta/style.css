@@ -44,7 +44,7 @@ p {
   overflow:scroll;
 }
 #map {
-  overflow:scroll;
+  overflow:hidden;
 }
 .SmallInput {
   width: 40px;
