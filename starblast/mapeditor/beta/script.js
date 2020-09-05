@@ -48,10 +48,15 @@
         {
           this.pattern = new Map();
           this.buildData(dismiss_history);
-          let tb="";
+          let c2d = this.map.getContext('2d');
+          c2d.clearRect(0,0,this.map.width, this.map.height);
+          this.map.width = this.size*46-36;
+          this.map.height = this.size*46-36;
+          c2d.beginPath();
+          c2d.lineWidth = 1
+          c2d.strokeStyle = Engine.applyColor("border-color");
           for (let i=0;i<this.size;i++)
           {
-            tb+="<tr>";
             for (let j=0;j<this.size;j++)
             {
               let wh=Number((h[i]||[])[j])||0;
@@ -60,25 +65,11 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              let c2d = this.map.getContext('2d');
-              c2d.clearRect(0,0,this.map.width, this.map.height);
-              this.map.width = num*46-36;
-              this.map.height = num*46-36;
-              c2d.beginPath();
-              c2d.lineWidth = 1
-              c2d.strokeStyle = Engine.applyColor("border-color");
-              for (let i=0;i<num;i++)
-                  for (let j=0;j<num;j++)
-                  {
-                    c2d.rect(i*44+4,j*44+4,40,40);
-                    (wh) && c2d.drawImage(this.Asteroids.template,i*41+5+(40-wh*3)/2,j*41+5+(40-wh*3)/2,wh*3,wh*3);
-                  }
-              c2d.stroke();
-              // tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);'><img class='ASFilter'src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+              c2d.rect(i*44+4,j*44+4,40,40);
+              (wh) && c2d.drawImage(this.Asteroids.template,i*41+5+(40-wh*3)/2,j*41+5+(40-wh*3)/2,wh*3,wh*3);
             }
-            tb+="</tr>";
           }
-          this.map.html(tb);
+          c2d.stroke();
           $("#mapBox").css("width",(this.size*42).toString()+"px");
           (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
