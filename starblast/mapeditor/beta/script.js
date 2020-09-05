@@ -60,7 +60,7 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);'><img class='ASFilter'src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
+              // tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);'><img class='ASFilter'src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
             }
             tb+="</tr>";
           }
