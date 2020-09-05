@@ -65,8 +65,8 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              c2d.rect(i*42+4,j*42+4,40,40);
-              (wh) && c2d.drawImage(this.Asteroids.template,i*41+5+(40-wh*3)/2,j*41+5+(40-wh*3)/2,wh*3,wh*3);
+              c2d.rect(i*40+4,j*40+4,40,40);
+              (wh) && c2d.drawImage(this.Asteroids.template,i*40+4+(40-wh*3)/2,j*40+4+(40-wh*3)/2,wh*3,wh*3);
             }
           }
           c2d.stroke();
