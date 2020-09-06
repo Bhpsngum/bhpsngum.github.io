@@ -150,6 +150,8 @@
             }
           }
           return str.join("e");
+        case "image":
+          return this.map.toDataURL();
       }
     },
     import: function (type, data, init) {
@@ -644,28 +646,17 @@
         document.execCommand("copy");
         document.body.removeChild(dummy);
     },
-    download:{
-        gen: function (data, name) {
-          var element = document.createElement('a');
-          element.setAttribute('href', data);
-          element.setAttribute('download', name);
+    download: function (data, name, type) {
+      var element = document.createElement('a');
+      element.setAttribute('href', (type == "text")?('data:text/plain;charset=utf-8,'+encodeURIComponent(data)):data);
+      element.setAttribute('download', name);
 
-          element.style.display = 'none';
-          document.body.appendChild(element);
+      element.style.display = 'none';
+      document.body.appendChild(element);
 
-          element.click();
+      element.click();
 
-          document.body.removeChild(element);
-        },
-        text: function (filename, text = "") {
-          this.gen('data:text/plain;charset=utf-8,' + encodeURIComponent(text), filename);
-        },
-        image: function (filename) {
-          html2canvas(document.querySelector("#map"), {scrollX:-window.scrollX,scrollY:-window.scrollY}).then(canvas => {
-            $("#renderStats").html("");
-            Engine.download.gen(canvas.toDataURL(), filename);
-          });
-        }
+      document.body.removeChild(element);
     },
     permalink: function(newMap = "")
     {
@@ -792,11 +783,11 @@
     });
   }
   StarblastMap.Buttons.export.text.on("click",function() {
-    Engine.download.text(Engine.generateName(), StarblastMap.export("plain"));
+    Engine.download(Engine.generateName(), StarblastMap.export("plain"), "text");
   });
   StarblastMap.Buttons.export.img.on("click",function() {
     $("#renderStats").html("Rendering...");
-    Engine.download.image(Engine.generateName());
+    Engine.download(Engine.generateName(), StarblastMap.export("image"));
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
@@ -841,14 +832,13 @@
         case 115:
         case 83:
           e.preventDefault();
-          var text=StarblastMap.export("plain");
-          Engine.download.text(Engine.generateName(), text);
+          Engine.download(Engine.generateName(), StarblastMap.export("plain"), text);
           break;
         case 105:
         case 73:
           e.preventDefault();
           $("#renderStats").html("Rendering...");
-          Engine.download.image(Engine.generateName());
+          Engine.download(Engine.generateName(), StarblastMap.export("image"));
           break;
       }
       else switch (e.which)
