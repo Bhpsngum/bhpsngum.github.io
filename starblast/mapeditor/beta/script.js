@@ -538,10 +538,10 @@
           switch(param)
           {
             case "background-color":
-            case "as-color":
               css="rgb(24,26,27)";
               break;
             case "border-color":
+            case "as-color":
               css="rgb(102,102,102)";
               break;
           }
