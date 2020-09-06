@@ -52,9 +52,8 @@
           c2d.clearRect(0,0,this.map.width, this.map.height);
           this.map.width = this.size*40+8;
           this.map.height = this.size*40+8;
+          Engine.applyColor("border-color");
           c2d.beginPath();
-          c2d.lineWidth = 1
-          c2d.strokeStyle = Engine.applyColor("border-color");
           for (let i=0;i<this.size;i++)
           {
             for (let j=0;j<this.size;j++)
@@ -65,7 +64,6 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              c2d.rect(i*40+4,j*40+4,40,40);
               (wh) && c2d.drawImage(this.Asteroids.template,i*40+4+(40-wh*3)/2,j*40+4+(40-wh*3)/2,wh*3,wh*3);
             }
           }
@@ -566,6 +564,17 @@
         case "background-color":
           $("#map").css(rp,css);
           break;
+        case "border-color":
+          let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size;
+          c2d.beginPath();
+          c2d.lineWidth = 1;
+          for (let i=0;i<=size;i++)
+          {
+            c2d.moveTo(i*40+4,i*40+4);
+            c2d.lineTo(i*40+4,size*40+4);
+            c2d.moveTo(i*40+4,i*40+4);
+            c2d.lineTo(size*40+4,i*40+4);
+          }
       }
       $("#"+param).val(css);
       localStorage.setItem(param,css);
