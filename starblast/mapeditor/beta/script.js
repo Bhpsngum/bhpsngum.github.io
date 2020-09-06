@@ -569,9 +569,9 @@
           c2d.lineWidth = 1;
           for (let i=0;i<=size;i++)
           {
-            c2d.moveTo(i*40+4,i*40+4);
+            c2d.moveTo(i*40+4,0);
             c2d.lineTo(i*40+4,size*40+4);
-            c2d.moveTo(i*40+4,i*40+4);
+            c2d.moveTo(0,i*40+4);
             c2d.lineTo(size*40+4,i*40+4);
           }
       }
