@@ -271,8 +271,8 @@
     Asteroids: {
       template: new Image(),
       modify: function(x,y,num,init) {
-        let c2d = this.map.getContext('2d'),prev=(this.data[x]||[])[y]||0;
-        if (this.data[x][y] != num || init)
+        let c2d = this.map.getContext('2d'),prev=(this.data[x]||[])[y]||-1;
+        if (prev != num || init)
         {
           c2d.clearRect(x*40+8,y*40+8,36,36);
           c2d.beginPath();
@@ -284,7 +284,7 @@
           return {changed: true, prev: prev};
         }
         else return {changed:false};
-      }.bind(this),
+      }.bind(StarblastMap),
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
