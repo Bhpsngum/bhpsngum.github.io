@@ -522,7 +522,7 @@
     trail: -1,
     addBorder: function (c2d,x,y,z,t)
     {
-      c2d.clearRect(x,y,z,t);
+      c2d.clearRect(x,y,z-x+1,t-y+1);
       c2d.moveTo(x,y);
       c2d.lineTo(z,t);
     },
