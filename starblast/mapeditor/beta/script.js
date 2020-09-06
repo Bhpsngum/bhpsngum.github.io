@@ -521,7 +521,7 @@
   }, Engine = {
     trail: -1,
     applyColor: function (para,inp) {
-      let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1,param = para.toLowerCase;
+      let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1,param = para.toLowerCase();
       if (inp == void 0 || defl)
       {
         if ((localStorage[param]||"undefined") == "undefined"  || defl)
@@ -539,7 +539,7 @@
       }
       else css=inp;
       let elem="",rp;
-      switch (param.toLowerCase())
+      switch (param)
       {
         case "background-color":
           elem='body';
