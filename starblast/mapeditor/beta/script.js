@@ -636,7 +636,7 @@
       h:false
     },
     generateName: function() {
-      return "starblast-map_" + (new Date).getTime();
+      return "starblast-map_" + Date.now();
     },
     copyToClipboard: function (text = "") {
         var dummy = document.createElement("textarea");
@@ -646,10 +646,10 @@
         document.execCommand("copy");
         document.body.removeChild(dummy);
     },
-    download: function (data, name, type) {
+    download: function (name, data, type) {
       var element = document.createElement('a');
       element.setAttribute('href', (type == "text")?('data:text/plain;charset=utf-8,'+encodeURIComponent(data)):data);
-      element.setAttribute('download', name);
+      element.setAttribute('download', name || Engine.generateName());
 
       element.style.display = 'none';
       document.body.appendChild(element);
@@ -783,11 +783,11 @@
     });
   }
   StarblastMap.Buttons.export.text.on("click",function() {
-    Engine.download(Engine.generateName(), StarblastMap.export("plain"), "text");
+    Engine.download(null, StarblastMap.export("plain"), "text");
   });
   StarblastMap.Buttons.export.img.on("click",function() {
     $("#renderStats").html("Rendering...");
-    Engine.download(Engine.generateName(), StarblastMap.export("image"));
+    Engine.download(null, StarblastMap.export("image"));
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
@@ -832,13 +832,13 @@
         case 115:
         case 83:
           e.preventDefault();
-          Engine.download(Engine.generateName(), StarblastMap.export("plain"), text);
+          Engine.download(null, StarblastMap.export("plain"), text);
           break;
         case 105:
         case 73:
           e.preventDefault();
           $("#renderStats").html("Rendering...");
-          Engine.download(Engine.generateName(), StarblastMap.export("image"));
+          Engine.download(null, StarblastMap.export("image"));
           break;
       }
       else switch (e.which)
