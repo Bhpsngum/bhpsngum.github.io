@@ -52,7 +52,6 @@
           c2d.clearRect(0,0,this.map.width, this.map.height);
           this.map.width = this.size*40+8;
           this.map.height = this.size*40+8;
-          Engine.applyColor("border-color");
           c2d.beginPath();
           for (let i=0;i<this.size;i++)
           {
