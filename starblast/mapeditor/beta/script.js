@@ -157,7 +157,7 @@
           clone.height = this.map.height;
           c2d.drawImage(this.map, 0, 0);
           c2d.fillStyle = Engine.applyColor("background-color");
-          c2d.globalCompositeOperation = "source-out";
+          c2d.globalCompositeOperation = "destination-over";
           c2d.fillRect(0,0,clone.width,clone.height);
           return clone.toDataURL();
       }
