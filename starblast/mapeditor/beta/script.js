@@ -60,8 +60,8 @@
               let wh=Number((h[i]||[])[j])||0;
               if (wh!=0)
               {
+                this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
-                this.Asteroids.modify(i,j,wh);
               }
             }
           }
