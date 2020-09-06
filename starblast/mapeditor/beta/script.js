@@ -151,7 +151,15 @@
           }
           return str.join("e");
         case "image":
-          return this.map.toDataURL();
+          let clone = document.createElement('canvas');
+          let c2d = clone.getContext('2d');
+          clone.width = this.map.width;
+          clone.height = this.map.height;
+          c2d.drawImage(this.map, 0, 0);
+          c2d.fillStyle = Engine.applySize("background-color");
+          c2d.globalCompositeOperation = "source-out";
+          c2d.fillRect(0,0,clone.width,clone.height);
+          return clone.toDataURL();
       }
     },
     import: function (type, data, init) {
@@ -786,7 +794,6 @@
     Engine.download(null, StarblastMap.export("plain"), "text");
   });
   StarblastMap.Buttons.export.img.on("click",function() {
-    $("#renderStats").html("Rendering...");
     Engine.download(null, StarblastMap.export("image"));
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
@@ -837,7 +844,6 @@
         case 105:
         case 73:
           e.preventDefault();
-          $("#renderStats").html("Rendering...");
           Engine.download(null, StarblastMap.export("image"));
           break;
       }
