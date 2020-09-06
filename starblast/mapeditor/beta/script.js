@@ -520,12 +520,12 @@
     }
   }, Engine = {
     trail: -1,
-    applyColor: function (param,inp) {
-      let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1;
+    applyColor: function (para,inp) {
+      let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1,param = para.toLowerCase;
       if (inp == void 0 || defl)
       {
         if ((localStorage[param]||"undefined") == "undefined"  || defl)
-          switch(param.toLowerCase())
+          switch(param)
           {
             case "background-color":
             case "as-color":
@@ -538,22 +538,21 @@
         else css=localStorage[param];
       }
       else css=inp;
-      let elem="";
+      let elem="",rp;
       switch (param.toLowerCase())
       {
         case "background-color":
           elem='body';
+          rp = param;
           break;
         case "border-color":
-          elem='td';
-          break;
         case "as-color":
-          elem='#color-test';
+          rp = "color";
+          let t = ["as-color","border-color"].indexOf(param);
+          if (t != -1) elem = "#color-test"+t;
           break;
       }
-      let rp = (param=="as-color")?"color":param;
       $(elem).css(rp,css);
-      rp = (rp=="border-color")?"border-block-start-color":rp;
       css=window.getComputedStyle($(elem)[0])[rp];
       switch (rp)
       {
@@ -570,9 +569,9 @@
           c2d.lineWidth = 1;
           for (let i=0;i<=size;i++)
           {
-            c2d.moveTo(i*40+4,0);
+            c2d.moveTo(i*40+4,4);
             c2d.lineTo(i*40+4,size*40+4);
-            c2d.moveTo(0,i*40+4);
+            c2d.moveTo(4,i*40+4);
             c2d.lineTo(size*40+4,i*40+4);
           }
           c2d.stroke();
