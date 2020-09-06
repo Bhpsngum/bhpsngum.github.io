@@ -520,6 +520,12 @@
     }
   }, Engine = {
     trail: -1,
+    addBorder: function (c2d,x,y,z,t)
+    {
+      c2d.clearRect(x,y,z,t);
+      c2d.moveTo(x,y);
+      c2d.lineTo(z,t);
+    },
     applyColor: function (para,inp) {
       let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1,param = para.toLowerCase();
       if (inp == void 0 || defl)
@@ -568,10 +574,8 @@
           c2d.lineWidth = 1;
           for (let i=0;i<=size;i++)
           {
-            c2d.moveTo(i*40+4,4);
-            c2d.lineTo(i*40+4,size*40+4);
-            c2d.moveTo(4,i*40+4);
-            c2d.lineTo(size*40+4,i*40+4);
+            this.addBorder(c2d,i*40+4,4,i*40+4,size*40+4);
+            this.addBorder(c2d,4,i*40+4,size*40+4,i*40+4);
           }
           c2d.stroke();
       }
