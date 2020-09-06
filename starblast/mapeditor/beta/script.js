@@ -272,7 +272,7 @@
       template: new Image(),
       modify: function(x,y,num,init) {
         let c2d = this.map.getContext('2d'),prev=(this.data[x]||[])[y]||0;
-        if ((element.length && this.data[x][y] != num) || init)
+        if (this.data[x][y] != num || init)
         {
           c2d.clearRect(x*40+8,y*40+8,36,36);
           c2d.beginPath();
@@ -565,7 +565,8 @@
         //   $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
         //   break;
         case "as-color":
-
+          for (let i of [...StarblastMap.session]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
+          break;
         case "background-color":
           $("#map").css(rp,css);
           break;
