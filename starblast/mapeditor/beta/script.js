@@ -271,20 +271,20 @@
     Asteroids: {
       template: new Image(),
       modify: function(x,y,num,init) {
-        let c2d = this.map.getContext('2d'),prev=(this.data[x]||[])[y]||-1;
+        let c2d = StarblastMap.map.getContext('2d'),prev=(StarblastMap.data[x]||[])[y]||-1;
         if (prev != num || init)
         {
           c2d.clearRect(x*40+8,y*40+8,36,36);
           c2d.beginPath();
           c2d.fillStyle = Engine.applyColor("as-color");
-          c2d.drawImage(this.Asteroids.template,x*40+4+(40-num*3)/2,y*40+4+(40-num*3)/2,num*3,num*3);
-          if (num == 0) this.pattern.delete(`${x}-${y}`);
-          else this.pattern.set(`${x}-${y}`,num);
-          this.data[x][y]=num;
-          return {changed: true, prev: prev};
+          c2d.drawImage(this.template,x*40+4+(40-num*3)/2,y*40+4+(40-num*3)/2,num*3,num*3);
+          if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
+          else StarblastMap.pattern.set(`${x}-${y}`,num);
+          StarblastMap.data[x][y]=num;
+          return {changed: true, prev: (prev == -1)?0:prev};
         }
         else return {changed:false};
-      }.bind(StarblastMap),
+      },
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
