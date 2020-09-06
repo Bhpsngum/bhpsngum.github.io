@@ -277,6 +277,7 @@
         {
           c2d.clearRect(x*40+6,y*40+6,36,36);
           c2d.beginPath();
+          console.log(this.color);
           c2d.fillStyle = this.color;
           c2d.drawImage(this.template,x*40+4+(40-num*3)/2,y*40+4+(40-num*3)/2,num*3,num*3);
           c2d.globalCompositeOperation = "source-atop";
