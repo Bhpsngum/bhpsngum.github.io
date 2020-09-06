@@ -67,6 +67,7 @@
           }
           c2d.stroke();
           Engine.applyColor("border-color");
+          Engine.applyColor("as-color");
           $("#mapBox").css("width",(this.size*40+8).toString()+"px");
           (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
@@ -276,7 +277,7 @@
         {
           c2d.clearRect(x*40+8,y*40+8,36,36);
           c2d.beginPath();
-          c2d.fillStyle = Engine.applyColor("as-color");
+          c2d.fillStyle = this.color;
           c2d.drawImage(this.template,x*40+4+(40-num*3)/2,y*40+4+(40-num*3)/2,num*3,num*3);
           if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
           else StarblastMap.pattern.set(`${x}-${y}`,num);
@@ -565,6 +566,7 @@
         //   $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
         //   break;
         case "as-color":
+          StarblastMap.Asteroids.color = css;
           for (let i of [...StarblastMap.session]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
           break;
         case "background-color":
@@ -694,9 +696,7 @@
       return ~~(Math.random()*num);
     }
   }
-  Object.assign(StarblastMap.Asteroids,{
-    color: Engine.applyColor("as-color"),
-  });
+  Engine.applyColor("as-color");
   Object.assign(StarblastMap.Asteroids.changeSize,{
     applySize: function(key)
     {
