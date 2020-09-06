@@ -548,17 +548,16 @@
         case "border-color":
         case "as-color":
           rp = "color";
-          let t = ["as-color","border-color"].indexOf(param);
-          if (t != -1) elem = "#color-test"+t;
+          elem = "#color-test"+["as-color","border-color"].indexOf(param);
           break;
       }
       $(elem).css(rp,css);
       css=window.getComputedStyle($(elem)[0])[rp];
-      switch (rp)
+      switch (param)
       {
-        case "color":
-          $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
-          break;
+        // case "color":
+        //   $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
+        //   break;
         case "background-color":
           $("#map").css(rp,css);
           break;
