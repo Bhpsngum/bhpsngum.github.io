@@ -566,6 +566,7 @@
         case "border-color":
           let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size;
           c2d.beginPath();
+          c2d.strokeStyle = css;
           c2d.lineWidth = 1;
           for (let i=0;i<=size;i++)
           {
@@ -574,6 +575,7 @@
             c2d.moveTo(0,i*40+4);
             c2d.lineTo(size*40+4,i*40+4);
           }
+          c2d.stroke();
       }
       $("#"+param).val(css);
       localStorage.setItem(param,css);
