@@ -571,7 +571,7 @@
         //   break;
         case "as-color":
           StarblastMap.Asteroids.color = css;
-          for (let i of [...StarblastMap.session]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
+          for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
           break;
         case "background-color":
           $("#map").css(rp,css);
