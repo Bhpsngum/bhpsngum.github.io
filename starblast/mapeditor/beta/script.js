@@ -60,13 +60,13 @@
               let wh=Number((h[i]||[])[j])||0;
               if (wh!=0)
               {
-                this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
+                this.Asteroids.modify(i,j,wh);
               }
-              (wh) && c2d.drawImage(this.Asteroids.template,i*40+4+(40-wh*3)/2,j*40+4+(40-wh*3)/2,wh*3,wh*3);
             }
           }
           c2d.stroke();
+          Engine.applyColor("border-color");
           $("#mapBox").css("width",(this.size*40+8).toString()+"px");
           (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
@@ -77,14 +77,12 @@
             for (let j=0;j<oldSize;j++)
             {
               let gh=Number((h[i]||[])[j])||0;
-              let data = this.updateCell(i,j,gh);
+              let data = this.Asteroids.modify(i,j,gh);
               if (data.changed) session.set(`${i}-${j}`,[data.prev,gh]);
             }
           (!dismiss_history) && this.pushSession("history",["m",session]);
         }
         this.sync();
-        Engine.applyColor("as-color");
-        Engine.applyColor("border-color");
         if (!dismiss_history) this.future = [];
       }
       else check=false;
@@ -101,7 +99,7 @@
       {
         let pos = i.split("-").map(x => Number(x));
         session.set(i,[this.pattern.get(i),0]);
-        this.updateCell(...pos, 0);
+        this.Asteroids.modify(...pos, 0);
       }
       this.pushSession("history",["m",session]);
       this.sync();
@@ -216,25 +214,12 @@
           if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-i-1,this.size-j-1]);
           for (let k of list)
           {
-            let data = this.updateCell(...k,size);
+            let data = this.Asteroids.modify(...k,size);
             if (data.changed) this.session.set(`${k[0]}-${k[1]}`,[data.prev,size]);
           }
         }
       this.future = [];
       this.sync();
-    },
-    updateCell: function(x,y,num) {
-      let element=$(`#p${x}-${y} > img`),prev=(this.data[x]||[])[y]||0;
-      if (element.length && this.data[x][y] != num)
-      {
-        element.width(num*3);
-        element.height(num*3);
-        if (num == 0) this.pattern.delete(`${x}-${y}`);
-        else this.pattern.set(`${x}-${y}`,num);
-        this.data[x][y]=num;
-        return {changed: true, prev: prev};
-      }
-      else return {changed:false};
     },
     sync: function () {
       localStorage.setItem("map",JSON.stringify(this.data));
@@ -250,7 +235,7 @@
           for (let i of actions.keys())
           {
             let pos = i.split("-").map(x => Number(x));
-            this.updateCell(...pos,actions.get(i)[0]);
+            this.Asteroids.modify(...pos,actions.get(i)[0]);
           }
           break;
         case "n":
@@ -272,7 +257,7 @@
           for (let i of actions.keys())
           {
             let pos = i.split("-").map(x => Number(x));
-            this.updateCell(...pos,actions.get(i)[1]);
+            this.Asteroids.modify(...pos,actions.get(i)[1]);
           }
           break;
         case "n":
@@ -285,6 +270,21 @@
     },
     Asteroids: {
       template: new Image(),
+      modify: function(x,y,num,init) {
+        let c2d = this.map.getContext('2d'),prev=(this.data[x]||[])[y]||0;
+        if ((element.length && this.data[x][y] != num) || init)
+        {
+          c2d.clearRect(x*40+8,y*40+8,36,36);
+          c2d.beginPath();
+          c2d.fillStyle = Engine.applyColor("as-color");
+          c2d.drawImage(this.Asteroids.template,x*40+4+(40-num*3)/2,y*40+4+(40-num*3)/2,num*3,num*3);
+          if (num == 0) this.pattern.delete(`${x}-${y}`);
+          else this.pattern.set(`${x}-${y}`,num);
+          this.data[x][y]=num;
+          return {changed: true, prev: prev};
+        }
+        else return {changed:false};
+      },
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
@@ -564,6 +564,8 @@
         // case "color":
         //   $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
         //   break;
+        case "as-color":
+
         case "background-color":
           $("#map").css(rp,css);
           break;
