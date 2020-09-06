@@ -284,7 +284,7 @@
           return {changed: true, prev: prev};
         }
         else return {changed:false};
-      },
+      }.bind(this),
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
