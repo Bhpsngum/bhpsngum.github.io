@@ -22,7 +22,7 @@
         if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
         else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
       },
-      get: pos => Math.min(~~((pos-4)/40),StarblastMap.size)
+      get: pos => Math.min(~~((pos-4)/40),StarblastMap.size-1)
     },
     session: new Map(),
     data: [],
@@ -771,10 +771,11 @@
     localStorage.setItem("lastVer",$("#version").html());
   }
   StarblastMap.map.addEventListener("mousemove", function(e){
-    StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
+    StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetY),StarblastMap.Coordinates.get(e.offsetX));
   });
   StarblastMap.map.addEventListener("mousedown", function(e){
-    Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
+    Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetY),StarblastMap.Coordinates.get(e.offsetX),e);
+    console.log(e);
   });
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
