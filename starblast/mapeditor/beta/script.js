@@ -770,8 +770,11 @@
     alert("New feature added!!! (BETA)\nFrom now on, you can take map screenshot by using 'Export Image' button or simply press Ctrl + I :)");
     localStorage.setItem("lastVer",$("#version").html());
   }
-  StarblastMap.map.on("mousemove", function(e){
+  StarblastMap.map.addEventListener("mousemove", function(e){
     StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
+  });
+  StarblastMap.map.addEventListener("mousedown", function(e){
+    Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
