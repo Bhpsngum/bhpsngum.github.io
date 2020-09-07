@@ -15,12 +15,12 @@
       permalink: $("#permalink")
     },
     Coordinates: {
-      view: function (y,x) {
+      view: function (x,y) {
         let d= StarblastMap.data[x][y],gl="No Asteroids";
         if (d) gl="Asteroid size: "+d.toString();
-        $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-        if (Engine.Trail.state == 0) StarblastMap.modify(y,x,0);
-        else if (Engine.Trail.state == 1) StarblastMap.modify(y,x);
+        $("#XY").html(`(${y+1};${x+1}). ${gl}`);
+        if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
+        else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
       },
       get: pos => Math.min(~~((pos-4)/40),StarblastMap.size-1)
     },
@@ -226,8 +226,8 @@
     modify: function(x,y,num) {
       let br=Engine.Brush.size,c = num == void 0,init;
       if (c) init = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max);
-      for (let i=x-br;i<=x+br;i++)
-        for (let j=y-br;j<=y+br;j++)
+      for (let i=y-br;i<=y+br;i++)
+        for (let j=x-br;j<=x+br;j++)
         {
           let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num,list= [[i,j]];
           if (Engine.Mirror.v) list.push([this.size-i-1,j]);
@@ -236,7 +236,7 @@
           for (let k of list)
           {
             let data = this.Asteroids.modify(...k,size);
-            if (data.changed) this.session.set(k.join("-"),[data.prev,size]);
+            if (data.changed) this.session.set(k.join,[data.prev,size]);
           }
         }
       this.future = [];
