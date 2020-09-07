@@ -19,8 +19,8 @@
         let d= StarblastMap.data[x][y],gl="No Asteroids";
         if (d) gl="Asteroid size: "+d.toString();
         $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-        if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
-        else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
+        if (Engine.Trail.state == 0) StarblastMap.modify(y,x,0);
+        else if (Engine.Trail.state == 1) StarblastMap.modify(y,x);
       },
       get: pos => Math.min(~~((pos-4)/40),StarblastMap.size-1)
     },
