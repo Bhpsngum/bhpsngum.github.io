@@ -236,7 +236,7 @@
           for (let k of list)
           {
             let data = this.Asteroids.modify(...k,size);
-            if (data.changed) this.session.set(k.reverse().join("-"),[data.prev,size]);
+            if (data.changed) this.session.set(k.join("-"),[data.prev,size]);
           }
         }
       this.future = [];
@@ -303,9 +303,9 @@
           c2d.globalCompositeOperation = "source-atop";
           c2d.fillRect(x*40+6,y*40+6,36,36);
           c2d.globalCompositeOperation = "source-over";
-          if (num == 0) StarblastMap.pattern.delete(`${y}-${x}`);
-          else StarblastMap.pattern.set(`${y}-${x}`,num);
-          StarblastMap.data[y][x]=num;
+          if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
+          else StarblastMap.pattern.set(`${x}-${y}`,num);
+          StarblastMap.data[x][y]=num;
           return {changed: true, prev: (prev == -1)?0:prev};
         }
         else return {changed:false};
@@ -771,7 +771,7 @@
     localStorage.setItem("lastVer",$("#version").html());
   }
   StarblastMap.map.addEventListener("mousemove", function(e){
-    StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetY),StarblastMap.Coordinates.get(e.offsetX));
+    StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
   });
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
