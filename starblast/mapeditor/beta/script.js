@@ -226,8 +226,8 @@
     modify: function(x,y,num) {
       let br=Engine.Brush.size,c = num == void 0,init;
       if (c) init = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max);
-      for (let i=Math.min(y-br,0);i<=Math.max(y+br,this.size-1);i++)
-        for (let j=Math.min(x-br,0);j<=Math.max(x+br,this.size-1);j++)
+      for (let i=Math.max(y-br,0);i<=Math.min(y+br,this.size-1);i++)
+        for (let j=Math.max(x-br,0);j<=Math.min(x+br,this.size-1);j++)
         {
           let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num,list= [[i,j]];
           if (Engine.Mirror.v) list.push([this.size-i-1,j]);
