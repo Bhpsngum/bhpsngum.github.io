@@ -16,11 +16,11 @@
     },
     Coordinates: {
       view: function (x,y) {
-        let d= this.data[x][y],gl="No Asteroids";
+        let d= StarblastMap.data[x][y],gl="No Asteroids";
         if (d) gl="Asteroid size: "+d.toString();
         $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-        if (Engine.Trail.state == 0) this.modify(x,y,0);
-        else if (Engine.Trail.state == 1) this.modify(x,y);
+        if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
+        else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
       },
       get: pos => ~~((pos-4)/40)
     },
@@ -556,7 +556,7 @@
             StarblastMap.modify(x,y,0);
             break;
         }
-      },
+      }
     },
     addBorder: function (c2d,x,y,z,t)
     {
