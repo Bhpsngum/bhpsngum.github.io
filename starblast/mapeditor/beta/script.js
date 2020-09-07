@@ -882,8 +882,8 @@
       }
     }
   }
-  window.addEventListener("mouseup", Engine.Trail.stop.bind(Engine));
-  window.addEventListener("blur", Engine.Trail.stop.bind(Engine));
+  window.addEventListener("mouseup", Engine.Trail.stop.bind(Engine.Trail));
+  window.addEventListener("blur", Engine.Trail.stop.bind(Engine.Trail));
   StarblastMap.Buttons.permalink.on("click", function(){
     let map = StarblastMap.export("url");
     Engine.setURL(map);
