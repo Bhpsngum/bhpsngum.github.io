@@ -236,7 +236,7 @@
           for (let k of list)
           {
             let data = this.Asteroids.modify(...k,size);
-            if (data.changed) this.session.set(`${k[0]}-${k[1]}`,[data.prev,size]);
+            if (data.changed) this.session.set(k.reverse().join("-"),[data.prev,size]);
           }
         }
       this.future = [];
@@ -303,9 +303,9 @@
           c2d.globalCompositeOperation = "source-atop";
           c2d.fillRect(x*40+6,y*40+6,36,36);
           c2d.globalCompositeOperation = "source-over";
-          if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
-          else StarblastMap.pattern.set(`${x}-${y}`,num);
-          StarblastMap.data[x][y]=num;
+          if (num == 0) StarblastMap.pattern.delete(`${y}-${x}`);
+          else StarblastMap.pattern.set(`${y}-${x}`,num);
+          StarblastMap.data[y][x]=num;
           return {changed: true, prev: (prev == -1)?0:prev};
         }
         else return {changed:false};
