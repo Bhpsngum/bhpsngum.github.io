@@ -223,7 +223,7 @@
       }
       (!same) && life[action[i]](session);
     },
-    modify: function(x,y,num) {
+    modify: function(y,x,num) {
       let br=Engine.Brush.size,c = num == void 0,init;
       if (c) init = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max);
       for (let i=x-br;i<=x+br;i++)
@@ -305,7 +305,7 @@
           c2d.globalCompositeOperation = "source-over";
           if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
           else StarblastMap.pattern.set(`${x}-${y}`,num);
-          StarblastMap.data[y][x]=num;
+          StarblastMap.data[x][y]=num;
           return {changed: true, prev: (prev == -1)?0:prev};
         }
         else return {changed:false};
