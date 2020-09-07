@@ -14,6 +14,16 @@
       copy: $("#copyMap"),
       permalink: $("#permalink")
     },
+    Coordinates: {
+      view: function (x,y) {
+        let d= this.data[x][y],gl="No Asteroids";
+        if (d) gl="Asteroid size: "+d.toString();
+        $("#XY").html(`(${x+1};${y+1}). ${gl}`);
+        if (Engine.Trail.state == 0) this.modify(x,y,0);
+        else if (Engine.Trail.state == 1) this.modify(x,y);
+      },
+      get: pos => ~~((pos-4)/40)
+    },
     session: new Map(),
     data: [],
     history: [],
@@ -282,9 +292,10 @@
     Asteroids: {
       template: new Image(),
       modify: function(x,y,num,init) {
-        let c2d = StarblastMap.map.getContext('2d'),prev=(StarblastMap.data[x]||[])[y]||-1;
+        let prev=(StarblastMap.data[x]||[])[y]||-1;
         if (prev != num || init)
         {
+          let c2d = StarblastMap.map.getContext('2d');
           c2d.clearRect(x*40+6,y*40+6,36,36);
           c2d.beginPath();
           c2d.drawImage(this.template,x*40+4+(40-num*3)/2,y*40+4+(40-num*3)/2,num*3,num*3);
@@ -512,13 +523,6 @@
 
       return generateMaze();
     },
-    viewXY: function (x,y) {
-      let d= this.data[x][y],gl="No Asteroids";
-      if (d) gl="Asteroid size: "+d.toString();
-      $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-      if (Engine.trail == 0) this.modify(x,y,0);
-      else if (Engine.trail == 1) this.modify(x,y);
-    },
     applySize: function (num) {
       let dsize= {
         min:20,
@@ -533,7 +537,27 @@
       return size;
     }
   }, Engine = {
-    trail: -1,
+    Trail: {
+      state: -1,
+      stop: function ()
+      {
+        this.state = -1;
+        StarblastMap.pushSession("history",["m",StarblastMap.session]);
+        StarblastMap.session = new Map();
+      },
+      start: function (x,y,event) {
+        switch (event.button) {
+          case 0:
+            this.state=1;
+            StarblastMap.modify(x,y);
+            break;
+          case 2:
+            this.state=0;
+            StarblastMap.modify(x,y,0);
+            break;
+        }
+      },
+    },
     addBorder: function (c2d,x,y,z,t)
     {
       c2d.clearRect(x-1,y-1,z-x+2,t-y+2);
@@ -675,24 +699,6 @@
       let url = this.permalink(newMap);
       window.history.pushState({path:url},'',url);
     },
-    startTrail: function (x,y,event) {
-      switch (event.button) {
-        case 0:
-          this.trail=1;
-          StarblastMap.modify(x,y);
-          break;
-        case 2:
-          this.trail=0;
-          StarblastMap.modify(x,y,0);
-          break;
-      }
-    },
-    stopTrail: function()
-    {
-      this.trail = -1;
-      StarblastMap.pushSession("history",["m",StarblastMap.session]);
-      StarblastMap.session = new Map();
-    },
     menu: $("#menu"),
     random: function(num) {
       return ~~(Math.random()*num);
@@ -713,10 +719,6 @@
   });
   window.Misc = function(){"Hello World!"};
   Object.assign(window.Misc, {
-    startTrail: Engine.startTrail.bind(Engine),
-    stopTrail: Engine.stopTrail.bind(Engine),
-    viewXY: StarblastMap.viewXY.bind(StarblastMap),
-    modify: StarblastMap.modify.bind(StarblastMap),
     changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap.Asteroids)
   });
   let see = localStorage.randomizedBrush == "true";
@@ -768,6 +770,9 @@
     alert("New feature added!!! (BETA)\nFrom now on, you can take map screenshot by using 'Export Image' button or simply press Ctrl + I :)");
     localStorage.setItem("lastVer",$("#version").html());
   }
+  StarblastMap.map.on("mousemove", function(e){
+    StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
+  });
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
@@ -874,7 +879,7 @@
       }
     }
   }
-  window.onmouseup = function(){return window.onblur = Misc.stopTrail}();
+  window.onmouseup = function(){return window.onblur = Engine.Trail.stop.bind(Engine)}();
   StarblastMap.Buttons.permalink.on("click", function(){
     let map = StarblastMap.export("url");
     Engine.setURL(map);
