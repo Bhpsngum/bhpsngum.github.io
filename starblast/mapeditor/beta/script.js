@@ -298,7 +298,7 @@
           let c2d = StarblastMap.map.getContext('2d');
           c2d.clearRect(y*40+6,x*40+6,36,36);
           c2d.beginPath();
-          c2d.drawImage(this.template,x*40+4+(40-num*3)/2,y*40+4+(40-num*3)/2,num*3,num*3);
+          c2d.drawImage(this.template,y*40+4+(40-num*3)/2,x*40+4+(40-num*3)/2,num*3,num*3);
           c2d.fillStyle = this.color;
           c2d.globalCompositeOperation = "source-atop";
           c2d.fillRect(y*40+6,x*40+6,36,36);
