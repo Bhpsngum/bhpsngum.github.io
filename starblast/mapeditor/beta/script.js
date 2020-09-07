@@ -22,7 +22,7 @@
         if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
         else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
       },
-      get: pos => ~~((pos-4)/40)
+      get: pos => Math.min(~~((pos-4)/40),StarblastMap.size)
     },
     session: new Map(),
     data: [],
@@ -882,7 +882,8 @@
       }
     }
   }
-  window.onmouseup = function(){return window.onblur = Engine.Trail.stop.bind(Engine)}();
+  window.addEventListener("mouseup", Engine.Trail.stop.bind(Engine));
+  window.addEventListener("blur", Engine.Trail.stop.bind(Engine));
   StarblastMap.Buttons.permalink.on("click", function(){
     let map = StarblastMap.export("url");
     Engine.setURL(map);
