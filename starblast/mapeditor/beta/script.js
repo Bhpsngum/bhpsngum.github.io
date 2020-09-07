@@ -305,7 +305,7 @@
           c2d.globalCompositeOperation = "source-over";
           if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
           else StarblastMap.pattern.set(`${x}-${y}`,num);
-          StarblastMap.data[x][y]=num;
+          StarblastMap.data[y][x]=num;
           return {changed: true, prev: (prev == -1)?0:prev};
         }
         else return {changed:false};
