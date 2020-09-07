@@ -223,7 +223,7 @@
       }
       (!same) && life[action[i]](session);
     },
-    modify: function(y,x,num) {
+    modify: function(x,y,num) {
       let br=Engine.Brush.size,c = num == void 0,init;
       if (c) init = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max);
       for (let i=x-br;i<=x+br;i++)
