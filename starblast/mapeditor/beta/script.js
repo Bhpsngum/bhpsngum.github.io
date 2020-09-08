@@ -16,7 +16,7 @@
     },
     Coordinates: {
       view: function (x,y) {
-        let d= StarblastMap.data[x][y],gl="No Asteroids";
+        let d= StarblastMap.data[y][x],gl="No Asteroids";
         if (d) gl="Asteroid size: "+d.toString();
         $("#XY").html(`(${y+1};${x+1}). ${gl}`);
         if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
@@ -729,10 +729,6 @@
       return Number(min+this(max-min+1))||min;
     }
   });
-  window.Misc = function(){"Hello World!"};
-  Object.assign(window.Misc, {
-    changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap.Asteroids)
-  });
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
   Engine.Brush.applyRandom();
@@ -895,7 +891,7 @@
           rSize();
           break;
         default:
-          if (e.which>47 && e.which <58) changeASSize(e.which-48);
+          if (e.which > 47 && e.which < 58) StarblastMap.Asteroids.changeSize(e.which-48);
       }
     }
   }
