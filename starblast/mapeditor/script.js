@@ -322,7 +322,7 @@
         }
         if (self_trigger && this.size.max == this.size.min)
         {
-          $("#asc"+this.size.min).click();
+          this.changeSize(this.size.min);
           $("#randomSize").css({"border":"1px solid"});
         }
         Engine.applyColor("border-color");
