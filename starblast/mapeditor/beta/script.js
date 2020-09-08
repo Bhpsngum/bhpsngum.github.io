@@ -310,6 +310,22 @@
         }
         else return {changed:false};
       },
+      drawSelection: function (i) {
+        let c = $("#as"+i)[0];
+        if (c)
+        {
+          c.width = 40;
+          c.height = 40;
+          let c2d = c.getContext('2d');
+          c2d.clearRect(0,0,c.width,c.height);
+          c2d.beginPath();
+          c2d.drawImage(this.template,(40-i*3)/2,(40-i*3)/2,i*3,i*3);
+          c2d.fillStyle = this.color;
+          c2d.globalCompositeOperation = "source-atop";
+          c2d.fillRect(0,0,c.width,c.height);
+          c2d.globalCompositeOperation = "source-over";
+        }
+      },
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
@@ -602,10 +618,9 @@
         case "as-color":
           StarblastMap.Asteroids.color = css;
           for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
-          $('.ASFilter').css(rp,css);
+          $('td').css(rp,css);
           break;
         case "background-color":
-          $("#map").css(rp,css);
           break;
         case "border-color":
           let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size;
@@ -745,9 +760,14 @@
       if (fail) StarblastMap.create(1);
       else StarblastMap.load(null,1,1);
     }
-    $("#asChoose").html(`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onclick = 'Misc.changeASSize(${i+1});' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><img class='ASFilter' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC' draggable=false ondragstart="return false;" height='${i*3+3}' width='${i*3+3}'></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td></tr>`);
+    for (let i=1;i<10;i++)
+    {
+      StarblastMap.Asteroids.drawSelection(i);
+      $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
+    }
   }
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
+  $("#asChoose").html(`<tr><td id="asc0" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><canvas id="as${i}"></canvas></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
   $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
   for (let i of mr)
