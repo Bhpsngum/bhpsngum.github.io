@@ -236,7 +236,7 @@
           for (let k of list)
           {
             let data = this.Asteroids.modify(...k,size);
-            if (data.changed) this.session.set(k.join,[data.prev,size]);
+            if (data.changed) this.session.set(k.join(),[data.prev,size]);
           }
         }
       this.future = [];
