@@ -602,7 +602,7 @@
         case "as-color":
           StarblastMap.Asteroids.color = css;
           for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
-          $('td').css(rp,css);
+          $('.ASFilter').css(rp,css);
           break;
         case "background-color":
           $("#map").css(rp,css);
@@ -618,7 +618,7 @@
             this.addBorder(c2d,4,i*40+4,size*40+4,i*40+4);
           }
           c2d.stroke();
-          $('td').css(rp,css);
+          $('td').css(param,css);
       }
       $("#"+param).val(css);
       localStorage.setItem(param,css);
