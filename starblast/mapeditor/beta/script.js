@@ -236,7 +236,7 @@
           for (let k of list)
           {
             let data = this.Asteroids.modify(...k,size);
-            if (data.changed) this.session.set(k.join(),[data.prev,size]);
+            if (data.changed) this.session.set(k.join("-"),[data.prev,size]);
           }
         }
       this.future = [];
@@ -364,11 +364,7 @@
           this.applyKey("min",min);
           this.applyKey("max",max);
         }
-        if (self_trigger && this.size.max == this.size.min)
-        {
-          $("#asc"+this.size.min).click();
-          $("#randomSize").css({"border":"1px solid"});
-        }
+        (self_trigger && this.size.max == this.size.min) && this.changeSize(this.size.min);
         Engine.applyColor("border-color");
       },
       size:{
