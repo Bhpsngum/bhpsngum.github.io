@@ -314,12 +314,12 @@
         let c = $("#as"+i)[0];
         if (c)
         {
-          c.width = 40;
-          c.height = 40;
+          c.width = 36;
+          c.height = 36;
           let c2d = c.getContext('2d');
           c2d.clearRect(0,0,c.width,c.height);
           c2d.beginPath();
-          c2d.drawImage(this.template,(40-i*3)/2,(40-i*3)/2,i*3,i*3);
+          c2d.drawImage(this.template,(36-i*3)/2,(36-i*3)/2,i*3,i*3);
           c2d.fillStyle = this.color;
           c2d.globalCompositeOperation = "source-atop";
           c2d.fillRect(0,0,c.width,c.height);
@@ -619,9 +619,11 @@
           StarblastMap.Asteroids.color = css;
           for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
           for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
-          $('td').css(rp,css);
           break;
         case "background-color":
+          let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
+          $('body').css("color",color);
+          $('td').css("color",color)
           break;
         case "border-color":
           let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size;
@@ -638,7 +640,6 @@
       }
       $("#"+param).val(css);
       localStorage.setItem(param,css);
-      if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
       return css;
     },
     Brush: {
