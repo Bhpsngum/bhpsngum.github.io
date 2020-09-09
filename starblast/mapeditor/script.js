@@ -607,36 +607,40 @@
           elem = "#color-test"+["as-color","border-color"].indexOf(param);
           break;
       }
+      let prcss = window.getComputedStyle($(elem)[0])[rp];
       $(elem).css(rp,css);
       css=window.getComputedStyle($(elem)[0])[rp];
-      switch (param)
+      if (prcss != css)
       {
-        case "as-color":
-          if (window.getComputedStyle($('body')[0])["background-color"] == css) return css;
-          StarblastMap.Asteroids.color = css;
-          for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
-          for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
-          break;
-        case "background-color":
-          let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
-          $('body').css("color",color);
-          $('td').css("color",color)
-          break;
-        case "border-color":
-          let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size;
-          c2d.beginPath();
-          c2d.strokeStyle = css;
-          c2d.lineWidth = 1;
-          for (let i=0;i<=size;i++)
-          {
-            this.addBorder(c2d,i*40+4,4,i*40+4,size*40+4);
-            this.addBorder(c2d,4,i*40+4,size*40+4,i*40+4);
-          }
-          c2d.stroke();
-          $('td').css(param,css);
+        switch (param)
+        {
+          case "as-color":
+            if (window.getComputedStyle($('body')[0])["background-color"] == css) return prcss;
+            StarblastMap.Asteroids.color = css;
+            for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
+            for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
+            break;
+          case "background-color":
+            let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
+            $('body').css("color",color);
+            $('td').css("color",color)
+            break;
+          case "border-color":
+            let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size;
+            c2d.beginPath();
+            c2d.strokeStyle = css;
+            c2d.lineWidth = 1;
+            for (let i=0;i<=size;i++)
+            {
+              this.addBorder(c2d,i*40+4,4,i*40+4,size*40+4);
+              this.addBorder(c2d,4,i*40+4,size*40+4,i*40+4);
+            }
+            c2d.stroke();
+            $('td').css(param,css);
+        }
+        $("#"+param).val(css);
+        localStorage.setItem(param,css);
       }
-      $("#"+param).val(css);
-      localStorage.setItem(param,css);
       return css;
     },
     Brush: {
