@@ -612,7 +612,7 @@
       switch (param)
       {
         case "as-color":
-          if (window.getComputedStyle($('body')[0])["background-color"] == css) css = css.replace(/\d+/g, function(v){return 255-Number(v)});
+          if (window.getComputedStyle($('body')[0])["background-color"] == css) return css;
           StarblastMap.Asteroids.color = css;
           for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
           for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
