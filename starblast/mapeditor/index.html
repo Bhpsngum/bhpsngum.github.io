@@ -12,12 +12,11 @@
     <script src="ResizeSensor.js" type="text/javascript"></script>
     <script src="ElementQueries.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/ccd821e6cb.js" crossorigin="anonymous"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="init.js"></script>
   </head>
   <body oncontextmenu="return false;">
     <p id= "version" style="display:none">1.1.0</p>
-    <div id="mapBox"><table id="map" onmouseover='viewinfo(null,"Left-click to apply asteroid, right-click to remove, drag for trails");'></table></div>
+    <div id="mapBox"><canvas id="map" onmouseover='viewinfo(null,"Left-click to apply asteroid, right-click to remove, drag for trails");'></canvas></div>
     <div id="menu">
       <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200" onmouseover="viewinfo(null,'Toggle map size (20 to 200)')"></input>
       <table style="float:left" id="asChoose"></table>
@@ -50,9 +49,12 @@
       <input id="loadMap" type="file" accept="text/plain,text/javascript">
       <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link','_blank')" onmouseover="viewinfo('Feedback','Give us a feedback')"><i class="fas fa-fw fa-inbox"></i></button>
       <button id="permalink" onmouseover="viewinfo('Permalink','Copy permalink to clipboard')"><i class="fas fa-fw fa-link"></i></button>
-      <div id="color-test" style="display:none"></div>
+      <div style="display:none">
+        <div id="color-test0"></div>
+        <div id="color-test1"></div>
+      </div>
       <button id="exportImg" onmouseover="viewinfo('Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)')"><i class="fas fa-fw fa-images"></i></button>
-      <p id="renderStats" style="float:left;margin-left:5px"></p>
+      <p style="font-size:10pt;">Tool doesn't work? <a href="https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link" target="_blank">Give us an feedback</a> and <a href="old.html">Use the old version</a></p>
     </div>
     <p id="XY" onmouseover="viewinfo(null,'Your cursor position in the map. Hover the map for details')">(0;0)</p>
     <p id="info"></p>

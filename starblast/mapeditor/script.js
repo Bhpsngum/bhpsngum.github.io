@@ -1,6 +1,6 @@
 (function(){
   var StarblastMap = {
-    map: $("#map"),
+    map: $("#map")[0],
     sizeInput: $("#map_size"),
     Buttons: {
       export:
@@ -13,6 +13,16 @@
       import: $("#loadMap"),
       copy: $("#copyMap"),
       permalink: $("#permalink")
+    },
+    Coordinates: {
+      view: function (x,y) {
+        let d= StarblastMap.data[y][x],gl="No Asteroids";
+        if (d) gl="Asteroid size: "+d.toString();
+        $("#XY").html(`(${y+1};${x+1}). ${gl}`);
+        if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
+        else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
+      },
+      get: pos => Math.max(Math.min(~~((pos-4)/40),StarblastMap.size-1),0)
     },
     session: new Map(),
     data: [],
@@ -48,10 +58,13 @@
         {
           this.pattern = new Map();
           this.buildData(dismiss_history);
-          let tb="";
+          let c2d = this.map.getContext('2d');
+          c2d.clearRect(0,0,this.map.width, this.map.height);
+          this.map.width = this.size*40+8;
+          this.map.height = this.size*40+8;
+          c2d.beginPath();
           for (let i=0;i<this.size;i++)
           {
-            tb+="<tr>";
             for (let j=0;j<this.size;j++)
             {
               let wh=Number((h[i]||[])[j])||0;
@@ -60,12 +73,12 @@
                 this.pattern.set(`${i}-${j}`,wh);
                 this.data[i][j]=wh;
               }
-              tb+=`<td id='p${i}-${j}' onmouseover='Misc.viewXY(${i},${j});' onmousedown='Misc.startTrail(${i},${j},event);'><img class='ASFilter'src='Asteroid.png' draggable=false ondragstart="return false;" height='${wh*3}' width='${wh*3}'></td>`;
             }
-            tb+="</tr>";
           }
-          this.map.html(tb);
-          $("#mapBox").css("width",(this.size*42).toString()+"px");
+          c2d.stroke();
+          Engine.applyColor("border-color");
+          Engine.applyColor("as-color");
+          $("#mapBox").css("width",(this.size*40+8).toString()+"px");
           (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
         else
@@ -75,14 +88,12 @@
             for (let j=0;j<oldSize;j++)
             {
               let gh=Number((h[i]||[])[j])||0;
-              let data = this.updateCell(i,j,gh);
+              let data = this.Asteroids.modify(i,j,gh);
               if (data.changed) session.set(`${i}-${j}`,[data.prev,gh]);
             }
           (!dismiss_history) && this.pushSession("history",["m",session]);
         }
         this.sync();
-        Engine.applyColor("as-color");
-        Engine.applyColor("border-color");
         if (!dismiss_history) this.future = [];
       }
       else check=false;
@@ -99,7 +110,7 @@
       {
         let pos = i.split("-").map(x => Number(x));
         session.set(i,[this.pattern.get(i),0]);
-        this.updateCell(...pos, 0);
+        this.Asteroids.modify(...pos, 0);
       }
       this.pushSession("history",["m",session]);
       this.sync();
@@ -149,6 +160,16 @@
             }
           }
           return str.join("e");
+        case "image":
+          let clone = document.createElement('canvas');
+          let c2d = clone.getContext('2d');
+          clone.width = this.map.width;
+          clone.height = this.map.height;
+          c2d.drawImage(this.map, 0, 0);
+          c2d.fillStyle = Engine.applyColor("background-color");
+          c2d.globalCompositeOperation = "destination-over";
+          c2d.fillRect(0,0,clone.width,clone.height);
+          return clone.toDataURL();
       }
     },
     import: function (type, data, init) {
@@ -205,8 +226,8 @@
     modify: function(x,y,num) {
       let br=Engine.Brush.size,c = num == void 0,init;
       if (c) init = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max);
-      for (let i=x-br;i<=x+br;i++)
-        for (let j=y-br;j<=y+br;j++)
+      for (let i=Math.max(y-br,0);i<=Math.min(y+br,this.size-1);i++)
+        for (let j=Math.max(x-br,0);j<=Math.min(x+br,this.size-1);j++)
         {
           let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num,list= [[i,j]];
           if (Engine.Mirror.v) list.push([this.size-i-1,j]);
@@ -214,25 +235,12 @@
           if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-i-1,this.size-j-1]);
           for (let k of list)
           {
-            let data = this.updateCell(...k,size);
-            if (data.changed) this.session.set(`${k[0]}-${k[1]}`,[data.prev,size]);
+            let data = this.Asteroids.modify(...k,size);
+            if (data.changed) this.session.set(k.join("-"),[data.prev,size]);
           }
         }
       this.future = [];
       this.sync();
-    },
-    updateCell: function(x,y,num) {
-      let element=$(`#p${x}-${y} > img`),prev=(this.data[x]||[])[y]||0;
-      if (element.length && this.data[x][y] != num)
-      {
-        element.width(num*3);
-        element.height(num*3);
-        if (num == 0) this.pattern.delete(`${x}-${y}`);
-        else this.pattern.set(`${x}-${y}`,num);
-        this.data[x][y]=num;
-        return {changed: true, prev: prev};
-      }
-      else return {changed:false};
     },
     sync: function () {
       localStorage.setItem("map",JSON.stringify(this.data));
@@ -248,7 +256,7 @@
           for (let i of actions.keys())
           {
             let pos = i.split("-").map(x => Number(x));
-            this.updateCell(...pos,actions.get(i)[0]);
+            this.Asteroids.modify(...pos,actions.get(i)[0]);
           }
           break;
         case "n":
@@ -270,7 +278,7 @@
           for (let i of actions.keys())
           {
             let pos = i.split("-").map(x => Number(x));
-            this.updateCell(...pos,actions.get(i)[1]);
+            this.Asteroids.modify(...pos,actions.get(i)[1]);
           }
           break;
         case "n":
@@ -282,6 +290,42 @@
       this.future.splice(0,1);
     },
     Asteroids: {
+      template: new Image(),
+      modify: function(x,y,num,init) {
+        let prev=(StarblastMap.data[x]||[])[y]||-1;
+        if (prev != num || init)
+        {
+          let c2d = StarblastMap.map.getContext('2d');
+          c2d.clearRect(y*40+6,x*40+6,36,36);
+          c2d.beginPath();
+          c2d.drawImage(this.template,y*40+4+(40-num*3)/2,x*40+4+(40-num*3)/2,num*3,num*3);
+          c2d.fillStyle = this.color;
+          c2d.globalCompositeOperation = "source-atop";
+          c2d.fillRect(y*40+6,x*40+6,36,36);
+          c2d.globalCompositeOperation = "source-over";
+          if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
+          else StarblastMap.pattern.set(`${x}-${y}`,num);
+          StarblastMap.data[x][y]=num;
+          return {changed: true, prev: (prev == -1)?0:prev};
+        }
+        else return {changed:false};
+      },
+      drawSelection: function (i) {
+        let c = $("#as"+i)[0];
+        if (c)
+        {
+          c.width = 36;
+          c.height = 36;
+          let c2d = c.getContext('2d');
+          c2d.clearRect(0,0,c.width,c.height);
+          c2d.beginPath();
+          c2d.drawImage(this.template,(36-i*3)/2,(36-i*3)/2,i*3,i*3);
+          c2d.fillStyle = this.color;
+          c2d.globalCompositeOperation = "source-atop";
+          c2d.fillRect(0,0,c.width,c.height);
+          c2d.globalCompositeOperation = "source-over";
+        }
+      },
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
         for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
@@ -320,11 +364,7 @@
           this.applyKey("min",min);
           this.applyKey("max",max);
         }
-        if (self_trigger && this.size.max == this.size.min)
-        {
-          this.changeSize(this.size.min);
-          $("#randomSize").css({"border":"1px solid"});
-        }
+        (self_trigger && this.size.max == this.size.min) && this.changeSize(this.size.min);
         Engine.applyColor("border-color");
       },
       size:{
@@ -495,13 +535,6 @@
 
       return generateMaze();
     },
-    viewXY: function (x,y) {
-      let d= this.data[x][y],gl="No Asteroids";
-      if (d) gl="Asteroid size: "+d.toString();
-      $("#XY").html(`(${x+1};${y+1}). ${gl}`);
-      if (Engine.trail == 0) this.modify(x,y,0);
-      else if (Engine.trail == 1) this.modify(x,y);
-    },
     applySize: function (num) {
       let dsize= {
         min:20,
@@ -516,54 +549,93 @@
       return size;
     }
   }, Engine = {
-    trail: -1,
-    applyColor: function (param,inp) {
-      let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1;
+    Trail: {
+      state: -1,
+      stop: function ()
+      {
+        this.state = -1;
+        StarblastMap.pushSession("history",["m",StarblastMap.session]);
+        StarblastMap.session = new Map();
+      },
+      start: function (x,y,event) {
+        switch (event.button) {
+          case 0:
+            this.state=1;
+            StarblastMap.modify(x,y);
+            break;
+          case 2:
+            this.state=0;
+            StarblastMap.modify(x,y,0);
+            break;
+        }
+      }
+    },
+    addBorder: function (c2d,x,y,z,t)
+    {
+      c2d.clearRect(x-1,y-1,z-x+2,t-y+2);
+      c2d.moveTo(x,y);
+      c2d.lineTo(z,t);
+    },
+    applyColor: function (para,inp) {
+      let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1,param = para.toLowerCase();
       if (inp == void 0 || defl)
       {
         if ((localStorage[param]||"undefined") == "undefined"  || defl)
-          switch(param.toLowerCase())
+          switch(param)
           {
             case "background-color":
-            case "as-color":
               css="rgb(24,26,27)";
               break;
             case "border-color":
+            case "as-color":
               css="rgb(102,102,102)";
               break;
           }
         else css=localStorage[param];
       }
       else css=inp;
-      let elem="";
-      switch (param.toLowerCase())
+      let elem="",rp;
+      switch (param)
       {
         case "background-color":
           elem='body';
+          rp = param;
           break;
         case "border-color":
-          elem='td';
-          break;
         case "as-color":
-          elem='#color-test';
+          rp = "color";
+          elem = "#color-test"+["as-color","border-color"].indexOf(param);
           break;
       }
-      let rp = (param=="as-color")?"color":param;
       $(elem).css(rp,css);
-      rp = (rp=="border-color")?"border-block-start-color":rp;
       css=window.getComputedStyle($(elem)[0])[rp];
-      switch (rp)
+      switch (param)
       {
-        case "color":
-          $(".ASFilter").css("filter",`opacity(0.5) drop-shadow(${css} 0px 0px 0px)`);
+        case "as-color":
+          StarblastMap.Asteroids.color = css;
+          for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
+          for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
           break;
         case "background-color":
-          $("#map").css(rp,css);
+          let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
+          $('body').css("color",color);
+          $('td').css("color",color)
           break;
+        case "border-color":
+          let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size;
+          c2d.beginPath();
+          c2d.strokeStyle = css;
+          c2d.lineWidth = 1;
+          for (let i=0;i<=size;i++)
+          {
+            this.addBorder(c2d,i*40+4,4,i*40+4,size*40+4);
+            this.addBorder(c2d,4,i*40+4,size*40+4,i*40+4);
+          }
+          c2d.stroke();
+          $('td').css(param,css);
       }
       $("#"+param).val(css);
       localStorage.setItem(param,css);
-      if (param == "background-color") $('body').css("color",css.replace(/\d+/g, function(v){return 255-Number(v)}));
       return css;
     },
     Brush: {
@@ -608,7 +680,7 @@
       h:false
     },
     generateName: function() {
-      return "starblast-map_" + (new Date).getTime();
+      return "starblast-map_" + Date.now();
     },
     copyToClipboard: function (text = "") {
         var dummy = document.createElement("textarea");
@@ -618,28 +690,17 @@
         document.execCommand("copy");
         document.body.removeChild(dummy);
     },
-    download:{
-        gen: function (data, name) {
-          var element = document.createElement('a');
-          element.setAttribute('href', data);
-          element.setAttribute('download', name);
+    download: function (name, data, type) {
+      var element = document.createElement('a');
+      element.setAttribute('href', (type == "text")?('data:text/plain;charset=utf-8,'+encodeURIComponent(data)):data);
+      element.setAttribute('download', name || Engine.generateName());
 
-          element.style.display = 'none';
-          document.body.appendChild(element);
+      element.style.display = 'none';
+      document.body.appendChild(element);
 
-          element.click();
+      element.click();
 
-          document.body.removeChild(element);
-        },
-        text: function (filename, text = "") {
-          this.gen('data:text/plain;charset=utf-8,' + encodeURIComponent(text), filename);
-        },
-        image: function (filename) {
-          html2canvas(document.querySelector("#map"), {scrollX:-window.scrollX,scrollY:-window.scrollY}).then(canvas => {
-            $("#renderStats").html("");
-            Engine.download.gen(canvas.toDataURL(), filename);
-          });
-        }
+      document.body.removeChild(element);
     },
     permalink: function(newMap = "")
     {
@@ -650,32 +711,12 @@
       let url = this.permalink(newMap);
       window.history.pushState({path:url},'',url);
     },
-    startTrail: function (x,y,event) {
-      switch (event.button) {
-        case 0:
-          this.trail=1;
-          StarblastMap.modify(x,y);
-          break;
-        case 2:
-          this.trail=0;
-          StarblastMap.modify(x,y,0);
-          break;
-      }
-    },
-    stopTrail: function()
-    {
-      this.trail = -1;
-      StarblastMap.pushSession("history",["m",StarblastMap.session]);
-      StarblastMap.session = new Map();
-    },
     menu: $("#menu"),
     random: function(num) {
       return ~~(Math.random()*num);
     }
   }
-  Object.assign(StarblastMap.Asteroids,{
-    color: Engine.applyColor("as-color"),
-  });
+  Engine.applyColor("as-color");
   Object.assign(StarblastMap.Asteroids.changeSize,{
     applySize: function(key)
     {
@@ -688,38 +729,39 @@
       return Number(min+this(max-min+1))||min;
     }
   });
-  window.Misc = function(){"Hello World!"};
-  Object.assign(window.Misc, {
-    startTrail: Engine.startTrail.bind(Engine),
-    stopTrail: Engine.stopTrail.bind(Engine),
-    viewXY: StarblastMap.viewXY.bind(StarblastMap),
-    modify: StarblastMap.modify.bind(StarblastMap),
-    changeASSize: StarblastMap.Asteroids.changeSize.bind(StarblastMap.Asteroids)
-  });
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
   Engine.Brush.applyRandom();
-  let querymap=window.location.search.replace(/^\?/,"").toLowerCase(),error=0;
-  if (querymap === "") error = 1;
-  else
+  StarblastMap.Asteroids.template.onload = function()
   {
-    if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import("url",querymap,1);
-    else error=1;
-    Engine.setURL();
-  }
-  if (error)
-  {
-    let fail = 0;
-    try{
-      let storageMap = JSON.parse(localStorage.map);
-      if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
-      else throw "Nope";
+    let querymap=window.location.search.replace(/^\?/,"").toLowerCase(),error=0;
+    if (querymap === "") error = 1;
+    else
+    {
+      if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import("url",querymap,1);
+      else error=1;
+      Engine.setURL();
     }
-    catch(e){fail = 1}
-    if (fail) StarblastMap.create(1);
-    else StarblastMap.load(null,1,1);
+    if (error)
+    {
+      let fail = 0;
+      try{
+        let storageMap = JSON.parse(localStorage.map);
+        if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
+        else throw "Nope";
+      }
+      catch(e){fail = 1}
+      if (fail) StarblastMap.create(1);
+      else StarblastMap.load(null,1,1);
+    }
+    for (let i=0;i<10;i++)
+    {
+      (i) && StarblastMap.Asteroids.drawSelection(i);
+      $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
+    }
   }
-  $("#asChoose").html(`<tr><td id="asc0" onclick="Misc.changeASSize(0);" style="color:rgb(255,255,255);" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser ASFilter"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onclick = 'Misc.changeASSize(${i+1});' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><img class='ASFilter' src='Asteroid.png' draggable=false ondragstart="return false;" height='${i*3+3}' width='${i*3+3}'></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice ASFilter"></i></td></tr>`);
+  StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
+  $("#asChoose").html(`<tr><td id="asc0" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
   $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
   for (let i of mr)
@@ -741,6 +783,12 @@
     alert("New feature added!!! (BETA)\nFrom now on, you can take map screenshot by using 'Export Image' button or simply press Ctrl + I :)");
     localStorage.setItem("lastVer",$("#version").html());
   }
+  StarblastMap.map.addEventListener("mousemove", function(e){
+    StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
+  });
+  StarblastMap.map.addEventListener("mousedown", function(e){
+    Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
+  });
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
@@ -764,12 +812,10 @@
     });
   }
   StarblastMap.Buttons.export.text.on("click",function() {
-    var text=StarblastMap.export("plain");
-    Engine.download.text(Engine.generateName(), text);
+    Engine.download(null, StarblastMap.export("plain"), "text");
   });
   StarblastMap.Buttons.export.img.on("click",function() {
-    $("#renderStats").html("Rendering...");
-    Engine.download.image(Engine.generateName());
+    Engine.download(null, StarblastMap.export("image"));
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
@@ -814,14 +860,12 @@
         case 115:
         case 83:
           e.preventDefault();
-          var text=StarblastMap.export("plain");
-          Engine.download.text(Engine.generateName(), text);
+          Engine.download(null, StarblastMap.export("plain"), text);
           break;
         case 105:
         case 73:
           e.preventDefault();
-          $("#renderStats").html("Rendering...");
-          Engine.download.image(Engine.generateName());
+          Engine.download(null, StarblastMap.export("image"));
           break;
       }
       else switch (e.which)
@@ -847,11 +891,12 @@
           rSize();
           break;
         default:
-          if (e.which>47 && e.which <58) changeASSize(e.which-48);
+          if (e.which > 47 && e.which < 58) StarblastMap.Asteroids.changeSize(e.which-48);
       }
     }
   }
-  window.onmouseup = function(){return window.onblur = Misc.stopTrail}();
+  window.addEventListener("mouseup", Engine.Trail.stop.bind(Engine.Trail));
+  window.addEventListener("blur", Engine.Trail.stop.bind(Engine.Trail));
   StarblastMap.Buttons.permalink.on("click", function(){
     let map = StarblastMap.export("url");
     Engine.setURL(map);
