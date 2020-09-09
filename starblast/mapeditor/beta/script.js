@@ -607,11 +607,17 @@
           elem = "#color-test"+["as-color","border-color"].indexOf(param);
           break;
       }
+      let prcss = window.getComputedStyle($(elem)[0])[rp];
       $(elem).css(rp,css);
       css=window.getComputedStyle($(elem)[0])[rp];
       switch (param)
       {
         case "as-color":
+          if (window.getComputedStyle($('body')[0])["background-color"] == css)
+          {
+            css = (prcss == css)?"rgb(102,102,102)":prcss;
+            $(elem).css(rp,css);
+          }
           StarblastMap.Asteroids.color = css;
           for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
           for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
