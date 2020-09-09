@@ -615,7 +615,7 @@
         case "as-color":
           if (window.getComputedStyle($('body')[0])["background-color"] == css)
           {
-            css = prcss;
+            css = (prcss == css)?"rgb(102,102,102)":prcss;
             $(elem).css(rp,css);
           }
           StarblastMap.Asteroids.color = css;
