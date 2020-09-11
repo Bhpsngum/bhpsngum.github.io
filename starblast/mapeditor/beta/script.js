@@ -723,6 +723,7 @@
                 document.execCommand('copy');
                 window.getSelection().removeAllRanges();
               });
+              document.body.removeChild(dummy);
             }
             img.src = text;
             break;
@@ -732,8 +733,8 @@
             dummy.value = text;
             dummy.select();
             document.execCommand("copy");
+            document.body.removeChild(dummy);
         }
-        document.body.removeChild(dummy);
     },
     download: function (name, data, type) {
       var element = document.createElement('a');
