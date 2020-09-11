@@ -43,15 +43,17 @@
       switch (type)
       {
         case "plain":
-          map = this.export("plain");
+          map = new Blob([this.export("plain"),{type:"text/plain"}]);
           break;
         case "url":
-          map = Engine.permalink(this.export("url"));
+          map = new Blob([Engine.permalink(this.export("url")),{type:"text/plain"}]);
           break;
         case "image":
-          map = this.export("image");
+          const t = await fetch(this.export("image"));
+          map = await t.blob();
+          break;
       }
-      Engine.copyToClipboard(map, type);
+      Engine.copyToClipboard(map);
     },
     load: function(data,init,dismiss_history) {
       let prev = this.data,h=data||prev;check=true;
@@ -693,49 +695,9 @@
     generateName: function() {
       return "starblast-map_" + Date.now();
     },
-    copyToClipboard: function (text = "", type) {
-        var dummy;
-        switch (type) {
-          case "image":
-            function SelectText(element) {
-              if (document.body.createTextRange) {
-                var range = document.body.createTextRange();
-                range.moveToElementText(element);
-                range.select();
-              }
-              else if (window.getSelection) {
-                var selection = window.getSelection();
-                var range = document.createRange();
-                range.selectNodeContents(element);
-                selection.removeAllRanges();
-                selection.addRange(range);
-              }
-            }
-            dummy = document.createElement("div");
-            dummy.contentEditable= true;
-            dummy.setAttribute("id","ImageDump");
-            var img = new Image();
-            dummy.appendChild(img);
-            document.body.appendChild(dummy);
-            img.onload = function()
-            {
-              $("#ImageDump").click(function () {
-                $(this).attr("contenteditable", true);
-                SelectText($(this).get(0));
-                document.execCommand('copy');
-                $(this).remove();
-              });
-            }
-            img.src = text;
-            break;
-          default:
-            dummy = document.createElement("textarea");
-            document.body.appendChild(dummy);
-            dummy.value = text;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-        }
+    copyToClipboard: async function(blob)
+    {
+      await navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
     },
     download: function (name, data, type) {
       var element = document.createElement('a');
