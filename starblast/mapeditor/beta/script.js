@@ -43,10 +43,10 @@
       switch (type)
       {
         case "plain":
-          map = new Blob([this.export("plain"),{type:"text/plain"}]);
+          map = new Blob([this.export("plain")],{type:"text/plain"});
           break;
         case "url":
-          map = new Blob([Engine.permalink(this.export("url")),{type:"text/plain"}]);
+          map = new Blob([Engine.permalink(this.export("url"))],{type:"text/plain"});
           break;
         case "image":
           const t = await window.fetch(this.export("image"));
