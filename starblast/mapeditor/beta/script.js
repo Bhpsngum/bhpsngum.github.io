@@ -14,7 +14,7 @@
       copy: {
         text: $("#copyText"),
         image: $("#copyImage")
-      }
+      },
       permalink: $("#permalink")
     },
     Coordinates: {
