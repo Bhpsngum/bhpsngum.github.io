@@ -693,12 +693,46 @@
     generateName: function() {
       return "starblast-map_" + Date.now();
     },
-    copyToClipboard: function (text = "") {
-        var dummy = document.createElement("textarea");
-        document.body.appendChild(dummy);
-        dummy.value = text;
-        dummy.select();
-        document.execCommand("copy");
+    copyToClipboard: function (text = "", type) {
+        var dummy;
+        switch (type) {
+          case "image":
+            function SelectText(element) {
+              if (document.body.createTextRange) {
+                var range = document.body.createTextRange();
+                range.moveToElementText(element);
+                range.select();
+              }
+              else if (window.getSelection) {
+                var selection = window.getSelection();
+                var range = document.createRange();
+                range.selectNodeContents(element);
+                selection.removeAllRanges();
+                selection.addRange(range);
+              }
+            }
+            dummy = document.createElement("div");
+            var img = new Image();
+            dummy.appendChild(img);
+            document.body.appendChild(dummy);
+            img.onload = function()
+            {
+              dummy.click(function (e) {
+                $(dummy).attr("contenteditable", true);
+                SelectText($(dummy).get(0));
+                document.execCommand('copy');
+                window.getSelection().removeAllRanges();
+              });
+            }
+            img.src = text;
+            break;
+          default:
+            dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+        }
         document.body.removeChild(dummy);
     },
     download: function (name, data, type) {
