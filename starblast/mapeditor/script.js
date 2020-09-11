@@ -6,12 +6,15 @@
       export:
       {
         text: $("#exportText"),
-        img: $("#exportImg")
+        image: $("#exportImage")
       },
       clear: $("#clearMap"),
       randomMaze: $("#random"),
       import: $("#loadMap"),
-      copy: $("#copyMap"),
+      copy: {
+        text: $("#copyText"),
+        image: $("#copyImage")
+      },
       permalink: $("#permalink")
     },
     Coordinates: {
@@ -22,7 +25,9 @@
         if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
         else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
       },
-      get: pos => Math.max(Math.min(~~((pos-4)/40),StarblastMap.size-1),0)
+      get: function (pos) {
+        return Math.max(Math.min(~~((pos-4)/40),StarblastMap.size-1),0);
+      }
     },
     session: new Map(),
     data: [],
@@ -35,15 +40,19 @@
       this.data = [];
       for (let i=0;i<this.size;i++) this.data.push(new Array(this.size).fill(0));
     },
-    copy: function(type) {
+    copy: async function(type) {
       let map;
       switch (type)
       {
         case "plain":
-          map = this.export("plain");
+          map = new Blob([this.export("plain")],{type:"text/plain"});
           break;
         case "url":
-          map = Engine.permalink(this.export("url"));
+          map = new Blob([Engine.permalink(this.export("url"))],{type:"text/plain"});
+          break;
+        case "image":
+          const t = await window.fetch(this.export("image"));
+          map = await t.blob();
           break;
       }
       Engine.copyToClipboard(map);
@@ -688,13 +697,9 @@
     generateName: function() {
       return "starblast-map_" + Date.now();
     },
-    copyToClipboard: function (text = "") {
-        var dummy = document.createElement("textarea");
-        document.body.appendChild(dummy);
-        dummy.value = text;
-        dummy.select();
-        document.execCommand("copy");
-        document.body.removeChild(dummy);
+    copyToClipboard: async function (blob)
+    {
+      await navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
     },
     download: function (name, data, type) {
       var element = document.createElement('a');
@@ -820,7 +825,7 @@
   StarblastMap.Buttons.export.text.on("click",function() {
     Engine.download(null, StarblastMap.export("plain"), "text");
   });
-  StarblastMap.Buttons.export.img.on("click",function() {
+  StarblastMap.Buttons.export.image.on("click",function() {
     Engine.download(null, StarblastMap.export("image"));
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
@@ -828,7 +833,8 @@
   });
   StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
   StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
-  StarblastMap.Buttons.copy.on("click", function(){StarblastMap.copy.bind(StarblastMap)("plain")});
+  StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
+  StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
     if (file.type.match("plain") || file.type.match("javascript")) {

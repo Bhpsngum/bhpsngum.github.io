@@ -25,7 +25,9 @@
         if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
         else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
       },
-      get: pos => Math.max(Math.min(~~((pos-4)/40),StarblastMap.size-1),0)
+      get: function (pos) {
+        return Math.max(Math.min(~~((pos-4)/40),StarblastMap.size-1),0);
+      }
     },
     session: new Map(),
     data: [],
