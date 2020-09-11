@@ -1,4 +1,4 @@
-(async function(){
+(function(){
   var StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
@@ -38,7 +38,7 @@
       this.data = [];
       for (let i=0;i<this.size;i++) this.data.push(new Array(this.size).fill(0));
     },
-    copy: function(type) {
+    copy: async function(type) {
       let map;
       switch (type)
       {
