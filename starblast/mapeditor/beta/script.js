@@ -6,12 +6,15 @@
       export:
       {
         text: $("#exportText"),
-        img: $("#exportImg")
+        image: $("#exportImage")
       },
       clear: $("#clearMap"),
       randomMaze: $("#random"),
       import: $("#loadMap"),
-      copy: $("#copyMap"),
+      copy: {
+        text: $("#copyText"),
+        image: $("#copyImage")
+      }
       permalink: $("#permalink")
     },
     Coordinates: {
@@ -45,6 +48,8 @@
         case "url":
           map = Engine.permalink(this.export("url"));
           break;
+        case "image":
+          map = this.export("image");
       }
       Engine.copyToClipboard(map);
     },
@@ -820,7 +825,7 @@
   StarblastMap.Buttons.export.text.on("click",function() {
     Engine.download(null, StarblastMap.export("plain"), "text");
   });
-  StarblastMap.Buttons.export.img.on("click",function() {
+  StarblastMap.Buttons.export.image.on("click",function() {
     Engine.download(null, StarblastMap.export("image"));
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
@@ -828,7 +833,8 @@
   });
   StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
   StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
-  StarblastMap.Buttons.copy.on("click", function(){StarblastMap.copy.bind(StarblastMap)("plain")});
+  StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
+  StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
     if (file.type.match("plain") || file.type.match("javascript")) {
