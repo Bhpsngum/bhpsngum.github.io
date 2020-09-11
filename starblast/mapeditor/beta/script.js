@@ -713,14 +713,18 @@
             }
             dummy = document.createElement("div");
             dummy.contentEditable= true;
+            dummy.setAttribute("id","ImageDump");
             var img = new Image();
             dummy.appendChild(img);
             document.body.appendChild(dummy);
             img.onload = function()
             {
-              SelectText(dummy);
-              document.execCommand('copy');
-              document.body.removeChild(dummy);
+              $("#ImageDump").click(function () {
+                $(this).attr("contenteditable", true);
+                SelectText($(this).get(0));
+                document.execCommand('copy');
+                $(this).remove();
+              });
             }
             img.src = text;
             break;
