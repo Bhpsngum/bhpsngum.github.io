@@ -21,7 +21,7 @@
       view: function (x,y) {
         let d= StarblastMap.data[y][x],gl="No Asteroids";
         if (d) gl="Asteroid size: "+d.toString();
-        $("#XY").html(`(${y+1};${x+1}). ${gl}`);
+        $("#XY").html(`(${y};${x}). ${gl}`);
         if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
         else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
       },
