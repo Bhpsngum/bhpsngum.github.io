@@ -49,7 +49,7 @@
           map = new Blob([Engine.permalink(this.export("url")),{type:"text/plain"}]);
           break;
         case "image":
-          const t = await fetch(this.export("image"));
+          const t = await window.fetch(this.export("image"));
           map = await t.blob();
           break;
       }
@@ -695,7 +695,7 @@
     generateName: function() {
       return "starblast-map_" + Date.now();
     },
-    copyToClipboard: async function(blob)
+    copyToClipboard: async function (blob)
     {
       await navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
     },
