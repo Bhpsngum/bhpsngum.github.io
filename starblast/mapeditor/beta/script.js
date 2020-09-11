@@ -51,7 +51,7 @@
         case "image":
           map = this.export("image");
       }
-      Engine.copyToClipboard(map);
+      Engine.copyToClipboard(map, type);
     },
     load: function(data,init,dismiss_history) {
       let prev = this.data,h=data||prev;check=true;
@@ -866,7 +866,7 @@
   StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
   StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
-  StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image"), "image"});
+  StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
     if (file.type.match("plain") || file.type.match("javascript")) {
