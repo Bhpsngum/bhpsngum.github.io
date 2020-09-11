@@ -1,0 +1,110 @@
+3.0.1/September 11th, 2020
+
+* Change copy algorithm
+* Added changelog page
+
+3.0.0/September 9th, 2020
+
+MAP EDITOR 3.0!
+* Remake the map from table to canvas
+* Hyper improvements in efficiency
+
+2.3.1/September 8th, 2020
+
+* Removed Google Analytics
+
+2.3.0/September 5th, 2020
+
+* Added map screenshot feature
+* Breaking Map Editor beta for new updates
+
+2.2.0/August 4th, 2020
+
+* Added Mirror Mapping
+* Small improvements
+
+2.1.0/July 31st,2020
+
+* Added Random Asteroid size drawer and more Brush option
+* Fixed bug from shortcuts & redo/undo
+
+2.0.0/July 26th, 2020
+
+Map Editor 2.0: The Remake!
+* Optimized the tool for efficiency
+* Added redo/undo (shortcuts are the same)
+* Added old version, visit here: "https://bhpsngum.github.io/starblast/mapeditor/old.html"
+* Bug fixed (a lot!)
+
+1.7.3/July 25th, 2020
+
+* Destructing the beta version for testing new updates
+
+1.7.2/July 21th, 2020
+
+* Fixed Firefox compatibility
+
+1.7.1/July 16th, 2020
+
+* Fixed problem: permalink map is slightly different from the original one
+* Little design changes
+
+1.7.0/June 28th, 2020
+
+* Added RandomMazeGenerator by rvan_der
+* Map size input now only accepts EVEN values from 20 to 200
+
+1.6.1/June 17th, 2020
+
+* Added Asteroid color selection
+
+1.6.0/June 12th, 2020
+
+* Map Creator main and beta versions are now moved to a new site: "https://bhpsngum.github.io/starblast/mapeditor/", also renamed to Map Editor
+* More bugs fixed
+
+1.5.1/May 7th, 2020
+
+* Added Google Analytics.
+
+1.5.0/May 5th, 2020
+
+* Added custom color design
+* Removed asteroid mouse cursor
+* Bug fixed
+
+1.4.0/May 3rd, 2020
+
+* Added permalink, change text button to icon button
+* Bug fixed
+
+1.3.0/April 30th, 2020
+
+* Added dark/light icon sensor
+* Added info (bottom right corner of the screen)
+* Bug fixed
+
+1.2.0/April 29th, 2020
+
+* Efficiency update
+* Replace cursor with asteroid size
+* Bug fixed
+
+1.1.0/April 27th, 2020
+* Added trails: Hold and drag for Asteroid trails.
+* Right mouse click is now used to clear asteroids instantly
+* Added feedback link
+* Now you can use W/A/S/D to navigate up/right/down/left inside the web
+* Added Import Map option.
+* Added Brush: draw a square of 2*n+1 in each sides with the cell nearest your mouse cursor at the center
+* Added beta version, visit here: "https://bhpsngum.github.io/starblast/mapcreator/beta/"
+* Bug fixed
+
+1.0.0/April 26th, 2020
+Map Editor 1.0:
+* Input map size from 20 in 200 in the first input Box.
+* Choose the asteroid from the select table.
+* Click to draw asteroid.
+* Click Clear Map to clear the whole map
+* Click Copy/Export Map to do its function
+* You can view Asteroid info in the bottom left corner of the screen
