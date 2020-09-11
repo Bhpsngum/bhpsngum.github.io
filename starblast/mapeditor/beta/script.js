@@ -712,17 +712,14 @@
               }
             }
             dummy = document.createElement("div");
+            dummy.contentEditable= true;
             var img = new Image();
             dummy.appendChild(img);
             document.body.appendChild(dummy);
             img.onload = function()
             {
-              dummy.click(function (e) {
-                $(dummy).attr("contenteditable", true);
-                SelectText($(dummy).get(0));
-                document.execCommand('copy');
-                window.getSelection().removeAllRanges();
-              });
+              SelectText(dummy);
+              document.execCommand('copy');
               document.body.removeChild(dummy);
             }
             img.src = text;
@@ -869,7 +866,7 @@
   StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
   StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
-  StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
+  StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image"), "image"});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
     if (file.type.match("plain") || file.type.match("javascript")) {
