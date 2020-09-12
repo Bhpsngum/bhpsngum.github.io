@@ -789,7 +789,7 @@
   $("#randomSize").on("click",function(){rSize()});
   Engine.Brush.applySize();
   rSize(1);
-  $.ajax("changelog.txt").then(function(data){
+  $.ajax("/starblast/mapeditor/changelog.txt").then(function(data){
     data.replace(/\d+\.\d+\.\d+/, function(version) {
       if (localStorage.getItem("lastVer") != version)
       {
