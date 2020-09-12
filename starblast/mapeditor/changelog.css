@@ -3,3 +3,7 @@
   color: rgb(231,229,228);
   font-family: Verdana;
 }
+h2, h4 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}

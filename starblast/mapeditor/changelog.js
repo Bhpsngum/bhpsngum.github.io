@@ -1,6 +1,9 @@
 (function(){
   $.ajax("changelog.txt").then(function(data){
-    console.log(data.split("\n\n"));
+    $("#changelog").html(data.split("\n\n").map(function(i){
+      let l = i.split("\n")
+      return l[0].replace(/(^\d+\.\d+\.\d+)\/(.+)/,"<h2>$1</h2><h4>$2</h4>")+"<ul>"+l.slice(1,l.length).map(u => u.replace(/^\*\s(.+)/,"<li>$1</li>")).join("")+"</ul>";
+    }).join("<br>"));
   }).fail(function(){alert("Fetch data failed\nPlease try again")});
   let states=["dark","light"];
   if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
