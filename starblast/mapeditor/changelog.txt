@@ -1,5 +1,6 @@
 3.0.1/September 11th, 2020
-* Change copy algorithm
+* Change copy algorithm + added Copy Map screenshot
+* Added tutorial
 * Added changelog page
 
 3.0.0/September 9th, 2020
