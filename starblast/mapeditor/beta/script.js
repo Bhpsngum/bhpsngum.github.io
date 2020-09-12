@@ -789,6 +789,16 @@
   $("#randomSize").on("click",function(){rSize()});
   Engine.Brush.applySize();
   rSize(1);
+  $.ajax("changelog.txt").then(function(data){
+    data.replace(/\d+\.\d+\.\d+/, function(version) {
+      if (localStorage.getItem("lastVer") != version)
+      {
+        let info = data.split("\n\n")[0].split("\n");
+        alert("What's new ("+version+")\n"+info.slice(1,info.length).join("\n"));
+        localStorage.setItem("lastVer",version);
+      }
+    });
+  }).fail(e => {});
   if (localStorage.lastVer != $("#version").html())
   {
     alert("New feature added!!! (BETA)\nFrom now on, you can take map screenshot by using 'Export Image' button or simply press Ctrl + I :)");
