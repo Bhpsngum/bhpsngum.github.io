@@ -799,11 +799,6 @@
       }
     });
   }).fail(e => {});
-  if (localStorage.lastVer != $("#version").html())
-  {
-    alert("New feature added!!! (BETA)\nFrom now on, you can take map screenshot by using 'Export Image' button or simply press Ctrl + I :)");
-    localStorage.setItem("lastVer",$("#version").html());
-  }
   StarblastMap.map.addEventListener("mousemove", function(e){
     StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
   });
