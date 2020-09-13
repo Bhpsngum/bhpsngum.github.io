@@ -231,9 +231,13 @@
     "img": "img/tdm.png",
     "link": {
       "url": "https://github.com/Bhpsngum/TDM",
-      "state": 1
+      "state": 2
     },
     "author": [
+      {
+        "name": ["L.Gaming"],
+        "link": "https://www.youtube.com/channel/UCM7D5GzpRA8pxhgMbMcADpQ"
+      },
       {
         "name": ["Bhpsngum"],
         "link": "https://github.com/Bhpsngum"
