@@ -225,7 +225,7 @@
   },
   {
     "name": "Team Deathmatch (TDM)",
-    "version": "0.96.71",
+    "version": "0.96.96",
     "description": "A combination between team battles and Pro DeatMatch (PDM)",
     "modes": "",
     "img": "img/tdm.png",
