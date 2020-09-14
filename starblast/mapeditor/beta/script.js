@@ -18,12 +18,21 @@
       permalink: $("#permalink")
     },
     Coordinates: {
+      lastVisited: [-1,-1],
+      lastViewed: [-1,-1],
       view: function (x,y) {
-        let d= StarblastMap.data[y][x],gl="No Asteroids";
-        if (d) gl="Asteroid size: "+d.toString();
-        $("#XY").html(`(${y};${x}). ${gl}`);
-        if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
-        else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
+        if (this.lastViewed[0]!=x || this.lastViewed[1]!=y)
+        {
+          let d= StarblastMap.data[y][x],gl="No Asteroids";
+          if (d) gl="Asteroid size: "+d.toString();
+          $("#XY").html(`(${y};${x}). ${gl}`);
+          this.lastViewed = [x,y];
+        }
+        if (this.lastVisited[0]!=x || this.lastVisited[1]!=y)
+        {
+          if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
+          else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
+        }
       },
       get: function (pos) {
         return Math.max(Math.min(~~((pos-4)/40),StarblastMap.size-1),0);
@@ -245,7 +254,10 @@
           for (let k of list)
           {
             let data = this.Asteroids.modify(...k,size);
-            if (data.changed) this.session.set(k.join("-"),[data.prev,size]);
+            if (data.changed){
+              let pos = k.join("-"), prev = this.session.get(pos);
+              this.session.set(pos,[(prev)?prev[0]:data.prev,size]);
+            }
           }
         }
       this.future = [];
@@ -563,6 +575,7 @@
       stop: function ()
       {
         this.state = -1;
+        StarblastMap.Coordinates.lastVisited = [-1,-1];
         StarblastMap.pushSession("history",["m",StarblastMap.session]);
         StarblastMap.session = new Map();
       },
