@@ -32,6 +32,7 @@
         {
           if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
           else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
+          if (Engine.Trail.state != -1) this.lastVisited = [x,y];
         }
       },
       get: function (pos) {
