@@ -591,6 +591,7 @@
             StarblastMap.modify(x,y,0);
             break;
         }
+        StarblastMap.Coordinates.lastVisited = [x,y];
       }
     },
     addBorder: function (c2d,x,y,z,t)
