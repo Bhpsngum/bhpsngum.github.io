@@ -1,6 +1,34 @@
 [
   {
+    "name": "Alpha Orionis Wars",
+    "abbreviation": "AOW",
+    "version": "",
+    "description": "",
+    "modes": "Team",
+    "img": "",
+    "link": {
+      "url": "https://github.com/GoldmanAerospace/AOW",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["PMGL","Gilles"],
+        "link": "https://github.com/pmgl"
+      },
+      {
+        "name": ["Goldman"],
+        "link": "https://github.com/GoldmanAeroSpace"
+      },
+      {
+        "name": ["Notus"],
+        "link": "https://github.com/123-Notus"
+      }
+    ],
+    "official": 1
+  },
+  {
     "name": "Battle Royale",
+    "abbreviation": "BR",
     "version": "2.0",
     "description": "",
     "modes": "",
@@ -19,6 +47,7 @@
   },
   {
     "name": "U-Series",
+    "abbreviation": "",
     "version": "4.0",
     "description": "",
     "modes": "Team",
@@ -37,6 +66,7 @@
   },
   {
     "name": "Alien Intrusion",
+    "abbreviation": "AI",
     "version": "5.0.5",
     "description": "",
     "modes": "Team",
@@ -55,6 +85,7 @@
   },
   {
     "name": "Nautic Series",
+    "abbreviation": "",
     "version": "3.1",
     "description": "",
     "modes": "Team",
@@ -72,7 +103,8 @@
     "official": 1
   },
   {
-    "name": "Starblast Racing Championship (SRC)",
+    "name": "Starblast Racing Championship",
+    "abbreviation": "SRC",
     "version": "2.1",
     "description": "",
     "modes": "",
@@ -94,7 +126,8 @@
     "official": 1
   },
   {
-    "name": "Rumble Mod",
+    "name": "Rumble",
+    "abbreviation": "",
     "version": "1.0.0",
     "description": "",
     "modes": "",
@@ -113,6 +146,7 @@
   },
   {
     "name": "Starblast Racing",
+    "abbreviation": "",
     "version": "1.1",
     "description": "",
     "modes": "",
@@ -130,7 +164,8 @@
     "official": 2
   },
   {
-    "name": "Starblast Prototypes (SP)",
+    "name": "Starblast Prototypes",
+    "abbreviation": "SP",
     "version": "1.0.0",
     "description": "Zero mining. Pure combat.",
     "modes": "",
@@ -149,6 +184,7 @@
   },
   {
     "name": "Pirate Mod",
+    "abbreviation": "",
     "version": "0.0.3",
     "description": "",
     "modes": "Survival",
@@ -166,7 +202,8 @@
     "official": 0
   },
   {
-    "name": "Capture The Flag (CTF)",
+    "name": "Capture The Flag",
+    "abbreviation": "CTF",
     "version": "",
     "description": "",
     "modes": "",
@@ -189,6 +226,7 @@
   },
   {
     "name": "Money's Mod",
+    "abbreviation": "",
     "version": "7.0",
     "description": "",
     "modes": "",
@@ -207,6 +245,7 @@
   },
   {
     "name": "Piranha Mod",
+    "abbreviation": "",
     "version": "",
     "description": "",
     "modes": "",
@@ -224,7 +263,8 @@
     "official": 0
   },
   {
-    "name": "Team Deathmatch (TDM)",
+    "name": "Team Deathmatch",
+    "abbreviation": "TDM",
     "version": "0.96.96",
     "description": "A combination between team battles and Pro DeatMatch (PDM)",
     "modes": "",
@@ -251,6 +291,7 @@
   },
   {
     "name": "Tag Mode",
+    "abbreviation": "STA",
     "version": "",
     "description": "A Code to create a Tag Mod in Starblast",
     "modes": "",
@@ -269,6 +310,7 @@
   },
   {
     "name": "Starfleet",
+    "abbreviation": "",
     "version": "3.0",
     "description": "Basically a Star Wars mod. CC meta.",
     "modes": "Varies",
@@ -287,6 +329,7 @@
   },
   {
     "name": "Alien Defence",
+    "abbreviation": "",
     "version": "",
     "description": "",
     "modes": "",
@@ -309,6 +352,7 @@
   },
   {
     "name": "Lunatic Mod",
+    "abbreviation": "",
     "version": "1.5.23",
     "description": "",
     "modes": "",
@@ -327,6 +371,7 @@
   },
   {
     "name": "Money's Dueling Mod",
+    "abbreviation": "",
     "version": "",
     "description": "",
     "modes": "",
@@ -345,6 +390,7 @@
   },
   {
     "name": "Malefor's Dueling Mod",
+    "abbreviation": "",
     "version": "2.1",
     "description": "",
     "modes": "",
@@ -363,6 +409,7 @@
   },
   {
     "name": "Anarchy Mod",
+    "abbreviation": "",
     "version": "1.5",
     "description": "",
     "modes": "",
@@ -380,7 +427,8 @@
     "official": 0
   },
   {
-    "name": "Multi-Class Ship Tree (MCST)",
+    "name": "Multi-Class Ship Tree",
+    "abbreviation": "MCST",
     "version": "",
     "description": "",
     "modes": "Varies",
@@ -398,7 +446,8 @@
     "official": 0
   },
   {
-    "name": "Kleinem's Enhanced Ship Tree (KEST)",
+    "name": "Kleinem's Enhanced Ship Tree",
+    "abbreviation": "KEST"
     "version": "1.2.0",
     "description": "",
     "modes": "Varies",
@@ -417,6 +466,7 @@
   },
   {
     "name": "H-Series",
+    "abbreviation": "",
     "version": "",
     "description": "",
     "modes": "Varies",

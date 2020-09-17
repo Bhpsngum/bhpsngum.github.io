@@ -63,7 +63,11 @@
   {
     if (Array.isArray(mods))
     {
-      modsinfo = mods;
+      modsinfo = mods.map((j,i) => {
+        mods[i] = mods[i].name + (mods[i].abbreviation)?`(${mods[i].abbreviation})`:"";
+        delete mods[i].abbreviation;
+        return mods[i];
+      });
       $("#modsinfo").html("");
       let spc = decodeURI(window.location.search).split("&"), d=spc.shift().substring(1);
       if ($.isEmptyObject(key))
