@@ -6,7 +6,7 @@
     this.html = `<div class="ModTab" id='${data.name||"unknown"}'>
       <div style="float:left"><img src="${data.img||"img/default.png"}"></div>
       <table>
-        <tr><td><h3><a class="${state}" title="This link is currently ${state}" ${(data.link.url)?("href='"+data.link.url+"'"):""} target="_blank">${(key.name)?data.name.replace(key.name,"gi",function(v){return `<mn>${v}</mn>`}):data.name}<sup>${data.version||""}</sup></a></h3></th></tr>
+        <tr><td><h3><a class="${state}" title="This link is currently ${state}" ${(data.link.url)?("href='"+data.link.url+"'"):""} target="_blank">${(key.name)?(data.name+((data.abbreviation)?` (${data.abbreviation})`:"")).replace(key.name,"gi",function(v){return `<mn>${v}</mn>`}):data.name}<sup>${data.version||""}</sup></a></h3></th></tr>
         <tr><td><h5>${data.author.map(data => `<a ${(data.link)?("href='"+data.link+"'"):""} target="_blank">${(data.name||[]).map(data => (key.author)?data.replace(key.author,"gi",function(v){return `<ma>${v}</ma>`}):data).join("/")}</a>`).join()}</h5></td></tr>
         ${(data.official || data.event)?("<tr "+((data.official<2 || data.event<2)?"style='color:yellow'":"")+" title='This "+((data.official<2 || data.event<2)?"is currently":"used to be")+" an official "+((data.event)?"event":"mod in Modding Space")+"'><td><p><i class='fa fa-fw fa-star'></i>Official "+((data.event)?"event":"mod")+"</p></td></tr>"):""}
         <tr><td><p><b>Game Mode(s): </b>${data.modes||"Unspecified"}</p></td></tr>
@@ -63,11 +63,7 @@
   {
     if (Array.isArray(mods))
     {
-      modsinfo = mods.map((j,i) => {
-        mods[i].name = mods[i].name + ((mods[i].abbreviation)?` (${mods[i].abbreviation})`:"");
-        delete mods[i].abbreviation;
-        return mods[i];
-      });
+      modsinfo = mods;
       $("#modsinfo").html("");
       let spc = decodeURI(window.location.search).split("&"), d=spc.shift().substring(1);
       if ($.isEmptyObject(key))
@@ -110,9 +106,14 @@
           Search: for (let y of x.author)
             for (let z of y.name)
               if (t=processKey(z).includes(aKey),t) break Search;
-        return (!key.name || processKey(x.name).includes(processKey(key.name))) && t;
+        return (!key.name || processKey(x.name+" "+x.abbreviation).includes(processKey(key.name))) && t;
       });
-      res.map(mod => {$("#modsinfo").append(new ModInfo(mod,key).html)});
+      let quan = {mods:0,events:0}
+      res.map(mod => {
+        if (mod.event) quan.events++;
+        else quan.mods++;
+        $("#modsinfo").append(new ModInfo(mod,key).html);
+      });
       try {lastDate = new Date(response.getResponseHeader("last-Modified")).toString()}
       catch(e){e}
       $("#lastModified").html("<b>Last Updated: </b>"+lastDate);
@@ -120,7 +121,7 @@
       $("#status").prop("style","color:green;float:left");
       $("#refresh-ico").prop("class","fa fa-fw fa-refresh");
       $("#refresh-text").html("Refresh");
-      $("#results").html((res.length)?`Found ${res.length} mod${(res.length>1)?"s":""}`:"No mods found");
+      $("#results").html((quan.mods)?`Found ${quan.mods} mod${(quan.mods>1)?"s":""}${(quan.events)?(" and "+quan.events+" event"+((quan.events>1)?"s":"")):""}`:"No mods found");
     }
     else loadError();
   }
