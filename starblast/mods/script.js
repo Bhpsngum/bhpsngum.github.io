@@ -141,7 +141,7 @@
           if (quan[i]) u.push(`${quan[i]} ${i}${(quan[i]>1)?"s":""}`);
           checkcount = checkcount || !!quan[i];
         }
-        if (checkcount) text = "Found" + u.slice(0,u.length-1).join(", ") + u.slice(-1);
+        if (checkcount) text = "Found " + u.slice(0,u.length-1).join(", ") + u.slice(-1);
         else text = "No mods or events found";
         $("#results").html(text);
       }
