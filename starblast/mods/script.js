@@ -64,7 +64,7 @@
     if (Array.isArray(mods))
     {
       modsinfo = mods.map((j,i) => {
-        mods[i].name = mods[i].name + (mods[i].abbreviation)?` (${mods[i].abbreviation})`:"";
+        mods[i].name = mods[i].name + ((mods[i].abbreviation)?` (${mods[i].abbreviation})`:"");
         delete mods[i].abbreviation;
         return mods[i];
       });
