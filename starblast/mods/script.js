@@ -109,7 +109,7 @@
           $('title')[0].innerHTML = "Search results - Starblast Mods Archive";
           let main = $("<button></button>");
           main.on("click",showAll);
-          main.html("View all mods");
+          main.html("View all");
           $("#mainp").html(main);
         }
         let res = mods.filter(x => {
@@ -120,9 +120,13 @@
                 if (t=processKey(z).includes(aKey),t) break Search;
           return (!key.name || processKey(x.name+" "+x.abbreviation).includes(processKey(key.name))) && t;
         });
-        let type = ["event","mod"], quan = {};
+        let type = ["event"], quan = {};
         res.map(mod => {
-          for (let i of type) if (mod[i]) quan[i] = ++quan[i] || 1;
+          let t = false;
+          for (let i of type) {
+            if (t=mod[i],t) quan[i] = ++quan[i] || 1;
+          }
+          if (!t) quan.mod = ++quan.mod || 1;
           $("#modsinfo").append(new ModInfo(mod,key).html);
         });
         try {
