@@ -120,10 +120,9 @@
                 if (t=processKey(z).includes(aKey),t) break Search;
           return (!key.name || processKey(x.name+" "+x.abbreviation).includes(processKey(key.name))) && t;
         });
-        let quan = {mods:0,events:0}
+        let type = ["event","mod"], quan = {};
         res.map(mod => {
-          if (mod.event) quan.events++;
-          else quan.mods++;
+          for (let i of type) if (mod[i]) quan[i] = ++quan[i] || 1;
           $("#modsinfo").append(new ModInfo(mod,key).html);
         });
         try {
