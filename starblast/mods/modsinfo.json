@@ -24,7 +24,8 @@
         "link": "https://github.com/123-Notus"
       }
     ],
-    "official": 1
+    "official": 1,
+    "event": 1
   },
   {
     "name": "Battle Royale",
@@ -43,7 +44,8 @@
         "link": "https://github.com/pmgl"
       }
     ],
-    "official": 1
+    "official": 1,
+    "event": 0
   },
   {
     "name": "U-Series",
@@ -62,7 +64,8 @@
         "link": "https://github.com/StarblastFinalizer"
       }
     ],
-    "official": 1
+    "official": 1,
+    "event": 0
   },
   {
     "name": "Alien Intrusion",
@@ -81,7 +84,8 @@
         "link": "https://github.com/GoldmanAeroSpace"
       }
     ],
-    "official": 1
+    "official": 1,
+    "event": 0
   },
   {
     "name": "Nautic Series",
@@ -100,7 +104,8 @@
         "link": "https://github.com/GoldmanAeroSpace"
       }
     ],
-    "official": 1
+    "official": 1,
+    "event": 0
   },
   {
     "name": "Starblast Racing Championship",
@@ -123,7 +128,8 @@
         "link": "https://github.com/123-Notus"
       }
     ],
-    "official": 1
+    "official": 1,
+    "event": 0
   },
   {
     "name": "Rumble",
@@ -142,7 +148,8 @@
         "link": "https://github.com/45rfew/"
       }
     ],
-    "official": 1
+    "official": 1,
+    "event": 0
   },
   {
     "name": "Starblast Racing",
@@ -161,7 +168,8 @@
         "link": "https://github.com/pmgl"
       }
     ],
-    "official": 2
+    "official": 2,
+    "event": 0
   },
   {
     "name": "Starblast Prototypes",
@@ -180,7 +188,8 @@
         "link": "https://bitbucket.org/strutinsky5386"
       }
     ],
-    "official": 2
+    "official": 2,
+    "event": 0
   },
   {
     "name": "Pirate Mod",
@@ -199,7 +208,8 @@
         "link": "https://github.com/StarblastFinalizer"
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Capture The Flag",
@@ -222,7 +232,8 @@
         "link": "https://github.com/45rfew/"
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Money's Mod",
@@ -241,7 +252,8 @@
         "link": "https://github.com/45rfew/"
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Piranha Mod",
@@ -260,7 +272,8 @@
         "link": "https://github.com/45rfew/"
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Team Deathmatch",
@@ -287,7 +300,8 @@
         "link": "https://github.com/45rfew/"
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Tag Mode",
@@ -306,7 +320,8 @@
         "link": "https://github.com/Bhpsngum"
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Starfleet",
@@ -325,7 +340,8 @@
         "link": ""
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Alien Defence",
@@ -348,7 +364,8 @@
         "link": "https://github.com/45rfew/"
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Lunatic Mod",
@@ -367,7 +384,8 @@
         "link": ""
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Money's Dueling Mod",
@@ -386,7 +404,8 @@
         "link": "https://github.com/45rfew/"
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Malefor's Dueling Mod",
@@ -405,7 +424,8 @@
         "link": "https://github.com/MALEFOR27/"
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Anarchy Mod",
@@ -424,7 +444,8 @@
         "link": "https://github.com/MALEFOR27/"
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Multi-Class Ship Tree",
@@ -443,7 +464,8 @@
         "link": ""
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "Kleinem's Enhanced Ship Tree",
@@ -462,7 +484,8 @@
         "link": ""
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   },
   {
     "name": "H-Series",
@@ -485,6 +508,7 @@
         "link": ""
       }
     ],
-    "official": 0
+    "official": 0,
+    "event": 0
   }
 ]
