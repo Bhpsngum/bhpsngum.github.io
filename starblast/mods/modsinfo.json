@@ -1,11 +1,11 @@
 [
   {
-    "name": "Alpha Orionis Wars",
+    "name": "Alpha Orionis War",
     "abbreviation": "AOW",
     "version": "",
     "description": "",
     "modes": "Team",
-    "img": "",
+    "img": "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/clans/30712488/2d1fd7aa6d15eb47cff6de4a889e73ef573b61a7.jpg",
     "link": {
       "url": "https://github.com/GoldmanAerospace/AOW",
       "state": 2
