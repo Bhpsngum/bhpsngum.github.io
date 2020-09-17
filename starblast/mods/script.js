@@ -121,7 +121,7 @@
       $("#status").prop("style","color:green;float:left");
       $("#refresh-ico").prop("class","fa fa-fw fa-refresh");
       $("#refresh-text").html("Refresh");
-      $("#results").html((quan.mods)?`Found ${quan.mods} mod${(quan.mods>1)?"s":""}${(quan.events)?(" and "+quan.events+" event"+((quan.events>1)?"s":"")):""}`:"No mods found");
+      $("#results").html((quan.mods)?`Found ${quan.mods} mod${(quan.mods>1)?"s":""}${(quan.events)?(" and "+quan.events+" event"+((quan.events>1)?"s":"")):""}`:"No mods or events found");
     }
     else loadError();
   }
