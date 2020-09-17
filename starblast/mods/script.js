@@ -16,8 +16,18 @@
   }
   function loadError()
   {
-    if (modsinfo && lastDate) processData(modsinfo, null, lastDate);
-    else alert("Fetch failed :(\nPlease reload the page and try again!");
+    let oldmodsinfo, oldDate, oldfail = 0;
+    if (modsinfo && lastDate)
+    {
+      oldmodsinfo = modsinfo;
+      oldDate = lastDate;
+    }
+    else {
+      oldDate = localStorage.getItem("lastDate")||"Unknown";
+      try {oldmodsinfo = JSON.parse(localStorage.getItem("modsinfo"))}
+      catch(e){oldmodsinfo = {}}
+    }
+    processData(oldmodsinfo, null, oldDate);
     $("#status").html("You are accessing the local data due to internet connection problem");
     $("#status").prop("style","color:red;float:left");
     $("#refresh-ico").prop("class","fa fa-fw fa-refresh");
@@ -63,65 +73,72 @@
   {
     if (Array.isArray(mods))
     {
-      modsinfo = mods;
-      $("#modsinfo").html("");
-      let spc = decodeURI(window.location.search).split("&"), d=spc.shift().substring(1);
-      if ($.isEmptyObject(key))
-      {
-        switch(d.toLowerCase())
+      try {
+        modsinfo = mods;
+        localStorage.setItem("modsinfo",JSON.stringify(mods));
+        $("#modsinfo").html("");
+        let spc = decodeURI(window.location.search).split("&"), d=spc.shift().substring(1);
+        if ($.isEmptyObject(key))
         {
-          case "search":
-            spc.map(x => {
-              for (let i=0;i<namespace.length;i++)
-              {
-                let u=namespace[i];
-                if (x.toLowerCase().startsWith(u+"=") && !key[u])
+          switch(d.toLowerCase())
+          {
+            case "search":
+              spc.map(x => {
+                for (let i=0;i<namespace.length;i++)
                 {
-                  key[u] = x.replace(u+"=","bi","");
-                  return;
+                  let u=namespace[i];
+                  if (x.toLowerCase().startsWith(u+"=") && !key[u])
+                  {
+                    key[u] = x.replace(u+"=","bi","");
+                    return;
+                  }
                 }
-              }
-            });
-            break;
+              });
+              break;
+          }
         }
+        for (let name of namespace) $("#"+name).val(key[name]||"");
+        if ($.isEmptyObject(key))
+        {
+          $('title')[0].innerHTML = "Starblast Mods Archive";
+          window.history.pushState({path:domain},'',domain);
+          $("#mainp").html("");
+        }
+        else
+        {
+          $('title')[0].innerHTML = "Search results - Starblast Mods Archive";
+          let main = $("<button></button>");
+          main.on("click",showAll);
+          main.html("View all mods");
+          $("#mainp").html(main);
+        }
+        let res = mods.filter(x => {
+          let aKey = processKey(key.author||""), t=!aKey;
+          if (!t)
+            Search: for (let y of x.author)
+              for (let z of y.name)
+                if (t=processKey(z).includes(aKey),t) break Search;
+          return (!key.name || processKey(x.name+" "+x.abbreviation).includes(processKey(key.name))) && t;
+        });
+        let quan = {mods:0,events:0}
+        res.map(mod => {
+          if (mod.event) quan.events++;
+          else quan.mods++;
+          $("#modsinfo").append(new ModInfo(mod,key).html);
+        });
+        try {
+          lastDate = new Date(response.getResponseHeader("last-Modified")).toString();
+          localStorage.setItem("lastDate",lastDate);
+        }
+        catch(e){e}
+        $("#lastModified").html("<b>Last Updated: </b>"+(lastDate||"Unknown"));
+        $("#status").html("You are accessing the data that are loaded from our database");
+        $("#status").prop("style","color:green;float:left");
+        $("#refresh-ico").prop("class","fa fa-fw fa-refresh");
+        $("#refresh-text").html("Refresh");
+        $("#results").html((quan.mods)?`Found ${quan.mods} mod${(quan.mods>1)?"s":""}${(quan.events)?(" and "+quan.events+" event"+((quan.events>1)?"s":"")):""}`:"No mods or events found");
       }
-      for (let name of namespace) $("#"+name).val(key[name]||"");
-      if ($.isEmptyObject(key))
-      {
-        $('title')[0].innerHTML = "Starblast Mods Archive";
-        window.history.pushState({path:domain},'',domain);
-        $("#mainp").html("");
-      }
-      else
-      {
-        $('title')[0].innerHTML = "Search results - Starblast Mods Archive";
-        let main = $("<button></button>");
-        main.on("click",showAll);
-        main.html("View all mods");
-        $("#mainp").html(main);
-      }
-      let res = mods.filter(x => {
-        let aKey = processKey(key.author||""), t=!aKey;
-        if (!t)
-          Search: for (let y of x.author)
-            for (let z of y.name)
-              if (t=processKey(z).includes(aKey),t) break Search;
-        return (!key.name || processKey(x.name+" "+x.abbreviation).includes(processKey(key.name))) && t;
-      });
-      let quan = {mods:0,events:0}
-      res.map(mod => {
-        if (mod.event) quan.events++;
-        else quan.mods++;
-        $("#modsinfo").append(new ModInfo(mod,key).html);
-      });
-      try {lastDate = new Date(response.getResponseHeader("last-Modified")).toString()}
-      catch(e){e}
-      $("#lastModified").html("<b>Last Updated: </b>"+lastDate);
-      $("#status").html("You are accessing the data that are loaded from our database");
-      $("#status").prop("style","color:green;float:left");
-      $("#refresh-ico").prop("class","fa fa-fw fa-refresh");
-      $("#refresh-text").html("Refresh");
-      $("#results").html((quan.mods)?`Found ${quan.mods} mod${(quan.mods>1)?"s":""}${(quan.events)?(" and "+quan.events+" event"+((quan.events>1)?"s":"")):""}`:"No mods or events found");
+      catch(e){alert("Fetch failed :(\nPlease reload the page and try again!")}
     }
     else loadError();
   }
