@@ -9,27 +9,25 @@
     <title>Starblast Map Editor</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
-    <script src="ResizeSensor.js" type="text/javascript"></script>
-    <script src="ElementQueries.js" type="text/javascript"></script>
+    <script src="/starblast/mapeditor/ResizeSensor.js" type="text/javascript"></script>
+    <script src="/starblast/mapeditor/ElementQueries.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/ccd821e6cb.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="init.js"></script>
   </head>
   <body oncontextmenu="return false;">
-    <p id= "version" style="display:none">1.1.0</p>
-    <div id="mapBox"><canvas id="map" onmouseover='viewinfo(null,"Left-click to apply asteroid, right-click to remove, drag for trails");'></canvas></div>
+    <div id="mapBox"><canvas id="map"></canvas></div>
     <div id="menu">
-      <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200" onmouseover="viewinfo(null,'Toggle map size (from 20 to 200 and must be even)')"></input>
+      <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200"></input>
       <table style="float:left" id="asChoose"></table>
-      <input id="brush_size" class="SmallInput" placeholder="Brush radius" type="number" min="0" max="200" value="0" onmouseover="viewinfo(null,'Toggle brush radius (0 to current map size)')"></input>
+      <input id="brush_size" class="SmallInput" placeholder="Brush radius" type="number" min="0" max="200" value="0"></input>
       <div id="RandomOptions">
         <b style="float:left;margin-left:5px">Randomizer Options:</b>
-        <input id="minASSize" class="SmallInput" type="number" placeholder="Minimum Asteroid Size" value="0" min="0" max="9" onmouseover="viewinfo(null,'Toggle minimum Asteroid size (0 to Maximum Asteroid Size)')"></input>
-        <input id="maxASSize" class="SmallInput" type="number" placeholder="Maximum Asteroid Size" value="0" min="0" max="9" onmouseover="viewinfo(null,'Toggle maximum Asteroid size (Minimum Asteroid Size to 9)')"></input>
+        <input id="minASSize" class="SmallInput" type="number" placeholder="Minimum Asteroid Size" value="0" min="0" max="9"></input>
+        <input id="maxASSize" class="SmallInput" type="number" placeholder="Maximum Asteroid Size" value="0" min="0" max="9"></input>
         <input type="checkbox" id="randomCheck" style="display:none">
         <label for="randomCheck">
           <table>
             <tr>
-              <td onmouseover="viewinfo('Random Asteroid Size in Brush','Random Asteroids Size in a single Brush')">
+              <td id="rCheckIcon">
                 <i class="fas fa-fw fa-braille"></i>
                 <i class="fas fa-fw fa-times" id="rInd"></i>
               </td>
@@ -38,29 +36,30 @@
         </label>
       </div>
       <div id="MirrorOptions"></div>
-      <input id="as-color" placeholder="Asteroid color" onmouseover="viewinfo(null,'Toggle asteroids color')"></input>
-      <input id="background-color" type="text" placeholder="Background color" onmouseover="viewinfo(null,'Toggle background color')"></input>
-      <input id="border-color" type="text" placeholder="Line color" onmouseover="viewinfo(null,'Toggle line color')"></input>
-      <button id="clearMap" onmouseover="viewinfo('Clear Map','Clear all asteroids in the current map')"><i class="fas fa-fw fa-trash"></i></button>
-      <button id="exportText" onmouseover="viewinfo('Export Map as Text','Export map as a text/plain (*.txt) file (Hotkey Ctrl + S)')"><i class="fas fa-fw fa-download"></i></button>
-      <button id="copyText" onmouseover="viewinfo('Copy Map','Copy current map pattern to clipboard')"><i class="fas fa-fw fa-clipboard"></i></button>
-      <button><label for="loadMap" style="cursor:pointer" onmouseover="viewinfo('Import Map','Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js) format)')"><i class="fas fa-fw fa-upload"></i></label></button>
+      <input id="as-color" placeholder="Asteroid color"></input>
+      <input id="background-color" type="text" placeholder="Background color"></input>
+      <input id="border-color" type="text" placeholder="Line color"></input>
+      <button id="clearMap"><i class="fas fa-fw fa-trash"></i></button>
+      <button id="exportText"><i class="fas fa-fw fa-download"></i></button>
+      <button id="copyText"><i class="fas fa-fw fa-clipboard"></i></button>
+      <button><label id="loadMap1" for="loadMap" style="cursor:pointer"><i class="fas fa-fw fa-upload"></i></label></button>
       <button id="random"><i class="fas fa-fw fa-random"></i></button>
       <input id="loadMap" type="file" accept="text/plain,text/javascript">
-      <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link','_blank')" onmouseover="viewinfo('Feedback','Give us a feedback')"><i class="fas fa-fw fa-inbox"></i></button>
-      <button id="permalink" onmouseover="viewinfo('Permalink','Copy permalink to clipboard')"><i class="fas fa-fw fa-link"></i></button>
+      <button id="feedback"><i class="fas fa-fw fa-inbox"></i></button>
+      <button id="permalink"><i class="fas fa-fw fa-link"></i></button>
       <div style="display:none">
         <div id="color-test0"></div>
         <div id="color-test1"></div>
       </div>
-      <button id="exportImage" onmouseover="viewinfo('Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)')"><i class="fas fa-fw fa-images"></i></button>
-      <button id="copyImage" onmouseover="viewinfo('Copy Map screenshot','Copy Map screenshot as as a PNG (*.png) file to Clipboard')"><i class="fas fa-fw fa-clipboard"></i></button>
-      <button onclick="window.open('https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md','_blank')" onmouseover="viewinfo('Tutorial','Visit the Map Editor Tutorial Page')"><i class="fas fa-fw fa-book"></i></button>
-      <button onclick="window.open('/starblast/mapeditor/changelog.html','_blank')" onmouseover="viewinfo('Changelog','View the update\'s log of Map Editor from the beginning')"><i class="fas fa-fw fa-list-ul"></i></button>
+      <button id="exportImage"><i class="fas fa-fw fa-images"></i></button>
+      <button id="copyImage"><i class="fas fa-fw fa-clipboard"></i></button>
+      <button id="tutorial"><i class="fas fa-fw fa-book"></i></button>
+      <button id="changelog"><i class="fas fa-fw fa-list-ul"></i></button>
       <p style="font-size:10pt;">Tool doesn't work? <a href="https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link" target="_blank">Give us a feedback</a> and <a href="/starblast/mapeditor/old.html">use the old version instead.</a></p>
     </div>
-    <p id="XY" onmouseover="viewinfo(null,'Your cursor position in the map. Hover the map for details')"></p>
+    <p id="XY"></p>
     <p id="info"></p>
+    <script type="text/javascript" src="presets.js"></script>
     <script type="text/javascript" src="script.js"></script>
   </body>
 </html>

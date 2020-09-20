@@ -759,7 +759,7 @@
         ["map",null,"Left-click to apply asteroid, right-click to remove, drag for trails"],
         ["map_size",null,'Toggle map size (from 20 to 200 and must be even)'],
         ["asc0",null,'Remove asteroids in the map (Hotkey 0)'],
-        ...new Array(9).fill(0).map((j,i) => [null,`Asteroid size ${i+1} (Hotkey ${i+1})`]),
+        ...new Array(9).fill(0).map((j,i) => [`asc${i+1}`,null,`Asteroid size ${i+1} (Hotkey ${i+1})`]),
         ["randomSize",'Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)'],
         ["brush_size",null,'Toggle brush radius (0 to current map size)'],
         ["minASSize",null,'Toggle minimum Asteroid size (0 to Maximum Asteroid Size)'],
