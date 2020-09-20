@@ -712,11 +712,11 @@
         if (this.v && this.h)
         {
           elem.prop("class","fas fa-fw fa-expand-arrows-alt");
-          elem[0].onmouseover = function(){viewinfo(null,"All-Corners mirror is enabled")};
+          elem[0].onmouseover = function(){Engine.info.view(null,"All-Corners mirror is enabled")};
         }
         else {
           elem.prop("class","fas fa-fw fa-question");
-          elem[0].onmouseover = function(){viewinfo(null,"A secret function is disabled")};
+          elem[0].onmouseover = function(){Engine.info.view(null,"A secret function is disabled")};
         }
       },
       v:false,
