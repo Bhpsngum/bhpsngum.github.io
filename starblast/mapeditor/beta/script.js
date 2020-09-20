@@ -753,7 +753,39 @@
     menu: $("#menu"),
     random: function(num) {
       return ~~(Math.random()*num);
-    }
+    },
+    info: {
+      list: [
+        ["map",null,"Left-click to apply asteroid, right-click to remove, drag for trails"],
+        ["map_size",null,'Toggle map size (from 20 to 200 and must be even)'],
+        ["asc0",null,'Remove asteroids in the map (Hotkey 0)'],
+        ...new Array(9).fill(0).map((j,i) => [null,`Asteroid size ${i+1} (Hotkey ${i+1})`]),
+        ["randomSize",'Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)'],
+        ["brush_size",null,'Toggle brush radius (0 to current map size)'],
+        ["minASSize",null,'Toggle minimum Asteroid size (0 to Maximum Asteroid Size)'],
+        ["maxASSize",null,'Toggle maximum Asteroid size (Minimum Asteroid Size to 9)'],
+        ["mr-h",null,"Toggle horizontal Mirror"],
+        ["mr-v",null,"Toggle vertical Mirror"],
+        ["rCheckIcon",'Random Asteroid Size in Brush','Random Asteroids Size in a single Brush'],
+        ["as-color",null,'Toggle asteroid color'],
+        ["background-color",null,'Toggle background color'],
+        ["border-color",null,'Toggle line color'],
+        ["clearMap",'Clear Map','Clear all asteroids in the current map'],
+        ["exportText",'Export Map as Text','Export map as a text/plain (*.txt) file (Hotkey Ctrl + S)'],
+        ["copyText",'Copy Map','Copy current map pattern to clipboard'],
+        ["loadMap1",'Import Map','Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js) format)'],
+        ["random",'RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>'],
+        ["feedback",'Feedback','Give us a feedback'],
+        ["permalink",'Permalink','Copy permalink to clipboard'],
+        ["exportImage",'Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)'],
+        ["copyImage",'Copy Map screenshot','Copy Map screenshot as as a PNG (*.png) file to Clipboard'],
+        ["tutorial",'Tutorial','Visit the Map Editor Tutorial Page'],
+        ["changelog",'Changelog',"View the update's log of Map Editor from the beginning"],
+        ["XY",null,'Your cursor position in the map. Hover the map for details']
+      ],
+      view: function (title,text) {
+        $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
+      }
   }
   Engine.applyColor("as-color");
   Object.assign(StarblastMap.Asteroids.changeSize,{
@@ -800,9 +832,9 @@
     }
   }
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
-  $("#asChoose").html(`<tr><td id="asc0" onmouseover="viewinfo(null,'Remove asteroids in the map (Hotkey 0)')"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}' onmouseover='viewinfo(null,"Asteroid size ${i+1} (Hotkey ${i+1})")'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize' onmouseover="viewinfo('Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)')"><i class="fas fa-fw fa-dice"></i></td></tr>`);
+  $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
-  $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}" onmouseover = "viewinfo(null,'Toggle ${mdesc[j]} Mirror')"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
+  $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
   for (let i of mr)
   {
     let see = localStorage["mirror_"+i] == "true";
@@ -817,24 +849,11 @@
   $("#randomSize").on("click",function(){rSize()});
   Engine.Brush.applySize();
   rSize(1);
-  $.ajax("/starblast/mapeditor/changelog.txt").then(function(data){
-    data.replace(/\d+\.\d+\.\d+/, function(version) {
-      if (localStorage.getItem("lastVer") != version)
-      {
-        let info = data.split("\n\n")[0].split("\n");
-        alert("What's new ("+version+")\n"+info.slice(1,info.length).join("\n"));
-        localStorage.setItem("lastVer",version);
-      }
-    });
-  }).fail(e => {});
   StarblastMap.map.addEventListener("mousemove", function(e){
     StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
   });
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
-  });
-  StarblastMap.Buttons.randomMaze.on("mouseover", function() {
-    viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
   new ResizeSensor(Engine.menu[0], function(){
       $("#mapBox").css("padding-top",Engine.menu.height()+"px")
@@ -949,10 +968,4 @@
   });
   for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize"])
   $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
-  let states=["dark","light"];
-  if (!window.matchMedia) document.querySelector("link").href=`icon_light.png`;
-  else for (let state of states) if (window.matchMedia(`(prefers-color-scheme: ${state})`).matches) document.querySelector("link").href=`icon_${state}.png`;
-  console.log('%c Stop!!', 'font-weight: bold; font-size: 100px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38)');
-  console.log('%cYou are accessing the Web Developing Area.\n\nPlease do not write/copy/paste/run any scripts here (unless you know what you\'re doing) to better protect yourself from loosing your map data, and even your other sensitive data.\n\nWe will not be responsible for any problems if you do not follow the warnings.', 'font-weight: bold; font-size: 15px;color: grey;');
-  console.log('%cMap Editor, made by Bhpsngum,\n\nfeel free to distribute the code and make sure to credit my name if you intend to do that\n\nGitHub: https://github.com/Bhpsngum', 'font-weight: bold; font-size: 15px;color: Black;');
 }());
