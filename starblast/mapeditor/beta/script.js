@@ -786,6 +786,7 @@
       view: function (title,text) {
         $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
       }
+    }
   }
   Engine.applyColor("as-color");
   Object.assign(StarblastMap.Asteroids.changeSize,{
@@ -968,4 +969,7 @@
   });
   for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize"])
   $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
+  for (let i of Engine.info.list) $("#"+i[0]).on("mouseover",function(){
+    Engine.info.view(i[1],i[2]);
+  });
 }());
