@@ -67,6 +67,19 @@
       }
       Engine.copyToClipboard(map);
     },
+    download: function (type) {
+      let map;
+      switch (type)
+      {
+        case "plain":
+          map = 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.export("plain"));
+          break;
+        case "image":
+          map = this.export("image");
+          break;
+      }
+      Engine.download(null,map);
+    },
     load: function(data,init,dismiss_history) {
       let prev = this.data,h=data||prev;check=true;
       if (Array.isArray(h))
@@ -716,9 +729,9 @@
     {
       await navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
     },
-    download: function (name, data, type) {
+    download: function (name, data) {
       var element = document.createElement('a');
-      element.setAttribute('href', (type == "text")?('data:text/plain;charset=utf-8,'+encodeURIComponent(data)):data);
+      element.setAttribute('href', data);
       element.setAttribute('download', name || Engine.generateName());
 
       element.style.display = 'none';
@@ -843,10 +856,10 @@
     });
   }
   StarblastMap.Buttons.export.text.on("click",function() {
-    Engine.download(null, StarblastMap.export("plain"), "text");
+    StarblastMap.download("plain");
   });
   StarblastMap.Buttons.export.image.on("click",function() {
-    Engine.download(null, StarblastMap.export("image"));
+    StarblastMap.download("image");
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
@@ -892,12 +905,12 @@
         case 115:
         case 83:
           e.preventDefault();
-          Engine.download(null, StarblastMap.export("plain"), text);
+          StarblastMap.download("plain");
           break;
         case 105:
         case 73:
           e.preventDefault();
-          Engine.download(null, StarblastMap.export("image"));
+          StarblastMap.download("image");
           break;
       }
       else switch (e.which)
