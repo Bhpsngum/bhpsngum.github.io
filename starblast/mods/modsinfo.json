@@ -309,7 +309,7 @@
     "version": "",
     "description": "A Code to create a Tag Mode game in Starblast",
     "modes": "",
-    "img": "",
+    "img": "img/tagmode.png",
     "link": {
       "url": "https://github.com/Bhpsngum/StarblastTagMode",
       "state": 2
