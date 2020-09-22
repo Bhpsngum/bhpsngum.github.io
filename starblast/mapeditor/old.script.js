@@ -736,11 +736,6 @@
   $("#randomSize").on("click",function(){rSize()});
   Engine.Brush.applySize();
   rSize(1);
-  if (localStorage.lastVer != $("#version").html())
-  {
-    alert("New feature added!!! (BETA)\nFrom now on, you can take map screenshot by using 'Export Image' button or simply press Ctrl + I :)");
-    localStorage.setItem("lastVer",$("#version").html());
-  }
   StarblastMap.Buttons.randomMaze.on("mouseover", function() {
     viewinfo('RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>');
   });
