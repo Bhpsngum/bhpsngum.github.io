@@ -807,7 +807,7 @@
   StarblastMap.Asteroids.template.onload = function()
   {
     let query=window.location.search.replace(/^\?/,"").toLowerCase().split("="),error=0;
-    if (query === "") error = 1;
+    if (query[0] === "") error = 1;
     else
     {
       switch (query[0])
@@ -819,7 +819,7 @@
         case "feedback":
           $("title")[0].innerHTML = "Redirecting...";
           window.open("https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link","_self");
-          break;
+          return;
         default:
           if (confirm("You are using the old map permalink\nWould you like to go to the new one?")) window.open('?map='+query[0],"_self");
           else error = 1;
