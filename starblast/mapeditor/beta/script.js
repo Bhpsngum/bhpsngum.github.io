@@ -15,7 +15,9 @@
         text: $("#copyText"),
         image: $("#copyImage")
       },
-      permalink: $("#permalink")
+      permalink: $("#permalink"),
+      undo: $("#undo"),
+      redo: $("#redo")
     },
     Coordinates: {
       lastVisited: [-1,-1],
@@ -281,7 +283,11 @@
       localStorage.setItem("map",JSON.stringify(this.data));
     },
     undo: function() {
-      if (!this.history.length) return;
+      if (!this.history.length)
+      {
+        this.Buttons.undo.prop("disabled",true);
+        return;
+      }
       let lastAction = this.history[this.history.length-1];
       switch(lastAction[0])
       {
@@ -301,9 +307,14 @@
       }
       this.sync();
       this.history.splice(this.history.length-1,1);
+      this.Buttons.undo.prop("disabled",false);
     },
     redo: function() {
-      if (!this.future.length) return;
+      if (!this.future.length)
+      {
+        this.Buttons.redo.prop("disabled",true)
+        return;
+      }
       let futureAction = this.future[0];
       switch(futureAction[0])
       {
@@ -323,6 +334,7 @@
       }
       this.sync();
       this.future.splice(0,1);
+      this.Buttons.redo.prop("disabled",false);
     },
     Asteroids: {
       template: new Image(),
@@ -770,6 +782,8 @@
         ["as-color",null,'Toggle asteroid color'],
         ["background-color",null,'Toggle background color'],
         ["border-color",null,'Toggle line color'],
+        ["undo","Undo","Undo last performed actions in the map"],
+        ["redo","Redo","Redo undid actions in the map"],
         ["clearMap",'Clear Map','Clear all asteroids in the current map'],
         ["exportText",'Export Map as Text','Export map as a text/plain (*.txt) file (Hotkey Ctrl + S)'],
         ["copyText",'Copy Map','Copy current map pattern to clipboard'],
@@ -879,6 +893,10 @@
   Engine.Brush.input.on("change", function() {
     Engine.Brush.applySize($("#brush_size").val());
   });
+  StarblastMap.Buttons.undo.prop("disabled",true);
+  StarblastMap.Buttons.redo.prop("disabled",true);
+  StarblastMap.Buttons.undo.on("click",StarblastMap.undo.bind(StarblastMap));
+  StarblastMap.Buttons.redo.on("click",StarblastMap.redo.bind(StarblastMap));
   Engine.Brush.randomCheck.on("change",Engine.Brush.applyRandom.bind(Engine.Brush));
   for (let i of ["border","background","as"])
   {
