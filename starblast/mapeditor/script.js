@@ -775,7 +775,7 @@
         ["as-color",null,'Toggle asteroid color'],
         ["background-color",null,'Toggle background color'],
         ["border-color",null,'Toggle line color'],
-        ["undo","Undo","Undo last performed actions in the map"],
+        ["undo","Undo","Undo previous actions in the map"],
         ["redo","Redo","Redo undid actions in the map"],
         ["clearMap",'Clear Map','Clear all asteroids in the current map'],
         ["exportText",'Export Map as Text','Export map as a text/plain (*.txt) file (Hotkey Ctrl + S)'],
@@ -959,6 +959,16 @@
         case 73:
           e.preventDefault();
           StarblastMap.download("image");
+          break;
+        case 99:
+        case 67:
+          e.preventDefault();
+          StarblastMap.copy("plain");
+          break;
+        case 111:
+        case 79:
+          e.preventDefault();
+          $("#loadMap1").click();
           break;
       }
       else switch (e.which)

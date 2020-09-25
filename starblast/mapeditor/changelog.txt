@@ -1,6 +1,7 @@
 3.0.3/Sep 25, 2020
 * Added undo + redo buttons (these features actually have existed for a long time but seems that no-one knows its existence)
 also fixed bugs relating to undo + redo actions
+* Added shortcuts for import and copy map as text. See the tutorial for more details
 * Feedback link shortener: "https://bhpsngum.github.io/starblast/mapeditor/?feedback"
 IMPORTANT!
 * There is a slight change in Map Permalink, you'll be asked to redirect to new permalink whenever you use the old permalink.
