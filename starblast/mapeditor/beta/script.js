@@ -128,7 +128,11 @@
           (!dismiss_history) && this.pushSession("history",["m",session]);
         }
         this.sync();
-        if (!dismiss_history) this.future = [];
+        if (!dismiss_history)
+        {
+          this.future = [];
+          this.Buttons.redo.prop("disabled",true);
+        }
       }
       else check=false;
       return check;
@@ -277,6 +281,7 @@
           }
         }
       this.future = [];
+      this.Buttons.redo.prop("disabled",true);
       this.sync();
     },
     sync: function () {
@@ -603,6 +608,7 @@
         this.state = -1;
         StarblastMap.Coordinates.lastVisited = [-1,-1];
         StarblastMap.pushSession("history",["m",StarblastMap.session]);
+        StarblastMap.Buttons.undo.prop("disabled",false);
         StarblastMap.session = new Map();
       },
       start: function (x,y,event) {
