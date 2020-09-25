@@ -1,6 +1,6 @@
 (function(){
   var links = [
-    ["feedback",'https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link','_blank'],
+    ["feedback",'?feedback','_blank'],
     ["tutorial",'https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md','_blank'],
     ["changelog",'/starblast/mapeditor/changelog.html','_blank']
   ]
