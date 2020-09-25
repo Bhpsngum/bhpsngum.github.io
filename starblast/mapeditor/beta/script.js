@@ -247,12 +247,15 @@
     pushSession: function(frame,session)
     {
       let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0],data = life[u[i]]||[], action = ["push", "unshift"];
-      if (!(data[0] == session[0] && JSON.stringify([...session[1]]) == JSON.stringify([...data[1]])) (data[0] == session[0]) && (JSON.stringify([...session[1]]) == JSON.stringify([...data[1]]) && (session[1].size || session[1].length)))
-      {
-        life[action[i]](session);
-        if (frame == "history") this.future = [];
-        this.checkActions();
+      try {
+        if (!(data[0] == session[0] && JSON.stringify([...data[1]]) == JSON.stringify([...session[1]])) && (session[1].size || session[1].length))
+        {
+          life[action[i]](session);
+          if (frame == "history") this.future = [];
+          this.checkActions();
+        }
       }
+      catch(e){}
     },
     modify: function(x,y,num) {
       let br=Engine.Brush.size,c = num == void 0,init;
