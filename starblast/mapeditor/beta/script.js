@@ -128,11 +128,6 @@
           (!dismiss_history) && this.pushSession("history",["m",session]);
         }
         this.sync();
-        if (!dismiss_history)
-        {
-          this.future = [];
-          this.Buttons.redo.prop("disabled",true);
-        }
       }
       else check=false;
       return check;
@@ -259,7 +254,15 @@
             break;
         }
       }
-      (!same) && life[action[i]](session);
+      if (!same)
+      {
+        if (frame == "history")
+        {
+          this.future = [];
+          this.Buttons.redo.prop("disabled",true);
+        }
+        life[action[i]](session);
+      }
     },
     modify: function(x,y,num) {
       let br=Engine.Brush.size,c = num == void 0,init;
@@ -280,19 +283,13 @@
             }
           }
         }
-      this.future = [];
-      this.Buttons.redo.prop("disabled",true);
       this.sync();
     },
     sync: function () {
       localStorage.setItem("map",JSON.stringify(this.data));
     },
     undo: function() {
-      if (!this.history.length)
-      {
-        this.Buttons.undo.prop("disabled",true);
-        return;
-      }
+      if (!this.history.length) return;
       let lastAction = this.history[this.history.length-1];
       switch(lastAction[0])
       {
@@ -312,14 +309,10 @@
       }
       this.sync();
       this.history.splice(this.history.length-1,1);
-      this.Buttons.undo.prop("disabled",false);
+      this.Buttons.undo.prop("disabled",!!this.history.length);
     },
     redo: function() {
-      if (!this.future.length)
-      {
-        this.Buttons.redo.prop("disabled",true)
-        return;
-      }
+      if (!this.future.length) return;
       let futureAction = this.future[0];
       switch(futureAction[0])
       {
@@ -339,7 +332,7 @@
       }
       this.sync();
       this.future.splice(0,1);
-      this.Buttons.redo.prop("disabled",false);
+      this.Buttons.redo.prop("disabled",!!this.future.length);
     },
     Asteroids: {
       template: new Image(),
@@ -608,7 +601,6 @@
         this.state = -1;
         StarblastMap.Coordinates.lastVisited = [-1,-1];
         StarblastMap.pushSession("history",["m",StarblastMap.session]);
-        StarblastMap.Buttons.undo.prop("disabled",false);
         StarblastMap.session = new Map();
       },
       start: function (x,y,event) {
