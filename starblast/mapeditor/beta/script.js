@@ -825,17 +825,17 @@
           $("title")[0].innerHTML = "Redirecting...";
           window.open("https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link","_self");
           load = 0;
-          break;
+          return;
         default:
           if (confirm("You are using the old map permalink\nWould you like to go to the new one?"))
           {
             window.open('?map='+query[0],"_self");
             load = 0;
+            return;
           }
           else error = 1;
       }
     }
-    if (!load) return;
     Engine.setURL();
     if (error)
     {
@@ -855,6 +855,7 @@
       $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
     }
   }
+  if (!load) return;
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
   Engine.Brush.applyRandom();
