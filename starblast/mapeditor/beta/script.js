@@ -239,6 +239,11 @@
       if (fail) alert("Invalid Map!");
       else if (!this.load(map,init)) alert("Invalid Map!");
     },
+    checkActions: function()
+    {
+      this.Buttons.undo.prop("disabled",!this.history.length);
+      this.Buttons.redo.prop("disabled",!this.future.length);
+    },
     pushSession: function(frame,session)
     {
       let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0],data = life[u[i]]||[], action = ["push", "unshift"],same = data[0] == session[0];
@@ -256,12 +261,8 @@
       }
       if (!same)
       {
-        if (frame == "history")
-        {
-          this.future = [];
-          this.Buttons.redo.prop("disabled",true);
-        }
         life[action[i]](session);
+        this.checkActions();
       }
     },
     modify: function(x,y,num) {
@@ -309,7 +310,7 @@
       }
       this.sync();
       this.history.splice(this.history.length-1,1);
-      this.Buttons.undo.prop("disabled",!this.history.length);
+      this.checkActions();
     },
     redo: function() {
       if (!this.future.length) return;
@@ -332,7 +333,7 @@
       }
       this.sync();
       this.future.splice(0,1);
-      this.Buttons.redo.prop("disabled",!this.future.length);
+      this.checkActions();
     },
     Asteroids: {
       template: new Image(),
@@ -893,8 +894,7 @@
   Engine.Brush.input.on("change", function() {
     Engine.Brush.applySize($("#brush_size").val());
   });
-  StarblastMap.Buttons.undo.prop("disabled",true);
-  StarblastMap.Buttons.redo.prop("disabled",true);
+  StarblastMap.checkActions();
   StarblastMap.Buttons.undo.on("click",StarblastMap.undo.bind(StarblastMap));
   StarblastMap.Buttons.redo.on("click",StarblastMap.redo.bind(StarblastMap));
   Engine.Brush.randomCheck.on("change",Engine.Brush.applyRandom.bind(Engine.Brush));
