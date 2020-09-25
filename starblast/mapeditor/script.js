@@ -15,7 +15,9 @@
         text: $("#copyText"),
         image: $("#copyImage")
       },
-      permalink: $("#permalink")
+      permalink: $("#permalink"),
+      undo: $("#undo"),
+      redo: $("#redo")
     },
     Coordinates: {
       lastVisited: [-1,-1],
@@ -126,7 +128,6 @@
           (!dismiss_history) && this.pushSession("history",["m",session]);
         }
         this.sync();
-        if (!dismiss_history) this.future = [];
       }
       else check=false;
       return check;
@@ -191,7 +192,7 @@
                 dups=1;
             }
           }
-          return str.join("e");
+          return "map=" + str.join("e");
         case "image":
           let clone = document.createElement('canvas');
           let c2d = clone.getContext('2d');
@@ -238,22 +239,23 @@
       if (fail) alert("Invalid Map!");
       else if (!this.load(map,init)) alert("Invalid Map!");
     },
+    checkActions: function()
+    {
+      this.Buttons.undo.prop("disabled",!this.history.length);
+      this.Buttons.redo.prop("disabled",!this.future.length);
+    },
     pushSession: function(frame,session)
     {
-      let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0],data = life[u[i]]||[], action = ["push", "unshift"],same = data[0] == session[0];
-      if (same)
-      {
-        switch(session[0])
+      let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0],data = life[u[i]]||[], action = ["push", "unshift"];
+      try {
+        if (!(data[0] == session[0] && JSON.stringify([...data[1]]) == JSON.stringify([...session[1]])) && (session[1].size || session[1].length))
         {
-          case "n":
-            same = JSON.stringify(session) == JSON.stringify(data);
-            break;
-          case "m":
-            same = JSON.stringify([...session[1]]) == JSON.stringify([...data[0]]);
-            break;
+          life[action[i]](session);
+          if (frame == "history") this.future = [];
+          this.checkActions();
         }
       }
-      (!same) && life[action[i]](session);
+      catch(e){}
     },
     modify: function(x,y,num) {
       let br=Engine.Brush.size,c = num == void 0,init;
@@ -274,7 +276,6 @@
             }
           }
         }
-      this.future = [];
       this.sync();
     },
     sync: function () {
@@ -301,6 +302,7 @@
       }
       this.sync();
       this.history.splice(this.history.length-1,1);
+      this.checkActions();
     },
     redo: function() {
       if (!this.future.length) return;
@@ -323,6 +325,7 @@
       }
       this.sync();
       this.future.splice(0,1);
+      this.checkActions();
     },
     Asteroids: {
       template: new Image(),
@@ -604,6 +607,8 @@
             StarblastMap.modify(x,y,0);
             break;
         }
+        StarblastMap.future = [];
+        StarblastMap.Buttons.redo.prop("disabled",true);
         StarblastMap.Coordinates.lastVisited = [x,y];
       }
     },
@@ -770,6 +775,8 @@
         ["as-color",null,'Toggle asteroid color'],
         ["background-color",null,'Toggle background color'],
         ["border-color",null,'Toggle line color'],
+        ["undo","Undo","Undo last performed actions in the map"],
+        ["redo","Redo","Redo undid actions in the map"],
         ["clearMap",'Clear Map','Clear all asteroids in the current map'],
         ["exportText",'Export Map as Text','Export map as a text/plain (*.txt) file (Hotkey Ctrl + S)'],
         ["copyText",'Copy Map','Copy current map pattern to clipboard'],
@@ -801,19 +808,34 @@
       return Number(min+this(max-min+1))||min;
     }
   });
-  let see = localStorage.randomizedBrush == "true";
-  Engine.Brush.randomCheck.prop("checked",see);
-  Engine.Brush.applyRandom();
+  let load = 1;
   StarblastMap.Asteroids.template.onload = function()
   {
-    let querymap=window.location.search.replace(/^\?/,"").toLowerCase(),error=0;
-    if (querymap === "") error = 1;
+    let query=window.location.search.replace(/^\?/,"").toLowerCase().split("="),error=0;
+    if (query[0] === "") error = 1;
     else
     {
-      if (confirm("Map pattern from URL detected!\nLoad the map?")) StarblastMap.import("url",querymap,1);
-      else error=1;
-      Engine.setURL();
+      switch (query[0])
+      {
+        case "map":
+          if (confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)")) StarblastMap.import("url",query[1],1);
+          else error=1;
+          break;
+        case "feedback":
+          $("title")[0].innerHTML = "Redirecting...";
+          window.open("https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link","_self");
+          load = 0;
+          return;
+        default:
+          if (confirm("You are using the old map permalink\nWould you like to go to the new one?"))
+          {
+            window.open('?map='+query[0],"_self");
+            load = 0;
+          }
+      }
     }
+    if (!load) return;
+    Engine.setURL();
     if (error)
     {
       let fail = 0;
@@ -832,6 +854,9 @@
       $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
     }
   }
+  let see = localStorage.randomizedBrush == "true";
+  Engine.Brush.randomCheck.prop("checked",see);
+  Engine.Brush.applyRandom();
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
   $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
@@ -867,6 +892,9 @@
   Engine.Brush.input.on("change", function() {
     Engine.Brush.applySize($("#brush_size").val());
   });
+  StarblastMap.checkActions();
+  StarblastMap.Buttons.undo.on("click",StarblastMap.undo.bind(StarblastMap));
+  StarblastMap.Buttons.redo.on("click",StarblastMap.redo.bind(StarblastMap));
   Engine.Brush.randomCheck.on("change",Engine.Brush.applyRandom.bind(Engine.Brush));
   for (let i of ["border","background","as"])
   {
@@ -963,8 +991,7 @@
   window.addEventListener("mouseup", Engine.Trail.stop.bind(Engine.Trail));
   window.addEventListener("blur", Engine.Trail.stop.bind(Engine.Trail));
   StarblastMap.Buttons.permalink.on("click", function(){
-    let map = StarblastMap.export("url");
-    Engine.setURL(map);
+    Engine.setURL(StarblastMap.export("url"));
     StarblastMap.copy("url");
   });
   for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize"])
