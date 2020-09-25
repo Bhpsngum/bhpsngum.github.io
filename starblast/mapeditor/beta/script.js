@@ -262,6 +262,7 @@
       if (!same)
       {
         life[action[i]](session);
+        if (frame == "history") this.future = [];
         this.checkActions();
       }
     },
