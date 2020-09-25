@@ -309,7 +309,7 @@
       }
       this.sync();
       this.history.splice(this.history.length-1,1);
-      this.Buttons.undo.prop("disabled",!!this.history.length);
+      this.Buttons.undo.prop("disabled",!this.history.length);
     },
     redo: function() {
       if (!this.future.length) return;
@@ -332,7 +332,7 @@
       }
       this.sync();
       this.future.splice(0,1);
-      this.Buttons.redo.prop("disabled",!!this.future.length);
+      this.Buttons.redo.prop("disabled",!this.future.length);
     },
     Asteroids: {
       template: new Image(),
@@ -614,6 +614,8 @@
             StarblastMap.modify(x,y,0);
             break;
         }
+        StarblastMap.future = [];
+        StarblastMap.Buttons.redo.prop("disabled",true);
         StarblastMap.Coordinates.lastVisited = [x,y];
       }
     },
