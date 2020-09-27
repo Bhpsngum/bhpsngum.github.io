@@ -795,7 +795,6 @@
       }
     }
   }
-  Engine.applyColor("as-color");
   Object.assign(StarblastMap.Asteroids.changeSize,{
     applySize: function(key)
     {
@@ -856,6 +855,7 @@
     }
   }
   if (!load) return;
+  Engine.applyColor("as-color");
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
   Engine.Brush.applyRandom();
