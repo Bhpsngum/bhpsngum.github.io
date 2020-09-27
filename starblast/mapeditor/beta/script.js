@@ -807,32 +807,23 @@
       return Number(min+this(max-min+1))||min;
     }
   });
-  let load = 1;
   StarblastMap.Asteroids.template.onload = function()
   {
-    let query=window.location.search.replace(/^\?/,"").toLowerCase().split("="),error=0;
-    if (query[0] === "") error = 1;
-    else
+    let query=window.location.search.replace(/^\?/,"").toLowerCase().split("="),error;
+    if (error = query[0] === "", !error)
     {
       switch (query[0])
       {
         case "map":
-          if (confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)")) StarblastMap.import("url",query[1],1);
-          else error=1;
+          (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"),!error) && StarblastMap.import("url",query[1],1);
           break;
         case "feedback":
           $("title")[0].innerHTML = "Redirecting...";
           window.open("https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link","_self");
           load = 0;
-          return;
+          break;
         default:
-          if (confirm("You are using the old map permalink\nWould you like to go to the new one?"))
-          {
-            window.open('?map='+query[0],"_self");
-            load = 0;
-            return;
-          }
-          else error = 1;
+          (error = !confirm("You are using the old map permalink\nWould you like to go to the new one?"),!error) && window.open('?map='+query[0],"_self");
       }
     }
     Engine.setURL();
@@ -854,7 +845,6 @@
       $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
     }
   }
-  if (!load) return;
   Engine.applyColor("as-color");
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
