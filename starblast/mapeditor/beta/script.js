@@ -244,14 +244,14 @@
       this.Buttons.undo.prop("disabled",!this.history.length);
       this.Buttons.redo.prop("disabled",!this.future.length);
     },
-    pushSession: function(frame,session)
+    pushSession: function(frame,session,soft)
     {
       let life = this[frame], i = ["history", "future"].indexOf(frame), u = [life.length - 1, 0],data = life[u[i]]||[], action = ["push", "unshift"];
       try {
         if (!(data[0] == session[0] && JSON.stringify([...data[1]]) == JSON.stringify([...session[1]])) && (session[1].size || session[1].length))
         {
           life[action[i]](session);
-          if (frame == "history") this.future = [];
+          if (frame == "history" && !soft) this.future = [];
           this.checkActions();
         }
       }
@@ -310,7 +310,7 @@
       switch(futureAction[0])
       {
         case "m":
-          this.pushSession("history",futureAction);
+          this.pushSession("history",futureAction,1);
           let actions = futureAction[1];
           for (let i of actions.keys())
           {
@@ -319,7 +319,7 @@
           }
           break;
         case "n":
-          this.pushSession("history",["n",this.data]);
+          this.pushSession("history",["n",this.data],1);
           this.load(futureAction[1],null,1);
           break;
       }
