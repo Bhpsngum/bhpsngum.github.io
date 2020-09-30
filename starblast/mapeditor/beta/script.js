@@ -821,7 +821,8 @@
     {
       case "map":
         let datamap = LZString.decompressFromEncodedURIComponent(query[1]).split("-").map(i => i.length);
-        if (error = !(datamap.length != Math.max(...datamap)), !error) {
+        console.log(datamap);
+        if (error = (datamap.length != Math.max(...datamap)), error) {
           console.log(query[1]);
           if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) {
             window.open("?map="+StarblastMap.export("url",StarblastMap.import("url-old",query[1],0,1)));
