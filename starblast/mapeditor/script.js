@@ -148,8 +148,8 @@
       this.pushSession("history",["m",session]);
       this.sync();
     },
-    export: function (type) {
-      let str=[],map=this.data;
+    export: function (type, data) {
+      let str=[],map=data||this.data;
       switch(type.toLowerCase())
       {
         case "plain":
@@ -162,8 +162,6 @@
           }
           return '"'+str.join('\\n"+\n"')+'";';
         case "url":
-          return "map="+LZString.compressToEncodedURIComponent(this.data.map(i => i.join("")).join("-"));
-        case "url-old":
           let prevs,dups=0;
           for (let i=0;i<map.length;i++)
           {
@@ -194,7 +192,7 @@
                 dups=1;
             }
           }
-          return "map=" + str.join("e");
+          return "map=" + LZString.compressToEncodedURIComponent(str.join("e"));
         case "image":
           let clone = document.createElement('canvas');
           let c2d = clone.getContext('2d');
@@ -221,8 +219,7 @@
           catch(e){fail=1}
           break;
         case "url":
-          map = LZString.decompressFromEncodedURIComponent(data).split("-").map(i => i.split("").map(j=> Number(j)||0));
-          break;
+          data = LZString.decompressFromEncodedURIComponent(data);
         case "url-old":
           let smap=data.split('e');
           map=[];
@@ -239,11 +236,12 @@
             if (repeat)
               for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) map.push(qstr);
           }
+          fail = map.length != Math.max(...map.map(i => i.length)) || map.length != Math.min(...map.map(i => i.length));
           break;
       }
-      if (exportData) return map;
+      if (exportData) return {map:map,fail:fail}
+      if (!fail) fail = !this.load(map,init);
       if (fail) alert("Invalid Map!");
-      else if (!this.load(map,init)) alert("Invalid Map!");
     },
     checkActions: function()
     {
@@ -821,10 +819,10 @@
     {
       case "map":
         let datamap;
-        try{datamap = LZString.decompressFromEncodedURIComponent(query[1]).split("-").map(i => i.length)}catch(e){error=1};
-        if (!error && (error = (datamap.length != Math.max(...datamap))), error) {
+        try{error = StarblastMap.import("url",query[1],0,1).fail}catch(e){error=1};
+        if (error) {
           if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) {
-            window.open("?map="+LZString.compressToEncodedURIComponent(StarblastMap.import("url-old",query[1],0,1).map(i=>i.join("")).join("-")),"_self");
+            window.open("?"+StarblastMap.export("url",StarblastMap.import("url-old",query[1],0,1).map),"_self");
             return;
           }
         }
