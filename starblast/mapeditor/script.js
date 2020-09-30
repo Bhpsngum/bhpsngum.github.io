@@ -587,6 +587,7 @@
       return size;
     }
   }, Engine = {
+    supportClipboardAPI: !!(window.Clipboard && window.ClipboardItem),
     Trail: {
       state: -1,
       stop: function ()
@@ -828,6 +829,28 @@
     }
   }
   Engine.setURL();
+  if (!Engine.supportClipboardAPI) {
+    $("#menu").append("<p style='font-size:10pt'>Copy is disabled. Please switch to another browser to enable this feature or <a href='/starblast/mapeditor/old.html'>go back to the old version</a>. <a href='#' id='error'>Learn more why</a></p>");
+    $("#copyImage").remove();
+    Engine.copyToClipboard = function(blob) {
+      if (blob.type == "text/plain") {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var dummy = document.createElement("textarea");
+          document.body.appendChild(dummy);
+          dummy.value = reader.result;
+          dummy.select();
+          document.execCommand("copy");
+          document.body.removeChild(dummy);
+        }
+        reader.readAsText(blob);
+
+      }
+    }
+    $("#error").on("click",function(){
+      alert("Your browser doesn't support one of the Clipboard API features using in this tool. You can visit this page for more information:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API")
+    });
+  }
   StarblastMap.Asteroids.template.onload = function()
   {
     if (error)

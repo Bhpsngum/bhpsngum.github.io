@@ -23,10 +23,4 @@
       }
     });
   }).fail(e => {});
-  if (!(window.Clipboard && window.ClipboardItem)) {
-    $("#menu").append("<p>Copy is disabled. Please switch to another browser to enable this feature or go back to the <a href='/starblast/mapeditor/old.html'>old version</a>. <a href='#' id='error'>Learn more why</a></p>");
-    $("#error").on("click",function(){
-      alert("Your browser doesn't support one of the Clipboard API features using in this tool. You can visit this page for more information:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API")
-    });
-  }
 })();
