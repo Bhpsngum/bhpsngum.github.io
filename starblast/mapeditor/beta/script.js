@@ -815,6 +815,7 @@
     }
   });
   let query=window.location.search.replace(/^\?/,"").split("="),error;
+  console.log(window.location.search);
   if (error = query[0] === "", !error)
   {
     switch (query[0].toLowerCase())
