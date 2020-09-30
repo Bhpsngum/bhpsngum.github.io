@@ -239,8 +239,9 @@
           fail = map.length != Math.max(...map.map(i => i.length)) || map.length != Math.min(...map.map(i => i.length));
           break;
       }
-      if (!fail) fail = !this.load(map,init);
+      console.log(map,fail);
       if (exportData) return {map:map,fail:fail}
+      if (!fail) fail = !this.load(map,init);
       if (fail) alert("Invalid Map!");
     },
     checkActions: function()
