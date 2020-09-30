@@ -822,7 +822,7 @@
         try{error = StarblastMap.import("url",query[1],0,1).fail}catch(e){error=1};
         if (error) {
           if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) {
-            window.open("?map="+StarblastMap.export("url",StarblastMap.import("url-old",query[1],0,1).map),"_self");
+            window.open("?"+StarblastMap.export("url",StarblastMap.import("url-old",query[1],0,1).map),"_self");
             return;
           }
         }
