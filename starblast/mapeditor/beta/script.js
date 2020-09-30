@@ -233,7 +233,7 @@
               let qd="";
               for (let j=0;j<Number(v.replace(/\dt(\d+)d/g,"$1"));j++) qd+=v[0];
               return qd;
-            });
+            }).split("").map(i=>Number(i)||0);
             map.push(qstr);
             i.replace(/l.+n\d+/,function(v){repeat=true});
             if (repeat)
