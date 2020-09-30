@@ -162,8 +162,6 @@
           }
           return '"'+str.join('\\n"+\n"')+'";';
         case "url":
-          return "map="+LZString.compressToEncodedURIComponent(this.data.map(i => i.join("")).join("-"));
-        case "url-old":
           let prevs,dups=0;
           for (let i=0;i<map.length;i++)
           {
@@ -194,7 +192,7 @@
                 dups=1;
             }
           }
-          return "map=" + str.join("e");
+          return "map=" + LZString.compressToEncodedURIComponent(str.join("e"));
         case "image":
           let clone = document.createElement('canvas');
           let c2d = clone.getContext('2d');
@@ -221,8 +219,7 @@
           catch(e){fail=1}
           break;
         case "url":
-          map = LZString.decompressFromEncodedURIComponent(data).split("-").map(i => i.split("").map(j=> Number(j)||0));
-          break;
+          data = LZString.decompressFromEncodedURIComponent(data);
         case "url-old":
           let smap=data.split('e');
           map=[];
