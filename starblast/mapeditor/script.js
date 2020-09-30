@@ -162,6 +162,8 @@
           }
           return '"'+str.join('\\n"+\n"')+'";';
         case "url":
+          return "map="+LZString.compressToEncodedURIComponent(this.data.map(i => i.join("")).join("-"));
+        case "url-old":
           let prevs,dups=0;
           for (let i=0;i<map.length;i++)
           {
@@ -205,7 +207,7 @@
           return clone.toDataURL();
       }
     },
-    import: function (type, data, init) {
+    import: function (type, data, init, exportData) {
       let map,fail = 0;
       switch (type)
       {
@@ -219,7 +221,10 @@
           catch(e){fail=1}
           break;
         case "url":
-          let smap=decodeURI(data).split('e');
+          map = LZString.decompressFromEncodedURIComponent(data).split("-").map(i => i.split("").map(j=> Number(j)||0));
+          break;
+        case "url-old":
+          let smap=data.split('e');
           map=[];
           for (let i of smap)
           {
@@ -228,7 +233,7 @@
               let qd="";
               for (let j=0;j<Number(v.replace(/\dt(\d+)d/g,"$1"));j++) qd+=v[0];
               return qd;
-            });
+            }).split("").map(i=>Number(i)||0);
             map.push(qstr);
             i.replace(/l.+n\d+/,function(v){repeat=true});
             if (repeat)
@@ -236,6 +241,7 @@
           }
           break;
       }
+      if (exportData) return map;
       if (fail) alert("Invalid Map!");
       else if (!this.load(map,init)) alert("Invalid Map!");
     },
@@ -749,7 +755,7 @@
     },
     permalink: function(newMap = "")
     {
-      return `${window.location.protocol}//${window.location.host}${window.location.pathname}${(newMap)?"?":""}${encodeURI(newMap)}`;
+      return `${window.location.protocol}//${window.location.host}${window.location.pathname}${(newMap)?"?":""}${newMap}`;
     },
     setURL: function (newMap = "")
     {
@@ -808,13 +814,21 @@
       return Number(min+this(max-min+1))||min;
     }
   });
-  let query=window.location.search.replace(/^\?/,"").toLowerCase().split("="),error;
+  let query=window.location.search.replace(/^\?/,"").split("="),error,initmap=[];
   if (error = query[0] === "", !error)
   {
-    switch (query[0])
+    switch (query[0].toLowerCase())
     {
       case "map":
-        (error = confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error) && StarblastMap.import("url",query[1],1);
+        let datamap;
+        try{datamap = LZString.decompressFromEncodedURIComponent(query[1]).split("-").map(i => i.length)}catch(e){error=1};
+        if (!error && (error = (datamap.length != Math.max(...datamap))), error) {
+          if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) {
+            window.open("?map="+LZString.compressToEncodedURIComponent(StarblastMap.import("url-old",query[1],0,1).map(i=>i.join("")).join("-")),"_self");
+            return;
+          }
+        }
+        else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error);
         break;
       case "feedback":
         $("title")[0].innerHTML = "Redirecting...";
@@ -830,7 +844,7 @@
   }
   Engine.setURL();
   if (!Engine.supportClipboardAPI) {
-    $("#menu").append("<p style='font-size:10pt'>Copy is disabled. Please switch to another browser to enable this feature or <a href='/starblast/mapeditor/old.html'>go back to the old version</a>. <a href='#' id='error'>Learn more why</a></p>");
+    $("#menu").append("<p style='font-size:10pt'>Copy Image is disabled. Please switch to another browser to enable this feature or <a href='/starblast/mapeditor/old.html'>go back to the old version</a>. <a href='#' id='error'>Learn more why</a></p>");
     $("#copyImage").remove();
     Engine.copyToClipboard = function(blob) {
       if (blob.type == "text/plain") {
@@ -851,6 +865,7 @@
       alert("Your browser doesn't support one of the Clipboard API features using in this tool. You can visit this page for more information:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API")
     });
   }
+  else StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
   StarblastMap.Asteroids.template.onload = function()
   {
     if (error)
@@ -865,6 +880,7 @@
       if (fail) StarblastMap.create(1);
       else StarblastMap.load(null,1,1);
     }
+    else StarblastMap.import("url",query[1],1);
     for (let i=0;i<10;i++)
     {
       (i) && StarblastMap.Asteroids.drawSelection(i);
@@ -933,7 +949,6 @@
   StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
   StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
-  StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
     if (file.type.match("plain") || file.type.match("javascript")) {

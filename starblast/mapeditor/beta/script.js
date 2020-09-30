@@ -844,7 +844,7 @@
   }
   Engine.setURL();
   if (!Engine.supportClipboardAPI) {
-    $("#menu").append("<p style='font-size:10pt'>Copy is disabled. Please switch to another browser to enable this feature or <a href='/starblast/mapeditor/old.html'>go back to the old version</a>. <a href='#' id='error'>Learn more why</a></p>");
+    $("#menu").append("<p style='font-size:10pt'>Copy Image is disabled. Please switch to another browser to enable this feature or <a href='/starblast/mapeditor/old.html'>go back to the old version</a>. <a href='#' id='error'>Learn more why</a></p>");
     $("#copyImage").remove();
     Engine.copyToClipboard = function(blob) {
       if (blob.type == "text/plain") {
@@ -865,6 +865,7 @@
       alert("Your browser doesn't support one of the Clipboard API features using in this tool. You can visit this page for more information:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API")
     });
   }
+  else StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
   StarblastMap.Asteroids.template.onload = function()
   {
     if (error)
@@ -948,7 +949,6 @@
   StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
   StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
-  StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
   StarblastMap.Buttons.import.on("change", function(e) {
     let file=e.target.files[0];
     if (file.type.match("plain") || file.type.match("javascript")) {

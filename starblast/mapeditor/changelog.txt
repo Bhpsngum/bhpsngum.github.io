@@ -1,3 +1,10 @@
+3.0.4/Sep 30, 2020
+IMPORTANT:
+* Once again, map permalink is compressed and shortened (thanks to 123 Notus with his awesome idea and suggesting the library)
+* We detected an issue that "Copy Image" will be unavailable in some browser/browser version.
+We placed the indicator text telling you when it is and the "Copy Image" feature will be disabled in those browsers.
+We will find optimal solutions for this problem soon. Sorry for that :(
+
 3.0.3/Sep 25, 2020
 * Added undo + redo buttons (these features actually have existed for a long time but seems that no-one knows its existence)
 also fixed bugs relating to undo + redo actions
