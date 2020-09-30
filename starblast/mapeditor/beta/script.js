@@ -221,7 +221,7 @@
           catch(e){fail=1}
           break;
         case "url":
-          map = LZString.decompressFromEncodedURIComponent(data).split("-").map(i => i.split(""));
+          map = LZString.decompressFromEncodedURIComponent(data).split("-").map(i => i.split("").map(j=> Number(j)||0));
           break;
         case "url-old":
           let smap=data.split('e');
