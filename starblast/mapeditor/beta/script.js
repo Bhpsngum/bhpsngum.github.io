@@ -236,11 +236,12 @@
             if (repeat)
               for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) map.push(qstr);
           }
+          fail = map.length != Math.max(map.map(i => i.length)) || map.length != Math.min(map.map(i => i.length));
           break;
       }
-      if (exportData) return map;
+      if (!fail) fail = !this.load(map,init);
+      if (exportData) return {map:map,fail:fail}
       if (fail) alert("Invalid Map!");
-      else if (!this.load(map,init)) alert("Invalid Map!");
     },
     checkActions: function()
     {
@@ -818,8 +819,8 @@
     {
       case "map":
         let datamap;
-        try{datamap = LZString.decompressFromEncodedURIComponent(query[1]).split("-").map(i => i.length)}catch(e){error=1};
-        if (!error && (error = (datamap.length != Math.max(...datamap))), error) {
+        try{error = StarblastMap.import("url",query[1],0,1).fail}catch(e){error=1};
+        if (error) {
           if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) {
             window.open("?map="+LZString.compressToEncodedURIComponent(StarblastMap.import("url-old",query[1],0,1).map(i=>i.join("")).join("-")),"_self");
             return;
