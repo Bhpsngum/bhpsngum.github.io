@@ -814,7 +814,7 @@
       return Number(min+this(max-min+1))||min;
     }
   });
-  let query=window.location.search.replace(/^\?/,"").split("="),error;
+  let query=window.location.search.replace(/^\?/,"").split("="),error,initmap=[];
   if (error = query[0] === "", !error)
   {
     switch (query[0].toLowerCase())
@@ -827,8 +827,7 @@
             return;
           }
         }
-        else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error) && StarblastMap.import("url",query[1],1);
-        console.log(StarblastMap.import("url",query[1],0,1));
+        else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error);
         break;
       case "feedback":
         $("title")[0].innerHTML = "Redirecting...";
@@ -879,6 +878,7 @@
       if (fail) StarblastMap.create(1);
       else StarblastMap.load(null,1,1);
     }
+    else StarblastMap.import("url",query[1],1);
     for (let i=0;i<10;i++)
     {
       (i) && StarblastMap.Asteroids.drawSelection(i);
