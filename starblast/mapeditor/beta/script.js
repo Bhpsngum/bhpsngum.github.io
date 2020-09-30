@@ -829,7 +829,7 @@
             return;
           }
         }
-        else (error = confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error) && StarblastMap.import("url",query[1],1);
+        else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error) && StarblastMap.import("url",query[1],1);
         break;
       case "feedback":
         $("title")[0].innerHTML = "Redirecting...";
