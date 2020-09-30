@@ -162,6 +162,8 @@
           }
           return '"'+str.join('\\n"+\n"')+'";';
         case "url":
+          return "map="+LZString.compressToEncodedURIComponent(this.data.map(i => i.join("")).join("-"));
+        case "url-old":
           let prevs,dups=0;
           for (let i=0;i<map.length;i++)
           {
@@ -205,7 +207,7 @@
           return clone.toDataURL();
       }
     },
-    import: function (type, data, init) {
+    import: function (type, data, init, exportData) {
       let map,fail = 0;
       switch (type)
       {
@@ -219,7 +221,10 @@
           catch(e){fail=1}
           break;
         case "url":
-          let smap=decodeURI(data).split('e');
+          map = LZString.decompressFromEncodedURIComponent(data).split("-").map(i => i.split(""));
+          break;
+        case "url-old":
+          let smap=data.split('e');
           map=[];
           for (let i of smap)
           {
@@ -236,6 +241,7 @@
           }
           break;
       }
+      if (epxortData) return map;
       if (fail) alert("Invalid Map!");
       else if (!this.load(map,init)) alert("Invalid Map!");
     },
@@ -749,7 +755,7 @@
     },
     permalink: function(newMap = "")
     {
-      return `${window.location.protocol}//${window.location.host}${window.location.pathname}${(newMap)?"?":""}${encodeURI(newMap)}`;
+      return `${window.location.protocol}//${window.location.host}${window.location.pathname}${(newMap)?"?":""}${newMap}`;
     },
     setURL: function (newMap = "")
     {
@@ -814,7 +820,16 @@
     switch (query[0])
     {
       case "map":
-        (error = confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error) && StarblastMap.import("url",query[1],1);
+        if (error = confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error) {
+          let datamap = LZString.decompressFromEncodedURIComponent(query[1]).split("-").map(i => i.length);
+          if (error = !(datamap.length == Math.max(...datamap)), !error) {
+            if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) {
+              window.open("?map="+StarblastMap.export("url",StarblastMap.import("url-old",query[1],0,1)));
+              return;
+            }
+            else StarblastMap.import("url",query[1],1);
+          }
+        }
         break;
       case "feedback":
         $("title")[0].innerHTML = "Redirecting...";
