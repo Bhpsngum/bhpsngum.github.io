@@ -236,7 +236,7 @@
             if (repeat)
               for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) map.push(qstr);
           }
-          fail = map.length != Math.max(map.map(i => i.length)) || map.length != Math.min(map.map(i => i.length));
+          fail = map.length != Math.max(...map.map(i => i.length)) || map.length != Math.min(...map.map(i => i.length));
           break;
       }
       if (!fail) fail = !this.load(map,init);
