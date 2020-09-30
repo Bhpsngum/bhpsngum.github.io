@@ -814,15 +814,15 @@
       return Number(min+this(max-min+1))||min;
     }
   });
-  let query=window.location.search.replace(/^\?/,"").toLowerCase().split("="),error;
+  let query=window.location.search.replace(/^\?/,"").split("="),error;
   if (error = query[0] === "", !error)
   {
-    switch (query[0])
+    switch (query[0].toLowerCase())
     {
       case "map":
         if (error = confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error) {
           let datamap = LZString.decompressFromEncodedURIComponent(query[1]).split("-").map(i => i.length);
-          if (error = !(datamap.length == Math.max(...datamap)), !error) {
+          if (error = !(datamap.length != Math.max(...datamap)), !error) {
             if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) {
               window.open("?map="+StarblastMap.export("url",StarblastMap.import("url-old",query[1],0,1)));
               return;
