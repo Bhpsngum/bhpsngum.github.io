@@ -23,5 +23,4 @@
       }
     });
   }).fail(e => {});
-  if (navigator.userAgent.includes("Firefox")) alert("An issue has been reported!\nCopying in Firefox is currently unavailable due to lack of support.\nPlease try to use another browser to copy things from this tool.\nThanks!");
 })();
