@@ -241,7 +241,7 @@
           }
           break;
       }
-      if (epxortData) return map;
+      if (exportData) return map;
       if (fail) alert("Invalid Map!");
       else if (!this.load(map,init)) alert("Invalid Map!");
     },
