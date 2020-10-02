@@ -191,9 +191,9 @@
                 prevs=d;
                 dups=1;
             }
-            str = LZString.compressToEncodedURIComponent(str.join("e"));
-            let str1 = LZString.compressToEncodedURIComponent(map.map(i=>i.join("")).join("e"));
           }
+          str = LZString.compressToEncodedURIComponent(str.join("e"));
+          let str1 = LZString.compressToEncodedURIComponent(map.map(i=>i.join("")).join("e"));
           return `map=${(str.length<=str1.length)?str:str1}`;
         case "image":
           let clone = document.createElement('canvas');
