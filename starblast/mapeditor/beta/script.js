@@ -191,8 +191,10 @@
                 prevs=d;
                 dups=1;
             }
+            str = LZString.compressToEncodedURIComponent(str.join("e"));
+            let str1 = LZString.compressToEncodedURIComponent(map.map(i=>i.join("")).join("e"));
           }
-          return "map=" + LZString.compressToEncodedURIComponent(str.join("e"));
+          return `map=${(str.length<=str1.length)?str:str1}`;
         case "image":
           let clone = document.createElement('canvas');
           let c2d = clone.getContext('2d');
