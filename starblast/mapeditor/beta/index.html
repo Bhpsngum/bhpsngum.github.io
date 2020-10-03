@@ -23,7 +23,7 @@
         <b style="float:left;margin-left:5px">Randomizer Options:</b>
         <input id="minASSize" class="SmallInput" type="number" placeholder="Minimum Asteroid Size" value="0" min="0" max="9"></input>
         <input id="maxASSize" class="SmallInput" type="number" placeholder="Maximum Asteroid Size" value="0" min="0" max="9"></input>
-        <input type="checkbox" id="randomCheck" style="display:none">
+        <input type="checkbox" id="randomCheck">
         <label for="randomCheck">
           <table>
             <tr>
@@ -36,7 +36,7 @@
         </label>
       </div>
       <div id="MirrorOptions"></div>
-      <input id="as-color" placeholder="Asteroid color"></input>
+      <input id="as-color" type="text" placeholder="Asteroid color"></input>
       <input id="background-color" type="text" placeholder="Background color"></input>
       <input id="border-color" type="text" placeholder="Line color"></input>
       <button id="undo"><i class="fas fa-fw fa-undo"></i></button>
@@ -59,8 +59,10 @@
       <button id="changelog"><i class="fas fa-fw fa-list-ul"></i></button>
       <p style="font-size:10pt;">Tool doesn't work? <a href="?feedback" target="_blank">Give us a feedback</a> and <a href="/starblast/mapeditor/old.html">use the old version instead.</a></p>
     </div>
-    <p id="XY"></p>
-    <p id="info"></p>
+    <div id="footer">
+      <p id="XY"></p>
+      <p id="info"></p>
+    </div>
     <script type="text/javascript" src="presets.js"></script>
     <script type="text/javascript" src="script.js"></script>
   </body>

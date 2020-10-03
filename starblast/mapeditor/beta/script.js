@@ -674,7 +674,6 @@
         case "background-color":
           let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
           $('body').css("color",color);
-          $('td').css("color",color)
           break;
         case "border-color":
           let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size;
