@@ -52,6 +52,45 @@
       this.data = [];
       for (let i=0;i<this.size;i++) this.data.push(new Array(this.size).fill(0));
     },
+    background: {
+      options: $("#bgI-menu"),
+      clear: $("#bgI-clear"),
+      urlImport: $("#bgI-url"),
+      upload: $("#bgI-input"),
+      globalIndicator: $("#bgI-global"),
+      apply: function(...con,url) {
+        let elems = ['body','#map'];
+        con.map((c,i) => $(elems[i]).css("background-image",c?(url||""):""));
+      },
+      checkGlobal: function() {
+        let sign=["times","check"], u = this.globalIndicator.is("checked");
+        this.global = u;
+        $("#bgI-global-ind").prop("class","fas fa-fw fa-"+sign[Number(u)]);
+        localStorage.setItem("global-background-image",u);
+      },
+      check: function(url, forced, init) {
+        url = (forced||init)?(url||""):(url || localStorage.getItem("background-image") || "");
+        if (url) {
+          let img = new Image();
+          img.onload = function() {
+            StarblastMap.background.options.css("display","block");
+            StarblastMap.background.image = url;
+            localStorage.set("background-image",url);
+            StarblastMap.background.apply(this.global,!this.global,url);
+          }
+          img.onerror = function() {
+            alert("An error occured!\nPlease try again later!");
+          }
+        }
+        else {
+          this.options.css("display","none");
+          if (forced || init) {
+            localStorage.setItem("background-image","");
+            this.image = "";
+          }
+        }
+      }
+    },
     copy: async function(type) {
       let map;
       switch (type)
@@ -128,6 +167,7 @@
           (!dismiss_history) && this.pushSession("history",["m",session]);
         }
         this.sync();
+        Engine.Brush.applySize();
       }
       else check=false;
       return check;
@@ -334,6 +374,7 @@
       this.checkActions();
     },
     Asteroids: {
+      RandomOptions: $("#RandomOptions"),
       template: new Image(),
       modify: function(x,y,num,init) {
         let prev=(StarblastMap.data[x]||[])[y]||-1;
@@ -378,7 +419,7 @@
         for (let i in this.input) this.input[i].val(u);
         this.applyKey("min",u);
         this.applyKey("max",u);
-        $("#RandomOptions").css("display","none");
+        this.RandomOptions.css("display","none");
         Engine.applyColor("border-color");
       },
       input: {
@@ -393,7 +434,7 @@
       },
       randomSize: function(self_trigger,local)
       {
-        $("#RandomOptions").css("display","block");
+        RandomOptions.css("display","block");
         for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $("#randomSize").css({"border":"3px solid"});
         let min = this.changeSize.applySize("min"), max = this.changeSize.applySize("max");
@@ -674,6 +715,7 @@
         case "background-color":
           let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
           $('body').css("color",color);
+          StarblastMap.background.color = color;
           break;
         case "border-color":
           let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size;
@@ -885,11 +927,15 @@
       (i) && StarblastMap.Asteroids.drawSelection(i);
       $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
     }
+    StarblastMap.background.check(null,0,1);
   }
   Engine.applyColor("as-color");
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
   Engine.Brush.applyRandom();
+  let see2 = localStorage["global-background-image"] == "true";
+  StarblastMap.background.globalIndicator.prop("checked",see2);
+  StarblastMap.background.checkGlobal();
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
   $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
@@ -916,6 +962,24 @@
   });
   new ResizeSensor(Engine.menu[0], function(){
       $("#mapBox").css("padding-top",Engine.menu.height()+"px")
+  });
+  StarblastMap.background.upload.on("change", function(e){
+    if (e.target.files && e.target.files[0]) {
+      if (file.type.match("image/")) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          StarblastMap.background.check(e.target.result);
+        }
+        reader.readAsDataURL(this.files[0]);
+      }
+      else alert("Invalid file format!");
+      StarblastMap.background.upload.val("");
+  });
+  StarblastMap.background.urlImport.on("click",function(){
+    StarblastMap.background.check(prompt("Paste your image link here"));
+  });
+  StarblastMap.background.clear.on("click",function(){
+    StarblastMap.background.check(null,1);
   });
   StarblastMap.sizeInput.on("change",function(){
     StarblastMap.applySize(StarblastMap.sizeInput.val());

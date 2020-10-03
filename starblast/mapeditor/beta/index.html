@@ -38,6 +38,23 @@
       <div id="MirrorOptions"></div>
       <input id="as-color" type="text" placeholder="Asteroid color"></input>
       <input id="background-color" type="text" placeholder="Background color"></input>
+      <input id="bgI-input" type="file" accept="image/*">
+      <button><label id="bgI-input1" for="bgI-input" style="cursor:pointer"><i class="fas fa-fw fa-upload"></i></label></button>
+      <button id="bgI-url"><i class="fas fa-fw fa-link"></i></button>
+      <div id="bgI-menu">
+        <input type="checkbox" id="bgI-global">
+        <label for="bgI-global">
+          <table>
+            <tr>
+              <td id="bgI-global1">
+                <i class="fas fa-fw fa-expand"></i>
+                <i class="fas fa-fw fa-times" id="bgI-global-ind"></i>
+              </td>
+            </tr>
+          </table>
+        </label>
+        <button id="bgI-clear"><i class="fas fa-fw fa-times"></i></button>
+      </div>
       <input id="border-color" type="text" placeholder="Line color"></input>
       <button id="undo"><i class="fas fa-fw fa-undo"></i></button>
       <button id="redo"><i class="fas fa-fw fa-redo"></i></button>

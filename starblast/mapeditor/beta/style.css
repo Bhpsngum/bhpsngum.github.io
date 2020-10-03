@@ -3,6 +3,7 @@
 }
 body {
   user-select:none;
+  background-size: 100% 100%;
 }
 #menu {
   width:100%;
@@ -44,7 +45,7 @@ input {
   padding: 2px;
   margin: 0px;
 }
-input[type=file] {
+input[type=file], input[type=checkbox] {
   display: none;
 }
 #mapBox {
@@ -53,6 +54,7 @@ input[type=file] {
 }
 #map {
   overflow:hidden;
+  background-size: 100% 100%;
 }
 input[type=number] {
   width: 40px;
