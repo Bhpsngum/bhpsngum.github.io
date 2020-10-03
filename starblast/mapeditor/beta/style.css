@@ -6,7 +6,9 @@ body {
   background-color:inherit;
   position: fixed;
   top:0px;
-  left:5px;
+  padding-top:5px;
+  left:0px;
+  padding-left: 0px;
 }
 button,input {
   color: inherit;
@@ -26,6 +28,7 @@ input {
 #footer {
   color: inherit;
   position: fixed;
+  margin: 0px;
   bottom: 0px;
   left: 1px;
   right: 1px;
