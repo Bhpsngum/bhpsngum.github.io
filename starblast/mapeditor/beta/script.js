@@ -71,13 +71,13 @@
         StarblastMap.background.apply(null,this.global,!this.global);
       },
       check: function(url, forced, init) {
-        url = (forced||init)?(url||""):(url || localStorage.getItem("background-image") || "");
+        url = (init)?(url||""):(url || localStorage.getItem("background-image") || "");
         if (url) {
           let img = new Image();
           img.onload = function() {
             StarblastMap.background.options.css("display","block");
             StarblastMap.background.image = url;
-            localStorage.set("background-image",url);
+            localStorage.setItem("background-image",url);
             StarblastMap.background.apply(url,this.global,!this.global);
           }
           img.onerror = function() {
