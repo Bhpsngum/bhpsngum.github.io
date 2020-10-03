@@ -968,7 +968,6 @@
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];
-      console.log(file);
       if (file.type.match("image/")) {
         var reader = new FileReader();
         reader.onload = function (e) {
