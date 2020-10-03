@@ -974,7 +974,7 @@
         reader.onload = function (e) {
           StarblastMap.background.check(e.target.result);
         }
-        reader.readAsDataURL(this.files[0]);
+        reader.readAsDataURL(file);
       }
       else alert("Invalid file format!");
       StarblastMap.background.upload.val("");
