@@ -1,3 +1,6 @@
+* {
+  font-family: Verdana;
+}
 body {
   user-select:none;
 }
@@ -38,7 +41,8 @@ input {
   float: right;
 }
 #footer, #footer>* {
-  margin: 0.5px;
+  padding: 2px;
+  margin: 0px;
 }
 input[type=file] {
   display: none;
@@ -50,7 +54,7 @@ input[type=file] {
 #map {
   overflow:hidden;
 }
-.SmallInput {
+input[type=number] {
   width: 40px;
 }
 td {
