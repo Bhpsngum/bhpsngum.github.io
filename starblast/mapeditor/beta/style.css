@@ -6,9 +6,8 @@ body {
   background-color:inherit;
   position: fixed;
   top:0px;
-  padding-top:5px;
   left:0px;
-  padding-left: 0px;
+  padding:5px;
 }
 button,input {
   color: inherit;
@@ -26,18 +25,20 @@ input {
   width:65px;
 }
 #footer {
-  color: inherit;
+  background-color: inherit;
   position: fixed;
-  margin: 0px;
   bottom: 0px;
-  left: 1px;
-  right: 1px;
+  left: 0px;
+  right: 0px;
 }
 #XY {
   float: left;
 }
 #info {
   float: right;
+}
+#footer, #footer>* {
+  margin: 0.5px;
 }
 input[type=file] {
   display: none;
