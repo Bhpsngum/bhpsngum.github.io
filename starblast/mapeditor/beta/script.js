@@ -58,8 +58,9 @@
       urlImport: $("#bgI-url"),
       upload: $("#bgI-input"),
       globalIndicator: $("#bgI-global"),
-      apply: function(...con,url) {
+      apply: function(url,...con) {
         let elems = ['body','#map'];
+        url = url || this.image;
         con.map((c,i) => $(elems[i]).css("background-image",c?(url||""):""));
       },
       checkGlobal: function() {
@@ -67,6 +68,7 @@
         this.global = u;
         $("#bgI-global-ind").prop("class","fas fa-fw fa-"+sign[Number(u)]);
         localStorage.setItem("global-background-image",u);
+        StarblastMap.background.apply(null,this.global,!this.global);
       },
       check: function(url, forced, init) {
         url = (forced||init)?(url||""):(url || localStorage.getItem("background-image") || "");
@@ -76,7 +78,7 @@
             StarblastMap.background.options.css("display","block");
             StarblastMap.background.image = url;
             localStorage.set("background-image",url);
-            StarblastMap.background.apply(this.global,!this.global,url);
+            StarblastMap.background.apply(url,this.global,!this.global);
           }
           img.onerror = function() {
             alert("An error occured!\nPlease try again later!");
@@ -981,6 +983,7 @@
   StarblastMap.background.clear.on("click",function(){
     StarblastMap.background.check(null,1);
   });
+  StarblastMap.background.globalIndicator.on("change",StarblastMap.background.checkGlobal.bind(StarblastMap.background));
   StarblastMap.sizeInput.on("change",function(){
     StarblastMap.applySize(StarblastMap.sizeInput.val());
     StarblastMap.create();
