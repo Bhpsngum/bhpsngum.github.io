@@ -61,7 +61,7 @@
       apply: function(url,...con) {
         let elems = ['body','#map'];
         url = url || this.image;
-        con.map((c,i) => $(elems[i]).css("background-image",`url(${c?(url||""):""})`));
+        con.map((c,i) => $(elems[i]).css("background-image",(c&&url)?`url(${url})`:""));
       },
       checkGlobal: function() {
         let sign=["times","check"], u = this.globalIndicator.is("checked");
