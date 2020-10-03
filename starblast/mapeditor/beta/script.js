@@ -83,6 +83,7 @@
           img.onerror = function() {
             alert("An error occured!\nPlease try again later!");
           }
+          img.src = url;
         }
         else {
           this.options.css("display","none");
