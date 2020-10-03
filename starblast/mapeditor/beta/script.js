@@ -967,6 +967,7 @@
   });
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {
+      let file=e.target.files[0];
       if (file.type.match("image/")) {
         var reader = new FileReader();
         reader.onload = function (e) {
@@ -1017,20 +1018,22 @@
   StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
-    let file=e.target.files[0];
-    if (file.type.match("plain") || file.type.match("javascript")) {
-      let fr = new FileReader();
-      fr.onload = (function(reader)
-      {
-          return function()
-          {
-              StarblastMap.import("plain",reader.result);
-          }
-      })(fr);
-      fr.readAsText(file);
+    if (e.target.files && e.target.files[0]) {
+      let file=e.target.files[0];
+      if (file.type.match("plain") || file.type.match("javascript")) {
+        let fr = new FileReader();
+        fr.onload = (function(reader)
+        {
+            return function()
+            {
+                StarblastMap.import("plain",reader.result);
+            }
+        })(fr);
+        fr.readAsText(file);
+      }
+      else alert("Unsupported file format!");
+      StarblastMap.Buttons.import.val("");
     }
-    else alert("Unsupported file format!");
-    StarblastMap.Buttons.import.val("");
   });
   document.onkeydown = function(e)
   {
