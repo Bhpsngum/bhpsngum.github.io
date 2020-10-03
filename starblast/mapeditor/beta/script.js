@@ -976,6 +976,7 @@
       }
       else alert("Invalid file format!");
       StarblastMap.background.upload.val("");
+    }
   });
   StarblastMap.background.urlImport.on("click",function(){
     StarblastMap.background.check(prompt("Paste your image link here"));
