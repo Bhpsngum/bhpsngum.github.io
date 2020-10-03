@@ -64,10 +64,11 @@
         con.map((c,i) => $(elems[i]).css("background-image",(c&&url)?`url(${url})`:""));
       },
       checkGlobal: function() {
-        let sign=["times","check"], u = this.globalIndicator.is("checked");
+        let sign=["times","check"], u = this.globalIndicator.is(":checked");
         this.global = u;
         $("#bgI-global-ind").prop("class","fas fa-fw fa-"+sign[Number(u)]);
         localStorage.setItem("global-background-image",u);
+        $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,"Background image for "+(u?"map only":"the whole tool"))}
         StarblastMap.background.apply(null,this.global,!this.global);
       },
       check: function(url, forced, init) {
