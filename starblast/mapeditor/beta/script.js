@@ -71,7 +71,7 @@
         StarblastMap.background.apply(null,this.global,!this.global);
       },
       check: function(url, forced, init) {
-        url = (init)?(url||""):(url || localStorage.getItem("background-image") || "");
+        url = (forced)?(url||""):(url || localStorage.getItem("background-image") || "");
         if (url) {
           let img = new Image();
           img.onload = function() {
@@ -85,12 +85,10 @@
           }
           img.src = url;
         }
-        else {
+        else if (forced || init) {
           this.options.css("display","none");
-          if (forced || init) {
-            localStorage.setItem("background-image","");
-            this.image = "";
-          }
+          localStorage.setItem("background-image","");
+          this.image = "";
         }
       }
     },
@@ -987,6 +985,7 @@
     StarblastMap.background.check(null,1);
   });
   StarblastMap.background.globalIndicator.on("change",StarblastMap.background.checkGlobal.bind(StarblastMap.background));
+  $("#bgI-global1").on("click", function(){StarblastMap.background.globalIndicator.click()});
   StarblastMap.sizeInput.on("change",function(){
     StarblastMap.applySize(StarblastMap.sizeInput.val());
     StarblastMap.create();
