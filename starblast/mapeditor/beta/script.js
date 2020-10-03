@@ -79,7 +79,7 @@
             StarblastMap.background.options.css("display","block");
             StarblastMap.background.image = url;
             localStorage.setItem("background-image",url);
-            StarblastMap.background.apply(url,this.global,!this.global);
+            StarblastMap.background.apply(url,StarblastMap.background.global,!StarblastMap.background.global);
           }
           img.onerror = function() {
             alert("An error occured!\nPlease try again later!");
