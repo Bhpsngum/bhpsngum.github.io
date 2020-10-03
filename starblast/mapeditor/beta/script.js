@@ -436,7 +436,7 @@
       },
       randomSize: function(self_trigger,local)
       {
-        RandomOptions.css("display","block");
+        this.RandomOptions.css("display","block");
         for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $("#randomSize").css({"border":"3px solid"});
         let min = this.changeSize.applySize("min"), max = this.changeSize.applySize("max");
