@@ -69,7 +69,7 @@
         $("#bgI-global-ind").prop("class","fas fa-fw fa-"+sign[Number(u)]);
         localStorage.setItem("global-background-image",u);
         $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,"Adjust background image for "+(u?"map only":"the whole tool"))}
-        StarblastMap.background.apply(null,this.global,!this.global);
+        this.apply(null,this.global,!this.global);
       },
       check: function(url, forced, init) {
         url = (forced)?(url||""):(url || localStorage.getItem("background-image") || "");
@@ -90,7 +90,7 @@
           this.options.css("display","none");
           localStorage.setItem("background-image","");
           this.image = "";
-          StarblastMap.background.apply(null,this.global,!this.global);
+          StarblastMap.background.apply(null,false,false);
         }
       }
     },
@@ -891,7 +891,7 @@
   }
   Engine.setURL();
   if (!Engine.supportClipboardAPI) {
-    $("#menu").append("<p style='font-size:10pt'>Copy Image is disabled. Please switch to another browser to enable this feature or <a href='/starblast/mapeditor/old.html'>go back to the old version</a>. <a href='#' id='error'>Learn more why</a></p>");
+    $("#menu").append("<p style='font-size:10pt'>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
     $("#copyImage").remove();
     Engine.copyToClipboard = function(blob) {
       if (blob.type == "text/plain") {
@@ -909,7 +909,7 @@
       }
     }
     $("#error").on("click",function(){
-      alert("Your browser doesn't support one of the Clipboard API features using in this tool. You can visit this page for more information:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API")
+      alert("Your browser doesn't support one of the Clipboard API features using in this tool. Please switch to other browser or use the old version instead.\nYou can visit this page for more information:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API")
     });
   }
   else StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});

@@ -68,5 +68,5 @@ td {
   cursor: pointer;
 }
 button:disabled {
-  cursor: not-allowed
+  cursor: not-allowed;
 }
