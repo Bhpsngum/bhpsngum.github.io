@@ -89,6 +89,7 @@
           this.options.css("display","none");
           localStorage.setItem("background-image","");
           this.image = "";
+          StarblastMap.background.apply(null,this.global,!this.global);
         }
       }
     },
@@ -823,6 +824,9 @@
         ["rCheckIcon",'Random Asteroid Size in Brush','Random Asteroids Size in a single Brush'],
         ["as-color",null,'Toggle asteroid color'],
         ["background-color",null,'Toggle background color'],
+        ["bgI-input1",null,"Upload your own background image from file (accept all image formats)"],
+        ["bgI-url",null,"Upload your own background image from url"],
+        ["bgI-clear",null,"Clear current custom background image"],
         ["border-color",null,'Toggle line color'],
         ["undo","Undo","Undo previous actions in the map"],
         ["redo","Redo","Redo undid actions in the map"],
@@ -985,7 +989,6 @@
     StarblastMap.background.check(null,1);
   });
   StarblastMap.background.globalIndicator.on("change",StarblastMap.background.checkGlobal.bind(StarblastMap.background));
-  $("#bgI-global1").on("click", function(){StarblastMap.background.globalIndicator.click()});
   StarblastMap.sizeInput.on("change",function(){
     StarblastMap.applySize(StarblastMap.sizeInput.val());
     StarblastMap.create();
