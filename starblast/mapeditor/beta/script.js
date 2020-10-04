@@ -76,11 +76,11 @@
         if (url) {
           let img = new Image();
           img.onload = function() {
-            StarblastMap.background.options.css("display","block");
-            StarblastMap.background.image = url;
+            this.options.css("display","block");
+            this.image = url;
             localStorage.setItem("background-image",url);
-            StarblastMap.background.apply(url,StarblastMap.background.global,!StarblastMap.background.global);
-          }
+            this.apply(url,this.global,!this.global);
+          }.bind(this);
           img.onerror = function() {
             alert("An error occured!\nPlease try again later!");
           }
@@ -90,7 +90,7 @@
           this.options.css("display","none");
           localStorage.setItem("background-image","");
           this.image = "";
-          StarblastMap.background.apply(null,false,false);
+          this.apply(null,false,false);
         }
       }
     },
