@@ -20,7 +20,8 @@ textarea {
 button {
   background: linear-gradient(135deg,#09161c 0,#0B3649 100%);
   position: fixed;
-  height: 5%
+  height: 5%;
+  cursor: pointer;
 }
 
 #convert {
