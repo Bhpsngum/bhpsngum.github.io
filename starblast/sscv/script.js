@@ -5,8 +5,9 @@
   function convert(forced) {
     let json = $("#jsonInput").val() || localStorage.getItem("json-input"), results;
     try {
-      eval("results=function(){return "+json.replace(/^(\s|\n|\r)+/,"").replace(/^(var|let|const)/,"").replace(/^\n+/,"")+"}();");
-      results = "return "+js2coffee.build("var model="+results).code.replace(/\n(\s+)'([^']+)':/g,"\n$1$2:").replace(/\[[^\]]+\]/g,function(v) {
+      eval("results=JSON.parse(function(){return "+json.replace(/^(\s|\n|\r)+/,"").replace(/^(var|let|const)/,"").replace(/^\n+/,"")+"}());");
+      delete results.typespec;
+      results = "return "+js2coffee.build("var model="+JSON.stringify(results)).code.replace(/\n(\s+)'([^']+)':/g,"\n$1$2:").replace(/\[[^\]]+\]/g,function(v) {
         return v.replace(/\n/g,"").replace(/\s+/g,",").replace(/,\]/g,"]").replace(/\[,/g,"[");
       });
     }
