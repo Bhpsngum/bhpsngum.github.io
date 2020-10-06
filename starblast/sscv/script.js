@@ -7,7 +7,7 @@
     try {
       eval("results=JSON.parse(function(){return "+json.replace(/^(\s|\n|\r)+/,"").replace(/^(var|let|const)/,"").replace(/^\n+/,"")+"}());");
       delete results.typespec;
-      results = "return "+js2coffee.build("var model="+JSON.stringify(results)).code.replace(/\s+(?=[^[\]]*\])/g, ",").replace(/\[,/g, "[").replace(/,\]/g, "]").replace(/'(\w+)':/g, "$1:");
+      results = "return "+js2coffee.build("model="+JSON.stringify(results)).code.replace(/\s+(?=[^[\]]*\])/g, ",").replace(/\[,/g, "[").replace(/,\]/g, "]").replace(/'(\w+)':/g, "$1:");
     }
     catch(e){
       if (forced) {
