@@ -1,0 +1,22 @@
+body {
+  background-color: #0b1b22;
+}
+
+#jsonInput {
+  background-color: #09161c;
+  color: #d1d3cf;
+}
+
+#indentationInput {
+  background-color: #09161c;
+  color: #d1d3cf;
+}
+
+#convert {
+  background: linear-gradient(135deg,#09161c 0,#0B3649 100%);
+}
+
+#coffeescriptOutput {
+  background-color: #09161c;
+  color: #d1d3cf;
+}
