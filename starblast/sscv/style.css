@@ -1,3 +1,8 @@
+* {
+  color: #d1d3cf;
+  font-family: Verdana;
+}
+
 body {
   background-color: #0b1b22;
 }
@@ -14,7 +19,6 @@ textarea {
 }
 button {
   background: linear-gradient(135deg,#09161c 0,#0B3649 100%);
-  color: #d1d3cf;
   position: fixed;
   height: 5%
 }
@@ -32,7 +36,15 @@ button {
 #coffeescriptOutput {
  left: 51%
 }
- #source {
-   font-family: Verdana;
-   height: 4%;
- }
+
+#source {
+ height: 4%;
+ position: fixed;
+ bottom: -3%;
+ right: 1%;
+}
+
+#title {
+  position: fixed;
+  top: 0;
+}

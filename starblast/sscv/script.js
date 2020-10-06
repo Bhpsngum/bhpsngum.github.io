@@ -12,7 +12,7 @@
     }
     catch(e){
       if (forced) {
-        json = "(JSON) Modexport code"
+        json = "(JSON) Ship Mod Export code"
         results = "(CoffeeScript) Ship Editor code";
       }
       else {
