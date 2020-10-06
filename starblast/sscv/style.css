@@ -8,9 +8,20 @@ input[type=text] {
   position:fixed;
   bottom: 1%;
   top: 7%;
+  height: 92%;
+  width: 48%;
 }
 #convert {
   background: linear-gradient(135deg,#09161c 0,#0B3649 100%);
   color: #d1d3cf;
+  position: fixed;
+  right: 50%;
   height: 5%
 }
+ #jsonInput {
+   left: 1%;
+ }
+
+ #coffeescriptOutput {
+   left: 51%
+ }
