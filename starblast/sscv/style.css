@@ -3,6 +3,7 @@ body {
 }
 
 textarea {
+  font-family: Consolas;
   background-color: #09161c;
   color: #d1d3cf;
   position:fixed;
