@@ -24,5 +24,15 @@
     $("#coffeescriptOutput").val(results);
     $("#jsonInput").val(json);
   }
+  function copy(text) {
+    var dummy = document.createElement("textarea");
+    document.body.appendChild(dummy);
+    dummy.value = text;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+  }
+  convert(!0);
   $("#convert").on("click",function(){convert()});
+  $("#copy").on("click",function(){copy($("#coffeescriptOutput").val())});
 })();

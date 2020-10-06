@@ -9,20 +9,30 @@ textarea {
   position:fixed;
   bottom: 1%;
   top: 7%;
-  height: 92%;
+  height: 88%;
   width: 48%;
 }
-#convert {
+button {
   background: linear-gradient(135deg,#09161c 0,#0B3649 100%);
   color: #d1d3cf;
   position: fixed;
-  right: 50%;
   height: 5%
 }
- #jsonInput {
-   left: 1%;
- }
 
- #coffeescriptOutput {
-   left: 51%
+#convert {
+  right: 50%;
+}
+#copy {
+  right: 1%;
+}
+#jsonInput {
+ left: 1%;
+}
+
+#coffeescriptOutput {
+ left: 51%
+}
+ #source {
+   font-family: Verdana;
+   height: 4%;
  }
