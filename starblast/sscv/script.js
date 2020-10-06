@@ -3,7 +3,7 @@
     alert("Cannot convert the requested code!");
   }
   function convert(forced) {
-    let json = $("#jsonInput").val() || localStorage.getItem("coffee-input"), results;
+    let json = $("#jsonInput").val() || localStorage.getItem("json-input"), results;
     try {
       eval("results=function(){return "+json.replace(/^(\s|\n|\r)+/,"").replace(/^(var|let|const)/,"").replace(/^\n+/,"")+"}();");
       results = "return "+js2coffee.build("var model="+results).code.replace(/\n(\s+)'([^']+)':/g,"\n$1$2:").replace(/\[[^\]]+\]/g,function(v) {
@@ -20,7 +20,7 @@
         return;
       }
     };
-    localStorage.setItem("coffee-input",json);
+    localStorage.setItem("json-input",json);
     $("#coffeescriptOutput").val(results);
     $("#jsonInput").val(json);
   }
