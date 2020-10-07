@@ -953,7 +953,6 @@
     }
     StarblastMap.background.check(null,0,1);
   }
-  Engine.applyColor("as-color");
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
   Engine.Brush.applyRandom();
@@ -987,8 +986,6 @@
   new ResizeSensor(Engine.menu.main[0], function(){
       $("#mapBox").css("padding-top",(Engine.menu.main.height()+10)+"px")
   });
-  Engine.menu.set(1);
-  for (let i=0;i<Engine.menu.modules.length;i++) $("#menu"+i).on("click",function(){Engine.menu.set(i)});
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];
@@ -1029,6 +1026,8 @@
       Engine.applyColor(i+"-color",$("#"+i+"-color").val());
     });
   }
+  Engine.menu.set(1);
+  for (let i=0;i<Engine.menu.modules.length;i++) $("#menu"+i).on("click",function(){Engine.menu.set(i)});
   StarblastMap.Buttons.export.text.on("click",function() {
     StarblastMap.download("plain");
   });
