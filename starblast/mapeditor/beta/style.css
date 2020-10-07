@@ -72,11 +72,11 @@ button:disabled {
   cursor: not-allowed;
 }
 #modules>tbody>tr>td {
-    padding: 2pt;
-    height: 15pt;
-    font-size: 9pt;
+  padding: 2pt;
+  height: 15pt;
+  font-size: 9pt;
 }
 
-table:not(#modules,#mirrorChoose) {
+table:not(#mirrorChoose):not(#modules) {
   float: left;
 }
