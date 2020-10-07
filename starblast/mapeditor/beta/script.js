@@ -2,6 +2,7 @@
   var StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
+    gridIndex: 3.5,
     Buttons: {
       export:
       {
@@ -38,7 +39,7 @@
         }
       },
       get: function (pos) {
-        return Math.max(Math.min(~~((pos-4)/40),StarblastMap.size-1),0);
+        return Math.max(Math.min(~~((pos-this.gridIndex)/this.gridIndex/10),StarblastMap.size-1),0);
       }
     },
     session: new Map(),
@@ -136,8 +137,8 @@
           this.buildData(dismiss_history);
           let c2d = this.map.getContext('2d');
           c2d.clearRect(0,0,this.map.width, this.map.height);
-          this.map.width = this.size*40+8;
-          this.map.height = this.size*40+8;
+          this.map.width = (this.size*5+1)*2*this.gridIndex;
+          this.map.height = (this.size*5+1)*2*this.gridIndex;
           c2d.beginPath();
           for (let i=0;i<this.size;i++)
           {
@@ -154,7 +155,7 @@
           c2d.stroke();
           Engine.applyColor("border-color");
           Engine.applyColor("as-color");
-          $("#mapBox").css("width",(this.size*40+8).toString()+"px");
+          $("#mapBox").css("width",this.map.width.toString()+"px");
           (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
         else
@@ -384,12 +385,12 @@
         if (prev != num || init)
         {
           let c2d = StarblastMap.map.getContext('2d');
-          c2d.clearRect(y*40+6,x*40+6,36,36);
+          c2d.clearRect((y*10+3/2)*this.gridIndex,(x*10+3/2)*this.gridIndex,this.gridIndex*9,this.gridIndex*9);
           c2d.beginPath();
-          c2d.drawImage(this.template,y*40+4+(40-num*3)/2,x*40+4+(40-num*3)/2,num*3,num*3);
+          c2d.drawImage(this.template,(y*10+6-num/2)*this.gridIndex+num/2,(x*10+6-num/2)*this.gridIndex+num/2,num*(this.gridIndex-1),num*(this.gridIndex-1));
           c2d.fillStyle = this.color;
           c2d.globalCompositeOperation = "source-atop";
-          c2d.fillRect(y*40+6,x*40+6,36,36);
+          c2d.fillRect((y*10+3/2)*this.gridIndex,(x*10+3/2)*this.gridIndex,this.gridIndex*9,this.gridIndex*9);
           c2d.globalCompositeOperation = "source-over";
           if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
           else StarblastMap.pattern.set(`${x}-${y}`,num);
@@ -402,12 +403,12 @@
         let c = $("#as"+i)[0];
         if (c)
         {
-          c.width = 36;
-          c.height = 36;
+          c.width = 9*this.gridIndex;
+          c.height = 9*this.gridIndex;
           let c2d = c.getContext('2d');
           c2d.clearRect(0,0,c.width,c.height);
           c2d.beginPath();
-          c2d.drawImage(this.template,(36-i*3)/2,(36-i*3)/2,i*3,i*3);
+          c2d.drawImage(this.template,(this.gridIndex*3-i)*3/2,(this.gridIndex*3-i)*3/2,i*3,i*3);
           c2d.fillStyle = this.color;
           c2d.globalCompositeOperation = "source-atop";
           c2d.fillRect(0,0,c.width,c.height);
@@ -721,14 +722,14 @@
           StarblastMap.background.color = color;
           break;
         case "border-color":
-          let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size;
+          let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size, gridIndex = this.gridIndex;
           c2d.beginPath();
           c2d.strokeStyle = css;
           c2d.lineWidth = 1;
           for (let i=0;i<=size;i++)
           {
-            this.addBorder(c2d,i*40+4,4,i*40+4,size*40+4);
-            this.addBorder(c2d,4,i*40+4,size*40+4,i*40+4);
+            this.addBorder(c2d,(i*10+1)*gridIndex,gridIndex,(i*10+1)*gridIndex,(size*10+1)*gridIndex);
+            this.addBorder(c2d,gridIndex,(i*10+1)*gridIndex,(size*10+1)*gridIndex,(i*10+1)*gridIndex);
           }
           c2d.stroke();
           $('td').css(param,css);

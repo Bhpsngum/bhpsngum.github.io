@@ -44,12 +44,13 @@ input {
 #footer, #footer>* {
   padding: 2px;
   margin: 0px;
+  font-size:10pt;
 }
 input[type=file], input[type=checkbox] {
   display: none;
 }
 #mapBox {
-  padding-bottom:20px;
+  padding-bottom:10pt;
   overflow:hidden;
 }
 #map {
