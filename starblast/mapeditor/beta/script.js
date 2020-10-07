@@ -824,7 +824,7 @@
             $("#container"+i).css("display","none");
           }
         }
-        index = Math.min(Math.max(4,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
+        index = Math.max(Math.min(this.modules.length,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
         this.chosenIndex = index;
         $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color});
         $("#container"+index).css("display","");
