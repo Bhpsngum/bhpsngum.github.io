@@ -985,7 +985,7 @@
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
   new ResizeSensor(Engine.menu.main[0], function(){
-      $("#mapBox").css("padding-top",(Engine.menu.main.height()+10)+"px")
+      $("#mapBox").css("padding-top",Engine.menu.main.height()+"px")
   });
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {
