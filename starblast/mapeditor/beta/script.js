@@ -827,7 +827,6 @@
     },
     info: {
       list: [
-        ...Engine.menu.modules.map((i,j) => ["menu"+j,null,i+" Panel"]),
         ["map",null,"Left-click to apply asteroid, right-click to remove, drag for trails"],
         ["map_size",null,'Toggle map size (from 20 to 200 and must be even)'],
         ["asc0",null,'Remove asteroids in the map (Hotkey 0)'],
@@ -865,6 +864,7 @@
       }
     }
   }
+  Engine.info.list.unshift(...Engine.menu.modules.map((i,j) => ["menu"+j,null,i+" Panel"]));
   Object.assign(StarblastMap.Asteroids.changeSize,{
     applySize: function(key)
     {
