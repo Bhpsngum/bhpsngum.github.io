@@ -816,11 +816,11 @@
       set: function(index) {
         for (let i=0;i<this.modules.length;i++) {
           if (i!==index) {
-            $("#menu"+i).prop("class","");
+            $("#menu"+i).css("border","");
             $("#container"+i).css("display","none");
           }
         }
-        $("#menu"+index).prop("class",".chosen");
+        $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color});
         $("#container"+index).css("display","");
       }
     },

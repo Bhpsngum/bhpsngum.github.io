@@ -81,11 +81,9 @@ button:disabled {
   height: 15pt;
   font-size: 9pt;
 }
-.chosen {
-  border-width: 2pt;
-}
 
 .container {
   margin-top: -2pt;
   border-width: 1pt;
+  border-style: solid;
 }
