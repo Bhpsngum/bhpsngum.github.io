@@ -245,7 +245,7 @@
           clone.width = this.map.width;
           clone.height = this.map.height;
           c2d.drawImage(this.map, 0, 0);
-          c2d.fillStyle = Engine.applyColor("background-color");
+          c2d.fillStyle = this.background.color;
           c2d.globalCompositeOperation = "destination-over";
           c2d.fillRect(0,0,clone.width,clone.height);
           return clone.toDataURL();
@@ -820,6 +820,7 @@
             $("#container"+i).css("display","none");
           }
         }
+        console.log(StarblastMap.background.color);
         $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color});
         $("#container"+index).css("display","");
       }
