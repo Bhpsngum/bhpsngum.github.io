@@ -86,4 +86,9 @@ button:disabled {
   margin-top: -2pt;
   border-width: 1pt;
   border-style: solid;
+  display: inline-flex;
+}
+
+table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu {
+    display: inline-block;
 }

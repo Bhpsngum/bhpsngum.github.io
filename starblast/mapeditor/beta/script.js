@@ -77,7 +77,7 @@
         if (url) {
           let img = new Image();
           img.onload = function() {
-            this.options.css("display","block");
+            this.options.css("display","");
             this.image = url;
             localStorage.setItem("background-image",url);
             this.apply(url,this.global,!this.global);
@@ -439,7 +439,7 @@
       },
       randomSize: function(self_trigger,local)
       {
-        this.RandomOptions.css("display","block");
+        this.RandomOptions.css("display","");
         for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
         $("#randomSize").css({"border":"3px solid"});
         let min = this.changeSize.applySize("min"), max = this.changeSize.applySize("max");
