@@ -2,7 +2,7 @@
   var StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
-    gridIndex: 3.5,
+    gridIndex: 3,
     Buttons: {
       export:
       {
@@ -387,7 +387,7 @@
           let c2d = StarblastMap.map.getContext('2d'), gridIndex = StarblastMap.gridIndex;
           c2d.clearRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
           c2d.beginPath();
-          c2d.drawImage(this.template,(y*10+6-num/2)*gridIndex+num/2,(x*10+6-num/2)*gridIndex+num/2,num*(gridIndex-1),num*(gridIndex-1));
+          c2d.drawImage(this.template,(y*10+6-num/2)*gridIndex,(x*10+6-num/2)*gridIndex,num*gridIndex,num*gridIndex);
           c2d.fillStyle = this.color;
           c2d.globalCompositeOperation = "source-atop";
           c2d.fillRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
