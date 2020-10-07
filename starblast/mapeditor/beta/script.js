@@ -720,6 +720,7 @@
         case "background-color":
           let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
           $('body').css("color",color);
+          $('.chosen').css("border-bottom-color",color);
           StarblastMap.background.color = color;
           break;
         case "border-color":
@@ -734,6 +735,7 @@
           }
           c2d.stroke();
           $('td').css(param,css);
+          $('.container').css("border-color",css);
       }
       $("#"+param).val(css);
       localStorage.setItem(param,css);
@@ -814,11 +816,11 @@
       set: function(index) {
         for (let i=0;i<this.modules.length;i++) {
           if (i!==index) {
-            $("#menu"+i).css("border","");
+            $("#menu"+i).prop("class","");
             $("#container"+i).css("display","none");
           }
         }
-        $("#menu"+index).css({"border-width":"2px","border-bottom":"0px"});
+        $("#menu"+index).prop("class",".chosen");
         $("#container"+index).css("display","");
       }
     },

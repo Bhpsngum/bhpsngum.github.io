@@ -63,15 +63,29 @@ td {
   height:35px;
   width:35px;
   text-align:center;
-  border: 1px solid;
+  border: 1pt solid;
   border-color:inherit;
   cursor: pointer;
 }
 button:disabled {
   cursor: not-allowed;
 }
+
+#modules {
+  position: relative;
+  z-index: 1;
+}
+
 #modules>tbody>tr>td {
   padding: 2pt;
   height: 15pt;
   font-size: 9pt;
+}
+.chosen {
+  border-width: 2pt;
+}
+
+.container {
+  margin-top: -2pt;
+  border-width: 1pt;
 }
