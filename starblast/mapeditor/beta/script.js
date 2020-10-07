@@ -456,6 +456,7 @@
         }
         (self_trigger && this.size.max == this.size.min) && this.changeSize(this.size.min);
         Engine.applyColor("border-color");
+
       },
       size:{
         max: 0,
@@ -736,6 +737,8 @@
           c2d.stroke();
           $('td').css(param,css);
           $('.container').css("border-color",css);
+          Engine.menu.set();
+          break;
       }
       $("#"+param).val(css);
       localStorage.setItem(param,css);
@@ -813,6 +816,7 @@
     menu: {
       main: $("#menu"),
       modules: ["Map","Edit","Decoration","Miscellaneous"],
+      chosenIndex: 1,
       set: function(index) {
         for (let i=0;i<this.modules.length;i++) {
           if (i!==index) {
@@ -820,6 +824,8 @@
             $("#container"+i).css("display","none");
           }
         }
+        index = Math.min(Math.max(4,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
+        this.chosenIndex = index;
         $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color});
         $("#container"+index).css("display","");
       }
@@ -929,7 +935,6 @@
       $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
     }
     StarblastMap.background.check(null,0,1);
-    Engine.menu.set(1);
   }
   if (!Engine.supportClipboardAPI) {
     $("#menu").append("<p style='font-size:10pt'>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
