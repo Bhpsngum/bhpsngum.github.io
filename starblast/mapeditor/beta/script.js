@@ -820,8 +820,9 @@
             $("#container"+i).css("display","none");
           }
         }
-        console.log(StarblastMap.background.color);
-        $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color});
+        var t  = {"border-width":"2pt","border-bottom-color":StarblastMap.background.color};
+        console.log(t);
+        $("#menu"+index).css(t);
         $("#container"+index).css("display","");
       }
     },
