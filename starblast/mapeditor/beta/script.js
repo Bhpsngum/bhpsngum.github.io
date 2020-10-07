@@ -820,9 +820,7 @@
             $("#container"+i).css("display","none");
           }
         }
-        var t  = {"border-width":"2pt","border-bottom-color":StarblastMap.background.color};
-        console.log(t);
-        $("#menu"+index).css(t);
+        $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color||Engine.applyColor("background-color")});
         $("#container"+index).css("display","");
       }
     },
