@@ -76,3 +76,7 @@ button:disabled {
     height: 15pt;
     font-size: 9pt;
 }
+
+table:not(#modules,#mirrorChoose) {
+  float: left;
+}

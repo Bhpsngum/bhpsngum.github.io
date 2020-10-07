@@ -960,7 +960,7 @@
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
   $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
-  $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table><tr>"+mr.map((i,j) => `<td id="mr-${i}"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
+  $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table id='mirrorChoose'><tr>"+mr.map((i,j) => `<td id="mr-${i}"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
   for (let i of mr)
   {
     let see = localStorage["mirror_"+i] == "true";
