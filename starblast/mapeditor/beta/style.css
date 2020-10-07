@@ -15,7 +15,6 @@ body {
 }
 button,input {
   color: inherit;
-  float:left;
   margin:3px;
   border-color: #575757;
   background-color:inherit;
@@ -75,8 +74,4 @@ button:disabled {
   padding: 2pt;
   height: 15pt;
   font-size: 9pt;
-}
-
-table:not(#mirrorChoose):not(#modules) {
-  float: left;
 }
