@@ -819,7 +819,7 @@
           }
         }
         $("#menu"+index).css({"border-width":"2px","border-bottom":"0px"});
-        $("#container").css("display","");
+        $("#container"+index).css("display","");
       }
     },
     random: function(num) {
