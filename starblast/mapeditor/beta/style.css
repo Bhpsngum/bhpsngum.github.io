@@ -71,3 +71,9 @@ td {
 button:disabled {
   cursor: not-allowed;
 }
+#modules>tbody>tr>td {
+    margin: 0px;
+    padding: 0px;
+    height: 9pt;
+    font-size: 9pt;
+}

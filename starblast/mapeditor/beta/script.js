@@ -808,7 +808,20 @@
       let url = this.permalink(newMap);
       window.history.pushState({path:url},'',url);
     },
-    menu: $("#menu"),
+    menu: {
+      main: $("#menu"),
+      modules: ["Map","Edit","Decoration","Miscellaneous"],
+      set: function(index) {
+        for (let i=0;i<this.modules.length;i++) {
+          if (i!==index) {
+            $("#menu"+i).css("border","");
+            $("#container"+i).css("display","none");
+          }
+        }
+        $("#menu"+index).css({"border-width":"2px","border-bottom":"0px"});
+        $("#container").css("display","");
+      }
+    },
     random: function(num) {
       return ~~(Math.random()*num);
     },
@@ -968,9 +981,11 @@
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
-  new ResizeSensor(Engine.menu[0], function(){
-      $("#mapBox").css("padding-top",(Engine.menu.height()+10)+"px")
+  new ResizeSensor(Engine.menu.main[0], function(){
+      $("#mapBox").css("padding-top",(Engine.menu.main.height()+10)+"px")
   });
+  Engine.menu.set(1);
+  for (let i=0;i<Engine.menu.modules.length;i++) $("#menu"+i).on("click",function(){Engine.menu.set(i)});
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];
