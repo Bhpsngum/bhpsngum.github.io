@@ -820,7 +820,7 @@
             $("#container"+i).css("display","none");
           }
         }
-        $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color||Engine.applyColor("background-color")});
+        $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color});
         $("#container"+index).css("display","");
       }
     },
@@ -908,6 +908,29 @@
     }
   }
   Engine.setURL();
+  StarblastMap.Asteroids.template.onload = function()
+  {
+    if (error)
+    {
+      let fail = 0;
+      try{
+        let storageMap = JSON.parse(localStorage.map);
+        if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
+        else throw "Nope";
+      }
+      catch(e){fail = 1}
+      if (fail) StarblastMap.create(1);
+      else StarblastMap.load(null,1,1);
+    }
+    else StarblastMap.import("url",query[1],1);
+    for (let i=0;i<10;i++)
+    {
+      (i) && StarblastMap.Asteroids.drawSelection(i);
+      $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
+    }
+    StarblastMap.background.check(null,0,1);
+    Engine.menu.set(1);
+  }
   if (!Engine.supportClipboardAPI) {
     $("#menu").append("<p style='font-size:10pt'>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
     $("#copyImage").remove();
@@ -931,28 +954,6 @@
     });
   }
   else StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
-  StarblastMap.Asteroids.template.onload = function()
-  {
-    if (error)
-    {
-      let fail = 0;
-      try{
-        let storageMap = JSON.parse(localStorage.map);
-        if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
-        else throw "Nope";
-      }
-      catch(e){fail = 1}
-      if (fail) StarblastMap.create(1);
-      else StarblastMap.load(null,1,1);
-    }
-    else StarblastMap.import("url",query[1],1);
-    for (let i=0;i<10;i++)
-    {
-      (i) && StarblastMap.Asteroids.drawSelection(i);
-      $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
-    }
-    StarblastMap.background.check(null,0,1);
-  }
   let see = localStorage.randomizedBrush == "true";
   Engine.Brush.randomCheck.prop("checked",see);
   Engine.Brush.applyRandom();
@@ -1026,7 +1027,6 @@
       Engine.applyColor(i+"-color",$("#"+i+"-color").val());
     });
   }
-  Engine.menu.set(1);
   for (let i=0;i<Engine.menu.modules.length;i++) $("#menu"+i).on("click",function(){Engine.menu.set(i)});
   StarblastMap.Buttons.export.text.on("click",function() {
     StarblastMap.download("plain");
