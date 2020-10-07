@@ -721,7 +721,7 @@
           let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
           $('body').css("color",color);
           $('.chosen').css("border-bottom-color",color);
-          StarblastMap.background.color = color;
+          StarblastMap.background.color = css;
           break;
         case "border-color":
           let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size, gridIndex = StarblastMap.gridIndex;
