@@ -65,7 +65,7 @@
         $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available when global image is disabled)")}
       },
       checkAlpha: function(alpha) {
-        let alpha = Number((alpha != void 0)?alpha:localStorage.getItem("bgI-alpha"));
+        alpha = Number((alpha != void 0)?alpha:localStorage.getItem("bgI-alpha"));
         this.alpha = Math.min(Math.max((Object.is(alpha,NaN)?1:alpha),0),1);
         this.alphaInput.val(this.alpha);
         localStorage.setItem("bgI-alpha",this.alpha);
