@@ -58,11 +58,11 @@
       clear: $("#bgI-clear"),
       urlImport: $("#bgI-url"),
       upload: $("#bgI-input"),
+      imgElement: new Image(),
       checkExport: function(origin) {
-        Engine.setCheckbox(origin,"bgI-allowExport","allowExportImage","bgI-allowExport-ind", function(u){
-          StarblastMap.background.allowExport = u;
-          $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available when global image is disabled)")}
-        });
+        let u = Engine.setCheckbox(origin,"bgI-allowExport","allowExportImage","bgI-allowExport-ind");
+        this.allowExport = u;
+        $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available when global image is disabled)")}
       },
       apply: function(url,...con) {
         let elems = ['body','#map'];
@@ -70,12 +70,11 @@
         con.map((c,i) => $(elems[i]).css("background-image",(c&&url)?`url(${url})`:""));
       },
       checkGlobal: function(origin) {
-        Engine.setCheckbox(origin,"bgI-global","global-background-image","bgI-global-ind",function(u) {
-          StarblastMap.background.global = u;
-          $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,"Adjust background image for "+(u?"map only":"the whole tool"))}
-          $("#bgI-allowExportOptions").css("display",u?"none":"");
-          StarblastMap.background.apply(null,u,!u);
-        });
+        let u = Engine.setCheckbox(origin,"bgI-global","global-background-image","bgI-global-ind");
+        this.global = u;
+        $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,"Adjust background image for "+(u?"map only":"the whole tool"))}
+        $("#bgI-allowExportOptions").css("display",u?"none":"");
+        this.apply(null,u,!u);
       },
       check: function(url, forced, init) {
         url = (forced)?(url||""):(url || localStorage.getItem("background-image") || "");
@@ -84,6 +83,7 @@
           img.onload = function() {
             this.options.css("display","");
             this.image = url;
+            this.imgElement.src = url;
             localStorage.setItem("background-image",url);
             this.apply(url,this.global,!this.global);
           }.bind(this);
@@ -251,7 +251,7 @@
           clone.height = this.map.height;
           c2d.drawImage(this.map, 0, 0);
           c2d.globalCompositeOperation = "destination-over";
-          if (!this.background.global && this.background.allowExport && this.background.image) c2d.drawImage($("#map")[0], 0, 0);
+          if (!this.background.global && this.background.allowExport && this.background.image) c2d.drawImage(this.background.imgElement, 0, 0);
           else {
             c2d.fillStyle = this.background.color;
             c2d.fillRect(0,0,clone.width,clone.height);
@@ -756,7 +756,7 @@
       input: $("#brush_size"),
       randomized: false,
       applyRandom: function(origin) {
-        Engine.setCheckbox(origin,"randomCheck","randomizedBrush","rInd",function(u){Engine.Brush.randomized = u});
+        this.randomized = Engine.setCheckbox(origin,"randomCheck","randomizedBrush","rInd");
       },
       size: 0,
       applySize: function (num = (Number(localStorage.brush)||0)) {
@@ -770,19 +770,9 @@
     },
     Mirror: {
       apply: function (origin,p) {
-        Engine.setCheckbox(origin,"mirror-"+p,"mirror_"+p,"mrmark-"+p,function (u){
-          Engine.Mirror[p] = u;
-          let elem = $("#almr");
-          if (Engine.Mirror.v && Engine.Mirror.h)
-          {
-            elem.prop("class","fas fa-fw fa-expand-arrows-alt");
-            elem[0].onmouseover = function(){Engine.info.view(null,"All-Corners mirror is enabled")};
-          }
-          else {
-            elem.prop("class","fas fa-fw fa-question");
-            elem[0].onmouseover = function(){Engine.info.view(null,"A secret function is disabled")};
-          }
-        });
+        let u = Engine.setCheckbox(origin,"mirror-"+p,"mirror_"+p,"mrmark-"+p);
+        this[p] = u;
+        $("#almr").css("display",(this.v && this.h)?"":"none");
       },
       v:false,
       h:false
@@ -842,12 +832,12 @@
     random: function(num) {
       return ~~(Math.random()*num);
     },
-    setCheckbox: function (origin, triggerID, storage, IndID, addition) {
+    setCheckbox: function (origin, triggerID, storage, IndID) {
       let sign=["times","check"], u = origin?(localStorage.getItem(storage) == "true"):$("#"+triggerID).is(":checked");
       origin && $("#"+triggerID).prop("checked",u);
       $("#"+IndID).prop("class","fas fa-fw fa-"+sign[Number(u)]);
       localStorage.setItem(storage, u);
-      (typeof addition == "function") && addition(u);
+      return u;
     },
     info: {
       list: [
@@ -863,6 +853,7 @@
         ["maxASSize",null,'Toggle maximum Asteroid size (Minimum Asteroid Size to 9)'],
         ["mr-h",null,"Toggle horizontal Mirror"],
         ["mr-v",null,"Toggle vertical Mirror"],
+        ["almr",null,"All-Corners mirror is enabled"],
         ["rCheckIcon",'Random Asteroid Size in Brush','Random Asteroids Size in a single Brush'],
         ["as-color",null,'Toggle asteroid color'],
         ["background-color",null,'Toggle background color'],
