@@ -888,7 +888,7 @@ window.t = (function(){
         ["loadMap1",'Import Map','Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js) format)'],
         ["random",'RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>'],
         ["feedback",'Feedback','Give us a feedback'],
-        ["permalink",'Permalink','Copy permalink to clipboard'],
+        ["permalink",'Permalink','Copy map permalink to clipboard'],
         ["exportImage",'Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)'],
         ["copyImage",'Copy Map screenshot','Copy Map screenshot as as a PNG (*.png) file to Clipboard'],
         ["tutorial",'Tutorial','Visit the Map Editor Tutorial Page'],
