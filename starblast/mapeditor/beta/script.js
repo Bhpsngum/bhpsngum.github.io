@@ -1024,7 +1024,8 @@
   StarblastMap.background.clear.on("click",function(){
     StarblastMap.background.check(null,1);
   });
-  StarblastMap.background.globalIndicator.on("change",function(){StarblastMap.background.checkGlobal()});
+  $("#bgI-global").on("change",function(){StarblastMap.background.checkGlobal()});
+  $("#bgI-allowExport").on("change",function(){StarblastMap.background.checkExport()});
   StarblastMap.sizeInput.on("change",function(){
     StarblastMap.applySize(StarblastMap.sizeInput.val());
     StarblastMap.create();
@@ -1036,7 +1037,7 @@
   StarblastMap.checkActions();
   StarblastMap.Buttons.undo.on("click",StarblastMap.undo.bind(StarblastMap));
   StarblastMap.Buttons.redo.on("click",StarblastMap.redo.bind(StarblastMap));
-  Engine.Brush.randomCheck.on("change",function(){Engine.Brush.applyRandom()});
+  $("#randomCheck").on("change",function(){Engine.Brush.applyRandom()});
   for (let i of ["border","background","as"])
   {
     Engine.applyColor(i+"-color");
