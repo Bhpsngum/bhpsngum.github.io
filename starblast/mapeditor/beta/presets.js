@@ -1,6 +1,6 @@
 if (t) {
-  $("title").html("Redirecting...");
   $('body').html("Redirecting, please wait...");
+  $("title").html("Redirecting...");
 }
 else (function(){
   var links = [
