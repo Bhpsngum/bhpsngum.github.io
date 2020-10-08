@@ -54,7 +54,6 @@ input[type=file], input[type=checkbox] {
 }
 #map {
   overflow:hidden;
-  background-size: 100% 100%;
 }
 input[type=number] {
   width: 40px;
@@ -90,4 +89,9 @@ button:disabled {
 
 table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu {
     display: inline-block;
+}
+
+#mapBgI {
+  z-index: -1;
+  position: absolute;
 }

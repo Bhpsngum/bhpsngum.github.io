@@ -58,16 +58,16 @@
       clear: $("#bgI-clear"),
       urlImport: $("#bgI-url"),
       upload: $("#bgI-input"),
-      imgElement: new Image(),
       checkExport: function(origin) {
         let u = Engine.setCheckbox(origin,"bgI-allowExport","allowExportImage","bgI-allowExport-ind");
         this.allowExport = u;
         $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available when global image is disabled)")}
       },
-      apply: function(url,...con) {
-        let elems = ['body','#map'];
+      apply: function(url,gbl,map) {
         url = url || this.image;
-        con.map((c,i) => $(elems[i]).css("background-image",(c&&url)?`url(${url})`:""));
+        $('body').css("background-image",(gbl&&url)?`url(${url})`:"");
+        if (map&&url) $("#mapBgI").src = url;
+        else $("#mapBgI").removeAttr("src");
       },
       checkGlobal: function(origin) {
         let u = Engine.setCheckbox(origin,"bgI-global","global-background-image","bgI-global-ind");
@@ -83,7 +83,6 @@
           img.onload = function() {
             this.options.css("display","");
             this.image = url;
-            this.imgElement.src = url;
             localStorage.setItem("background-image",url);
             this.apply(url,this.global,!this.global);
           }.bind(this);
@@ -96,7 +95,6 @@
           this.options.css("display","none");
           localStorage.setItem("background-image","");
           this.image = "";
-          this.imgElement = new Image();
           this.apply(null,false,false);
         }
       }
@@ -161,7 +159,9 @@
           c2d.stroke();
           Engine.applyColor("border-color");
           Engine.applyColor("as-color");
-          $("#mapBox").css("width",this.map.width.toString()+"px");
+          let px = this.map.width.toString()+"px";
+          $("#mapBox").css("width",px);
+          $("#mapBgI").css({width:px, height:px});
           (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
         else
@@ -252,7 +252,7 @@
           clone.height = this.map.height;
           c2d.drawImage(this.map, 0, 0);
           c2d.globalCompositeOperation = "destination-over";
-          if (!this.background.global && this.background.allowExport && this.background.image) c2d.drawImage(this.background.imgElement, 0, 0, clone.width, clone.height);
+          if (!this.background.global && this.background.allowExport && this.background.image) c2d.drawImage($("#mapBgI")[0], 0, 0, clone.width, clone.height);
           else {
             c2d.fillStyle = this.background.color;
             c2d.fillRect(0,0,clone.width,clone.height);
