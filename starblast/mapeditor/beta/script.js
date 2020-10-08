@@ -58,10 +58,16 @@
       clear: $("#bgI-clear"),
       urlImport: $("#bgI-url"),
       upload: $("#bgI-input"),
+      alphaInput: $("#bgI-alpha"),
       checkExport: function(origin) {
         let u = Engine.setCheckbox(origin,"bgI-allowExport","allowExportImage","bgI-allowExport-ind");
         this.allowExport = u;
         $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available when global image is disabled)")}
+      },
+      checkAlpha: function(alpha) {
+        this.alpha = Math.min(Math.max(Number((alpha != void 0)?alpha:localStorage.getItem("bgI-alpha")) || 1,0),1);
+        this.alphaInput.val(this.alpha);
+        localStorage.setItem("bgI-alpha",this.alpha);
       },
       apply: function(url,gbl,map) {
         url = url || this.image;
@@ -253,7 +259,11 @@
           clone.height = this.map.height;
           c2d.drawImage(this.map, 0, 0);
           c2d.globalCompositeOperation = "destination-over";
-          if (!this.background.global && this.background.allowExport && this.background.image) c2d.drawImage($("#mapBgI")[0], 0, 0, this.map.width, this.map.height);
+          if (!this.background.global && this.background.allowExport && this.background.image) {
+            c2d.globalAlpha = this.background.alpha;
+            c2d.drawImage($("#mapBgI")[0], 0, 0, this.map.width, this.map.height);
+            c2d.globalAlpha = 1;
+          }
           else {
             c2d.fillStyle = this.background.color;
             c2d.fillRect(0,0,clone.width,clone.height);
@@ -861,6 +871,7 @@
         ["background-color",null,'Toggle background color'],
         ["bgI-input1",null,"Upload your own background image from file (accept all image formats)"],
         ["bgI-url",null,"Upload your own background image from url"],
+        ["bgI-alpha",null,"Toggle background image opacity (0 to 1)"],
         ["bgI-clear",null,"Clear current custom background image"],
         ["border-color",null,'Toggle line color'],
         ["undo","Undo","Undo previous actions in the map"],
@@ -946,6 +957,7 @@
       $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
     }
     StarblastMap.background.check(null,0,1);
+    StarblastMap.background.checkAlpha();
   }
   if (!Engine.supportClipboardAPI) {
     $("#menu").append("<p style='font-size:10pt'>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
@@ -1051,6 +1063,7 @@
   Engine.menu.hide();
   $("#show-menu").on("click", function(){Engine.menu.hide(!1)});
   $("#hide-menu").on("click", function(){Engine.menu.hide(!0)});
+  StarblastMap.background.alphaInput.on("change", function(){StarblastMap.background.checkAlpha(StarblastMap.background.alphaInput.val())});
   StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
   StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
