@@ -66,7 +66,7 @@
       apply: function(url,gbl,map) {
         url = url || this.image;
         $('body').css("background-image",(gbl&&url)?`url(${url})`:"");
-        if (map&&url) $("#mapBgI").src = url;
+        if (map&&url) $("#mapBgI")[0].src = url;
         else $("#mapBgI").removeAttr("src");
       },
       checkGlobal: function(origin) {
