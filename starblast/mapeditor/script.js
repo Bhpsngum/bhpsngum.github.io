@@ -3,6 +3,7 @@ window.t = (function(){
     map: $("#map")[0],
     sizeInput: $("#map_size"),
     gridIndex: 3,
+    borderColor: "",
     Buttons: {
       export:
       {
@@ -763,6 +764,7 @@ window.t = (function(){
           c2d.stroke();
           $('td').css(param,css);
           $('.container').css("border-color",css);
+          StarblastMap.borderColor = css;
           Engine.menu.set();
           break;
       }
@@ -837,7 +839,7 @@ window.t = (function(){
       set: function(index) {
         for (let i=0;i<this.modules.length;i++) {
           if (i!==index) {
-            $("#menu"+i).css("border","");
+            $("#menu"+i).css({border:"","border-color":StarblastMap.borderColor});
             $("#container"+i).css("display","none");
           }
         }
@@ -965,7 +967,7 @@ window.t = (function(){
     StarblastMap.background.checkAlpha();
   }
   if (!Engine.supportClipboardAPI) {
-    $("#menu").append("<p style='font-size:10pt'>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
+    $("#main").append("<p style='font-size:10pt'>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
     $("#copyImage").remove();
     Engine.copyToClipboard = function(blob) {
       if (blob.type == "text/plain") {
