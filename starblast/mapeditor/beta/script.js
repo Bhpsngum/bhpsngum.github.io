@@ -251,7 +251,7 @@
           clone.height = this.map.height;
           c2d.drawImage(this.map, 0, 0);
           c2d.globalCompositeOperation = "destination-over";
-          if (!Engine.background.global && Engine.background.allowExport) c2d.drawImage($("#map")[0], 0, 0);
+          if (!Engine.background.global && Engine.background.allowExport && Engine.background.image) c2d.drawImage($("#map")[0], 0, 0);
           else {
             c2d.fillStyle = this.background.color;
             c2d.fillRect(0,0,clone.width,clone.height);
