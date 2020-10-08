@@ -1,4 +1,8 @@
-(!t) && (function(){
+if (t) {
+  $("title").html("Redirecting...");
+  $('body').html("Redirecting, please wait...");
+}
+else (function(){
   var links = [
     ["feedback",'?feedback','_blank'],
     ["tutorial",'https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md','_blank'],

@@ -932,7 +932,6 @@ window.t = (function(){
         else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error);
         break;
       case "feedback":
-        $("title")[0].innerHTML = "Redirecting...";
         window.open("https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link","_self");
         return !0;
       default:
