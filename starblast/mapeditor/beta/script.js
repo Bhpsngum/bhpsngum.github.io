@@ -60,7 +60,7 @@
       upload: $("#bgI-input"),
       checkExport: function(origin) {
         Engine.setCheckbox(origin,"bgI-allowExport","allowExportImage","bgI-allowExport-ind", function(u){
-          Engine.background.allowExport = u;
+          StarblastMap.background.allowExport = u;
           $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available when global image is disabled)")}
         });
       },
@@ -71,10 +71,10 @@
       },
       checkGlobal: function(origin) {
         Engine.setCheckbox(origin,"bgI-global","global-background-image","bgI-global-ind",function(u) {
-          Engine.background.global = u;
+          StarblastMap.background.global = u;
           $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,"Adjust background image for "+(u?"map only":"the whole tool"))}
           $("#bgI-allowExportOptions").css("display",u?"none":"");
-          Engine.background.apply(null,u,!u);
+          StarblastMap.background.apply(null,u,!u);
         });
       },
       check: function(url, forced, init) {
@@ -251,7 +251,7 @@
           clone.height = this.map.height;
           c2d.drawImage(this.map, 0, 0);
           c2d.globalCompositeOperation = "destination-over";
-          if (!Engine.background.global && Engine.background.allowExport && Engine.background.image) c2d.drawImage($("#map")[0], 0, 0);
+          if (!this.background.global && this.background.allowExport && this.background.image) c2d.drawImage($("#map")[0], 0, 0);
           else {
             c2d.fillStyle = this.background.color;
             c2d.fillRect(0,0,clone.width,clone.height);
