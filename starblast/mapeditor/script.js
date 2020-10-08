@@ -1,4 +1,4 @@
-(function(){
+window.t = (function(){
   var StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
@@ -924,7 +924,7 @@
         if (error) {
           if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) {
             window.open("?"+StarblastMap.export("url",StarblastMap.import("url-old",query[1],0,1).map),"_self");
-            return;
+            return !0;
           }
         }
         else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error);
@@ -932,18 +932,17 @@
       case "feedback":
         $("title")[0].innerHTML = "Redirecting...";
         window.open("https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link","_self");
-        return;
+        return !0;
       default:
         if (error = !confirm("You are using the old map permalink\nWould you like to go to the new one?"), !error)
         {
           window.open('?map='+query[0],"_self");
-          return;
+          return !0;
         }
     }
   }
   Engine.setURL();
-  StarblastMap.Asteroids.template.onload = function()
-  {
+  StarblastMap.Asteroids.template.onload = function() {
     if (error)
     {
       let fail = 0;
