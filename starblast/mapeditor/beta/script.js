@@ -83,7 +83,7 @@
           img.onload = function() {
             this.options.css("display","");
             this.image = url;
-            this.imgElement.src = url;
+            this.imgElement = img;
             localStorage.setItem("background-image",url);
             this.apply(url,this.global,!this.global);
           }.bind(this);
@@ -251,7 +251,7 @@
           clone.height = this.map.height;
           c2d.drawImage(this.map, 0, 0);
           c2d.globalCompositeOperation = "destination-over";
-          if (!this.background.global && this.background.allowExport && this.background.image) c2d.drawImage(this.background.imgElement, 0, 0);
+          if (!this.background.global && this.background.allowExport && this.background.image) c2d.drawImage(this.background.imgElement, 0, 0, clone.width, clone.height);
           else {
             c2d.fillStyle = this.background.color;
             c2d.fillRect(0,0,clone.width,clone.height);
