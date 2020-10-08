@@ -1051,6 +1051,7 @@
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
+  Engine.menu.hide();
   $("#show-menu").on("click", function(){Engine.menu.hide(!1)});
   $("#hide-menu").on("click", function(){Engine.menu.hide(!0)});
   StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
