@@ -62,7 +62,7 @@
       checkExport: function(origin) {
         let u = Engine.setCheckbox(origin,"bgI-allowExport","allowExportImage","bgI-allowExport-ind");
         this.allowExport = u;
-        $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available when global image is disabled)")}
+        $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available in Map Only Selection)")}
       },
       checkAlpha: function(alpha) {
         alpha = Number((alpha != void 0)?alpha:localStorage.getItem("bgI-alpha"));
@@ -82,7 +82,7 @@
         let u = Engine.setCheckbox(origin,"bgI-global","global-background-image","bgI-global-ind");
         this.global = u;
         $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,"Adjust background image for "+(u?"map only":"the whole tool"))}
-        $("#bgI-allowExportOptions").css("display",u?"none":"");
+        $("#bgI-MapOnlyOptions").css("display",u?"none":"");
         this.apply(null,u,!u);
       },
       check: function(url, forced, init) {
@@ -873,7 +873,7 @@
         ["background-color",null,'Toggle background color'],
         ["bgI-input1",null,"Upload your own background image from file (accept all image formats)"],
         ["bgI-url",null,"Upload your own background image from url"],
-        ["bgI-alpha",null,"Toggle background image opacity (0 to 1)"],
+        ["bgI-alpha",null,"Toggle background image opacity (0 to 1 - Only available in Map Only Selection)"],
         ["bgI-clear",null,"Clear current custom background image"],
         ["border-color",null,'Toggle line color'],
         ["undo","Undo","Undo previous actions in the map"],
@@ -985,6 +985,7 @@
   }
   else StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
   Engine.Brush.applyRandom(!0);
+  StarblastMap.background.checkExport(!0);
   StarblastMap.background.checkGlobal(!0);
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
   $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);

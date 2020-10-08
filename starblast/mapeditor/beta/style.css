@@ -87,7 +87,7 @@ button:disabled {
   border-style: solid;
 }
 
-table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu {
+table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOptions {
     display: inline-block;
 }
 
