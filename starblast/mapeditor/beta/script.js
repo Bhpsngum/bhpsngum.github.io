@@ -65,9 +65,11 @@
         $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available when global image is disabled)")}
       },
       checkAlpha: function(alpha) {
-        this.alpha = Math.min(Math.max(Number((alpha != void 0)?alpha:localStorage.getItem("bgI-alpha")) || 1,0),1);
+        let alpha = Number((alpha != void 0)?alpha:localStorage.getItem("bgI-alpha"));
+        this.alpha = Math.min(Math.max((Object.is(alpha,NaN)?1:alpha),0),1);
         this.alphaInput.val(this.alpha);
         localStorage.setItem("bgI-alpha",this.alpha);
+        $("#mapBgI").css("opacity",this.alpha);
       },
       apply: function(url,gbl,map) {
         url = url || this.image;
