@@ -76,7 +76,7 @@ button:disabled {
   z-index: 1;
 }
 
-#modules>tbody>tr>td {
+#modules>tbody>tr>td, #short-main>table>tbody>tr>td {
   padding: 2pt;
   height: 15pt;
   font-size: 9pt;

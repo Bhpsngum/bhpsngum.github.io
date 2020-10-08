@@ -817,6 +817,13 @@
       main: $("#menu"),
       modules: ["Map","Edit","Decoration","Miscellaneous"],
       chosenIndex: 1,
+      hide: function(bool) {
+        bool = (bool == void 0)?(localStorage.getItem("hideMenu") == "true"):!!bool;
+        this.isHidden = bool;
+        localStorage.setItem("hideMenu", bool);
+        $("#short-main").css("display",bool?"":"none");
+        $("#main").css("display",bool?"none":"");
+      },
       set: function(index) {
         for (let i=0;i<this.modules.length;i++) {
           if (i!==index) {
@@ -836,6 +843,8 @@
     info: {
       list: [
         ["map",null,"Left-click to apply asteroid, right-click to remove, drag for trails"],
+        ["show-menu",null,"Show the Map menu"],
+        ["hide-menu",null,"Hide the Map menu"],
         ["map_size",null,'Toggle map size (from 20 to 200 and must be even)'],
         ["asc0",null,'Remove asteroids in the map (Hotkey 0)'],
         ...new Array(9).fill(0).map((j,i) => [`asc${i+1}`,null,`Asteroid size ${i+1} (Hotkey ${i+1})`]),
@@ -1042,6 +1051,8 @@
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
+  $("#show-menu").on("click", function(){Engine.menu.hide(!1)});
+  $("#hide-menu").on("click", function(){Engine.menu.hide(!0)});
   StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
   StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
