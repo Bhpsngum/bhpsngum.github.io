@@ -68,7 +68,7 @@ window.t = (function(){
         Engine.info.view(null,text);
       },
       checkAlpha: function(alpha) {
-        alpha = Number((alpha != void 0)?alpha:localStorage.getItem("bgI-alpha"));
+        alpha = Number((alpha != void 0)?alpha:(localStorage.getItem("bgI-alpha")||1));
         this.alpha = Math.min(Math.max((Object.is(alpha,NaN)?1:alpha),0),1);
         this.alphaInput.val(this.alpha);
         localStorage.setItem("bgI-alpha",this.alpha);
