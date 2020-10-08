@@ -58,19 +58,24 @@
       clear: $("#bgI-clear"),
       urlImport: $("#bgI-url"),
       upload: $("#bgI-input"),
-      globalIndicator: $("#bgI-global"),
+      checkExport: function(origin) {
+        Engine.setCheckbox(origin,"bgI-allowExport","allowExportImage","bgI-allowExport-ind", function(u){
+          Engine.background.allowExport = u;
+          $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available when global image is disabled)")}
+        });
+      },
       apply: function(url,...con) {
         let elems = ['body','#map'];
         url = url || this.image;
         con.map((c,i) => $(elems[i]).css("background-image",(c&&url)?`url(${url})`:""));
       },
-      checkGlobal: function() {
-        let sign=["times","check"], u = this.globalIndicator.is(":checked");
-        this.global = u;
-        $("#bgI-global-ind").prop("class","fas fa-fw fa-"+sign[Number(u)]);
-        localStorage.setItem("global-background-image",u);
-        $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,"Adjust background image for "+(u?"map only":"the whole tool"))}
-        this.apply(null,this.global,!this.global);
+      checkGlobal: function(origin) {
+        Engine.setCheckbox(origin,"bgI-global","global-background-image","bgI-global-ind",function(u) {
+          Engine.background.global = u;
+          $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,"Adjust background image for "+(u?"map only":"the whole tool"))}
+          $("#bgI-allowExportOptions").css("display",u?"none":"");
+          Engine.background.apply(null,u,!u);
+        });
       },
       check: function(url, forced, init) {
         url = (forced)?(url||""):(url || localStorage.getItem("background-image") || "");
@@ -245,9 +250,12 @@
           clone.width = this.map.width;
           clone.height = this.map.height;
           c2d.drawImage(this.map, 0, 0);
-          c2d.fillStyle = this.background.color;
           c2d.globalCompositeOperation = "destination-over";
-          c2d.fillRect(0,0,clone.width,clone.height);
+          if (!Engine.background.global && Engine.background.allowExport) c2d.drawImage($("#map")[0], 0, 0);
+          else {
+            c2d.fillStyle = this.background.color;
+            c2d.fillRect(0,0,clone.width,clone.height);
+          }
           return clone.toDataURL();
       }
     },
@@ -746,14 +754,9 @@
     },
     Brush: {
       input: $("#brush_size"),
-      randomCheck: $("#randomCheck"),
       randomized:false,
-      applyRandom: function() {
-        let sign=["times","check"];
-        let u = this.randomCheck.is(":checked");
-        this.randomized = u;
-        $("#rInd").prop("class","fas fa-fw fa-"+sign[Number(u)]);
-        localStorage.randomizedBrush = u;
+      applyRandom: function(origin) {
+        Engine.setCheckbox(!0,"randomCheck","randomizedBrush","rInd",function(u){Engine.Brush.randomized = u});
       },
       size: 0,
       applySize: function (num = (Number(localStorage.brush)||0)) {
@@ -766,21 +769,20 @@
       },
     },
     Mirror: {
-      apply: function (p) {
-        let sign=["times","check"],elem = $("#almr");
-        let u = $("#mirror-"+p).is(":checked");
-        this[p] = u;
-        $("#mrmark-"+p).prop("class","fas fa-fw fa-"+sign[Number(u)]);
-        localStorage["mirror_"+p] = u;
-        if (this.v && this.h)
-        {
-          elem.prop("class","fas fa-fw fa-expand-arrows-alt");
-          elem[0].onmouseover = function(){Engine.info.view(null,"All-Corners mirror is enabled")};
-        }
-        else {
-          elem.prop("class","fas fa-fw fa-question");
-          elem[0].onmouseover = function(){Engine.info.view(null,"A secret function is disabled")};
-        }
+      apply: function (origin,p) {
+        Engine.setCheckbox(origin,"mirror-"+p,"mirror_"+p,"mrmark-"+p,function (u){
+          Engine.Mirror[p] = u;
+          let elem = $("#almr");
+          if (Engine.Mirror.v && Engine.Mirror.h)
+          {
+            elem.prop("class","fas fa-fw fa-expand-arrows-alt");
+            elem[0].onmouseover = function(){Engine.info.view(null,"All-Corners mirror is enabled")};
+          }
+          else {
+            elem.prop("class","fas fa-fw fa-question");
+            elem[0].onmouseover = function(){Engine.info.view(null,"A secret function is disabled")};
+          }
+        });
       },
       v:false,
       h:false
@@ -839,6 +841,13 @@
     },
     random: function(num) {
       return ~~(Math.random()*num);
+    },
+    setCheckbox: function (origin, triggerID, storage, IndID, addition) {
+      let sign=["times","check"], u = origin?(localStorage.getItem(storage) == "true"):$("#"+triggerID).is(":checked");
+      origin && $("#"+triggerID).prop("checked",u);
+      $("#"+IndID).prop("class","fas fa-fw fa-"+sign[Number(u)]);
+      localStorage.setItem(storage, u);
+      (typeof addition == "function") && addition();
     },
     info: {
       list: [
@@ -968,22 +977,16 @@
     });
   }
   else StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
-  let see = localStorage.randomizedBrush == "true";
-  Engine.Brush.randomCheck.prop("checked",see);
-  Engine.Brush.applyRandom();
-  let see2 = localStorage["global-background-image"] == "true";
-  StarblastMap.background.globalIndicator.prop("checked",see2);
-  StarblastMap.background.checkGlobal();
+  Engine.Brush.applyRandom(!0);
+  StarblastMap.background.checkGlobal(!0);
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
   $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
   let mr = ["h","v"],mdesc = ["horizontal","vertical"];
   $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table id='mirrorChoose'><tr>"+mr.map((i,j) => `<td id="mr-${i}"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td><i id="almr" class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
   for (let i of mr)
   {
-    let see = localStorage["mirror_"+i] == "true";
-    $("#mirror-"+i).prop("checked",see);
-    Engine.Mirror.apply(i);
-    $("#mirror-"+i).on("change",function(){Engine.Mirror.apply(i)});
+    Engine.Mirror.apply(!0,i);
+    $("#mirror-"+i).on("change",function(){Engine.Mirror.apply(null,i)});
     $("#mr-"+i).on("click",function(){$("#mirror-"+i).click()});
   }
   StarblastMap.Asteroids.applyKey("min",localStorage.ASSize_min);
@@ -1021,7 +1024,7 @@
   StarblastMap.background.clear.on("click",function(){
     StarblastMap.background.check(null,1);
   });
-  StarblastMap.background.globalIndicator.on("change",StarblastMap.background.checkGlobal.bind(StarblastMap.background));
+  StarblastMap.background.globalIndicator.on("change",function(){StarblastMap.background.checkGlobal()};
   StarblastMap.sizeInput.on("change",function(){
     StarblastMap.applySize(StarblastMap.sizeInput.val());
     StarblastMap.create();
@@ -1033,7 +1036,7 @@
   StarblastMap.checkActions();
   StarblastMap.Buttons.undo.on("click",StarblastMap.undo.bind(StarblastMap));
   StarblastMap.Buttons.redo.on("click",StarblastMap.redo.bind(StarblastMap));
-  Engine.Brush.randomCheck.on("change",Engine.Brush.applyRandom.bind(Engine.Brush));
+  Engine.Brush.randomCheck.on("change",function(){Engine.Brush.applyRandom()});
   for (let i of ["border","background","as"])
   {
     Engine.applyColor(i+"-color");
