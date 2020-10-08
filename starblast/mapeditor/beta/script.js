@@ -68,6 +68,7 @@
         $('body').css("background-image",(gbl&&url)?`url(${url})`:"");
         if (map&&url) $("#mapBgI")[0].src = url;
         else $("#mapBgI").removeAttr("src");
+        $("#mapBgI").css("display",(map&&url)?"":"none");
       },
       checkGlobal: function(origin) {
         let u = Engine.setCheckbox(origin,"bgI-global","global-background-image","bgI-global-ind");
@@ -252,7 +253,7 @@
           clone.height = this.map.height;
           c2d.drawImage(this.map, 0, 0);
           c2d.globalCompositeOperation = "destination-over";
-          if (!this.background.global && this.background.allowExport && this.background.image) c2d.drawImage($("#mapBgI")[0], 0, 0, clone.width, clone.height);
+          if (!this.background.global && this.background.allowExport && this.background.image) c2d.drawImage($("#mapBgI")[0], 0, 0, this.map.width, this.map.height);
           else {
             c2d.fillStyle = this.background.color;
             c2d.fillRect(0,0,clone.width,clone.height);
