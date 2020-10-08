@@ -924,22 +924,14 @@ window.t = (function(){
         let datamap;
         try{error = StarblastMap.import("url",query[1],0,1).fail}catch(e){error=1};
         if (error) {
-          if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) {
-            window.open("?"+StarblastMap.export("url",StarblastMap.import("url-old",query[1],0,1).map),"_self");
-            return !0;
-          }
+          if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) return "?"+StarblastMap.export("url",StarblastMap.import("url-old",query[1],0,1).map);
         }
         else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error);
         break;
       case "feedback":
-        window.open("https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link","_self");
-        return !0;
+        return "https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link";
       default:
-        if (error = !confirm("You are using the old map permalink\nWould you like to go to the new one?"), !error)
-        {
-          window.open('?map='+query[0],"_self");
-          return !0;
-        }
+        if (error = !confirm("You are using the old map permalink\nWould you like to go to the new one?"), !error) return '?map='+query[0];
     }
   }
   Engine.setURL();
