@@ -1024,7 +1024,7 @@
   StarblastMap.background.clear.on("click",function(){
     StarblastMap.background.check(null,1);
   });
-  StarblastMap.background.globalIndicator.on("change",function(){StarblastMap.background.checkGlobal()};
+  StarblastMap.background.globalIndicator.on("change",function(){StarblastMap.background.checkGlobal()});
   StarblastMap.sizeInput.on("change",function(){
     StarblastMap.applySize(StarblastMap.sizeInput.val());
     StarblastMap.create();
