@@ -1,16 +1,20 @@
+* {
+  font-family: Verdana;
+}
 body {
   user-select:none;
+  background-size: 100% 100%;
 }
 #menu {
   width:100%;
   background-color:inherit;
   position: fixed;
-  top:5px;
-  left:5px;
+  top:0px;
+  left:0px;
+  padding:5px;
 }
 button,input {
   color: inherit;
-  float:left;
   margin:3px;
   border-color: #575757;
   background-color:inherit;
@@ -21,42 +25,73 @@ button {
   cursor: pointer;
 }
 input {
-  color:inherit;
   width:65px;
 }
-#info, #XY {
-  color:inherit;
+#footer {
+  background-color: inherit;
   position: fixed;
-  bottom:1px;
-  margin:0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
 }
 #XY {
-  left:1px;
+  float: left;
 }
 #info {
-  right:1px;
+  float: right;
 }
-#loadMap {
+#footer, #footer>* {
+  padding: 2px;
+  margin: 0px;
+  font-size:10pt;
+}
+input[type=file], input[type=checkbox] {
   display: none;
 }
 #mapBox {
-  padding-bottom:20px;
+  padding-bottom:10pt;
   overflow:hidden;
 }
 #map {
   overflow:hidden;
 }
-.SmallInput {
+input[type=number] {
   width: 40px;
 }
 td {
   height:35px;
   width:35px;
   text-align:center;
-  border: 1px solid;
+  border: 1pt solid;
   border-color:inherit;
   cursor: pointer;
 }
 button:disabled {
-  cursor: not-allowed
+  cursor: not-allowed;
+}
+
+#modules {
+  position: relative;
+  z-index: 1;
+}
+
+#modules>tbody>tr>td, #short-main>table>tbody>tr>td {
+  padding: 2pt;
+  height: 15pt;
+  font-size: 9pt;
+}
+
+.container {
+  margin-top: -2pt;
+  border-width: 1pt;
+  border-style: solid;
+}
+
+table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOptions {
+  display: inline-block;
+}
+
+#mapBgI {
+  z-index: -1;
+  position: absolute;
 }

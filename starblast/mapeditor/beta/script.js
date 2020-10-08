@@ -62,7 +62,9 @@
       checkExport: function(origin) {
         let u = Engine.setCheckbox(origin,"bgI-allowExport","allowExportImage","bgI-allowExport-ind");
         this.allowExport = u;
-        $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,"Export the map with"+(u?"out":"")+" the background image (Only available in Map Only Selection)")}
+        let text = "Export the map with"+(u?"out":"")+" the background image (Only available in Map Only Selection)";
+        $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,text)}
+        Engine.info.view(null,text);
       },
       checkAlpha: function(alpha) {
         alpha = Number((alpha != void 0)?alpha:localStorage.getItem("bgI-alpha"));
@@ -81,7 +83,9 @@
       checkGlobal: function(origin) {
         let u = Engine.setCheckbox(origin,"bgI-global","global-background-image","bgI-global-ind");
         this.global = u;
-        $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,"Adjust background image for "+(u?"map only":"the whole tool"))}
+        let text = "Adjust background image for "+(u?"map only":"the whole tool");
+        $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,text)}
+        Engine.info.view(null,text);
         $("#bgI-MapOnlyOptions").css("display",u?"none":"");
         this.apply(null,u,!u);
       },
@@ -896,7 +900,7 @@
       }
     }
   }
-  Engine.info.list.unshift(...Engine.menu.modules.map((i,j) => ["menu"+j,null,i+" Panel"]));
+  Engine.info.list.unshift(...Engine.menu.modules.map((i,j) => ["menu"+j,null,i+" Tab"]));
   Object.assign(StarblastMap.Asteroids.changeSize,{
     applySize: function(key)
     {
@@ -1010,7 +1014,7 @@
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
   new ResizeSensor(Engine.menu.main[0], function(){
-      $("#mapBox").css("padding-top",Engine.menu.main.height()+"px")
+      $("#mapBox").css("padding-top",(Engine.menu.main.height()+5)+"px")
   });
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {

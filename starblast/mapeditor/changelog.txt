@@ -1,3 +1,8 @@
+3.0.5/Oct 8, 2020
+* Added "import custom background image" and its extended options
+* Redesigned the Map Menu
+You can read the documentation for more details ^^
+
 3.0.4/Sep 30, 2020
 IMPORTANT:
 * Once again, map permalink is compressed and shortened (thanks to 123 Notus with his awesome idea and suggesting the library)

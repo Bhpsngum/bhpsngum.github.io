@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <meta name="description" content="Create and edit custom Starblast Maps, easy to use.">
+    <meta name="description" content="Create and edit custom Starblast Maps, easy to use - Beta version.">
     <meta name="author" content="Bhpsngum">
     <link rel="icon" href="icon_light.png">
-    <title>Starblast Map Editor</title>
+    <title>Starblast Map Editor (Beta)</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/gh/marcj/css-element-queries/src/ResizeSensor.min.js" type="text/javascript"></script>
@@ -14,53 +14,108 @@
     <script src="https://kit.fontawesome.com/ccd821e6cb.js" crossorigin="anonymous"></script>
   </head>
   <body oncontextmenu="return false;">
-    <div id="mapBox"><canvas id="map"></canvas></div>
-    <div id="menu">
-      <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200"></input>
-      <table style="float:left" id="asChoose"></table>
-      <input id="brush_size" class="SmallInput" placeholder="Brush radius" type="number" min="0" max="200" value="0"></input>
-      <div id="RandomOptions">
-        <b style="float:left;margin-left:5px">Randomizer Options:</b>
-        <input id="minASSize" class="SmallInput" type="number" placeholder="Minimum Asteroid Size" value="0" min="0" max="9"></input>
-        <input id="maxASSize" class="SmallInput" type="number" placeholder="Maximum Asteroid Size" value="0" min="0" max="9"></input>
-        <input type="checkbox" id="randomCheck" style="display:none">
-        <label for="randomCheck">
-          <table>
-            <tr>
-              <td id="rCheckIcon">
-                <i class="fas fa-fw fa-braille"></i>
-                <i class="fas fa-fw fa-times" id="rInd"></i>
-              </td>
-            </tr>
-          </table>
-        </label>
-      </div>
-      <div id="MirrorOptions"></div>
-      <input id="as-color" placeholder="Asteroid color"></input>
-      <input id="background-color" type="text" placeholder="Background color"></input>
-      <input id="border-color" type="text" placeholder="Line color"></input>
-      <button id="undo"><i class="fas fa-fw fa-undo"></i></button>
-      <button id="redo"><i class="fas fa-fw fa-redo"></i></button>
-      <button id="clearMap"><i class="fas fa-fw fa-trash"></i></button>
-      <button id="exportText"><i class="fas fa-fw fa-download"></i></button>
-      <button id="copyText"><i class="fas fa-fw fa-clipboard"></i></button>
-      <button><label id="loadMap1" for="loadMap" style="cursor:pointer"><i class="fas fa-fw fa-upload"></i></label></button>
-      <button id="random"><i class="fas fa-fw fa-random"></i></button>
-      <input id="loadMap" type="file" accept="text/plain,text/javascript">
-      <button id="feedback"><i class="fas fa-fw fa-inbox"></i></button>
-      <button id="permalink"><i class="fas fa-fw fa-link"></i></button>
-      <div style="display:none">
-        <div id="color-test0"></div>
-        <div id="color-test1"></div>
-      </div>
-      <button id="exportImage"><i class="fas fa-fw fa-images"></i></button>
-      <button id="copyImage"><i class="fas fa-fw fa-clipboard"></i></button>
-      <button id="tutorial"><i class="fas fa-fw fa-book"></i></button>
-      <button id="changelog"><i class="fas fa-fw fa-list-ul"></i></button>
-      <p style="font-size:10pt;">Tool doesn't work? <a href="?feedback" target="_blank">Give us a feedback</a> and <a href="/starblast/mapeditor/old.html">use the old version instead.</a></p>
+    <div id="mapBox">
+      <img id="mapBgI">
+      <canvas id="map"></canvas>
     </div>
-    <p id="XY"></p>
-    <p id="info"></p>
+    <div id="menu">
+      <div id="short-main"><table><tr><td id="show-menu"><i class="fas fa-fw fa-angle-down"></i></td></tr></table></div>
+      <div id="main">
+        <table id="modules"><tr>
+          <td id="hide-menu"><i class="fas fa-fw fa-angle-up"></i></td>
+          <td id="menu0">Map</td>
+          <td id="menu1">Edit</td>
+          <td id="menu2">Decoration</td>
+          <td id="menu3">Miscellaneous</td>
+        </tr></table>
+        <div id="container0" class="container">
+          <button id="exportText"><i class="fas fa-fw fa-download"></i></button>
+          <button id="copyText"><i class="fas fa-fw fa-clipboard"></i></button>
+          <button><label id="loadMap1" for="loadMap" style="cursor:pointer"><i class="fas fa-fw fa-upload"></i></label></button>
+          <input id="loadMap" type="file" accept="text/plain,text/javascript">
+          <button id="exportImage"><i class="fas fa-fw fa-images"></i></button>
+          <button id="copyImage"><i class="fas fa-fw fa-clipboard"></i></button>
+          <button id="permalink"><i class="fas fa-fw fa-link"></i></button>
+        </div>
+        <div id="container1" class="container">
+          <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200"></input>
+          <table id="asChoose"></table>
+          <div id="RandomOptions">
+            <b style="margin-left:5px;font-size:10pt;">Randomizer Options:</b>
+            <input id="minASSize" type="number" placeholder="Minimum Asteroid Size" value="0" min="0" max="9"></input>
+            <input id="maxASSize" type="number" placeholder="Maximum Asteroid Size" value="0" min="0" max="9"></input>
+            <input type="checkbox" id="randomCheck">
+            <label for="randomCheck">
+              <table>
+                <tr>
+                  <td id="rCheckIcon">
+                    <i class="fas fa-fw fa-braille"></i>
+                    <i class="fas fa-fw fa-times" id="rInd"></i>
+                  </td>
+                </tr>
+              </table>
+            </label>
+          </div>
+          <br>
+          <input id="brush_size" placeholder="Brush radius" type="number" min="0" max="200" value="0"></input>
+          <div id="MirrorOptions"></div>
+          <button id="undo"><i class="fas fa-fw fa-undo"></i></button>
+          <button id="redo"><i class="fas fa-fw fa-redo"></i></button>
+          <button id="clearMap"><i class="fas fa-fw fa-trash"></i></button>
+          <button id="random"><i class="fas fa-fw fa-random"></i></button>
+        </div>
+        <div id="container2" class="container">
+          <input id="as-color" type="text" placeholder="Asteroid color"></input>
+          <input id="background-color" type="text" placeholder="Background color"></input>
+          <input id="bgI-input" type="file" accept="image/*">
+          <button><label id="bgI-input1" for="bgI-input" style="cursor:pointer"><i class="fas fa-fw fa-upload"></i></label></button>
+          <button id="bgI-url"><i class="fas fa-fw fa-link"></i></button>
+          <div id="bgI-menu">
+            <input type="checkbox" id="bgI-global">
+            <label for="bgI-global">
+              <table>
+                <tr>
+                  <td id="bgI-global1">
+                    <i class="fas fa-fw fa-expand"></i>
+                    <i class="fas fa-fw fa-times" id="bgI-global-ind"></i>
+                  </td>
+                </tr>
+              </table>
+            </label>
+            <div id="bgI-MapOnlyOptions">
+              <input type="checkbox" id="bgI-allowExport">
+              <label for="bgI-allowExport">
+                <table>
+                  <tr>
+                    <td id="bgI-allowExport1">
+                      <i class="fas fa-fw fa-download"></i>
+                      <i class="fas fa-fw fa-times" id="bgI-allowExport-ind"></i>
+                    </td>
+                  </tr>
+                </table>
+              </label>
+              <input id="bgI-alpha" type="number" min="0" max="1">
+            </div>
+            <button id="bgI-clear"><i class="fas fa-fw fa-times"></i></button>
+          </div>
+          <input id="border-color" type="text" placeholder="Line color"></input>
+          <div style="display:none">
+            <div id="color-test0"></div>
+            <div id="color-test1"></div>
+          </div>
+        </div>
+        <div id="container3" class="container">
+          <button id="feedback"><i class="fas fa-fw fa-inbox"></i></button>
+          <button id="tutorial"><i class="fas fa-fw fa-book"></i></button>
+          <button id="changelog"><i class="fas fa-fw fa-list-ul"></i></button>
+        </div>
+        <p style="font-size:10pt;">Tool doesn't work? <a href="?feedback" target="_blank">Give us a feedback</a> and <a href="/starblast/mapeditor/old.html">use the old version instead.</a></p>
+      </div>
+    </div>
+    <div id="footer">
+      <p id="XY"></p>
+      <p id="info"></p>
+    </div>
     <script type="text/javascript" src="presets.js"></script>
     <script type="text/javascript" src="script.js"></script>
   </body>
