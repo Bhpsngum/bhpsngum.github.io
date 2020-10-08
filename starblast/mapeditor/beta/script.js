@@ -754,9 +754,9 @@
     },
     Brush: {
       input: $("#brush_size"),
-      randomized:false,
+      randomized: false,
       applyRandom: function(origin) {
-        Engine.setCheckbox(!0,"randomCheck","randomizedBrush","rInd",function(u){Engine.Brush.randomized = u});
+        Engine.setCheckbox(origin,"randomCheck","randomizedBrush","rInd",function(u){Engine.Brush.randomized = u});
       },
       size: 0,
       applySize: function (num = (Number(localStorage.brush)||0)) {
@@ -847,7 +847,7 @@
       origin && $("#"+triggerID).prop("checked",u);
       $("#"+IndID).prop("class","fas fa-fw fa-"+sign[Number(u)]);
       localStorage.setItem(storage, u);
-      (typeof addition == "function") && addition();
+      (typeof addition == "function") && addition(u);
     },
     info: {
       list: [
