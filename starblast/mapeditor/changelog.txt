@@ -1,13 +1,13 @@
 3.0.5/Oct 8, 2020
-* Added "import custom background image" and its extended options
+* Added 'import custom background image' and its extended options
 * Redesigned the Map Menu
 You can read the documentation for more details ^^
 
 3.0.4/Sep 30, 2020
 IMPORTANT:
 * Once again, map permalink is compressed and shortened (thanks to 123 Notus with his awesome idea and suggesting the library)
-* We detected an issue that "Copy Image" is unavailable in some browser/browser version.
-We placed the indicator text telling you when it is and the "Copy Image" feature will be disabled in those browsers.
+* We detected an issue that 'Copy Image' is unavailable in some browsers/browser versions.
+We placed the indicator text telling you when it is and the 'Copy Image' feature will be disabled in those browsers.
 We will find optimal solutions for this problem soon. Sorry for that :(
 
 3.0.3/Sep 25, 2020
