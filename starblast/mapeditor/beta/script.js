@@ -144,7 +144,7 @@ window.t = (function(){
       Engine.download(null,map);
     },
     load: function(data,init,dismiss_history) {
-      let prev = this.data,h=data||prev;check=true;
+      let prev = this.data,h=data||prev, check=true;
       if (Array.isArray(h))
       {
         let u=JSON.parse(JSON.stringify(h)).sort(),d=Math.max(h.length,u[u.length-1].length),oldSize = this.size;
