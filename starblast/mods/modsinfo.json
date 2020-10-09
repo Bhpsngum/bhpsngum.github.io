@@ -52,6 +52,30 @@
     "event": 1
   },
   {
+    "name": "Capture The Flag",
+    "abbreviation": "CTF",
+    "version": "1.0.0",
+    "description": "",
+    "modes": "",
+    "img": "https://starblast.data.neuronality.com/modding/img/ctf.jpg",
+    "link": {
+      "url": "https://github.com/45rfew/CaptureTheFlag/",
+      "state": 1
+    },
+    "author": [
+      {
+        "name": ["Bhpsngum"],
+        "link": "https://github.com/Bhpsngum/"
+      },
+      {
+        "name": ["45rfew","Money"],
+        "link": "https://github.com/45rfew/"
+      }
+    ],
+    "official": 1,
+    "event": 0
+  },
+  {
     "name": "Rumble",
     "abbreviation": "",
     "version": "1.0.0",
@@ -230,30 +254,6 @@
       {
         "name": ["Finalizer"],
         "link": "https://github.com/StarblastFinalizer"
-      }
-    ],
-    "official": 0,
-    "event": 0
-  },
-  {
-    "name": "Capture The Flag",
-    "abbreviation": "CTF",
-    "version": "",
-    "description": "",
-    "modes": "",
-    "img": "",
-    "link": {
-      "url": "https://github.com/45rfew/CaptureTheFFlag/",
-      "state": 1
-    },
-    "author": [
-      {
-        "name": ["Bhpsngum"],
-        "link": "https://github.com/Bhpsngum/"
-      },
-      {
-        "name": ["45rfew","Money"],
-        "link": "https://github.com/45rfew/"
       }
     ],
     "official": 0,
