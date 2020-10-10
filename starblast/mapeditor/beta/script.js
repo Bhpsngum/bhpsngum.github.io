@@ -38,6 +38,7 @@ window.t = (function(){
           else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
           if (Engine.Trail.state != -1) this.lastVisited = [x,y];
         }
+        console.log(x,y);
       },
       get: function (pos) {
         return Math.max(Math.min(~~((pos-StarblastMap.gridIndex)/StarblastMap.gridIndex/10),StarblastMap.size-1),0);
