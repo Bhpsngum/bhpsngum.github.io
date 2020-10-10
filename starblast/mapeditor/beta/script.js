@@ -1007,7 +1007,7 @@ window.t = (function(){
     if (e.touches.length == 1) {
       e.preventDefault();
       let pos = $(this.map).offset();
-      this.Coordinates.view(this.Coordinates.get(e.touches[0].clientX-pos.top),this.Coordinates.get(e.touches[0].clientY-pos.left));
+      this.Coordinates.view(this.Coordinates.get(e.touches[0].clientX-pos.top),this.Coordinates.get(e.touches[0].pageY-pos.left));
     }
   }.bind(StarblastMap));
   StarblastMap.map.addEventListener("mousedown", function(e){
