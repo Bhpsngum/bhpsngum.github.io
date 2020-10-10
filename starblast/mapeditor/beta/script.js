@@ -678,7 +678,6 @@ window.t = (function(){
         StarblastMap.session = new Map();
       },
       start: function (x,y,event) {
-        console.log(event);
         switch (event.button) {
           case 0:
             this.state=1;
@@ -1005,15 +1004,10 @@ window.t = (function(){
   });
   StarblastMap.map.addEventListener("touchmove", function(e){
     (e.touches.length == 1) && StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.touches[0].clientX),StarblastMap.Coordinates.get(e.touches[0].clientY),{button:0});
+    console.log(e);
   });
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
-  });
-  StarblastMap.map.addEventListener("touchstart", function(e){
-    if (e.touches.length == 1) {
-      e.button = 0;
-      Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
-    }
   });
   new ResizeSensor(Engine.menu.main[0], function(){
       $("#mapBox").css("padding-top",(Engine.menu.main.height()+5)+"px")
