@@ -1013,7 +1013,10 @@ window.t = (function(){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
   StarblastMap.map.addEventListener("touchstart", function(e){
-    (e.touches.length == 1) && Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),{button:0});
+    if (e.touches.length == 1) {
+      e.button = 0;
+      Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
+    }
   });
   new ResizeSensor(Engine.menu.main[0], function(){
       $("#mapBox").css("padding-top",(Engine.menu.main.height()+5)+"px")
