@@ -1,3 +1,8 @@
+3.0.6/Oct 10, 2020
+* Added support for mobile browsers:
+Swipe with 1 finger to create asteroid trails
+Swipe with 2 or more fingers to navigate in the map
+
 3.0.5/Oct 8, 2020
 * Added 'import custom background image' and its extended options
 * Redesigned the Map Menu

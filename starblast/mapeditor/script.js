@@ -1000,11 +1000,19 @@ window.t = (function(){
   Engine.Brush.applySize();
   rSize(1);
   StarblastMap.map.addEventListener("mousemove", function(e){
-    StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
-  });
+    this.view(this.get(e.offsetX),this.get(e.offsetY));
+  }.bind(StarblastMap.Coordinates));
+  StarblastMap.map.addEventListener("touchmove", function(e){
+    if (e.touches.length == 1) {
+      e.preventDefault();
+      let pos = $(this.map).offset();
+      this.Coordinates.view(this.Coordinates.get(e.touches[0].pageX-pos.left),this.Coordinates.get(e.touches[0].pageY-pos.top));
+    }
+  }.bind(StarblastMap));
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
+  StarblastMap.map.addEventListener("touchstart", function(){Engine.Trail.state=1});
   new ResizeSensor(Engine.menu.main[0], function(){
       $("#mapBox").css("padding-top",(Engine.menu.main.height()+5)+"px")
   });
@@ -1152,6 +1160,8 @@ window.t = (function(){
   }
   window.addEventListener("mouseup", Engine.Trail.stop.bind(Engine.Trail));
   window.addEventListener("blur", Engine.Trail.stop.bind(Engine.Trail));
+  window.addEventListener("touchcancel",Engine.Trail.stop.bind(Engine.Trail));
+  window.addEventListener("touchend",Engine.Trail.stop.bind(Engine.Trail));
   StarblastMap.Buttons.permalink.on("click", function(){
     Engine.setURL(StarblastMap.export("url"));
     StarblastMap.copy("url");
