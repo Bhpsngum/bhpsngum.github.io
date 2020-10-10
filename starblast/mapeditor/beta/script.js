@@ -1166,6 +1166,7 @@ window.t = (function(){
   window.addEventListener("mouseup", Engine.Trail.stop.bind(Engine.Trail));
   window.addEventListener("blur", Engine.Trail.stop.bind(Engine.Trail));
   window.addEventListener("touchcancel",Engine.Trail.stop.bind(Engine.Trail));
+  window.addEventListener("touchend",Engine.Trail.stop.bind(Engine.Trail));
   StarblastMap.Buttons.permalink.on("click", function(){
     Engine.setURL(StarblastMap.export("url"));
     StarblastMap.copy("url");
