@@ -1000,12 +1000,15 @@ window.t = (function(){
   Engine.Brush.applySize();
   rSize(1);
   StarblastMap.map.addEventListener("mousemove", function(e){
-    StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
-  });
+    this.view(this.get(e.offsetX),this.get(e.offsetY));
+  }.bind(StarblastMap.Coordinates));
   StarblastMap.map.addEventListener("touchmove", function(e){
-    (e.touches.length == 1) && StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.touches[0].clientX),StarblastMap.Coordinates.get(e.touches[0].clientY),{button:0});
-    console.log(e);
-  });
+    if (e.touches.length == 1) {
+      e.preventDefault();
+      let pos = $(this.map).offset();
+      this.Coordinates.view(this.Coordinates.get(e.touches[0].clientX-pos.top),this.Coordinates.get(e.touches[0].clientY-pos.left),{button:0});
+    }
+  }.bind(StarblastMap));
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
