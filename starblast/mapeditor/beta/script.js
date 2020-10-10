@@ -1006,12 +1006,13 @@ window.t = (function(){
     if (e.touches.length == 1) {
       e.preventDefault();
       let pos = $(this.map).offset();
-      this.Coordinates.view(this.Coordinates.get(e.touches[0].clientX-pos.top),this.Coordinates.get(e.touches[0].clientY-pos.left),{button:0});
+      this.Coordinates.view(this.Coordinates.get(e.touches[0].clientX-pos.top),this.Coordinates.get(e.touches[0].clientY-pos.left));
     }
   }.bind(StarblastMap));
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
+  StarblastMap.map.addEventListener("touchstart", function(){Engine.Trail.state=1});
   new ResizeSensor(Engine.menu.main[0], function(){
       $("#mapBox").css("padding-top",(Engine.menu.main.height()+5)+"px")
   });
