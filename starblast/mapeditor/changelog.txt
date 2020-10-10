@@ -1,6 +1,6 @@
 3.0.6/Oct 10, 2020
 * Added support for mobile browsers:
-Swipe with 1 finger to create asteroid trails
+Swipe with 1 finger to create asteroid trails\n
 Swipe with 2 or more fingers to navigate in the map
 
 3.0.5/Oct 8, 2020
@@ -12,7 +12,7 @@ You can read the documentation for more details ^^
 IMPORTANT:
 * Once again, map permalink is compressed and shortened (thanks to 123 Notus with his awesome idea and suggesting the library)
 * We detected an issue that 'Copy Image' is unavailable in some browsers/browser versions.
-We placed the indicator text telling you when it is and the 'Copy Image' feature will be disabled in those browsers.
+We placed the indicator text telling you when it is and the 'Copy Image' feature will be disabled in those browsers.\n
 We will find optimal solutions for this problem soon. Sorry for that :(
 
 3.0.3/Sep 25, 2020
