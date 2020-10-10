@@ -22,7 +22,7 @@ else (function(){
       if (localStorage.getItem("lastVer") != version)
       {
         let info = data.split("\n\n")[0].split("\n");
-        alert("What's new ("+version+")\n"+info.slice(1,info.length).join("\n"));
+        alert("What's new ("+version+")\n"+info.slice(1,info.length).join("\n").replace(/\\n/g,""));
         localStorage.setItem("lastVer",version);
       }
     });
