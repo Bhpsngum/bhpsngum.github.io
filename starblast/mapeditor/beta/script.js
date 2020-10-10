@@ -1004,7 +1004,7 @@ window.t = (function(){
     StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
   });
   StarblastMap.map.addEventListener("touchmove", function(e){
-    (e.touches.length == 1) && StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.touches[0].clientX),StarblastMap.Coordinates.get(e.touches[0],clientY),{button:0});
+    (e.touches.length == 1) && StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.touches[0].clientX),StarblastMap.Coordinates.get(e.touches[0].clientY),{button:0});
   });
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
