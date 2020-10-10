@@ -1004,8 +1004,10 @@ window.t = (function(){
     StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
   });
   StarblastMap.map.addEventListener("touchmove", function(e){
-    e.preventDefault();
-    StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
+    if (e.touches.length == 1) {
+      e.preventDefault();
+      StarblastMap.Coordinates.view(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY));
+    }
   });
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
