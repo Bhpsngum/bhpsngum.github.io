@@ -1,4 +1,4 @@
-window.t = (function(){
+t = (function(){
   var StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
@@ -836,6 +836,10 @@ window.t = (function(){
         $("#short-main").css("display",bool?"":"none");
         $("#main").css("display",bool?"none":"");
       },
+      checkScale: function() {
+        this.scaleExpired = !0;
+        $("#mapBox").css("padding-top",(this.main.height()+5)+"px");
+      },
       set: function(index) {
         for (let i=0;i<this.modules.length;i++) {
           if (i!==index) {
@@ -1005,17 +1009,18 @@ window.t = (function(){
   StarblastMap.map.addEventListener("touchmove", function(e){
     if (e.touches.length == 1) {
       e.preventDefault();
-      let pos = $(this.map).offset();
-      this.Coordinates.view(this.Coordinates.get(e.touches[0].pageX-pos.left),this.Coordinates.get(e.touches[0].pageY-pos.top));
+      if (Engine.menu.scaleExpired) {
+        Object.assign(Engine.menu,$(StarblastMap.map).offset());
+        Engine.menu.scaleExpired = !1;
+      }
+      this.view(this.get(e.touches[0].pageX-Engine.menu.left),this.get(e.touches[0].pageY-Engine.menu.top));
     }
-  }.bind(StarblastMap));
+  }.bind(StarblastMap.Coordinates));
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
   StarblastMap.map.addEventListener("touchstart", function(){Engine.Trail.state=1});
-  new ResizeSensor(Engine.menu.main[0], function(){
-      $("#mapBox").css("padding-top",(Engine.menu.main.height()+5)+"px")
-  });
+  new ResizeSensor(Engine.menu.main[0], Engine.menu.checkScale.bind(Engine.menu));
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];
