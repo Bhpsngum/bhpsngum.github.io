@@ -44,7 +44,7 @@ t = (function(){
       },
       get: function (pos) {
         return Math.max(Math.min(~~((pos-this.gridIndex)/this.gridIndex/10),this.size-1),0);
-      }.bind(StarblastMap);
+      }.bind(StarblastMap)
     },
     session: new Map(),
     data: [],
