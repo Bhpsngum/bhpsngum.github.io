@@ -1024,7 +1024,7 @@ t = (function(){
       this.view(this.get(e.touches[0].pageX-Engine.menu.left),this.get(e.touches[0].pageY-Engine.menu.top));
     }
   }.bind(StarblastMap.Coordinates));
-  StarblastMap.map.addEventListener("mouseover",function(){(!Engine.touchHover) && StarblastMap.info()});
+  StarblastMap.map.addEventListener("mouseover",function(){(!Engine.touchHover) && StarblastMap.info()()});
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
