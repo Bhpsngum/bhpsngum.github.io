@@ -837,7 +837,7 @@ t = (function(){
         $("#main").css("display",bool?"none":"");
       },
       checkScale: function() {
-        Object.assign(this,$(StarblastMap.map).offset());
+        this.scaleExpired = !0;
         $("#mapBox").css("padding-top",(this.main.height()+5)+"px");
       },
       set: function(index) {
@@ -1009,6 +1009,10 @@ t = (function(){
   StarblastMap.map.addEventListener("touchmove", function(e){
     if (e.touches.length == 1) {
       e.preventDefault();
+      if (Engine.menu.scaleExpired) {
+        Object.assign(Engine.menu,$(StarblastMap.map).offset());
+        Engine.menu.scaleExpired = !1;
+      }
       this.view(this.get(e.touches[0].pageX-Engine.menu.left),this.get(e.touches[0].pageY-Engine.menu.top));
     }
   }.bind(StarblastMap.Coordinates));
