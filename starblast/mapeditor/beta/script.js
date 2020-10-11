@@ -21,6 +21,9 @@ t = (function(){
       undo: $("#undo"),
       redo: $("#redo")
     },
+    info: function(t) {
+      return function(){Engine.info.view(null,`${t?"Touch":"Left-click"} to apply asteroid, ${t?"One-finger swipe":"right-click to remove, drag"} for trails`)}
+    },
     Coordinates: {
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
@@ -40,8 +43,8 @@ t = (function(){
         }
       },
       get: function (pos) {
-        return Math.max(Math.min(~~((pos-StarblastMap.gridIndex)/StarblastMap.gridIndex/10),StarblastMap.size-1),0);
-      }
+        return Math.max(Math.min(~~((pos-this.gridIndex)/this.gridIndex/10),this.size-1),0);
+      }.bind(StarblastMap);
     },
     session: new Map(),
     data: [],
@@ -865,7 +868,6 @@ t = (function(){
     },
     info: {
       list: [
-        ["map",null,"Left-click to apply asteroid, right-click to remove, drag for trails"],
         ["show-menu",null,"Show the Map menu"],
         ["hide-menu",null,"Hide the Map menu"],
         ["map_size",null,'Toggle map size (from 20 to 200 and must be even)'],
@@ -1007,6 +1009,7 @@ t = (function(){
     this.view(this.get(e.offsetX),this.get(e.offsetY));
   }.bind(StarblastMap.Coordinates));
   StarblastMap.map.addEventListener("touchmove", function(e){
+    StarblastMap.info(!0)();
     if (e.touches.length == 1) {
       e.preventDefault();
       if (Engine.menu.scaleExpired) {
@@ -1016,10 +1019,14 @@ t = (function(){
       this.view(this.get(e.touches[0].pageX-Engine.menu.left),this.get(e.touches[0].pageY-Engine.menu.top));
     }
   }.bind(StarblastMap.Coordinates));
+  StarblastMap.addEventListener("mouseover",StarblastMap.info());
   StarblastMap.map.addEventListener("mousedown", function(e){
     Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
-  StarblastMap.map.addEventListener("touchstart", function(){Engine.Trail.state=1});
+  StarblastMap.map.addEventListener("touchstart", function(){
+    StarblastMap.info(!0)();
+    Engine.Trail.state=1
+  });
   new ResizeSensor(Engine.menu.main[0], Engine.menu.checkScale.bind(Engine.menu));
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {
