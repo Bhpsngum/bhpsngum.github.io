@@ -27,9 +27,10 @@ t = (function(){
     Coordinates: {
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
-      view: function (x,y) {
+      view: function (x,y,isTouch) {
         if (this.lastViewed[0]!=x || this.lastViewed[1]!=y)
         {
+          (isTouch) && StarblastMap.info(!0)();
           let d= StarblastMap.data[y][x],gl="No Asteroids";
           if (d) gl="Asteroid size: "+d.toString();
           $("#XY").html(`(${y};${x}). ${gl}`);
@@ -1009,14 +1010,13 @@ t = (function(){
     this.view(this.get(e.offsetX),this.get(e.offsetY));
   }.bind(StarblastMap.Coordinates));
   StarblastMap.map.addEventListener("touchmove", function(e){
-    StarblastMap.info(!0)();
     if (e.touches.length == 1) {
       e.preventDefault();
       if (Engine.menu.scaleExpired) {
         Object.assign(Engine.menu,$(StarblastMap.map).offset());
         Engine.menu.scaleExpired = !1;
       }
-      this.view(this.get(e.touches[0].pageX-Engine.menu.left),this.get(e.touches[0].pageY-Engine.menu.top));
+      this.view(this.get(e.touches[0].pageX-Engine.menu.left),this.get(e.touches[0].pageY-Engine.menu.top),!0);
     }
   }.bind(StarblastMap.Coordinates));
   StarblastMap.map.addEventListener("mouseover",StarblastMap.info());

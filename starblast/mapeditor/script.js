@@ -668,11 +668,13 @@ t = (function(){
     }
   }, Engine = {
     supportClipboardAPI: !!(window.Clipboard && window.ClipboardItem),
+    touchHover: false,
     Trail: {
       state: -1,
       stop: function ()
       {
         this.state = -1;
+        Engine.touchHover = false;
         StarblastMap.Coordinates.lastVisited = [-1,-1];
         StarblastMap.pushSession("history",["m",StarblastMap.session]);
         StarblastMap.session = new Map();
@@ -1007,6 +1009,10 @@ t = (function(){
     this.view(this.get(e.offsetX),this.get(e.offsetY));
   }.bind(StarblastMap.Coordinates));
   StarblastMap.map.addEventListener("touchmove", function(e){
+    if (!Engine.touchHover) {
+      StarblastMap.info(!0)();
+      Engine.touchHover = true;
+    }
     if (e.touches.length == 1) {
       e.preventDefault();
       if (Engine.menu.scaleExpired) {
