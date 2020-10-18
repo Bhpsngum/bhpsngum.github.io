@@ -855,13 +855,14 @@ t = (function(){
           let id = this.editIndex;
           if (id == null) id=this.list.length;
           this.list[id] = {name:name||("Custom Brush"+id-this.defaultIndex), code:code, description: desc};
+          this.redrawSelection();
           this.sync();
         },
         redrawSelection: function() {
           $("#brushes").html();
           for (let i=0;i<this.list.length;i++) {
             $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-paint-brush-alt"></i></td>`);
-            $("#brush"+i)[0].onmouseover = Engine.info.view(this.list[i].name,this.list[i].description||"");
+            console.log($("#brush"+i));//.onmouseover = Engine.info.view(this.list[i].name,this.list[i].description||"");
             $("#brush"+i).on("click",function(){Engine.Brush.drawers.select(i)});
           }
         },
@@ -883,7 +884,7 @@ t = (function(){
         },
         remove: function() {
           this.list.splice(this.chosenIndex,1);
-          this.drawSelection();
+          this.redrawSelection();
           this.select(0);
           this.sync();
         },
