@@ -852,9 +852,8 @@ t = (function(){
           return this.get(this.list[id].code);
         },
         update: function(code, name, desc) {
-          let id = (this.editIndex == null)?this.list.length:this.editIndex, br = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||""};
-          if (this.editIndex == null) this.list.push(br);
-          else this.list[this.editIndex] = br;
+          let id = (this.editIndex == null)?this.list.length:this.editIndex;
+          this.list[id] = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||""};
           this.sync();
           this.redrawSelection();
           this.select(this.chosenIndex);
@@ -893,7 +892,7 @@ t = (function(){
           }
         },
         sync: function() {
-          localStorage.setItem("customBrush",JSON.stringify(this.list.splice(this.defaultIndex+1,this.list.length)));
+          localStorage.setItem("customBrush",JSON.stringify(this.list.slice(this.defaultIndex+1,this.list.length)));
         }
       },
       defaultIndex: 0,
