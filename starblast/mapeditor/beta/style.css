@@ -107,6 +107,7 @@ table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOpti
 }
 
 textarea {
+  background-color: inherit;
   font-family: Consolas;
   resize: vertical;
   width:98%;

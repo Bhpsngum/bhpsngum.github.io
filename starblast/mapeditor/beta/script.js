@@ -798,8 +798,8 @@ t = (function(){
             $('*').css("color",color);
             $('.chosen').css("border-bottom-color",color);
             $("#BrushCode").css("background-color",css);
-            $("#code").css("background-color",css);
             StarblastMap.background.color = css;
+            StarblastMap.Engine.menu.set();
             break;
           case "border-color":
             let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size, gridIndex = StarblastMap.gridIndex;
@@ -856,7 +856,6 @@ t = (function(){
             this.list[id] = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||""};
             this.sync();
             this.redrawSelection();
-            this.select(this.chosenIndex);
           },
           redrawSelection: function() {
             $("#brushes").html("");
