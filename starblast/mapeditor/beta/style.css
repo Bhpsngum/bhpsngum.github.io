@@ -104,6 +104,7 @@ table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOpti
   height: 100%;
   z-index: 2;
   padding: 1%;
+  overflow: scroll;
 }
 
 textarea {
