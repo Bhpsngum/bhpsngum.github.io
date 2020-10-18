@@ -843,7 +843,7 @@ t = (function(){
         ],
         get: function(code) {
           let error = 0,t;
-          try{eval("t = function(x,y,size,SBMap){"+code+"}")}
+          try{eval("t = (function(x,y,size,SBMap){"+code+"})")}
           catch(e){error = e};
           return {error: error,drawer: t}
         },
@@ -870,7 +870,7 @@ t = (function(){
           this.editIndex = i;
           this.chosenIndex = i;
           localStorage.setItem("brushIndex",i);
-          for (let i=0;i<this.list.lengh;i++) $("#brush"+i).css("border-width","1px");
+          for (let j=0;j<this.list.lengh;j++) $("#brush"+j).css("border-width","1px");
           $("#brush"+i).css("border-width","3px");
           $("#removeBrush").prop("disabled",this.chosenIndex<=this.defaultIndex);
         },
@@ -1099,7 +1099,6 @@ t = (function(){
           document.body.removeChild(dummy);
         }
         reader.readAsText(blob);
-
       }
     }
     $("#error").on("click",function(){
