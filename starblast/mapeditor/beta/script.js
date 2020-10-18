@@ -358,10 +358,10 @@ t = (function(){
         },
         Utils: {
           random: Engine.random,
-          randomInRange: Engine.random.range
+          randomInRange: Engine.random.range.bind(Engine.random)
         }
       }
-      try{Engine.Brush.list[Engine.Brush.chosenIndex](x,y,init,SBMap,{},{},{})}catch(e){}
+      try{Engine.Brush.list[Engine.Brush.chosenIndex](x,y,init,SBMap,{},{},{})}catch(e){console.log(e)}
       list = [...new Set(list)];
       let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
       check = [
