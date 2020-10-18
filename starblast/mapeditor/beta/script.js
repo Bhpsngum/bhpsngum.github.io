@@ -856,6 +856,7 @@ t = (function(){
           if (id == null) id=this.list.length;
           this.list[id] = {name:name||("Custom Brush"+id-this.defaultIndex), code:code, description: desc||""};
           this.redrawSelection();
+          this.select(this.chosenIndex);
           this.sync();
         },
         redrawSelection: function() {
@@ -1259,7 +1260,7 @@ t = (function(){
   // Key events
   document.onkeydown = function(e)
   {
-    let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize"],check=[];
+    let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize","code","brushname"],check=[];
     for (let i of size) check.push($("#"+i).is(":focus"));
     if (!Math.max(...check))
     {
