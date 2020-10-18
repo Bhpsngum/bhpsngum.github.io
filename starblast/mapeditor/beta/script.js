@@ -1233,7 +1233,7 @@ t = (function(){
     Engine.Brush.drawers.editIndex = null;
     if (Array.isArray(cbr)) for (let i of cbr)
     {
-      if (!Engine.Brush.drawers.get(i.code||"no").error) Engine.Brush.drawers.update(i.code, i.name, i.description);
+      if (!Engine.Brush.drawers.get(i.code||"{").error) Engine.Brush.drawers.update(i.code, i.name, i.description);
     }
   }
   catch(e){}
