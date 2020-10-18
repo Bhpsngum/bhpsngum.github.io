@@ -861,7 +861,7 @@ t = (function(){
           $("#brushes").html();
           for (let i=0;i<this.list.length;i++) {
             $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-paint-brush-alt"></i></td>`);
-            $("#brush"+i)[0].onmouseover = Engine.info.view("brush"+i,this.list[i].name,this.list[i].description||"");
+            $("#brush"+i)[0].onmouseover = Engine.info.view(this.list[i].name,this.list[i].description||"");
             $("#brush"+i).on("click",function(){Engine.Brush.drawers.select(i)});
           }
         },
@@ -878,6 +878,7 @@ t = (function(){
             let check = this.editIndex <= this.defaultIndex;
             $("#code").val((this.list[this.editIndex]||{}).code||"").attr("readonly",check);
             $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
+            $("#save").attr("readonly",check);
           }
         },
         remove: function() {
