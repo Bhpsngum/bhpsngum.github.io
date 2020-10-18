@@ -867,6 +867,7 @@ t = (function(){
           }
         },
         select: function(i) {
+          console.log(i);
           this.editIndex = i;
           this.chosenIndex = i;
           localStorage.setItem("brushIndex",i);
