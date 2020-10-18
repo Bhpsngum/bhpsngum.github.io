@@ -362,7 +362,6 @@ t = (function(){
         }
       }
       let u = Engine.Brush.drawers.getById(Engine.Brush.drawers.chosenIndex);
-      console.log(u);
       if (u.error) console.log(u.error);
       else try{u.drawer.call(window,x,y,init,SBMap,{},{},{})}catch(e){console.log(e)}
       list = [...new Set(list)];
@@ -849,7 +848,7 @@ t = (function(){
           return {error: error,drawer: t}
         },
         getById: function(id) {
-          id = Math.max(Math.min(Math.trunc(Number(id)||0),this.list.length),0);
+          id = Math.max(Math.min(Math.trunc(Number(id)||0),this.list.length-1),0);
           return this.get(this.list[id].code);
         },
         update: function(code, name, desc) {
@@ -860,7 +859,7 @@ t = (function(){
           this.sync();
         },
         redrawSelection: function() {
-          $("#brushes").html();
+          $("#brushes").html("");
           for (let i=0;i<this.list.length;i++) {
             $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-brush"></i></td>`);
             $("#brush"+i)[0].onmouseover = function(){Engine.info.view(this.list[i].name,this.list[i].description||"")}.bind(Engine.Brush.drawers);
@@ -966,7 +965,7 @@ t = (function(){
             $("#container"+i).css("display","none");
           }
         }
-        index = Math.max(Math.min(this.modules.length,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
+        index = Math.max(Math.min(this.modules.length-1,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
         this.chosenIndex = index;
         $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color});
         $("#container"+index).css("display","");
