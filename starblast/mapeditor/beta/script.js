@@ -852,8 +852,7 @@ t = (function(){
           return this.get(this.list[id].code);
         },
         update: function(code, name, desc) {
-          let id = this.editIndex;
-          if (id == null) id=this.list.length;
+          let id = (this.editIndex == null)?this.list.length:this.editIndex;
           this.list[id] = {name:name||("Custom Brush"+(id-this.defaultIndex)), code:code, description: desc||""};
           this.redrawSelection();
           this.select(this.chosenIndex);
@@ -885,10 +884,12 @@ t = (function(){
           }
         },
         remove: function() {
-          this.list.splice(this.chosenIndex,1);
-          this.redrawSelection();
-          this.select(0);
-          this.sync();
+          if (this.editIndex > this.defaultIndex) {
+            this.list.splice(this.chosenIndex,1);
+            this.redrawSelection();
+            this.select(0);
+            this.sync();
+          }
         },
         sync: function() {
           localStorage.setItem("customBrush",JSON.stringify(this.list.splice(this.defaultIndex+1,this.list.length)));
@@ -1243,7 +1244,7 @@ t = (function(){
   cbrid = Math.max(Math.min(cbrid,Engine.Brush.drawers.list.length),0);
   Engine.Brush.drawers.select(cbrid);
   $("#save").on("click", function(){
-    let code = $("#code").val(),p = Engine.Brush.drawers.get(code);
+    let code = $("#code").val(),p = Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
     else {
       Engine.Brush.drawers.update(code, $("#brushname").val());
