@@ -361,7 +361,7 @@ t = (function(){
           randomInRange: Engine.random.range.bind(Engine.random)
         }
       }
-      try{Engine.Brush.list[Engine.Brush.chosenIndex](x,y,init,SBMap,{},{},{log:console.log},{})}catch(e){console.log(e)}
+      try{Engine.Brush.list[Engine.Brush.chosenIndex].draw.call(window,x,y,init,SBMap,{},{},{})}catch(e){console.log(e)}
       list = [...new Set(list)];
       let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
       check = [
@@ -823,14 +823,16 @@ t = (function(){
       randomized: false,
       chosenIndex: 0,
       list: [
-        function (x, y, size, SBMap) {
-          let br = SBMap.Brush.size;
-          for (let i=Math.max(y-br,0);i<=Math.min(y+br,SBMap.size-1);i++)
-            for (let j=Math.max(x-br,0);j<=Math.min(x+br,SBMap.size-1);j++)
-            {
-              let siz = (SBMap.Brush.isRandomized)?SBMap.Utils.randomInRange(SBMap.Asteroids.size.min,SBMap.Asteroids.size.max):size;
-              SBMap.Asteroids.set(i,j,siz);
-            }
+        {
+          draw: function (x, y, size, SBMap) {
+            let br = SBMap.Brush.size;
+            for (let i=Math.max(y-br,0);i<=Math.min(y+br,SBMap.size-1);i++)
+              for (let j=Math.max(x-br,0);j<=Math.min(x+br,SBMap.size-1);j++)
+              {
+                let siz = (SBMap.Brush.isRandomized)?SBMap.Utils.randomInRange(SBMap.Asteroids.size.min,SBMap.Asteroids.size.max):size;
+                SBMap.Asteroids.set(i,j,siz);
+              }
+          }
         }
       ],
       defaultIndex: 0,
