@@ -351,6 +351,7 @@ t = (function(){
             max: max
           }
         },
+        data: StarblastMap.data,
         size: StarblastMap.size,
         Brush: {
           size: StarblastMap.Engine.Brush.size,
