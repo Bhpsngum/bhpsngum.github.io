@@ -851,17 +851,17 @@ t = (function(){
           id = Math.max(Math.min(Math.trunc(Number(id)||0),this.list.length),0);
           this.get(this.list[id].code);
         },
-        update: function(code, name, description) {
+        update: function(code, name, desc) {
           let id = this.editIndex;
           if (id == null) id=this.list.length;
-          this.list[id] = {name:name||("Custom Brush"+id-this.defaultIndex), code:code, description: desc};
+          this.list[id] = {name:name||("Custom Brush"+id-this.defaultIndex), code:code, description: desc||""};
           this.redrawSelection();
           this.sync();
         },
         redrawSelection: function() {
           $("#brushes").html();
           for (let i=0;i<this.list.length;i++) {
-            $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-paint-brush-alt"></i></td>`);
+            $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-brush"></i></td>`);
             $("#brush"+i)[0].onmouseover = function(){Engine.info.view(this.list[i].name,this.list[i].description||"")};
             $("#brush"+i).on("click",function(){Engine.Brush.drawers.select(i)});
           }
