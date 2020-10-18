@@ -366,7 +366,7 @@ t = (function(){
       if (u.error) console.error(u.error);
       else try{u.drawer.call(window,x,y,init,SBMap)}catch(e){console.error(e)}
       list = [...new Set(list)];
-      let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
+      let t = ["X Coordinate", "Y Coordinate", "Asteroid Size"],
       check = [
         function(x){return x>=0 && x<StarblastMap.size},
         function(y){return y>=0 && y<StarblastMap.size},
