@@ -1228,7 +1228,7 @@ t = (function(){
   // Brush code edits
   try {
     let cbr = JSON.parse(localStorage.getItem("customBrush"));
-    if (Array.isArray(cbr) for (let i of cbr)
+    if (Array.isArray(cbr)) for (let i of cbr)
     {
       if (!Engine.Brush.drawers.get(i.code||"no").error) Engine.Brush.drawers.list.push(i);
     }
