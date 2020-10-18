@@ -344,7 +344,7 @@ t = (function(){
         Asteroids: {
           set: function(x,y,size) {
             try{list.push([x,y,size].join("-"))}
-            catch(e){console.log("Cannot modify the Asteroid\nInput value:",x,y,size)}
+            catch(e){console.error(new Error("Cannot modify the Asteroid\nInput value:",x.toString(),y.toString(),size.toString()))}
           },
           size: {
             min: min,
@@ -362,8 +362,8 @@ t = (function(){
         }
       }
       let u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
-      if (u.error) console.log(u.error);
-      else try{u.drawer.call(window,x,y,init,SBMap)}catch(e){console.log(e)}
+      if (u.error) console.error(u.error);
+      else try{u.drawer.call(window,x,y,init,SBMap)}catch(e){console.error(e)}
       list = [...new Set(list)];
       let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
       check = [
@@ -378,7 +378,7 @@ t = (function(){
           (isNaN(val) || !check[i](val)) && text.push(`Invalid ${t[i]}: '${p[i]}'`);
         }
         if (text.length) {
-          console.log("Parse Error:\n"+text.join("\n"));
+          console.error(new Error("Parse Error:\n"+text.join("\n")));
           list[k]+="-invalid";
         }
         else {
@@ -880,6 +880,7 @@ t = (function(){
               let check = this.editIndex <= this.defaultIndex && this.editIndex != null;
               $("#code").val((this.list[this.editIndex]||{}).code||"").attr("readonly",check);
               $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
+              $("#description").val((this.list[this.editIndex]||{}).description||"").attr("readonly",check);
               $("#save").prop("disabled",check);
             }
           },
@@ -1235,7 +1236,7 @@ t = (function(){
     StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
     document.onkeydown = function(e)
     {
-      let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize","code","brushname"],check=[];
+      let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize","code","brushname","description"],check=[];
       for (let i of size) check.push($("#"+i).is(":focus"));
       if (!Math.max(...check))
       {
@@ -1319,7 +1320,7 @@ t = (function(){
     let code = $("#code").val(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
     else {
-      StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val());
+      StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#description").val());
       StarblastMap.Engine.Brush.drawers.showCode(0);
     }
   });
