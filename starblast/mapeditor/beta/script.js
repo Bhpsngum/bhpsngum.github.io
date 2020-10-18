@@ -361,7 +361,9 @@ t = (function(){
           randomInRange: Engine.random.range.bind(Engine.random)
         }
       }
-      try{Engine.Brush.list[Engine.Brush.chosenIndex].draw.call(window,x,y,init,SBMap,{},{},{})}catch(e){console.log(e)}
+      let u = Engine.Brush.drawers.get(Engine.Brush.chosenIndex);
+      if (u.error) console.log(u.error);
+      else try{u.drawer.call(window,x,y,init,SBMap,{},{},{})}catch(e){console.log(e)}
       list = [...new Set(list)];
       let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
       check = [
@@ -830,19 +832,26 @@ t = (function(){
       showCode: function(bool){
         this.editor.css("display",bool?"":"none");
       },
-      list: [
-        {
-          draw: function (x, y, size, SBMap) {
-            let br = SBMap.Brush.size;
-            for (let i=Math.max(y-br,0);i<=Math.min(y+br,SBMap.size-1);i++)
-              for (let j=Math.max(x-br,0);j<=Math.min(x+br,SBMap.size-1);j++)
-              {
-                let siz = (SBMap.Brush.isRandomized)?SBMap.Utils.randomInRange(SBMap.Asteroids.size.min,SBMap.Asteroids.size.max):size;
-                SBMap.Asteroids.set(i,j,siz);
-              }
+      drawers: {
+        list: [
+          {
+            name: "Square Brush",
+            code: `let br = SBMap.Brush.size;
+    for (let i=Math.max(y-br,0);i<=Math.min(y+br,SBMap.size-1);i++)
+      for (let j=Math.max(x-br,0);j<=Math.min(x+br,SBMap.size-1);j++)
+      {
+        let siz = (SBMap.Brush.isRandomized)?SBMap.Utils.randomInRange(SBMap.Asteroids.size.min,SBMap.Asteroids.size.max):size;
+        SBMap.Asteroids.set(i,j,siz);
+      }`
           }
+        ],
+        get: function(i) {
+          let error = 0,t;
+          try{eval("t = function(x,y,size,SBMap,window,document,$){"+this.list[i].code+"}")}
+          catch(e){error = e};
+          return {error: error,drawer: t}
         }
-      ],
+      },
       defaultIndex: 0,
       applyRandom: function(origin) {
         this.randomized = Engine.setCheckbox(origin,"randomCheck","randomizedBrush","rInd");
