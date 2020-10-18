@@ -342,7 +342,7 @@ t = (function(){
       if (c) init = Engine.random.range(min,max);
       let SBMap = {
         Asteroids: {
-          set: function(x,y,size) {list.push([x,y,size])},
+          set: function(x,y,size) {list.push([x,y,size].join("-"))},
           size: {
             min: min,
             max: max
@@ -359,17 +359,35 @@ t = (function(){
         }
       }
       try{Engine.Brush.list[Engine.Brush.chosenIndex](x,y,init,SBMap,{},{},{})}catch(e){}
-      for (let k of list) {
-        if (Engine.Mirror.v) list.push([this.size-x-1,y]);
-        if (Engine.Mirror.h) list.push([x,this.size-y-1]);
-        if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-x-1,this.size-y-1]);
+      list = [...new Set(list)];
+      let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
+      check = [
+        function(x){return x>=0 && x<StarblastMap.size},
+        function(x){return x>=0 && x<StarblastMap.size},
+        function(size){return size>=0 && size<=9}
+      ]
+      for (let k=0;k<list.length;k++) {
+        let p = list[k].split("-"), text = p.map((i,j)=>((typeof i == "number" && check[j](i))?"":`Invalid ${t[j]}: '${i}'`)).join("\n").replace(/(^\n+)|(\n+$)/g,"");
+        if (text) {
+          console.log("Parse Error:\n"+text);
+          list[k]+="-invalid";
+        }
+        else {
+          if (Engine.Mirror.v) list.push([this.size-p[0]-1,p[1]].join("-"));
+          if (Engine.Mirror.h) list.push([p[0],this.size-p[1]-1].join("-"));
+          if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-p[0]-1,this.size-p[1]-1].join("-"));
+        }
       }
-      for (let k of [...new Set(list)])
+      list = [...new Set(list)];
+      for (let k of list)
       {
-        let data = this.Asteroids.modify(...k);
-        if (data.changed){
-          let pos = k.join("-"), prev = this.session.get(pos);
-          this.session.set(pos,[(prev)?prev[0]:data.prev,size]);
+        let p = k.split("-");
+        if (k[3] != "invalid") {
+          let data = this.Asteroids.modify(...k);
+          if (data.changed){
+            let pos = k.join("-"), prev = this.session.get(pos);
+            this.session.set(pos,[(prev)?prev[0]:data.prev,k[2]]);
+          }
         }
       }
       this.sync();
