@@ -862,7 +862,7 @@ t = (function(){
           $("#brushes").html("");
           for (let i=0;i<this.list.length;i++) {
             $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-brush"></i></td>`);
-            $("#brush"+i)[0].onmouseover = function(){Engine.info.view(this.list[i].name,this.list[i].description||"")}.bind(Engine.Brush.drawers);
+            $("#brush"+i)[0].onmouseover = function(){Engine.info.view(Engine.Brush.drawers.list[i].name,Engine.Brush.drawers.list[i].description||"")}
             $("#brush"+i).on("click",function(){Engine.Brush.drawers.select(i)});
           }
         },
@@ -1228,7 +1228,7 @@ t = (function(){
   // Brush code edits
   try {
     let cbr = JSON.parse(localStorage.getItem("customBrush"));
-    for (let i of Array.isArray(cbr))
+    if (Array.isArray(cbr) for (let i of cbr)
     {
       if (!Engine.Brush.drawers.get(i.code||"no").error) Engine.Brush.drawers.list.push(i);
     }
