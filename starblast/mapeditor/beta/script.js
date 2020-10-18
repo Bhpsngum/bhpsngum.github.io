@@ -862,7 +862,7 @@ t = (function(){
           $("#brushes").html();
           for (let i=0;i<this.list.length;i++) {
             $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-paint-brush-alt"></i></td>`);
-            console.log($("#brush"+i));//.onmouseover = Engine.info.view(this.list[i].name,this.list[i].description||"");
+            $("#brush"+i)[0].onmouseover = function(){Engine.info.view(this.list[i].name,this.list[i].description||"")};
             $("#brush"+i).on("click",function(){Engine.Brush.drawers.select(i)});
           }
         },
@@ -876,7 +876,7 @@ t = (function(){
         showCode: function(bool){
           $("#BrushCode").css("display",bool?"":"none");
           if (bool) {
-            let check = this.editIndex <= this.defaultIndex;
+            let check = this.editIndex <= this.defaultIndex && this.editIndex != null;
             $("#code").val((this.list[this.editIndex]||{}).code||"").attr("readonly",check);
             $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
             $("#save").attr("readonly",check);
@@ -1250,7 +1250,7 @@ t = (function(){
   $("#removeBrush").on("click", function(){
     (confirm("Do you want to remove this brush drawer?")) && Engine.Brush.drawers.remove();
   });
-  $("#cancel").on("click",function(){Engine.Brush.showCode(0)});
+  $("#cancel").on("click",function(){Engine.Brush.drawers.showCode(0)});
   $("#addBrush").on("click", function(){
     Engine.Brush.drawers.editIndex=null;
     Engine.Brush.drawers.showCode(1);
