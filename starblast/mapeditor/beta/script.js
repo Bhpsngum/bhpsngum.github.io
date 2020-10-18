@@ -867,6 +867,7 @@ t = (function(){
             }
           },
           select: function(i) {
+            i = (i == void 0)?this.chosenIndex:i;
             this.editIndex = i;
             this.chosenIndex = i;
             localStorage.setItem("brushIndex",i);
@@ -1026,7 +1027,7 @@ t = (function(){
           ["editBrush",null,"Edit the selected custom brush"]
         ],
         view: function (title,text) {
-          $("#info").html(`<strong>${title||""}${title&&text?":":""}</strong>${text||""}`);
+          $("#info").html(`<strong>${title||""}${title&&text?": ":""}</strong>${text||""}`);
         }
       }
     }
@@ -1322,6 +1323,7 @@ t = (function(){
     else {
       StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#description").val());
       StarblastMap.Engine.Brush.drawers.showCode(0);
+      StarblastMap.Engine.Brush.drawers.select();
     }
   });
   $("#removeBrush").on("click", function(){
