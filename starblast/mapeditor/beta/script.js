@@ -22,7 +22,7 @@ t = (function(){
       redo: $("#redo")
     },
     info: function(t) {
-      return function(){Engine.info.view(null,`${t?"Touch":"Left-click"} to apply asteroid, ${t?"One-finger swipe":"right-click to remove, drag"} for trails`)}
+      return function(){StarblastMap.Engine.info.view(null,`${t?"Touch":"Left-click"} to apply asteroid, ${t?"One-finger swipe":"right-click to remove, drag"} for trails`)}
     },
     Coordinates: {
       lastVisited: [-1,-1],
@@ -37,9 +37,9 @@ t = (function(){
         }
         if (this.lastVisited[0]!=x || this.lastVisited[1]!=y)
         {
-          if (Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
-          else if (Engine.Trail.state == 1) StarblastMap.modify(x,y);
-          if (Engine.Trail.state != -1) this.lastVisited = [x,y];
+          if (StarblastMap.Engine.Trail.state == 0) StarblastMap.modify(x,y,0);
+          else if (StarblastMap.Engine.Trail.state == 1) StarblastMap.modify(x,y);
+          if (StarblastMap.Engine.Trail.state != -1) this.lastVisited = [x,y];
         }
       },
       get: function (pos) {
@@ -64,11 +64,11 @@ t = (function(){
       upload: $("#bgI-input"),
       alphaInput: $("#bgI-alpha"),
       checkExport: function(origin) {
-        let u = Engine.setCheckbox(origin,"bgI-allowExport","allowExportImage","bgI-allowExport-ind");
+        let u = StarblastMap.Engine.setCheckbox(origin,"bgI-allowExport","allowExportImage","bgI-allowExport-ind");
         this.allowExport = u;
         let text = "Export the map with"+(u?"out":"")+" the background image (Only available in Map Only Selection)";
-        $("#bgI-allowExport1")[0].onmouseover = function(){Engine.info.view(null,text)}
-        Engine.info.view(null,text);
+        $("#bgI-allowExport1")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text)}
+        StarblastMap.Engine.info.view(null,text);
       },
       checkAlpha: function(alpha) {
         alpha = Number((alpha != void 0)?alpha:(localStorage.getItem("bgI-alpha")||1));
@@ -85,11 +85,11 @@ t = (function(){
         $("#mapBgI").css("display",(map&&url)?"":"none");
       },
       checkGlobal: function(origin) {
-        let u = Engine.setCheckbox(origin,"bgI-global","global-background-image","bgI-global-ind");
+        let u = StarblastMap.Engine.setCheckbox(origin,"bgI-global","global-background-image","bgI-global-ind");
         this.global = u;
         let text = "Adjust background image for "+(u?"map only":"the whole tool");
-        $("#bgI-global1")[0].onmouseover = function(){Engine.info.view(null,text)}
-        Engine.info.view(null,text);
+        $("#bgI-global1")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text)}
+        StarblastMap.Engine.info.view(null,text);
         $("#bgI-MapOnlyOptions").css("display",u?"none":"");
         this.apply(null,u,!u);
       },
@@ -124,14 +124,14 @@ t = (function(){
           map = new Blob([this.export("plain")],{type:"text/plain"});
           break;
         case "url":
-          map = new Blob([Engine.permalink(this.export("url"))],{type:"text/plain"});
+          map = new Blob([StarblastMap.Engine.permalink(this.export("url"))],{type:"text/plain"});
           break;
         case "image":
           const t = await window.fetch(this.export("image"));
           map = await t.blob();
           break;
       }
-      Engine.copyToClipboard(map);
+      StarblastMap.Engine.copyToClipboard(map);
     },
     download: function (type) {
       let map;
@@ -144,7 +144,7 @@ t = (function(){
           map = this.export("image");
           break;
       }
-      Engine.download(null,map);
+      StarblastMap.Engine.download(null,map);
     },
     load: function(data,init,dismiss_history) {
       let prev = this.data,h=data||prev, check=true;
@@ -174,8 +174,8 @@ t = (function(){
             }
           }
           c2d.stroke();
-          Engine.applyColor("border-color");
-          Engine.applyColor("as-color");
+          StarblastMap.Engine.applyColor("border-color");
+          StarblastMap.Engine.applyColor("as-color");
           let px = this.map.width.toString()+"px";
           $("#mapBox").css("width",px);
           $("#mapBgI").css({width:px, height:px});
@@ -194,7 +194,7 @@ t = (function(){
           (!dismiss_history) && this.pushSession("history",["m",session]);
         }
         this.sync();
-        Engine.Brush.applySize();
+        StarblastMap.Engine.Brush.applySize();
       }
       else check=false;
       return check;
@@ -339,7 +339,7 @@ t = (function(){
     },
     modify: function(x,y,num) {
       let c = num == void 0,init, list = [], min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max;
-      if (c) init = Engine.random.range(min,max);
+      if (c) init = StarblastMap.Engine.random.range(min,max);
       let SBMap = {
         Asteroids: {
           set: function(x,y,size) {
@@ -353,17 +353,17 @@ t = (function(){
         },
         size: StarblastMap.size,
         Brush: {
-          size: Engine.Brush.size,
-          isRandomized: Engine.Brush.randomized
+          size: StarblastMap.Engine.Brush.size,
+          isRandomized: StarblastMap.Engine.Brush.randomized
         },
         Utils: {
-          random: Engine.random,
-          randomInRange: Engine.random.range.bind(Engine.random)
+          random: StarblastMap.Engine.random,
+          randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
         }
       }
-      let u = Engine.Brush.drawers.getById(Engine.Brush.drawers.chosenIndex);
+      let u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
       if (u.error) console.log(u.error);
-      else try{u.drawer.call(window,x,y,init,SBMap,SBMap)}catch(e){console.log(e)}
+      else try{u.drawer.call(window,x,y,init,SBMap)}catch(e){console.log(e)}
       list = [...new Set(list)];
       let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
       check = [
@@ -382,9 +382,9 @@ t = (function(){
           list[k]+="-invalid";
         }
         else {
-          if (Engine.Mirror.v) list.push([this.size-p[0]-1,p[1]].join("-"));
-          if (Engine.Mirror.h) list.push([p[0],this.size-p[1]-1].join("-"));
-          if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-p[0]-1,this.size-p[1]-1].join("-"));
+          if (StarblastMap.Engine.Mirror.v) list.push([this.size-p[0]-1,p[1]].join("-"));
+          if (StarblastMap.Engine.Mirror.h) list.push([p[0],this.size-p[1]-1].join("-"));
+          if (StarblastMap.Engine.Mirror.v && StarblastMap.Engine.Mirror.h) list.push([this.size-p[0]-1,this.size-p[1]-1].join("-"));
         }
       }
       list = [...new Set(list)];
@@ -498,7 +498,7 @@ t = (function(){
         this.applyKey("min",u);
         this.applyKey("max",u);
         this.RandomOptions.css("display","none");
-        Engine.applyColor("border-color");
+        StarblastMap.Engine.applyColor("border-color");
       },
       input: {
         max: $("#maxASSize"),
@@ -528,7 +528,7 @@ t = (function(){
           this.applyKey("max",max);
         }
         (self_trigger && this.size.max == this.size.min) && this.changeSize(this.size.min);
-        Engine.applyColor("border-color");
+        StarblastMap.Engine.applyColor("border-color");
 
       },
       size:{
@@ -711,333 +711,334 @@ t = (function(){
       StarblastMap.size = size;
       localStorage.size = size;
       return size;
-    }
-  }, Engine = {
-    supportClipboardAPI: !!(window.Clipboard && window.ClipboardItem),
-    touchHover: false,
-    Trail: {
-      state: -1,
-      stop: function ()
-      {
-        this.state = -1;
-        Engine.touchHover = false;
-        StarblastMap.Coordinates.lastVisited = [-1,-1];
-        StarblastMap.pushSession("history",["m",StarblastMap.session]);
-        StarblastMap.session = new Map();
+    },
+    Engine: {
+      supportClipboardAPI: !!(window.Clipboard && window.ClipboardItem),
+      touchHover: false,
+      Trail: {
+        state: -1,
+        stop: function ()
+        {
+          this.state = -1;
+          StarblastMap.Engine.touchHover = false;
+          StarblastMap.Coordinates.lastVisited = [-1,-1];
+          StarblastMap.pushSession("history",["m",StarblastMap.session]);
+          StarblastMap.session = new Map();
+        },
+        start: function (x,y,event) {
+          switch (event.button) {
+            case 0:
+              this.state=1;
+              StarblastMap.modify(x,y);
+              break;
+            case 2:
+              this.state=0;
+              StarblastMap.modify(x,y,0);
+              break;
+          }
+          StarblastMap.future = [];
+          StarblastMap.Buttons.redo.prop("disabled",true);
+          StarblastMap.Coordinates.lastVisited = [x,y];
+        }
       },
-      start: function (x,y,event) {
-        switch (event.button) {
-          case 0:
-            this.state=1;
-            StarblastMap.modify(x,y);
+      addBorder: function (c2d,x,y,z,t)
+      {
+        c2d.clearRect(x-1,y-1,z-x+2,t-y+2);
+        c2d.moveTo(x,y);
+        c2d.lineTo(z,t);
+      },
+      applyColor: function (para,inp) {
+        let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1,param = para.toLowerCase();
+        if (inp == void 0 || defl)
+        {
+          if ((localStorage[param]||"undefined") == "undefined"  || defl)
+            switch(param)
+            {
+              case "background-color":
+                css="rgb(24,26,27)";
+                break;
+              case "border-color":
+              case "as-color":
+                css="rgb(102,102,102)";
+                break;
+            }
+          else css=localStorage[param];
+        }
+        else css=inp;
+        let elem="",rp;
+        switch (param)
+        {
+          case "background-color":
+            elem='body';
+            rp = param;
             break;
-          case 2:
-            this.state=0;
-            StarblastMap.modify(x,y,0);
+          case "border-color":
+          case "as-color":
+            rp = "color";
+            elem = "#color-test"+["as-color","border-color"].indexOf(param);
             break;
         }
-        StarblastMap.future = [];
-        StarblastMap.Buttons.redo.prop("disabled",true);
-        StarblastMap.Coordinates.lastVisited = [x,y];
-      }
-    },
-    addBorder: function (c2d,x,y,z,t)
-    {
-      c2d.clearRect(x-1,y-1,z-x+2,t-y+2);
-      c2d.moveTo(x,y);
-      c2d.lineTo(z,t);
-    },
-    applyColor: function (para,inp) {
-      let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1,param = para.toLowerCase();
-      if (inp == void 0 || defl)
-      {
-        if ((localStorage[param]||"undefined") == "undefined"  || defl)
-          switch(param)
-          {
-            case "background-color":
-              css="rgb(24,26,27)";
-              break;
-            case "border-color":
-            case "as-color":
-              css="rgb(102,102,102)";
-              break;
-          }
-        else css=localStorage[param];
-      }
-      else css=inp;
-      let elem="",rp;
-      switch (param)
-      {
-        case "background-color":
-          elem='body';
-          rp = param;
-          break;
-        case "border-color":
-        case "as-color":
-          rp = "color";
-          elem = "#color-test"+["as-color","border-color"].indexOf(param);
-          break;
-      }
-      let prcss = window.getComputedStyle($(elem)[0])[rp];
-      $(elem).css(rp,css);
-      css=window.getComputedStyle($(elem)[0])[rp];
-      switch (param)
-      {
-        case "as-color":
-          if (window.getComputedStyle($('body')[0])["background-color"] == css)
-          {
-            css = (prcss == css)?"rgb(102,102,102)":prcss;
-            $(elem).css(rp,css);
-          }
-          StarblastMap.Asteroids.color = css;
-          for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
-          for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
-          break;
-        case "background-color":
-          let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
-          $('*').css("color",color);
-          $('.chosen').css("border-bottom-color",color);
-          $("#BrushCode").css("background-color",css);
-          $("#code").css("background-color",css);
-          StarblastMap.background.color = css;
-          break;
-        case "border-color":
-          let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size, gridIndex = StarblastMap.gridIndex;
-          c2d.beginPath();
-          c2d.strokeStyle = css;
-          c2d.lineWidth = 1;
-          for (let i=0;i<=size;i++)
-          {
-            this.addBorder(c2d,(i*10+1)*gridIndex,gridIndex,(i*10+1)*gridIndex,(size*10+1)*gridIndex);
-            this.addBorder(c2d,gridIndex,(i*10+1)*gridIndex,(size*10+1)*gridIndex,(i*10+1)*gridIndex);
-          }
-          c2d.stroke();
-          $('td').css(param,css);
-          $('.container').css("border-color",css);
-          StarblastMap.borderColor = css;
-          Engine.menu.set();
-          break;
-      }
-      $("#"+param).val(css);
-      localStorage.setItem(param,css);
-      return css;
-    },
-    Brush: {
-      input: $("#brush_size"),
-      randomized: false,
-      drawers: {
-        editIndex: null,
-        chosenIndex: 0,
-        defaultIndex: 0,
-        list: [
-          {
-            name: "Square Brush",
-            code: `let br = StarblastMap.Brush.size;
-    for (let i=Math.max(y-br,0);i<=Math.min(y+br,StarblastMap.size-1);i++)
-      for (let j=Math.max(x-br,0);j<=Math.min(x+br,StarblastMap.size-1);j++)
-      {
-        let siz = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):size;
-        StarblastMap.Asteroids.set(i,j,siz);
-      }`
-          }
-        ],
-        get: function(code) {
-          let error = 0,t;
-          try{eval("t = function(x,y,size,StarblastMap,Engine){"+code+"}")}
-          catch(e){error = e};
-          return {error: error,drawer: t}
-        },
-        getById: function(id) {
-          id = Math.max(Math.min(Math.trunc(Number(id)||0),this.list.length-1),0);
-          return this.get(this.list[id].code);
-        },
-        update: function(code, name, desc) {
-          let id = (this.editIndex == null)?this.list.length:this.editIndex;
-          this.list[id] = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||""};
-          this.sync();
-          this.redrawSelection();
-          this.select(this.chosenIndex);
-        },
-        redrawSelection: function() {
-          $("#brushes").html("");
-          for (let i=0;i<this.list.length;i++) {
-            $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-brush"></i></td>`);
-            $("#brush"+i)[0].onmouseover = function(){Engine.info.view(Engine.Brush.drawers.list[i].name,Engine.Brush.drawers.list[i].description||"")}
-            $("#brush"+i)[0].onclick = function(){Engine.Brush.drawers.select(i)};
-          }
-        },
-        select: function(i) {
-          console.log(i);
-          this.editIndex = i;
-          this.chosenIndex = i;
-          localStorage.setItem("brushIndex",i);
-          for (let j=0;j<this.list.lengh;j++) $("#brush"+j).css("border-width","1px");
-          $("#brush"+i).css("border-width","3px");
-          $("#removeBrush").prop("disabled",this.chosenIndex<=this.defaultIndex);
-        },
-        showCode: function(bool){
-          $("#BrushCode").css("display",bool?"":"none");
-          if (bool) {
-            let check = this.editIndex <= this.defaultIndex && this.editIndex != null;
-            $("#code").val((this.list[this.editIndex]||{}).code||"").attr("readonly",check);
-            $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
-            $("#save").prop("disabled",check);
-          }
-        },
-        remove: function() {
-          if (this.editIndex > this.defaultIndex) {
-            this.list.splice(this.chosenIndex,1);
-            this.redrawSelection();
-            this.select(0);
+        let prcss = window.getComputedStyle($(elem)[0])[rp];
+        $(elem).css(rp,css);
+        css=window.getComputedStyle($(elem)[0])[rp];
+        switch (param)
+        {
+          case "as-color":
+            if (window.getComputedStyle($('body')[0])["background-color"] == css)
+            {
+              css = (prcss == css)?"rgb(102,102,102)":prcss;
+              $(elem).css(rp,css);
+            }
+            StarblastMap.Asteroids.color = css;
+            for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
+            for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
+            break;
+          case "background-color":
+            let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
+            $('*').css("color",color);
+            $('.chosen').css("border-bottom-color",color);
+            $("#BrushCode").css("background-color",css);
+            $("#code").css("background-color",css);
+            StarblastMap.background.color = css;
+            break;
+          case "border-color":
+            let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size, gridIndex = StarblastMap.gridIndex;
+            c2d.beginPath();
+            c2d.strokeStyle = css;
+            c2d.lineWidth = 1;
+            for (let i=0;i<=size;i++)
+            {
+              this.addBorder(c2d,(i*10+1)*gridIndex,gridIndex,(i*10+1)*gridIndex,(size*10+1)*gridIndex);
+              this.addBorder(c2d,gridIndex,(i*10+1)*gridIndex,(size*10+1)*gridIndex,(i*10+1)*gridIndex);
+            }
+            c2d.stroke();
+            $('td').css(param,css);
+            $('.container').css("border-color",css);
+            StarblastMap.borderColor = css;
+            StarblastMap.Engine.menu.set();
+            break;
+        }
+        $("#"+param).val(css);
+        localStorage.setItem(param,css);
+        return css;
+      },
+      Brush: {
+        input: $("#brush_size"),
+        randomized: false,
+        drawers: {
+          editIndex: null,
+          chosenIndex: 0,
+          defaultIndex: 0,
+          list: [
+            {
+              name: "Square Brush",
+              code: `let br = StarblastMap.Brush.size;
+      for (let i=Math.max(y-br,0);i<=Math.min(y+br,StarblastMap.size-1);i++)
+        for (let j=Math.max(x-br,0);j<=Math.min(x+br,StarblastMap.size-1);j++)
+        {
+          let siz = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):size;
+          StarblastMap.Asteroids.set(i,j,siz);
+        }`
+            }
+          ],
+          get: function(code) {
+            let error = 0,t;
+            try{eval("t = function(x,y,size,StarblastMap){"+code+"}")}
+            catch(e){error = e};
+            return {error: error,drawer: t}
+          },
+          getById: function(id) {
+            id = Math.max(Math.min(Math.trunc(Number(id)||0),this.list.length-1),0);
+            return this.get(this.list[id].code);
+          },
+          update: function(code, name, desc) {
+            let id = (this.editIndex == null)?this.list.length:this.editIndex;
+            this.list[id] = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||""};
             this.sync();
+            this.redrawSelection();
+            this.select(this.chosenIndex);
+          },
+          redrawSelection: function() {
+            $("#brushes").html("");
+            for (let i=0;i<this.list.length;i++) {
+              $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-brush"></i></td>`);
+              $("#brush"+i)[0].onmouseover = function(){StarblastMap.Engine.info.view(StarblastMap.Engine.Brush.drawers.list[i].name,StarblastMap.Engine.Brush.drawers.list[i].description||"")}
+              $("#brush"+i)[0].onclick = function(){StarblastMap.Engine.Brush.drawers.select(i)};
+            }
+          },
+          select: function(i) {
+            console.log(i);
+            this.editIndex = i;
+            this.chosenIndex = i;
+            localStorage.setItem("brushIndex",i);
+            for (let j=0;j<this.list.lengh;j++) $("#brush"+j).css("border-width","1px");
+            $("#brush"+i).css("border-width","3px");
+            $("#removeBrush").prop("disabled",this.chosenIndex<=this.defaultIndex);
+          },
+          showCode: function(bool){
+            $("#BrushCode").css("display",bool?"":"none");
+            if (bool) {
+              let check = this.editIndex <= this.defaultIndex && this.editIndex != null;
+              $("#code").val((this.list[this.editIndex]||{}).code||"").attr("readonly",check);
+              $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
+              $("#save").prop("disabled",check);
+            }
+          },
+          remove: function() {
+            if (this.editIndex > this.defaultIndex) {
+              this.list.splice(this.chosenIndex,1);
+              this.redrawSelection();
+              this.select(0);
+              this.sync();
+            }
+          },
+          sync: function() {
+            localStorage.setItem("customBrush",JSON.stringify(this.list.slice(this.defaultIndex+1,this.list.length)));
           }
         },
-        sync: function() {
-          localStorage.setItem("customBrush",JSON.stringify(this.list.slice(this.defaultIndex+1,this.list.length)));
-        }
+        defaultIndex: 0,
+        applyRandom: function(origin) {
+          this.randomized = StarblastMap.Engine.setCheckbox(origin,"randomCheck","randomizedBrush","rInd");
+        },
+        size: 0,
+        applySize: function (num = (Number(localStorage.brush)||0)) {
+          let max=StarblastMap.size;
+          let size=Math.round(num);
+          size=Math.max(Math.min(max,size),0);
+          this.input.val(size);
+          this.size = size;
+          localStorage.setItem("brush",size);
+        },
       },
-      defaultIndex: 0,
-      applyRandom: function(origin) {
-        this.randomized = Engine.setCheckbox(origin,"randomCheck","randomizedBrush","rInd");
+      Mirror: {
+        apply: function (origin,p) {
+          let u = StarblastMap.Engine.setCheckbox(origin,"mirror-"+p,"mirror_"+p,"mrmark-"+p);
+          this[p] = u;
+          $("#almr").css("display",(this.v && this.h)?"":"none");
+        },
+        v:false,
+        h:false
       },
-      size: 0,
-      applySize: function (num = (Number(localStorage.brush)||0)) {
-        let max=StarblastMap.size;
-        let size=Math.round(num);
-        size=Math.max(Math.min(max,size),0);
-        this.input.val(size);
-        this.size = size;
-        localStorage.setItem("brush",size);
+      generateName: function() {
+        return "starblast-map_" + Date.now();
       },
-    },
-    Mirror: {
-      apply: function (origin,p) {
-        let u = Engine.setCheckbox(origin,"mirror-"+p,"mirror_"+p,"mrmark-"+p);
-        this[p] = u;
-        $("#almr").css("display",(this.v && this.h)?"":"none");
+      copyToClipboard: async function (blob)
+      {
+        await navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
       },
-      v:false,
-      h:false
-    },
-    generateName: function() {
-      return "starblast-map_" + Date.now();
-    },
-    copyToClipboard: async function (blob)
-    {
-      await navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
-    },
-    download: function (name, data) {
-      var element = document.createElement('a');
-      element.setAttribute('href', data);
-      element.setAttribute('download', name || Engine.generateName());
+      download: function (name, data) {
+        var element = document.createElement('a');
+        element.setAttribute('href', data);
+        element.setAttribute('download', name || this.generateName());
 
-      element.style.display = 'none';
-      document.body.appendChild(element);
+        element.style.display = 'none';
+        document.body.appendChild(element);
 
-      element.click();
+        element.click();
 
-      document.body.removeChild(element);
-    },
-    permalink: function(newMap = "")
-    {
-      return `${window.location.protocol}//${window.location.host}${window.location.pathname}${(newMap)?"?":""}${newMap}`;
-    },
-    setURL: function (newMap = "")
-    {
-      let url = this.permalink(newMap);
-      window.history.pushState({path:url},'',url);
-    },
-    menu: {
-      main: $("#menu"),
-      modules: ["Map","Edit","Decoration","Advanced","Miscellaneous"],
-      chosenIndex: 1,
-      hide: function(bool) {
-        bool = (bool == void 0)?(localStorage.getItem("hideMenu") == "true"):!!bool;
-        this.isHidden = bool;
-        localStorage.setItem("hideMenu", bool);
-        $("#short-main").css("display",bool?"":"none");
-        $("#main").css("display",bool?"none":"");
+        document.body.removeChild(element);
       },
-      checkScale: function() {
-        this.scaleExpired = !0;
-        $("#mapBox").css("padding-top",(this.main.height()+5)+"px");
+      permalink: function(newMap = "")
+      {
+        return `${window.location.protocol}//${window.location.host}${window.location.pathname}${(newMap)?"?":""}${newMap}`;
       },
-      set: function(index) {
-        for (let i=0;i<this.modules.length;i++) {
-          if (i!==index) {
-            $("#menu"+i).css({border:"","border-color":StarblastMap.borderColor});
-            $("#container"+i).css("display","none");
+      setURL: function (newMap = "")
+      {
+        let url = this.permalink(newMap);
+        window.history.pushState({path:url},'',url);
+      },
+      menu: {
+        main: $("#menu"),
+        modules: ["Map","Edit","Decoration","Advanced","Miscellaneous"],
+        chosenIndex: 1,
+        hide: function(bool) {
+          bool = (bool == void 0)?(localStorage.getItem("hideMenu") == "true"):!!bool;
+          this.isHidden = bool;
+          localStorage.setItem("hideMenu", bool);
+          $("#short-main").css("display",bool?"":"none");
+          $("#main").css("display",bool?"none":"");
+        },
+        checkScale: function() {
+          this.scaleExpired = !0;
+          $("#mapBox").css("padding-top",(this.main.height()+5)+"px");
+        },
+        set: function(index) {
+          for (let i=0;i<this.modules.length;i++) {
+            if (i!==index) {
+              $("#menu"+i).css({border:"","border-color":StarblastMap.borderColor});
+              $("#container"+i).css("display","none");
+            }
           }
+          index = Math.max(Math.min(this.modules.length-1,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
+          this.chosenIndex = index;
+          $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color});
+          $("#container"+index).css("display","");
         }
-        index = Math.max(Math.min(this.modules.length-1,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
-        this.chosenIndex = index;
-        $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color});
-        $("#container"+index).css("display","");
-      }
-    },
-    random: function(num) {
-      return ~~(Math.random()*num);
-    },
-    setCheckbox: function (origin, triggerID, storage, IndID) {
-      let sign=["times","check"], u = origin?(localStorage.getItem(storage) == "true"):$("#"+triggerID).is(":checked");
-      origin && $("#"+triggerID).prop("checked",u);
-      $("#"+IndID).prop("class","fas fa-fw fa-"+sign[Number(u)]);
-      localStorage.setItem(storage, u);
-      return u;
-    },
-    info: {
-      list: [
-        ["show-menu",null,"Show the Map menu"],
-        ["hide-menu",null,"Hide the Map menu"],
-        ["map_size",null,'Toggle map size (from 20 to 200 and must be even)'],
-        ["asc0",null,'Remove asteroids in the map (Hotkey 0)'],
-        ...new Array(9).fill(0).map((j,i) => [`asc${i+1}`,null,`Asteroid size ${i+1} (Hotkey ${i+1})`]),
-        ["randomSize",'Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)'],
-        ["brush_size",null,'Toggle brush radius (0 to current map size)'],
-        ["minASSize",null,'Toggle minimum Asteroid size (0 to Maximum Asteroid Size)'],
-        ["maxASSize",null,'Toggle maximum Asteroid size (Minimum Asteroid Size to 9)'],
-        ["mr-h",null,"Toggle horizontal Mirror"],
-        ["mr-v",null,"Toggle vertical Mirror"],
-        ["almr",null,"All-Corners mirror is enabled"],
-        ["rCheckIcon",'Random Asteroid Size in Brush','Random Asteroids Size in a single Brush'],
-        ["as-color",null,'Toggle asteroid color'],
-        ["background-color",null,'Toggle background color'],
-        ["bgI-input1",null,"Upload your own background image from file (accept all image formats)"],
-        ["bgI-url",null,"Upload your own background image from url"],
-        ["bgI-alpha",null,"Toggle background image opacity (0 to 1 - Only available in Map Only Selection)"],
-        ["bgI-clear",null,"Clear current custom background image"],
-        ["border-color",null,'Toggle line color'],
-        ["undo","Undo","Undo previous actions in the map"],
-        ["redo","Redo","Redo undid actions in the map"],
-        ["clearMap",'Clear Map','Clear all asteroids in the current map'],
-        ["exportText",'Export Map as Text','Export map as a text/plain (*.txt) file (Hotkey Ctrl + S)'],
-        ["copyText",'Copy Map','Copy current map pattern to clipboard'],
-        ["loadMap1",'Import Map','Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js) format)'],
-        ["random",'RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>'],
-        ["feedback",'Feedback','Give us a feedback'],
-        ["permalink",'Permalink','Copy map permalink to clipboard'],
-        ["exportImage",'Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)'],
-        ["copyImage",'Copy Map screenshot','Copy Map screenshot as as a PNG (*.png) file to Clipboard'],
-        ["tutorial",'Tutorial','Visit the Map Editor Tutorial Page'],
-        ["changelog",'Changelog',"View the update's log of Map Editor from the beginning"],
-        ["XY",null,'Your cursor position in the map. Hover the map for details'],
-        ["addBrush",null,"Add your custom brush"],
-        ["removeBrush",null,"Remove the selected custom brush"],
-        ["editBrush",null,"Edit the selected custom brush"]
-      ],
-      view: function (title,text) {
-        $("#info").html(`<strong>${title||""}${title&&text?":":""}</strong>${text||""}`);
+      },
+      random: function(num) {
+        return ~~(Math.random()*num);
+      },
+      setCheckbox: function (origin, triggerID, storage, IndID) {
+        let sign=["times","check"], u = origin?(localStorage.getItem(storage) == "true"):$("#"+triggerID).is(":checked");
+        origin && $("#"+triggerID).prop("checked",u);
+        $("#"+IndID).prop("class","fas fa-fw fa-"+sign[Number(u)]);
+        localStorage.setItem(storage, u);
+        return u;
+      },
+      info: {
+        list: [
+          ["show-menu",null,"Show the Map menu"],
+          ["hide-menu",null,"Hide the Map menu"],
+          ["map_size",null,'Toggle map size (from 20 to 200 and must be even)'],
+          ["asc0",null,'Remove asteroids in the map (Hotkey 0)'],
+          ...new Array(9).fill(0).map((j,i) => [`asc${i+1}`,null,`Asteroid size ${i+1} (Hotkey ${i+1})`]),
+          ["randomSize",'Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)'],
+          ["brush_size",null,'Toggle brush radius (0 to current map size)'],
+          ["minASSize",null,'Toggle minimum Asteroid size (0 to Maximum Asteroid Size)'],
+          ["maxASSize",null,'Toggle maximum Asteroid size (Minimum Asteroid Size to 9)'],
+          ["mr-h",null,"Toggle horizontal Mirror"],
+          ["mr-v",null,"Toggle vertical Mirror"],
+          ["almr",null,"All-Corners mirror is enabled"],
+          ["rCheckIcon",'Random Asteroid Size in Brush','Random Asteroids Size in a single Brush'],
+          ["as-color",null,'Toggle asteroid color'],
+          ["background-color",null,'Toggle background color'],
+          ["bgI-input1",null,"Upload your own background image from file (accept all image formats)"],
+          ["bgI-url",null,"Upload your own background image from url"],
+          ["bgI-alpha",null,"Toggle background image opacity (0 to 1 - Only available in Map Only Selection)"],
+          ["bgI-clear",null,"Clear current custom background image"],
+          ["border-color",null,'Toggle line color'],
+          ["undo","Undo","Undo previous actions in the map"],
+          ["redo","Redo","Redo undid actions in the map"],
+          ["clearMap",'Clear Map','Clear all asteroids in the current map'],
+          ["exportText",'Export Map as Text','Export map as a text/plain (*.txt) file (Hotkey Ctrl + S)'],
+          ["copyText",'Copy Map','Copy current map pattern to clipboard'],
+          ["loadMap1",'Import Map','Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js) format)'],
+          ["random",'RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>'],
+          ["feedback",'Feedback','Give us a feedback'],
+          ["permalink",'Permalink','Copy map permalink to clipboard'],
+          ["exportImage",'Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)'],
+          ["copyImage",'Copy Map screenshot','Copy Map screenshot as as a PNG (*.png) file to Clipboard'],
+          ["tutorial",'Tutorial','Visit the Map Editor Tutorial Page'],
+          ["changelog",'Changelog',"View the update's log of Map Editor from the beginning"],
+          ["XY",null,'Your cursor position in the map. Hover the map for details'],
+          ["addBrush",null,"Add your custom brush"],
+          ["removeBrush",null,"Remove the selected custom brush"],
+          ["editBrush",null,"Edit the selected custom brush"]
+        ],
+        view: function (title,text) {
+          $("#info").html(`<strong>${title||""}${title&&text?":":""}</strong>${text||""}`);
+        }
       }
     }
   }
-  Engine.info.list.unshift(...Engine.menu.modules.map((i,j) => ["menu"+j,null,i+" Tab"]));
+  StarblastMap.Engine.info.list.unshift(...StarblastMap.Engine.menu.modules.map((i,j) => ["menu"+j,null,i+" Tab"]));
   Object.assign(StarblastMap.Asteroids.changeSize,{
     applySize: function(key)
     {
       return Math.min(Math.max(0,Number($("#"+key+"ASSize").val())||0),9);
     }
   });
-  Object.assign(Engine.random, {
+  Object.assign(StarblastMap.Engine.random, {
     range: function(min,max)
     {
       return Number(min+this(max-min+1))||min;
@@ -1062,7 +1063,7 @@ t = (function(){
         if (error = !confirm("You are using the old map permalink\nWould you like to go to the new one?"), !error) return '?map='+query[0];
     }
   }
-  Engine.setURL();
+  StarblastMap.Engine.setURL();
   StarblastMap.Asteroids.template.onload = function() {
     if (error)
     {
@@ -1085,10 +1086,10 @@ t = (function(){
     StarblastMap.background.check(null,0,1);
     StarblastMap.background.checkAlpha();
   }
-  if (!Engine.supportClipboardAPI) {
+  if (!StarblastMap.Engine.supportClipboardAPI) {
     $("#main").append("<p style='font-size:10pt'>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
     $("#copyImage").remove();
-    Engine.copyToClipboard = function(blob) {
+    StarblastMap.Engine.copyToClipboard = function(blob) {
       if (blob.type == "text/plain") {
         var reader = new FileReader();
         reader.onload = function() {
@@ -1107,7 +1108,7 @@ t = (function(){
     });
   }
   else StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
-  Engine.Brush.applyRandom(!0);
+  StarblastMap.Engine.Brush.applyRandom(!0);
   StarblastMap.background.checkExport(!0);
   StarblastMap.background.checkGlobal(!0);
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
@@ -1117,8 +1118,8 @@ t = (function(){
     $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table id='mirrorChoose'><tr>"+mr.map((i,j) => `<td id="mr-${i}"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td id="almr"><i class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
     for (let i of mr)
     {
-      Engine.Mirror.apply(!0,i);
-      $("#mirror-"+i).on("change",function(){Engine.Mirror.apply(null,i)});
+      StarblastMap.Engine.Mirror.apply(!0,i);
+      $("#mirror-"+i).on("change",function(){StarblastMap.Engine.Mirror.apply(null,i)});
       $("#mr-"+i).on("click",function(){$("#mirror-"+i).click()});
     }
   }
@@ -1129,28 +1130,28 @@ t = (function(){
     this.view(this.get(e.offsetX),this.get(e.offsetY));
   }.bind(StarblastMap.Coordinates));
   StarblastMap.map.addEventListener("touchmove", function(e){
-    if (!Engine.touchHover) {
+    if (!StarblastMap.Engine.touchHover) {
       StarblastMap.info(!0)();
-      Engine.touchHover = true;
+      StarblastMap.Engine.touchHover = true;
     }
     if (e.touches.length == 1) {
       e.preventDefault();
-      if (Engine.menu.scaleExpired) {
-        Object.assign(Engine.menu,$(StarblastMap.map).offset());
-        Engine.menu.scaleExpired = !1;
+      if (StarblastMap.Engine.menu.scaleExpired) {
+        Object.assign(StarblastMap.Engine.menu,$(StarblastMap.map).offset());
+        StarblastMap.Engine.menu.scaleExpired = !1;
       }
-      this.view(this.get(e.touches[0].pageX-Engine.menu.left),this.get(e.touches[0].pageY-Engine.menu.top));
+      this.view(this.get(e.touches[0].pageX-StarblastMap.Engine.menu.left),this.get(e.touches[0].pageY-StarblastMap.Engine.menu.top));
     }
   }.bind(StarblastMap.Coordinates));
-  StarblastMap.map.addEventListener("mouseover",function(){(!Engine.touchHover) && StarblastMap.info()()});
+  StarblastMap.map.addEventListener("mouseover",function(){(!StarblastMap.Engine.touchHover) && StarblastMap.info()()});
   StarblastMap.map.addEventListener("mousedown", function(e){
-    Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
+    StarblastMap.Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
   StarblastMap.map.addEventListener("touchstart", function(){
     StarblastMap.info(!0)();
-    Engine.Trail.state=1
+    StarblastMap.Engine.Trail.state=1
   });
-  new ResizeSensor(Engine.menu.main[0], Engine.menu.checkScale.bind(Engine.menu));
+  new ResizeSensor(StarblastMap.Engine.menu.main[0], StarblastMap.Engine.menu.checkScale.bind(StarblastMap.Engine.menu));
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];
@@ -1178,21 +1179,21 @@ t = (function(){
     StarblastMap.create();
   });
   StarblastMap.Buttons.clear.on("click",StarblastMap.clear.bind(StarblastMap));
-  Engine.Brush.input.on("change", function() {
-    Engine.Brush.applySize($("#brush_size").val());
+  StarblastMap.Engine.Brush.input.on("change", function() {
+    StarblastMap.Engine.Brush.applySize($("#brush_size").val());
   });
   StarblastMap.checkActions();
   StarblastMap.Buttons.undo.on("click",StarblastMap.undo.bind(StarblastMap));
   StarblastMap.Buttons.redo.on("click",StarblastMap.redo.bind(StarblastMap));
-  $("#randomCheck").on("change",function(){Engine.Brush.applyRandom()});
+  $("#randomCheck").on("change",function(){StarblastMap.Engine.Brush.applyRandom()});
   for (let i of ["border","background","as"])
   {
-    Engine.applyColor(i+"-color");
+    StarblastMap.Engine.applyColor(i+"-color");
     $("#"+i+"-color").on("change", function(){
-      Engine.applyColor(i+"-color",$("#"+i+"-color").val());
+      StarblastMap.Engine.applyColor(i+"-color",$("#"+i+"-color").val());
     });
   }
-  for (let i=0;i<Engine.menu.modules.length;i++) $("#menu"+i).on("click",function(){Engine.menu.set(i)});
+  for (let i=0;i<StarblastMap.Engine.menu.modules.length;i++) $("#menu"+i).on("click",function(){StarblastMap.Engine.menu.set(i)});
   StarblastMap.Buttons.export.text.on("click",function() {
     StarblastMap.download("plain");
   });
@@ -1202,9 +1203,9 @@ t = (function(){
   StarblastMap.Buttons.randomMaze.on("click", function() {
     StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
   });
-  Engine.menu.hide();
-  $("#show-menu").on("click", function(){Engine.menu.hide(!1)});
-  $("#hide-menu").on("click", function(){Engine.menu.hide(!0)});
+  StarblastMap.Engine.menu.hide();
+  $("#show-menu").on("click", function(){StarblastMap.Engine.menu.hide(!1)});
+  $("#hide-menu").on("click", function(){StarblastMap.Engine.menu.hide(!0)});
   StarblastMap.background.alphaInput.on("change", function(){StarblastMap.background.checkAlpha(StarblastMap.background.alphaInput.val())});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
@@ -1229,7 +1230,7 @@ t = (function(){
   try {
     let rSize = StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids);
     $("#randomSize").on("click",function(){rSize()});
-    Engine.Brush.applySize();
+    StarblastMap.Engine.Brush.applySize();
     rSize(1);
     StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
     StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
@@ -1303,46 +1304,46 @@ t = (function(){
   catch(e){}
   try {
     let cbr = JSON.parse(localStorage.getItem("customBrush"));
-    Engine.Brush.drawers.editIndex = null;
+    StarblastMap.Engine.Brush.drawers.editIndex = null;
     if (Array.isArray(cbr)) for (let i of cbr)
     {
-      if (!Engine.Brush.drawers.get(i.code||"{").error) Engine.Brush.drawers.update(i.code, i.name, i.description);
+      if (!StarblastMap.Engine.Brush.drawers.get(i.code||"{").error) StarblastMap.Engine.Brush.drawers.update(i.code, i.name, i.description);
     }
-    Engine.Brush.drawers.sync();
-    Engine.Brush.drawers.redrawSelection();
+    StarblastMap.Engine.Brush.drawers.sync();
+    StarblastMap.Engine.Brush.drawers.redrawSelection();
     let cbrid = Number(localStorage.getItem("brushIndex"))||0;
-    cbrid = Math.max(Math.min(cbrid,Engine.Brush.drawers.list.length-1),0);
-    Engine.Brush.drawers.select(cbrid);
+    cbrid = Math.max(Math.min(cbrid,StarblastMap.Engine.Brush.drawers.list.length-1),0);
+    StarblastMap.Engine.Brush.drawers.select(cbrid);
   }
   catch(e){}
   $("#save").on("click", function(){
-    let code = $("#code").val(),p = Engine.Brush.drawers.get(code||"{");
+    let code = $("#code").val(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
     else {
-      Engine.Brush.drawers.update(code, $("#brushname").val());
-      Engine.Brush.drawers.showCode(0);
+      StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val());
+      StarblastMap.Engine.Brush.drawers.showCode(0);
     }
   });
   $("#removeBrush").on("click", function(){
-    (confirm("Do you want to remove this brush drawer?")) && Engine.Brush.drawers.remove();
+    (confirm("Do you want to remove this brush drawer?")) && StarblastMap.Engine.Brush.drawers.remove();
   });
-  $("#cancel").on("click",function(){Engine.Brush.drawers.showCode(0)});
+  $("#cancel").on("click",function(){StarblastMap.Engine.Brush.drawers.showCode(0)});
   $("#addBrush").on("click", function(){
-    Engine.Brush.drawers.editIndex=null;
-    Engine.Brush.drawers.showCode(1);
+    StarblastMap.Engine.Brush.drawers.editIndex=null;
+    StarblastMap.Engine.Brush.drawers.showCode(1);
   });
-  $("#editBrush").on("click",function(){Engine.Brush.drawers.showCode(1)});
-  window.addEventListener("mouseup", Engine.Trail.stop.bind(Engine.Trail));
-  window.addEventListener("blur", Engine.Trail.stop.bind(Engine.Trail));
-  window.addEventListener("touchcancel",Engine.Trail.stop.bind(Engine.Trail));
-  window.addEventListener("touchend",Engine.Trail.stop.bind(Engine.Trail));
+  $("#editBrush").on("click",function(){StarblastMap.Engine.Brush.drawers.showCode(1)});
+  window.addEventListener("mouseup", StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
+  window.addEventListener("blur", StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
+  window.addEventListener("touchcancel",StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
+  window.addEventListener("touchend",StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
   StarblastMap.Buttons.permalink.on("click", function(){
-    Engine.setURL(StarblastMap.export("url"));
+    StarblastMap.Engine.setURL(StarblastMap.export("url"));
     StarblastMap.copy("url");
   });
   for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize"])
   $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
-  for (let i of Engine.info.list) $("#"+i[0]).on("mouseover",function(){
-    Engine.info.view(i[1],i[2]);
+  for (let i of StarblastMap.Engine.info.list) $("#"+i[0]).on("mouseover",function(){
+    StarblastMap.Engine.info.view(i[1],i[2]);
   });
 }());
