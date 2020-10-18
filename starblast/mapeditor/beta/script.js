@@ -843,7 +843,7 @@ t = (function(){
         ],
         get: function(code) {
           let error = 0,t;
-          try{eval("t = (function(x,y,size,SBMap){"+code+"})")}
+          try{eval("t = (function(){return function(x,y,size,SBMap){"+code+"}}())")}
           catch(e){error = e};
           return {error: error,drawer: t}
         },
@@ -863,7 +863,7 @@ t = (function(){
           for (let i=0;i<this.list.length;i++) {
             $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-brush"></i></td>`);
             $("#brush"+i)[0].onmouseover = function(){Engine.info.view(Engine.Brush.drawers.list[i].name,Engine.Brush.drawers.list[i].description||"")}
-            $("#brush"+i).on("click",function(){Engine.Brush.drawers.select(i)});
+            $("#brush"+i)[0].onclick = function(){Engine.Brush.drawers.select(i)};
           }
         },
         select: function(i) {
@@ -1240,7 +1240,7 @@ t = (function(){
   Engine.Brush.drawers.sync();
   Engine.Brush.drawers.redrawSelection();
   let cbrid = Number(localStorage.getItem("brushIndex"))||0;
-  cbrid = Math.max(Math.min(cbrid,Engine.Brush.drawers.list.length),0);
+  cbrid = Math.max(Math.min(cbrid,Engine.Brush.drawers.list.length-1),0);
   Engine.Brush.drawers.select(cbrid);
   $("#save").on("click", function(){
     let code = $("#code").val(),p = Engine.Brush.drawers.get(code||"{");
