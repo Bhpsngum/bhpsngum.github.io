@@ -342,7 +342,10 @@ t = (function(){
       if (c) init = Engine.random.range(min,max);
       let SBMap = {
         Asteroids: {
-          set: function(x,y,size) {list.push([x,y,size].join("-"))},
+          set: function(x,y,size) {
+            try{list.push([x,y,size].join("-"))}
+            catch(e){console.log("Cannot modify the Asteroid\nInput value:",x,y,size)}
+          },
           size: {
             min: min,
             max: max
@@ -367,9 +370,13 @@ t = (function(){
         function(size){return size>=0 && size<=9}
       ]
       for (let k=0;k<list.length;k++) {
-        let p = list[k].split("-").map(u => Number(u)), text = p.map((i,j)=>((typeof i == "number" && check[j](i))?"":`Invalid ${t[j]}: '${i}'`)).join("\n").replace(/(^\n+)|(\n+$)/g,"");
-        if (text) {
-          console.log("Parse Error:\n"+text);
+        let p = list[k].split("-"), text = [];
+        for (let i=0;i<3;i++) {
+          let val = Number(p[i]);
+          (isNaN(val) || !check[i](val)) && text.push(`Invalid ${t[i]}: '${p[i]}'`);
+        }
+        if (text.length) {
+          console.log("Parse Error:\n"+text.join("\n"));
           list[k]+="-invalid";
         }
         else {
