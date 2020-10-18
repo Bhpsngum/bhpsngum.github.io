@@ -361,7 +361,7 @@ t = (function(){
           randomInRange: Engine.random.range.bind(Engine.random)
         }
       }
-      try{Engine.Brush.list[Engine.Brush.chosenIndex](x,y,init,SBMap,{},{},{})}catch(e){console.log(e)}
+      try{Engine.Brush.list[Engine.Brush.chosenIndex](x,y,init,SBMap,{},{},{log:console.log},{})}catch(e){console.log(e)}
       list = [...new Set(list)];
       let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
       check = [
@@ -833,6 +833,7 @@ t = (function(){
             }
         }
       ],
+      defaultIndex: 0,
       applyRandom: function(origin) {
         this.randomized = Engine.setCheckbox(origin,"randomCheck","randomizedBrush","rInd");
       },
@@ -956,7 +957,10 @@ t = (function(){
         ["copyImage",'Copy Map screenshot','Copy Map screenshot as as a PNG (*.png) file to Clipboard'],
         ["tutorial",'Tutorial','Visit the Map Editor Tutorial Page'],
         ["changelog",'Changelog',"View the update's log of Map Editor from the beginning"],
-        ["XY",null,'Your cursor position in the map. Hover the map for details']
+        ["XY",null,'Your cursor position in the map. Hover the map for details'],
+        ["addBrush",null,"Add your custom brush"],
+        ["removeBrush",null,"Remove the selected custom Brush"],
+        ["editBrush",null,"Edit the selected custom brush"]
       ],
       view: function (title,text) {
         $("#info").html(`<strong>${title?title+": ":""}</strong>${text||""}`);
