@@ -363,7 +363,7 @@ t = (function(){
       }
       let u = Engine.Brush.drawers.getById(Engine.Brush.drawers.chosenIndex);
       if (u.error) console.log(u.error);
-      else try{u.drawer.call(window,x,y,init,SBMap,{},{},{})}catch(e){console.log(e)}
+      else try{u.drawer.call(window,x,y,init,SBMap)}catch(e){console.log(e)}
       list = [...new Set(list)];
       let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
       check = [
@@ -826,7 +826,7 @@ t = (function(){
       input: $("#brush_size"),
       randomized: false,
       drawers: {
-        editIndex: 1,
+        editIndex: null,
         chosenIndex: 0,
         defaultIndex: 0,
         list: [
@@ -843,7 +843,7 @@ t = (function(){
         ],
         get: function(code) {
           let error = 0,t;
-          try{eval("t = function(x,y,size,SBMap,window,document,$){"+code+"}")}
+          try{eval("t = function(x,y,size,SBMap){"+code+"}")}
           catch(e){error = e};
           return {error: error,drawer: t}
         },
@@ -1237,11 +1237,11 @@ t = (function(){
     }
   }
   catch(e){}
+  Engine.Brush.drawers.sync();
   Engine.Brush.drawers.redrawSelection();
   let cbrid = Number(localStorage.getItem("brushIndex"))||0;
   cbrid = Math.max(Math.min(cbrid,Engine.Brush.drawers.list.length),0);
   Engine.Brush.drawers.select(cbrid);
-  Engine.Brush.drawers.sync();
   $("#save").on("click", function(){
     let code = $("#code").val(),p = Engine.Brush.drawers.get(code);
     if (p.error) alert(p.error);
