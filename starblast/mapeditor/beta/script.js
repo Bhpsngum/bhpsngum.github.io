@@ -854,7 +854,7 @@ t = (function(){
         update: function(code, name, desc) {
           let id = this.editIndex;
           if (id == null) id=this.list.length;
-          this.list[id] = {name:name||("Custom Brush"+id-this.defaultIndex), code:code, description: desc||""};
+          this.list[id] = {name:name||("Custom Brush"+(id-this.defaultIndex)), code:code, description: desc||""};
           this.redrawSelection();
           this.select(this.chosenIndex);
           this.sync();
@@ -873,6 +873,7 @@ t = (function(){
           localStorage.setItem("brushIndex",i);
           for (let i=0;i<this.list.lengh;i++) $("#brush"+i).css("border-width","1px");
           $("#brush"+i).css("border-width","3px");
+          $("#removeBrush").prop("disabled",this.chosenIndex<=this.defaultIndex);
         },
         showCode: function(bool){
           $("#BrushCode").css("display",bool?"":"none");
