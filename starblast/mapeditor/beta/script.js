@@ -825,8 +825,8 @@ t = (function(){
     Brush: {
       input: $("#brush_size"),
       randomized: false,
-      editIndex: 1,
       drawers: {
+        editIndex: 1,
         chosenIndex: 0,
         defaultIndex: 0,
         list: [
@@ -1230,9 +1230,10 @@ t = (function(){
   // Brush code edits
   try {
     let cbr = JSON.parse(localStorage.getItem("customBrush"));
+    Engine.Brush.drawers.editIndex = null;
     if (Array.isArray(cbr)) for (let i of cbr)
     {
-      if (!Engine.Brush.drawers.get(i.code||"no").error) Engine.Brush.drawers.list.push(i);
+      if (!Engine.Brush.drawers.get(i.code||"no").error) Engine.Brush.drawers.update(i.code, i.name, i.description);
     }
   }
   catch(e){}
