@@ -1231,6 +1231,7 @@ t = (function(){
       if (!Engine.Brush.drawers.get(i.code||"no").error) Engine.Brush.drawers.list.push(i);
     }
   }
+  catch(e){}
   Engine.Brush.drawers.redrawSelection();
   let cbrid = Number(localStorage.getItem("brushIndex"))||0;
   cbrid = Math.max(Math.min(cbrid,Engine.Brush.drawers.list.length),0);
