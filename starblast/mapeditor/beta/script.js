@@ -867,11 +867,10 @@ t = (function(){
             }
           },
           select: function(i) {
-            console.log(i);
             this.editIndex = i;
             this.chosenIndex = i;
             localStorage.setItem("brushIndex",i);
-            for (let j=0;j<this.list.lengh;j++) $("#brush"+j).css("border-width","1px");
+            for (let j=0;j<this.list.length;j++) $("#brush"+j).css("border-width","1px");
             $("#brush"+i).css("border-width","3px");
             $("#removeBrush").prop("disabled",this.chosenIndex<=this.defaultIndex);
           },
