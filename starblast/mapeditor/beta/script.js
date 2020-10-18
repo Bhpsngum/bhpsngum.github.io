@@ -862,7 +862,7 @@ t = (function(){
           $("#brushes").html();
           for (let i=0;i<this.list.length;i++) {
             $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-brush"></i></td>`);
-            $("#brush"+i)[0].onmouseover = function(){Engine.info.view(this.list[i].name,this.list[i].description||"")};
+            $("#brush"+i)[0].onmouseover = function(){Engine.info.view(this.list[i].name,this.list[i].description||"").bind(Engine.Brush.drawers)};
             $("#brush"+i).on("click",function(){Engine.Brush.drawers.select(i)});
           }
         },
