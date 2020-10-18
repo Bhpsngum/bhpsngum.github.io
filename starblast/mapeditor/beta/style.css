@@ -98,10 +98,11 @@ table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOpti
 
 #BrushCode {
   position: fixed;
-  left:0;
-  top:0;
-  width:100%;
-  height: 100%;
+  left:1%;
+  top:1%;
+  width:99%;
+  height: 99%;
+  z-index: 2;
 }
 
 textarea {
