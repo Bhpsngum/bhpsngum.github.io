@@ -961,7 +961,7 @@ t = (function(){
         ["changelog",'Changelog',"View the update's log of Map Editor from the beginning"],
         ["XY",null,'Your cursor position in the map. Hover the map for details'],
         ["addBrush",null,"Add your custom brush"],
-        ["removeBrush",null,"Remove the selected custom Brush"],
+        ["removeBrush",null,"Remove the selected custom brush"],
         ["editBrush",null,"Edit the selected custom brush"]
       ],
       view: function (title,text) {

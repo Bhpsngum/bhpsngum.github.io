@@ -95,3 +95,16 @@ table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOpti
   z-index: -1;
   position: absolute;
 }
+
+#BrushCode {
+  position: fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height: 100%;
+}
+
+textarea {
+  font-family: Consolas;
+  resize: none;
+}
