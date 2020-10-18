@@ -379,7 +379,7 @@ t = (function(){
           (isNaN(val) || !check[i](val)) && text.push(`Invalid ${t[i]}: '${p[i]}'`);
         }
         if (text.length) {
-          console.error(new Error("Parse Error:\n"+text.join("\n")));
+          console.error(new Error("Invalid argument"+((text.length>1)?"s":"")+":\n"+text.join("\n")));
           list[k]+="-invalid";
         }
         else {
