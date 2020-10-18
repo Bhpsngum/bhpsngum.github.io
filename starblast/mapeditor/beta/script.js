@@ -852,7 +852,7 @@ t = (function(){
           return this.get(this.list[id].code);
         },
         update: function(code, name, desc) {
-          let br = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||""};
+          let id = (this.editIndex == null)?this.list.length:this.editIndex, br = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||""};
           if (this.editIndex == null) this.list.push(br);
           else this.list[this.editIndex] = br;
           this.sync();
