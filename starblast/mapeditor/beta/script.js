@@ -793,8 +793,10 @@ t = (function(){
           break;
         case "background-color":
           let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
-          $('body').css("color",color);
+          $('*').css("color",color);
           $('.chosen').css("border-bottom-color",color);
+          $("#BrushCode").css("background-color",css);
+          $("#code").css("background-color",css);
           StarblastMap.background.color = css;
           break;
         case "border-color":
@@ -822,6 +824,12 @@ t = (function(){
       input: $("#brush_size"),
       randomized: false,
       chosenIndex: 0,
+      add: $("#addBrush"),
+      edit: $("#editBrush"),
+      editor: $("#BrushCode"),
+      showCode: function(bool){
+        this.editor.css("display",bool?"":"none");
+      },
       list: [
         {
           draw: function (x, y, size, SBMap) {
@@ -1168,6 +1176,10 @@ t = (function(){
       StarblastMap.Buttons.import.val("");
     }
   });
+  // Brush code edits
+  $("#cancel").on("click",function(){Engine.Brush.showCode(0)});
+  $("#addBrush").on("click", function(){Engine.Brush.showCode(1)});
+  // Key events
   document.onkeydown = function(e)
   {
     let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize"],check=[];
