@@ -361,7 +361,7 @@ t = (function(){
           randomInRange: Engine.random.range.bind(Engine.random)
         }
       }
-      let u = Engine.Brush.drawers.get(Engine.Brush.chosenIndex);
+      let u = Engine.Brush.drawers.getById(Engine.Brush.drawers.chosenIndex);
       if (u.error) console.log(u.error);
       else try{u.drawer.call(window,x,y,init,SBMap,{},{},{})}catch(e){console.log(e)}
       list = [...new Set(list)];
@@ -825,14 +825,10 @@ t = (function(){
     Brush: {
       input: $("#brush_size"),
       randomized: false,
-      chosenIndex: 0,
-      add: $("#addBrush"),
-      edit: $("#editBrush"),
-      editor: $("#BrushCode"),
-      showCode: function(bool){
-        this.editor.css("display",bool?"":"none");
-      },
+      editIndex: 1,
       drawers: {
+        chosenIndex: 0,
+        defaultIndex: 0,
         list: [
           {
             name: "Square Brush",
@@ -845,11 +841,47 @@ t = (function(){
       }`
           }
         ],
-        get: function(i) {
+        get: function(code) {
           let error = 0,t;
-          try{eval("t = function(x,y,size,SBMap,window,document,$){"+this.list[i].code+"}")}
+          try{eval("t = function(x,y,size,SBMap,window,document,$){"+code+"}")}
           catch(e){error = e};
           return {error: error,drawer: t}
+        },
+        getById: function(id) {
+          id = Math.max(Math.min(Math.trunc(Number(id)||0),this.list.length),0);
+          this.get(this.list[id].code);
+        },
+        update: function(code, name, description) {
+          let id = this.editIndex;
+          if (id == null) id=this.list.length;
+          this.list[id] = {name:name||("Custom Brush"+id-this.defaultIndex), code:code, description: desc};
+        },
+        redrawSelection: function() {
+          $("#brushes").html();
+          for (let i=0;i<this.list.length;i++) {
+            $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-paint-brush-alt"></i></td>`);
+            $("#brush"+i)[0].onmouseover = Engine.info.view("brush"+i,this.list[i].name,this.list[i].description||"");
+            $("#brush"+i).on("click",function(){Engine.Brush.drawers.select(i)});
+          }
+        },
+        select: function(i) {
+          this.editIndex = i;
+          this.chosenIndex = i;
+          for (let i=0;i<this.list.lengh;i++) $("#brush"+i).css("border-width","1px");
+          $("#brush"+i).css("border-width","3px");
+        },
+        showCode: function(bool){
+          $("#BrushCode").css("display",bool?"":"none");
+          if (bool) {
+            let check = this.editIndex <= this.defaultIndex;
+            $("#code").val((this.list[this.editIndex]||{}).code||"").attr("readonly",check);
+            $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
+          }
+        },
+        remove: function() {
+          this.list.splice(this.chosenIndex,1);
+          this.drawSelection();
+          this.select(0);
         }
       },
       defaultIndex: 0,
@@ -1186,8 +1218,23 @@ t = (function(){
     }
   });
   // Brush code edits
+  $("#save").on("click", function(){
+    let code = $("#code").val(),p = Engine.Brush.drawers.get(code);
+    if (p.error) alert(p.error);
+    else {
+      Engine.Brush.drawers.update(code, $("#brushname").val());
+      Engine.Brush.drawers.showCode(0);
+    }
+  });
+  $("#removeBrush").on("click", function(){
+    (confirm("Do you want to remove this brush drawer?")) && Engine.Brush.drawers.remove();
+  });
   $("#cancel").on("click",function(){Engine.Brush.showCode(0)});
-  $("#addBrush").on("click", function(){Engine.Brush.showCode(1)});
+  $("#addBrush").on("click", function(){
+    Engine.Brush.drawers.editIndex=null;
+    Engine.Brush.drawers.showCode(1);
+  });
+  $("#editBrush").on("click",function(){Engine.Brush.drawers.showCode(1)});
   // Key events
   document.onkeydown = function(e)
   {
