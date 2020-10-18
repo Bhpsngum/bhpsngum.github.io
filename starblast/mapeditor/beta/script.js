@@ -363,7 +363,7 @@ t = (function(){
       let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
       check = [
         function(x){return x>=0 && x<StarblastMap.size},
-        function(x){return x>=0 && x<StarblastMap.size},
+        function(y){return y>=0 && y<StarblastMap.size},
         function(size){return size>=0 && size<=9}
       ]
       for (let k=0;k<list.length;k++) {
@@ -382,10 +382,10 @@ t = (function(){
       for (let k of list)
       {
         let p = k.split("-");
-        if (k[3] != "invalid") {
-          let data = this.Asteroids.modify(...k);
+        if (p[3] != "invalid") {
+          let data = this.Asteroids.modify(...p);
           if (data.changed){
-            let pos = k.join("-"), prev = this.session.get(pos);
+            let pos = p[0]+"-"+p[1], prev = this.session.get(pos);
             this.session.set(pos,[(prev)?prev[0]:data.prev,k[2]]);
           }
         }
