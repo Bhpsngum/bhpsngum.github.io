@@ -364,7 +364,7 @@ t = (function(){
         if (Engine.Mirror.h) list.push([x,this.size-y-1]);
         if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-x-1,this.size-y-1]);
       }
-      for (let k of list)
+      for (let k of [...new Set(list)])
       {
         let data = this.Asteroids.modify(...k);
         if (data.changed){
