@@ -849,7 +849,7 @@ t = (function(){
         },
         getById: function(id) {
           id = Math.max(Math.min(Math.trunc(Number(id)||0),this.list.length),0);
-          this.get(this.list[id].code);
+          return this.get(this.list[id].code);
         },
         update: function(code, name, desc) {
           let id = this.editIndex;
