@@ -855,6 +855,7 @@ t = (function(){
           let id = this.editIndex;
           if (id == null) id=this.list.length;
           this.list[id] = {name:name||("Custom Brush"+id-this.defaultIndex), code:code, description: desc};
+          this.sync();
         },
         redrawSelection: function() {
           $("#brushes").html();
@@ -867,6 +868,7 @@ t = (function(){
         select: function(i) {
           this.editIndex = i;
           this.chosenIndex = i;
+          localStorage.setItem("brushIndex",i);
           for (let i=0;i<this.list.lengh;i++) $("#brush"+i).css("border-width","1px");
           $("#brush"+i).css("border-width","3px");
         },
@@ -882,6 +884,10 @@ t = (function(){
           this.list.splice(this.chosenIndex,1);
           this.drawSelection();
           this.select(0);
+          this.sync();
+        },
+        sync: function() {
+          localStorage.setItem("customBrush",JSON.stringify(this.list.splice(this.defaultIndex+1,this.list.length)));
         }
       },
       defaultIndex: 0,
@@ -1218,6 +1224,18 @@ t = (function(){
     }
   });
   // Brush code edits
+  try {
+    let cbr = JSON.parse(localStorage.getItem("customBrush"));
+    for (let i of Array.isArray(cbr))
+    {
+      if (!Engine.Brush.drawers.get(i.code||"no").error) Engine.Brush.drawers.list.push(i);
+    }
+  }
+  Engine.Brush.drawers.redrawSelection();
+  let cbrid = Number(localStorage.getItem("brushIndex"))||0;
+  cbrid = Math.max(Math.min(cbrid,Engine.Brush.drawers.list.length),0);
+  Engine.Brush.drawers.select(cbrid);
+  Engine.Brush.drawers.sync();
   $("#save").on("click", function(){
     let code = $("#code").val(),p = Engine.Brush.drawers.get(code);
     if (p.error) alert(p.error);
