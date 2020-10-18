@@ -338,24 +338,40 @@ t = (function(){
       catch(e){}
     },
     modify: function(x,y,num) {
-      let br=Engine.Brush.size,c = num == void 0,init;
-      if (c) init = Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max);
-      for (let i=Math.max(y-br,0);i<=Math.min(y+br,this.size-1);i++)
-        for (let j=Math.max(x-br,0);j<=Math.min(x+br,this.size-1);j++)
-        {
-          let size = (c)?((Engine.Brush.randomized)?Engine.random.range(this.Asteroids.size.min,this.Asteroids.size.max):init):num,list= [[i,j]];
-          if (Engine.Mirror.v) list.push([this.size-i-1,j]);
-          if (Engine.Mirror.h) list.push([i,this.size-j-1]);
-          if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-i-1,this.size-j-1]);
-          for (let k of list)
-          {
-            let data = this.Asteroids.modify(...k,size);
-            if (data.changed){
-              let pos = k.join("-"), prev = this.session.get(pos);
-              this.session.set(pos,[(prev)?prev[0]:data.prev,size]);
-            }
+      let c = num == void 0,init, list = [], min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max;
+      if (c) init = Engine.random.range(min,max);
+      let SBMap = {
+        Asteroids: {
+          set: function(x,y,size) {list.push([x,y,size])},
+          size: {
+            min: min,
+            max: max
           }
+        },
+        size: StarblastMap.size,
+        Brush: {
+          size: Engine.Brush.size,
+          isRandomized: Engine.Brush.randomized
+        },
+        Utils: {
+          random: Engine.random,
+          randomInRange: Engine.random.range
         }
+      }
+      try{Engine.Brush.list[Engine.Brush.chosenIndex](x,y,init,SBMap,{},{},{})}catch(e){}
+      for (let k of list) {
+        if (Engine.Mirror.v) list.push([this.size-x-1,y]);
+        if (Engine.Mirror.h) list.push([x,this.size-y-1]);
+        if (Engine.Mirror.v && Engine.Mirror.h) list.push([this.size-x-1,this.size-y-1]);
+      }
+      for (let k of list)
+      {
+        let data = this.Asteroids.modify(...k);
+        if (data.changed){
+          let pos = k.join("-"), prev = this.session.get(pos);
+          this.session.set(pos,[(prev)?prev[0]:data.prev,size]);
+        }
+      }
       this.sync();
     },
     sync: function () {
@@ -780,6 +796,18 @@ t = (function(){
     Brush: {
       input: $("#brush_size"),
       randomized: false,
+      chosenIndex: 0,
+      list: [
+        function (x, y, size, SBMap) {
+          let br = SBMap.Brush.size;
+          for (let i=Math.max(y-br,0);i<=Math.min(y+br,SBMap.size-1);i++)
+            for (let j=Math.max(x-br,0);j<=Math.min(x+br,SBMap.size-1);j++)
+            {
+              let siz = (SBMap.Brush.isRandomized)?SBMap.Utils.randomInRange(SBMap.Asteroids.size.min,SBMap.Asteroids.size.max):size;
+              SBMap.Asteroids.set(i,j,siz);
+            }
+        }
+      ],
       applyRandom: function(origin) {
         this.randomized = Engine.setCheckbox(origin,"randomCheck","randomizedBrush","rInd");
       },
