@@ -363,7 +363,7 @@ t = (function(){
       }
       let u = Engine.Brush.drawers.getById(Engine.Brush.drawers.chosenIndex);
       if (u.error) console.log(u.error);
-      else try{u.drawer.call(window,x,y,init,SBMap)}catch(e){console.log(e)}
+      else try{u.drawer.call(window,x,y,init,SBMap,SBMap)}catch(e){console.log(e)}
       list = [...new Set(list)];
       let t = ["Coordinate X", "Coordinate Y", "Asteroid Size"],
       check = [
@@ -832,18 +832,18 @@ t = (function(){
         list: [
           {
             name: "Square Brush",
-            code: `let br = SBMap.Brush.size;
-    for (let i=Math.max(y-br,0);i<=Math.min(y+br,SBMap.size-1);i++)
-      for (let j=Math.max(x-br,0);j<=Math.min(x+br,SBMap.size-1);j++)
+            code: `let br = StarblastMap.Brush.size;
+    for (let i=Math.max(y-br,0);i<=Math.min(y+br,StarblastMap.size-1);i++)
+      for (let j=Math.max(x-br,0);j<=Math.min(x+br,StarblastMap.size-1);j++)
       {
-        let siz = (SBMap.Brush.isRandomized)?SBMap.Utils.randomInRange(SBMap.Asteroids.size.min,SBMap.Asteroids.size.max):size;
-        SBMap.Asteroids.set(i,j,siz);
+        let siz = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):size;
+        StarblastMap.Asteroids.set(i,j,siz);
       }`
           }
         ],
         get: function(code) {
           let error = 0,t;
-          try{eval("t = (function(){return function(x,y,size,SBMap){"+code+"}}())")}
+          try{eval("t = function(x,y,size,StarblastMap,Engine){"+code+"}")}
           catch(e){error = e};
           return {error: error,drawer: t}
         },
@@ -1111,20 +1111,19 @@ t = (function(){
   StarblastMap.background.checkGlobal(!0);
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
   $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
-  let mr = ["h","v"],mdesc = ["horizontal","vertical"];
-  $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table id='mirrorChoose'><tr>"+mr.map((i,j) => `<td id="mr-${i}"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td id="almr"><i class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
-  for (let i of mr)
-  {
-    Engine.Mirror.apply(!0,i);
-    $("#mirror-"+i).on("change",function(){Engine.Mirror.apply(null,i)});
-    $("#mr-"+i).on("click",function(){$("#mirror-"+i).click()});
+  try {
+    let mr = ["h","v"],mdesc = ["horizontal","vertical"];
+    $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table id='mirrorChoose'><tr>"+mr.map((i,j) => `<td id="mr-${i}"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td id="almr"><i class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
+    for (let i of mr)
+    {
+      Engine.Mirror.apply(!0,i);
+      $("#mirror-"+i).on("change",function(){Engine.Mirror.apply(null,i)});
+      $("#mr-"+i).on("click",function(){$("#mirror-"+i).click()});
+    }
   }
+  catch(e){}
   StarblastMap.Asteroids.applyKey("min",localStorage.ASSize_min);
   StarblastMap.Asteroids.applyKey("max",localStorage.ASSize_max);
-  let rSize = StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids);
-  $("#randomSize").on("click",function(){rSize()});
-  Engine.Brush.applySize();
-  rSize(1);
   StarblastMap.map.addEventListener("mousemove", function(e){
     this.view(this.get(e.offsetX),this.get(e.offsetY));
   }.bind(StarblastMap.Coordinates));
@@ -1206,8 +1205,6 @@ t = (function(){
   $("#show-menu").on("click", function(){Engine.menu.hide(!1)});
   $("#hide-menu").on("click", function(){Engine.menu.hide(!0)});
   StarblastMap.background.alphaInput.on("change", function(){StarblastMap.background.checkAlpha(StarblastMap.background.alphaInput.val())});
-  StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
-  StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
   StarblastMap.Buttons.import.on("change", function(e) {
     if (e.target.files && e.target.files[0]) {
@@ -1229,19 +1226,94 @@ t = (function(){
   });
   // Brush code edits
   try {
+    let rSize = StarblastMap.Asteroids.randomSize.bind(StarblastMap.Asteroids);
+    $("#randomSize").on("click",function(){rSize()});
+    Engine.Brush.applySize();
+    rSize(1);
+    StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
+    StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
+    document.onkeydown = function(e)
+    {
+      let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize","code","brushname"],check=[];
+      for (let i of size) check.push($("#"+i).is(":focus"));
+      if (!Math.max(...check))
+      {
+        if (e.ctrlKey == true) switch(e.which)
+        {
+          case 122:
+          case 90:
+            e.preventDefault();
+            StarblastMap.undo();
+            break;
+          case 121:
+          case 89:
+            e.preventDefault();
+            StarblastMap.redo();
+            break;
+          case 115:
+          case 83:
+            e.preventDefault();
+            StarblastMap.download("plain");
+            break;
+          case 105:
+          case 73:
+            e.preventDefault();
+            StarblastMap.download("image");
+            break;
+          case 99:
+          case 67:
+            e.preventDefault();
+            StarblastMap.copy("plain");
+            break;
+          case 111:
+          case 79:
+            e.preventDefault();
+            $("#loadMap1").click();
+            break;
+        }
+        else switch (e.which)
+        {
+          case 119:
+          case 87:
+            scrollBy(0,-40);
+            break;
+          case 115:
+          case 83:
+            scrollBy(0,40);
+            break;
+          case 100:
+          case 68:
+            scrollBy(40,0);
+            break;
+          case 97:
+          case 65:
+            scrollBy(-40,0);
+            break;
+          case 114:
+          case 82:
+            rSize();
+            break;
+          default:
+            if (e.which > 47 && e.which < 58) StarblastMap.Asteroids.changeSize(e.which-48);
+        }
+      }
+    }
+  }
+  catch(e){}
+  try {
     let cbr = JSON.parse(localStorage.getItem("customBrush"));
     Engine.Brush.drawers.editIndex = null;
     if (Array.isArray(cbr)) for (let i of cbr)
     {
       if (!Engine.Brush.drawers.get(i.code||"{").error) Engine.Brush.drawers.update(i.code, i.name, i.description);
     }
+    Engine.Brush.drawers.sync();
+    Engine.Brush.drawers.redrawSelection();
+    let cbrid = Number(localStorage.getItem("brushIndex"))||0;
+    cbrid = Math.max(Math.min(cbrid,Engine.Brush.drawers.list.length-1),0);
+    Engine.Brush.drawers.select(cbrid);
   }
   catch(e){}
-  Engine.Brush.drawers.sync();
-  Engine.Brush.drawers.redrawSelection();
-  let cbrid = Number(localStorage.getItem("brushIndex"))||0;
-  cbrid = Math.max(Math.min(cbrid,Engine.Brush.drawers.list.length-1),0);
-  Engine.Brush.drawers.select(cbrid);
   $("#save").on("click", function(){
     let code = $("#code").val(),p = Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
@@ -1259,73 +1331,6 @@ t = (function(){
     Engine.Brush.drawers.showCode(1);
   });
   $("#editBrush").on("click",function(){Engine.Brush.drawers.showCode(1)});
-  // Key events
-  document.onkeydown = function(e)
-  {
-    let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize","code","brushname"],check=[];
-    for (let i of size) check.push($("#"+i).is(":focus"));
-    if (!Math.max(...check))
-    {
-      if (e.ctrlKey == true) switch(e.which)
-      {
-        case 122:
-        case 90:
-          e.preventDefault();
-          StarblastMap.undo();
-          break;
-        case 121:
-        case 89:
-          e.preventDefault();
-          StarblastMap.redo();
-          break;
-        case 115:
-        case 83:
-          e.preventDefault();
-          StarblastMap.download("plain");
-          break;
-        case 105:
-        case 73:
-          e.preventDefault();
-          StarblastMap.download("image");
-          break;
-        case 99:
-        case 67:
-          e.preventDefault();
-          StarblastMap.copy("plain");
-          break;
-        case 111:
-        case 79:
-          e.preventDefault();
-          $("#loadMap1").click();
-          break;
-      }
-      else switch (e.which)
-      {
-        case 119:
-        case 87:
-          scrollBy(0,-40);
-          break;
-        case 115:
-        case 83:
-          scrollBy(0,40);
-          break;
-        case 100:
-        case 68:
-          scrollBy(40,0);
-          break;
-        case 97:
-        case 65:
-          scrollBy(-40,0);
-          break;
-        case 114:
-        case 82:
-          rSize();
-          break;
-        default:
-          if (e.which > 47 && e.which < 58) StarblastMap.Asteroids.changeSize(e.which-48);
-      }
-    }
-  }
   window.addEventListener("mouseup", Engine.Trail.stop.bind(Engine.Trail));
   window.addEventListener("blur", Engine.Trail.stop.bind(Engine.Trail));
   window.addEventListener("touchcancel",Engine.Trail.stop.bind(Engine.Trail));
