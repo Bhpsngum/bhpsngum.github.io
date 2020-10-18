@@ -367,7 +367,7 @@ t = (function(){
         function(size){return size>=0 && size<=9}
       ]
       for (let k=0;k<list.length;k++) {
-        let p = list[k].split("-"), text = p.map((i,j)=>((typeof i == "number" && check[j](i))?"":`Invalid ${t[j]}: '${i}'`)).join("\n").replace(/(^\n+)|(\n+$)/g,"");
+        let p = list[k].split("-").map(u => Number(u)), text = p.map((i,j)=>((typeof i == "number" && check[j](i))?"":`Invalid ${t[j]}: '${i}'`)).join("\n").replace(/(^\n+)|(\n+$)/g,"");
         if (text) {
           console.log("Parse Error:\n"+text);
           list[k]+="-invalid";
@@ -386,7 +386,7 @@ t = (function(){
           let data = this.Asteroids.modify(...p);
           if (data.changed){
             let pos = p[0]+"-"+p[1], prev = this.session.get(pos);
-            this.session.set(pos,[(prev)?prev[0]:data.prev,k[2]]);
+            this.session.set(pos,[(prev)?prev[0]:data.prev,p[2]]);
           }
         }
       }
