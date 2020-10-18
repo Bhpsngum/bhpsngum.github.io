@@ -886,7 +886,7 @@ t = (function(){
     },
     menu: {
       main: $("#menu"),
-      modules: ["Map","Edit","Decoration","Miscellaneous"],
+      modules: ["Map","Edit","Decoration","Advanced","Miscellaneous"],
       chosenIndex: 1,
       hide: function(bool) {
         bool = (bool == void 0)?(localStorage.getItem("hideMenu") == "true"):!!bool;
