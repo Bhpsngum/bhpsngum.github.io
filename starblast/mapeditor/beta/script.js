@@ -378,7 +378,7 @@ t = (function(){
         for (let i of [1,0,2]) {
           let val = Number(p[i]);
           if (isNaN(val) || !check[i](val)) error.push(`${t[i]}: '${p[i]}'`);
-          else (val-Math.trunc(val) != 0) warn.push(`${t[i]}: ${val}`);
+          else (val-Math.trunc(val) != 0) && warn.push(`${t[i]}: ${val}`);
         }
         if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""}:\n${error.join("\n")}`));
         else {
