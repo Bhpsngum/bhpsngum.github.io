@@ -826,7 +826,7 @@ t = (function(){
         return css;
       },
       encodeHTML: function(str) {
-        return str.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;");
+        return str.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;").replace(/\[(.+)\]\((.+)\)/g,"<a href='$2' target='_blank'>$1</a>");
       },
       Brush: {
         input: $("#brush_size"),
@@ -1019,7 +1019,7 @@ t = (function(){
           ["exportText",'Export Map as Text','Export map as a text/plain (*.txt) file (Hotkey Ctrl + S)'],
           ["copyText",'Copy Map','Copy current map pattern to clipboard'],
           ["loadMap1",'Import Map','Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js) format)'],
-          ["random",'RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>'],
+          ["random",'RandomMazeGenerator', 'Generate Random Maze according to the current map size. By [rvan_der](https://github.com/rvan-der)'],
           ["feedback",'Feedback','Give us a feedback'],
           ["permalink",'Permalink','Copy map permalink to clipboard'],
           ["exportImage",'Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)'],
