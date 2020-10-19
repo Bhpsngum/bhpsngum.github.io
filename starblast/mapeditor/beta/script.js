@@ -833,13 +833,7 @@ t = (function(){
           list: [
             {
               name: "Square Brush",
-              code: `let br = StarblastMap.Brush.size;
-      for (let i=Math.max(y-br,0);i<=Math.min(y+br,StarblastMap.size-1);i++)
-        for (let j=Math.max(x-br,0);j<=Math.min(x+br,StarblastMap.size-1);j++)
-        {
-          let siz = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):size;
-          StarblastMap.Asteroids.set(i,j,siz);
-        }`
+              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(y-br,0);i<=Math.min(y+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(x-br,0);j<=Math.min(x+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
             }
           ],
           get: function(code) {
