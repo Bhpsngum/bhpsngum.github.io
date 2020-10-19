@@ -340,18 +340,40 @@ t = (function(){
     modify: function(x,y,num) {
       let c = num == void 0,init, list = [], min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max;
       if (c) init = StarblastMap.Engine.random.range(min,max);
-      let SBMap = {
+      let t = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
+      check = [
+        function(y){return y>=0 && y<StarblastMap.size},
+        function(x){return x>=0 && x<StarblastMap.size},
+        function(size){return size>=0 && size<=9}
+      ],
+      SBMap = {
         Asteroids: {
           set: function(x,y,size) {
             try{list.push([y,x,size].join("-"))}
             catch(e){console.error(new Error("Cannot modify the Asteroid\nInput value:",x.toString(),y.toString(),size.toString()))}
+          },
+          get: function(...pos) {
+            let er = [], wr = [];
+            for (let i of [1,0]) {
+              let val = Number(pos[i]);
+              if (isNaN(val) || !check[i](val)) er.push(`${t[i]}: '${pos[i]}'`);
+              else (val-Math.trunc(val) != 0) && wr.push(`${t[i]}: ${val}`);
+            }
+            if (er.length>0) {
+              console.error(new Error(`Invalid argument${(er.length>1)?"s":""} in 'Asteroids.get':\n${er.join("\n")}`));
+              return null;
+            }
+            else {
+              (wr.length>0) && console.warn(`Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.join("\n")}`);
+              let t = pos.slice(0,2).map(i=>Math.trunc(Number(i)));
+              return StarblastMap.data[p[1]][p[0]];
+            }
           },
           size: {
             min: min,
             max: max
           }
         },
-        data: [...StarblastMap.data],
         size: StarblastMap.size,
         Brush: {
           size: StarblastMap.Engine.Brush.size,
@@ -366,12 +388,6 @@ t = (function(){
       if (u.error) console.error(u.error);
       else try{u.drawer.call(window,{x:x,y:y,size:init},SBMap)}catch(e){console.error(e)}
       list = [...new Set(list)];
-      let t = ["Y Coordinate","X Coordinate", "Asteroid Size"],
-      check = [
-        function(y){return y>=0 && y<StarblastMap.size},
-        function(x){return x>=0 && x<StarblastMap.size},
-        function(size){return size>=0 && size<=9}
-      ]
       let clone = [];
       for (let k=0;k<list.length;k++) {
         let p = list[k].split("-"), error = [], warn = [];
@@ -380,9 +396,9 @@ t = (function(){
           if (isNaN(val) || !check[i](val)) error.push(`${t[i]}: '${p[i]}'`);
           else (val-Math.trunc(val) != 0) && warn.push(`${t[i]}: ${val}`);
         }
-        if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""}:\n${error.join("\n")}`));
+        if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n${error.join("\n")}`));
         else {
-          (warn.length>0) && console.warn(`Found non-integer value${(warn.length>1)?"s":""}:\n${warn.join("\n")}`);
+          (warn.length>0) && console.warn(`Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.join("\n")}`);
           let t = [p.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(p[2])].flat();
           clone.push(t.slice(0,3).join("-"));
           if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,t[1],t[2]].join("-"));
