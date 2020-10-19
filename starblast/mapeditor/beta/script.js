@@ -372,34 +372,29 @@ t = (function(){
         function(x){return x>=0 && x<StarblastMap.size},
         function(size){return size>=0 && size<=9}
       ]
-      let clone = [...list];
+      let clone = [];
       for (let k=0;k<list.length;k++) {
         let p = list[k].split("-"), text = [];
-        for (let i=0;i<3;i++) {
+        for (let i of [1,0,2]) {
           let val = Number(p[i]);
           (isNaN(val) || !check[i](val)) && text.push(`Invalid ${t[i]}: '${p[i]}'`);
         }
-        if (text.length) {
-          console.error(new Error("Invalid argument"+((text.length>1)?"s":"")+":\n"+text.join("\n")));
-          list[k]+="-invalid";
-        }
+        if (text.length) console.error(new Error("Invalid argument"+((text.length>1)?"s":"")+":\n"+text.join("\n")));
         else {
-          let t = p.map(i=>Number(i));
-          if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,p[1],p[2]].join("-"));
-          if (this.Engine.Mirror.h) clone.push([p[0],this.size-t[1]-1,p[2]].join("-"));
-          if (this.Engine.Mirror.v && this.Engine.Mirror.h) clone.push([this.size-t[0]-1,this.size-t[1]-1,p[2]].join("-"));
+          let t = p.map(i=>Math.trunc(Number(i)));
+          clone.push(t.slice(0,3).join("-"));
+          if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,t[1],t[2]].join("-"));
+          if (this.Engine.Mirror.h) clone.push([t[0],this.size-t[1]-1,t[2]].join("-"));
+          if (this.Engine.Mirror.v && this.Engine.Mirror.h) clone.push([this.size-t[0]-1,this.size-t[1]-1,t[2]].join("-"));
         }
       }
       list = [...new Set(clone)];
       for (let k of list)
       {
-        let p = k.split("-"), t = p.map(i=>Number(i));
-        if (p[3] != "invalid") {
-          let data = this.Asteroids.modify(...t);
-          if (data.changed){
-            let pos = p[0]+"-"+p[1], prev = this.session.get(pos);
-            this.session.set(pos,[(prev)?prev[0]:data.prev,t[2]]);
-          }
+        let t = k.split("-").map(i=>Number(i)).slice(0,3), data = this.Asteroids.modify(...t);
+        if (data.changed){
+          let pos = t.slice(0,2).join("-"), prev = this.session.get(pos);
+          this.session.set(pos,[(prev)?prev[0]:data.prev,t[2]]);
         }
       }
       this.sync();
