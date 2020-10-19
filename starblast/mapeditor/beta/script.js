@@ -372,9 +372,9 @@ t = (function(){
         function(y){return y>=0 && y<StarblastMap.size},
         function(size){return size>=0 && size<=9}
       ]
+      console.log(list);
       for (let k=0;k<list.length;k++) {
         let p = list[k].split("-"), text = [];
-        console.log(p);
         for (let i=0;i<3;i++) {
           let val = Number(p[i]);
           (isNaN(val) || !check[i](val)) && text.push(`Invalid ${t[i]}: '${p[i]}'`);
