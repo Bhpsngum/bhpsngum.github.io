@@ -364,7 +364,7 @@ t = (function(){
       }
       let u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
       if (u.error) console.error(u.error);
-      else try{u.drawer.call(window,x,y,init,SBMap)}catch(e){console.error(e)}
+      else try{u.drawer.call(window,{x:x,y:y,size:init},SBMap)}catch(e){console.error(e)}
       list = [...new Set(list)];
       let t = ["X Coordinate", "Y Coordinate", "Asteroid Size"],
       check = [
@@ -372,6 +372,7 @@ t = (function(){
         function(y){return y>=0 && y<StarblastMap.size},
         function(size){return size>=0 && size<=9}
       ]
+      let clone = [...list];
       for (let k=0;k<list.length;k++) {
         let p = list[k].split("-"), text = [];
         for (let i=0;i<3;i++) {
@@ -383,20 +384,21 @@ t = (function(){
           list[k]+="-invalid";
         }
         else {
-          if (StarblastMap.Engine.Mirror.v) list.push([this.size-p[0]-1,p[1]].join("-"));
-          if (StarblastMap.Engine.Mirror.h) list.push([p[0],this.size-p[1]-1].join("-"));
-          if (StarblastMap.Engine.Mirror.v && StarblastMap.Engine.Mirror.h) list.push([this.size-p[0]-1,this.size-p[1]-1].join("-"));
+          let t = p.map(i=>Number(i));
+          if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,p[1],p[2]].join("-"));
+          if (this.Engine.Mirror.h) clone.push([p[0],this.size-t[1]-1,p[2]].join("-"));
+          if (this.Engine.Mirror.v && this.Engine.Mirror.h) clone.push([this.size-t[0]-1,this.size-t[1]-1,p[2]].join("-"));
         }
       }
-      list = [...new Set(list)];
+      list = [...new Set(clone)];
       for (let k of list)
       {
-        let p = k.split("-");
+        let p = k.split("-"), t = p.map(i=>Number(i));
         if (p[3] != "invalid") {
-          let data = this.Asteroids.modify(...p);
+          let data = this.Asteroids.modify(...t);
           if (data.changed){
             let pos = p[0]+"-"+p[1], prev = this.session.get(pos);
-            this.session.set(pos,[(prev)?prev[0]:data.prev,p[2]]);
+            this.session.set(pos,[(prev)?prev[0]:data.prev,t[2]]);
           }
         }
       }
@@ -824,7 +826,7 @@ t = (function(){
         return css;
       },
       encodeHTML: function(str) {
-        return str.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;");
+        return str.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;").replace(/\[(.+)\]\((.+)\)/g,"<a href='$2' target='_blank'>$1</a>");
       },
       Brush: {
         input: $("#brush_size"),
@@ -836,14 +838,15 @@ t = (function(){
           list: [
             {
               name: "Square Brush",
+              author: "Bhpsngum",
               icon: "square",
               description: "Fill a square of 2n+1 each side (n: Brush size)",
-              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(y-br,0);i<=Math.min(y+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(x-br,0);j<=Math.min(x+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
+              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(Cell.y-br,0);i<=Math.min(Cell.y+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(Cell.x-br,0);j<=Math.min(Cell.x+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):Cell.size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
             }
           ],
           get: function(code) {
             let error = 0,t;
-            try{eval("t = function(x,y,size,StarblastMap){"+code+"}")}
+            try{eval("t = function(Cell,StarblastMap){"+code+"}")}
             catch(e){error = e};
             return {error: error,drawer: t}
           },
@@ -851,9 +854,9 @@ t = (function(){
             id = Math.max(Math.min(Math.trunc(Number(id)||0),this.list.length-1),0);
             return this.get(this.list[id].code);
           },
-          update: function(code, name, desc, icon) {
+          update: function(code, name, desc, icon, author) {
             let id = (this.editIndex == null)?this.list.length:this.editIndex;
-            this.list[id] = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||"", icon: icon||""};
+            this.list[id] = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||"", icon: icon||"", author: author||""};
             this.sync();
             this.redrawSelection();
           },
@@ -861,7 +864,8 @@ t = (function(){
             $("#brushes").html("");
             for (let i=0;i<this.list.length;i++) {
               $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-${StarblastMap.Engine.encodeHTML(this.list[i].icon||"brush")}"></i></td>`);
-              $("#brush"+i)[0].onmouseover = function(){StarblastMap.Engine.info.view(StarblastMap.Engine.Brush.drawers.list[i].name,StarblastMap.Engine.Brush.drawers.list[i].description||"")}
+              let brush = StarblastMap.Engine.Brush.drawers.list[i];
+              $("#brush"+i)[0].onmouseover = function(){StarblastMap.Engine.info.view(brush.name,(brush.description||"").replace(/(\.)*$/,".")+(brush.author?(" By "+brush.author):""))}
               $("#brush"+i)[0].onclick = function(){StarblastMap.Engine.Brush.drawers.select(i)};
             }
           },
@@ -882,6 +886,7 @@ t = (function(){
               $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
               $("#brushdesc").val((this.list[this.editIndex]||{}).description||"").attr("readonly",check);
               $("#brushicon").val((this.list[this.editIndex]||{}).icon||"").attr("readonly",check);
+              $("#brushauthor").val((this.list[this.editIndex]||{}).author||"").attr("readonly",check);
               $("#save").prop("disabled",check);
             }
           },
@@ -1014,7 +1019,7 @@ t = (function(){
           ["exportText",'Export Map as Text','Export map as a text/plain (*.txt) file (Hotkey Ctrl + S)'],
           ["copyText",'Copy Map','Copy current map pattern to clipboard'],
           ["loadMap1",'Import Map','Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js) format)'],
-          ["random",'RandomMazeGenerator', 'Generate Random Maze according to the current map size. By <a href = "https://github.com/rvan-der" target="_blank">@rvan_der</a>'],
+          ["random",'RandomMazeGenerator', 'Generate Random Maze according to the current map size. By [rvan_der](https://github.com/rvan-der)'],
           ["feedback",'Feedback','Give us a feedback'],
           ["permalink",'Permalink','Copy map permalink to clipboard'],
           ["exportImage",'Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)'],
@@ -1237,7 +1242,7 @@ t = (function(){
     StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
     document.onkeydown = function(e)
     {
-      let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize","code","brushname","brushdesc","brushicon"],check=[];
+      let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize","code","brushname","brushdesc","brushicon","brushauthor"],check=[];
       for (let i of size) check.push($("#"+i).is(":focus"));
       if (!Math.max(...check))
       {
@@ -1308,7 +1313,7 @@ t = (function(){
     StarblastMap.Engine.Brush.drawers.editIndex = null;
     if (Array.isArray(cbr)) for (let i of cbr)
     {
-      if (!StarblastMap.Engine.Brush.drawers.get(i.code||"{").error) StarblastMap.Engine.Brush.drawers.update(i.code, i.name, i.description, i.icon);
+      if (!StarblastMap.Engine.Brush.drawers.get(i.code||"{").error) StarblastMap.Engine.Brush.drawers.update(i.code, i.name, i.description, i.icon, i.author);
     }
     StarblastMap.Engine.Brush.drawers.sync();
     StarblastMap.Engine.Brush.drawers.redrawSelection();
@@ -1324,7 +1329,7 @@ t = (function(){
       let proc;
       if (proc = !/((window\.)*(document|localStorage|open|close|location))/g.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?");
       if (proc) {
-        StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#brushdesc").val(), $("#brushicon").val());
+        StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#brushdesc").val(), $("#brushicon").val(), $("#brushauthor").val());
         StarblastMap.Engine.Brush.drawers.showCode(0);
         StarblastMap.Engine.Brush.drawers.select();
       }
