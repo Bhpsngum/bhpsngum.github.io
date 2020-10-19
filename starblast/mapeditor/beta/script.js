@@ -343,7 +343,7 @@ t = (function(){
       let SBMap = {
         Asteroids: {
           set: function(x,y,size) {
-            try{list.push([x,y,size].join("-"))}
+            try{list.push([y,x,size].join("-"))}
             catch(e){console.error(new Error("Cannot modify the Asteroid\nInput value:",x.toString(),y.toString(),size.toString()))}
           },
           size: {
@@ -366,10 +366,10 @@ t = (function(){
       if (u.error) console.error(u.error);
       else try{u.drawer.call(window,{x:x,y:y,size:init},SBMap)}catch(e){console.error(e)}
       list = [...new Set(list)];
-      let t = ["X Coordinate", "Y Coordinate", "Asteroid Size"],
+      let t = ["Y Coordinate","X Coordinate", "Asteroid Size"],
       check = [
-        function(x){return x>=0 && x<StarblastMap.size},
         function(y){return y>=0 && y<StarblastMap.size},
+        function(x){return x>=0 && x<StarblastMap.size},
         function(size){return size>=0 && size<=9}
       ]
       let clone = [...list];
@@ -841,7 +841,7 @@ t = (function(){
               author: "Bhpsngum",
               icon: "square",
               description: "Fill a square of 2n+1 each side (n: Brush size)",
-              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(Cell.y-br,0);i<=Math.min(Cell.y+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(Cell.x-br,0);j<=Math.min(Cell.x+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):Cell.size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
+              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(Cell.x-br,0);i<=Math.min(Cell.x+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(Cell.y-br,0);j<=Math.min(Cell.y+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):Cell.size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
             }
           ],
           get: function(code) {
