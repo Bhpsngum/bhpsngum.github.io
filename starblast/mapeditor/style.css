@@ -95,3 +95,21 @@ table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOpti
   z-index: -1;
   position: absolute;
 }
+
+#BrushCode {
+  position: fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height: 100%;
+  z-index: 2;
+  padding: 1%;
+  overflow: scroll;
+}
+
+textarea {
+  background-color: inherit;
+  resize: vertical;
+  width:98%;
+  height:37%;
+}

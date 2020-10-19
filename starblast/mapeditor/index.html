@@ -25,8 +25,9 @@
           <td id="hide-menu"><i class="fas fa-fw fa-angle-up"></i></td>
           <td id="menu0">Map</td>
           <td id="menu1">Edit</td>
-          <td id="menu2">Decoration</td>
-          <td id="menu3">Miscellaneous</td>
+          <td id="menu2">Advanced</td>
+          <td id="menu3">Decoration</td>
+          <td id="menu4">Miscellaneous</td>
         </tr></table>
         <div id="container0" class="container">
           <button id="exportText"><i class="fas fa-fw fa-download"></i></button>
@@ -57,7 +58,6 @@
             </label>
           </div>
           <br>
-          <input id="brush_size" placeholder="Brush radius" type="number" min="0" max="200" value="0"></input>
           <div id="MirrorOptions"></div>
           <button id="undo"><i class="fas fa-fw fa-undo"></i></button>
           <button id="redo"><i class="fas fa-fw fa-redo"></i></button>
@@ -65,6 +65,27 @@
           <button id="random"><i class="fas fa-fw fa-random"></i></button>
         </div>
         <div id="container2" class="container">
+          <table id="brushContainer"><tbody><tr id="brushes"></tr></tbody></table>
+          <button id="addBrush"><i class="fas fa-fw fa-plus"></i></button>
+          <button id="editBrush"><i class="fas fa-fw fa-edit"></i></button>
+          <button id="removeBrush"><i class="fas fa-fw fa-times"></i></button>
+          <div id="BrushCode" style="display:none">
+            <b>Custom Brush Editor</b>
+            <button id="advanceddoc" style="width:auto;margin:1%;float:right">Documentation</button><br>
+            <b style="font-size:10pt">Name:</b>
+            <input type="text" id="brushname" style="width:40%">
+            <b style="font-size: 10pt">&nbsp;Icon (FontAwesome Free):</b>
+            <input type="text" id="brushicon" style="width:15%"><br>
+            <b style="font-size:10pt">Description:</b><br>
+            <textarea id="brushdesc"></textarea>
+            <b style="font-size:10pt">Drawer code:</b><br>
+            <textarea id="code" style="font-family:Consolas"></textarea>
+            <button id="save" style="width:auto">Save</button>
+            <button id="cancel" style="width:auto">Cancel</button>
+          </div>
+          <input id="brush_size" placeholder="Brush radius" type="number" min="0" max="200" value="0"></input>
+        </div>
+        <div id="container3" class="container">
           <input id="as-color" type="text" placeholder="Asteroid color"></input>
           <input id="background-color" type="text" placeholder="Background color"></input>
           <input id="bgI-input" type="file" accept="image/*">
@@ -104,7 +125,7 @@
             <div id="color-test1"></div>
           </div>
         </div>
-        <div id="container3" class="container">
+        <div id="container4" class="container">
           <button id="feedback"><i class="fas fa-fw fa-inbox"></i></button>
           <button id="tutorial"><i class="fas fa-fw fa-book"></i></button>
           <button id="changelog"><i class="fas fa-fw fa-list-ul"></i></button>

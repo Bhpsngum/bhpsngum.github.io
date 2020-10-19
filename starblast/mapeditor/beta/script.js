@@ -1308,7 +1308,7 @@ t = (function(){
     StarblastMap.Engine.Brush.drawers.editIndex = null;
     if (Array.isArray(cbr)) for (let i of cbr)
     {
-      if (!StarblastMap.Engine.Brush.drawers.get(i.code||"{").error) StarblastMap.Engine.Brush.drawers.update(i.code, i.name, i.description);
+      if (!StarblastMap.Engine.Brush.drawers.get(i.code||"{").error) StarblastMap.Engine.Brush.drawers.update(i.code, i.name, i.description, i.icon);
     }
     StarblastMap.Engine.Brush.drawers.sync();
     StarblastMap.Engine.Brush.drawers.redrawSelection();

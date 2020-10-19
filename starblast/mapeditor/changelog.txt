@@ -1,3 +1,7 @@
+3.1.0/Oct 19, 2020
+* Added custom Brush and brush code interface for coders (in Advanced Tab)\n
+See the documents for more info
+
 3.0.6/Oct 10, 2020
 * Added support for mobile browsers:
 Swipe with 1 finger to create asteroid trails\n
