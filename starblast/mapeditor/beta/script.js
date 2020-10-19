@@ -364,7 +364,7 @@ t = (function(){
       }
       let u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
       if (u.error) console.error(u.error);
-      else try{u.drawer.call(window,x,y,init,SBMap)}catch(e){console.error(e)}
+      else try{u.drawer.call(window,{x:x,y:y,size:init},SBMap)}catch(e){console.error(e)}
       list = [...new Set(list)];
       let t = ["X Coordinate", "Y Coordinate", "Asteroid Size"],
       check = [
@@ -374,6 +374,7 @@ t = (function(){
       ]
       for (let k=0;k<list.length;k++) {
         let p = list[k].split("-"), text = [];
+        console.log(p);
         for (let i=0;i<3;i++) {
           let val = Number(p[i]);
           (isNaN(val) || !check[i](val)) && text.push(`Invalid ${t[i]}: '${p[i]}'`);
@@ -838,12 +839,12 @@ t = (function(){
               name: "Square Brush",
               icon: "square",
               description: "Fill a square of 2n+1 each side (n: Brush size)",
-              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(y-br,0);i<=Math.min(y+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(x-br,0);j<=Math.min(x+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
+              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(Cell.y-br,0);i<=Math.min(Cell.y+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(Cell.x-br,0);j<=Math.min(Cell.x+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):Cell.size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
             }
           ],
           get: function(code) {
             let error = 0,t;
-            try{eval("t = function(x,y,size,StarblastMap){"+code+"}")}
+            try{eval("t = function(Cell,StarblastMap){"+code+"}")}
             catch(e){error = e};
             return {error: error,drawer: t}
           },
