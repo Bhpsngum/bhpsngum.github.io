@@ -357,15 +357,15 @@ t = (function(){
             for (let i of [1,0]) {
               let val = Number(pos[i]);
               if (isNaN(val) || !check[i](val)) er.push(`${t[i]}: '${pos[i]}'`);
-              else (val-Math.trunc(val) != 0) && wr.push(`${t[i]}: ${val}`);
+              else (val-Math.trunc(val) != 0) && wr.push({text:`${t[i]}: ${val}`,index:i});
             }
             if (er.length>0) {
               console.error(new Error(`Invalid argument${(er.length>1)?"s":""} in 'Asteroids.get':\n${er.join("\n")}`));
               return null;
             }
             else {
-              (wr.length>0) && console.warn(`Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.join("\n")}`);
               let t = pos.slice(0,2).map(i=>Math.trunc(Number(i)));
+              (wr.length>0) && console.warn(`Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
               return StarblastMap.data[t[1]][t[0]];
             }
           },
@@ -394,12 +394,12 @@ t = (function(){
         for (let i of [1,0,2]) {
           let val = Number(p[i]);
           if (isNaN(val) || !check[i](val)) error.push(`${t[i]}: '${p[i]}'`);
-          else (val-Math.trunc(val) != 0) && warn.push(`${t[i]}: ${val}`);
+          else (val-Math.trunc(val) != 0) && warn.push({text:`${t[i]}: ${val}`,index:i});
         }
         if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n${error.join("\n")}`));
         else {
-          (warn.length>0) && console.warn(`Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.join("\n")}`);
           let t = [p.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(p[2])].flat();
+          (warn.length>0) && console.warn(`Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
           clone.push(t.slice(0,3).join("-"));
           if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,t[1],t[2]].join("-"));
           if (this.Engine.Mirror.h) clone.push([t[0],this.size-t[1]-1,t[2]].join("-"));
