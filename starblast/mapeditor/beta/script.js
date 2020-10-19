@@ -860,7 +860,7 @@ t = (function(){
           redrawSelection: function() {
             $("#brushes").html("");
             for (let i=0;i<this.list.length;i++) {
-              $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-${Engine.encodeHTML(this.list[i].icon||"brush")}"></i></td>`);
+              $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-${StarblastMap.Engine.encodeHTML(this.list[i].icon||"brush")}"></i></td>`);
               $("#brush"+i)[0].onmouseover = function(){StarblastMap.Engine.info.view(StarblastMap.Engine.Brush.drawers.list[i].name,StarblastMap.Engine.Brush.drawers.list[i].description||"")}
               $("#brush"+i)[0].onclick = function(){StarblastMap.Engine.Brush.drawers.select(i)};
             }
@@ -1026,7 +1026,7 @@ t = (function(){
           ["editBrush",null,"Edit the selected custom brush"]
         ],
         view: function (title,text) {
-          $("#info").html(`<strong>${Engine.encodeHTML(title||"")}${title&&text?": ":""}</strong>${Engine.encodeHTML(text||"")}`);
+          $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${title&&text?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}`);
         }
       }
     }
