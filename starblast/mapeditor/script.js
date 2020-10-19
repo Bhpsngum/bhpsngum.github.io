@@ -72,10 +72,10 @@ t = (function(){
       },
       checkAlpha: function(alpha) {
         alpha = Number((alpha != void 0)?alpha:(localStorage.getItem("bgI-alpha")||1));
-        this.alpha = Math.min(Math.max((Object.is(alpha,NaN)?1:alpha),0),1);
+        this.alpha = Math.min(Math.max((isNaN(alpha)?100:alpha),0),100);
         this.alphaInput.val(this.alpha);
         localStorage.setItem("bgI-alpha",this.alpha);
-        $("#mapBgI").css("opacity",this.alpha);
+        $("#mapBgI").css("opacity",this.alpha+"%");
       },
       apply: function(url,gbl,map) {
         url = url || this.image;
@@ -270,7 +270,7 @@ t = (function(){
           c2d.drawImage(this.map, 0, 0);
           c2d.globalCompositeOperation = "destination-over";
           if (!this.background.global && this.background.allowExport && this.background.image) {
-            c2d.globalAlpha = this.background.alpha;
+            c2d.globalAlpha = this.background.alpha/100;
             c2d.drawImage($("#mapBgI")[0], 0, 0, this.map.width, this.map.height);
             c2d.globalAlpha = 1;
           }
@@ -1014,7 +1014,7 @@ t = (function(){
           ["background-color",null,'Toggle background color'],
           ["bgI-input1",null,"Upload your own background image from file (accept all image formats)"],
           ["bgI-url",null,"Upload your own background image from url"],
-          ["bgI-alpha",null,"Toggle background image opacity (0 to 1 - Only available in Map Only Selection)"],
+          ["bgI-alpha",null,"Toggle background image opacity (0% to 100% - Only available in Map Only Selection)"],
           ["bgI-clear",null,"Clear current custom background image"],
           ["border-color",null,'Toggle line color'],
           ["undo","Undo","Undo previous actions in the map"],
