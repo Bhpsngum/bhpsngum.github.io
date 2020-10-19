@@ -350,7 +350,7 @@ t = (function(){
         Asteroids: {
           set: function(x,y,size) {
             try{list.push([y,x,size].join("-"))}
-            catch(e){console.error(new Error("Cannot modify the Asteroid\nInput value:",x.toString(),y.toString(),size.toString()))}
+            catch(e){console.error(new Error("Cannot modify the Asteroid"),"\nInput value:",x,y,size)}
           },
           get: function(...pos) {
             let er = [], wr = [];
