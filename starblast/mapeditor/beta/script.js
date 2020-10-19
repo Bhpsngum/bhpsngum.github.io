@@ -1321,18 +1321,26 @@ t = (function(){
     let code = $("#code").val(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
     else {
-      StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#description").val());
-      StarblastMap.Engine.Brush.drawers.showCode(0);
-      StarblastMap.Engine.Brush.drawers.select();
+      let proc;
+      if (proc = !/((window\.)*(document|localStorage|open|close|location))/g.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?");
+      if (proc) {
+        StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#description").val());
+        StarblastMap.Engine.Brush.drawers.showCode(0);
+        StarblastMap.Engine.Brush.drawers.select();
+      }
     }
   });
   $("#removeBrush").on("click", function(){
-    (confirm("Do you want to remove this brush drawer?")) && StarblastMap.Engine.Brush.drawers.remove();
+    (confirm("Are you sure to remove this brush drawer?")) && StarblastMap.Engine.Brush.drawers.remove();
   });
   $("#cancel").on("click",function(){StarblastMap.Engine.Brush.drawers.showCode(0)});
   $("#addBrush").on("click", function(){
     StarblastMap.Engine.Brush.drawers.editIndex=null;
     StarblastMap.Engine.Brush.drawers.showCode(1);
+    if (localStorage.getItem("modwarn") != "true") {
+      alert("WARNING!\nWe won't be responsible for any problems caused by your code\nOnly runs code from the source that you trust");
+      localStorage.setItem("modwarn", true);
+    }
   });
   $("#editBrush").on("click",function(){StarblastMap.Engine.Brush.drawers.showCode(1)});
   window.addEventListener("mouseup", StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
