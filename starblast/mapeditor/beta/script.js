@@ -881,6 +881,7 @@ t = (function(){
               $("#code").val((this.list[this.editIndex]||{}).code||"").attr("readonly",check);
               $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
               $("#brushdesc").val((this.list[this.editIndex]||{}).description||"").attr("readonly",check);
+              $("#brushicon").val((this.list[this.editIndex]||{}).icon||"").attr("readonly",check);
               $("#save").prop("disabled",check);
             }
           },
