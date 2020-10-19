@@ -366,7 +366,7 @@ t = (function(){
             else {
               (wr.length>0) && console.warn(`Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.join("\n")}`);
               let t = pos.slice(0,2).map(i=>Math.trunc(Number(i)));
-              return StarblastMap.data[p[1]][p[0]];
+              return StarblastMap.data[t[1]][t[0]];
             }
           },
           size: {
