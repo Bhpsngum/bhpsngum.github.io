@@ -887,7 +887,6 @@ t = (function(){
               let check = this.editIndex <= this.defaultIndex && this.editIndex != null;
               this.codeEditor.setValue((this.list[this.editIndex]||{}).code||"");
               this.codeEditor.setReadOnly(check);
-              $("#code").css("class",check?"blocked":"");
               $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
               $("#brushdesc").val((this.list[this.editIndex]||{}).description||"").attr("readonly",check);
               $("#brushicon").val((this.list[this.editIndex]||{}).icon||"").attr("readonly",check);
