@@ -343,7 +343,7 @@ t = (function(){
       let SBMap = {
         Asteroids: {
           set: function(x,y,size) {
-            try{list.push([x,y,size].join("-"))}
+            try{list.push([y,x,size].join("-"))}
             catch(e){console.error(new Error("Cannot modify the Asteroid\nInput value:",x.toString(),y.toString(),size.toString()))}
           },
           size: {
@@ -366,40 +366,37 @@ t = (function(){
       if (u.error) console.error(u.error);
       else try{u.drawer.call(window,{x:x,y:y,size:init},SBMap)}catch(e){console.error(e)}
       list = [...new Set(list)];
-      let t = ["X Coordinate", "Y Coordinate", "Asteroid Size"],
+      let t = ["Y Coordinate","X Coordinate", "Asteroid Size"],
       check = [
-        function(x){return x>=0 && x<StarblastMap.size},
         function(y){return y>=0 && y<StarblastMap.size},
+        function(x){return x>=0 && x<StarblastMap.size},
         function(size){return size>=0 && size<=9}
       ]
-      let clone = [...list];
+      let clone = [];
       for (let k=0;k<list.length;k++) {
-        let p = list[k].split("-"), text = [];
-        for (let i=0;i<3;i++) {
+        let p = list[k].split("-"), error = [], warn = [];
+        for (let i of [1,0,2]) {
           let val = Number(p[i]);
-          (isNaN(val) || !check[i](val)) && text.push(`Invalid ${t[i]}: '${p[i]}'`);
+          if (isNaN(val) || !check[i](val)) error.push(`${t[i]}: '${p[i]}'`);
+          else (val-Math.trunc(val) != 0) && warn.push(`${t[i]}: ${val}`);
         }
-        if (text.length) {
-          console.error(new Error("Invalid argument"+((text.length>1)?"s":"")+":\n"+text.join("\n")));
-          list[k]+="-invalid";
-        }
+        if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""}:\n${error.join("\n")}`));
         else {
-          let t = p.map(i=>Number(i));
-          if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,p[1],p[2]].join("-"));
-          if (this.Engine.Mirror.h) clone.push([p[0],this.size-t[1]-1,p[2]].join("-"));
-          if (this.Engine.Mirror.v && this.Engine.Mirror.h) clone.push([this.size-t[0]-1,this.size-t[1]-1,p[2]].join("-"));
+          (warn.length>0) && console.warn(`Found non-integer value${(warn.length>1)?"s":""}:\n${warn.join("\n")}`);
+          let t = [p.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(p[2])].flat();
+          clone.push(t.slice(0,3).join("-"));
+          if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,t[1],t[2]].join("-"));
+          if (this.Engine.Mirror.h) clone.push([t[0],this.size-t[1]-1,t[2]].join("-"));
+          if (this.Engine.Mirror.v && this.Engine.Mirror.h) clone.push([this.size-t[0]-1,this.size-t[1]-1,t[2]].join("-"));
         }
       }
       list = [...new Set(clone)];
       for (let k of list)
       {
-        let p = k.split("-"), t = p.map(i=>Number(i));
-        if (p[3] != "invalid") {
-          let data = this.Asteroids.modify(...t);
-          if (data.changed){
-            let pos = p[0]+"-"+p[1], prev = this.session.get(pos);
-            this.session.set(pos,[(prev)?prev[0]:data.prev,t[2]]);
-          }
+        let t = k.split("-").map(i=>Number(i)).slice(0,3), data = this.Asteroids.modify(...t);
+        if (data.changed){
+          let pos = t.slice(0,2).join("-"), prev = this.session.get(pos);
+          this.session.set(pos,[(prev)?prev[0]:data.prev,t[2]]);
         }
       }
       this.sync();
@@ -798,7 +795,7 @@ t = (function(){
             break;
           case "background-color":
             let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
-            $('*').css("color",color);
+            $('body').css("color",color);
             $('.chosen').css("border-bottom-color",color);
             $("#BrushCode").css("background-color",css);
             StarblastMap.background.color = css;
@@ -832,6 +829,12 @@ t = (function(){
         input: $("#brush_size"),
         randomized: false,
         drawers: {
+          codeEditor: ace.edit("code",{
+            mode:"ace/mode/javascript",
+            theme:"ace/theme/monokai",
+            tabSize:2,
+            useSoftTabs: true
+          }),
           editIndex: null,
           chosenIndex: 0,
           defaultIndex: 0,
@@ -841,7 +844,7 @@ t = (function(){
               author: "Bhpsngum",
               icon: "square",
               description: "Fill a square of 2n+1 each side (n: Brush size)",
-              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(Cell.y-br,0);i<=Math.min(Cell.y+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(Cell.x-br,0);j<=Math.min(Cell.x+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):Cell.size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
+              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(Cell.x-br,0);i<=Math.min(Cell.x+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(Cell.y-br,0);j<=Math.min(Cell.y+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):Cell.size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
             }
           ],
           get: function(code) {
@@ -882,7 +885,8 @@ t = (function(){
             $("#BrushCode").css("display",bool?"":"none");
             if (bool) {
               let check = this.editIndex <= this.defaultIndex && this.editIndex != null;
-              $("#code").val((this.list[this.editIndex]||{}).code||"").attr("readonly",check);
+              this.codeEditor.setValue((this.list[this.editIndex]||{}).code||"");
+              this.codeEditor.setReadOnly(check);
               $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
               $("#brushdesc").val((this.list[this.editIndex]||{}).description||"").attr("readonly",check);
               $("#brushicon").val((this.list[this.editIndex]||{}).icon||"").attr("readonly",check);
@@ -1323,7 +1327,7 @@ t = (function(){
   }
   catch(e){}
   $("#save").on("click", function(){
-    let code = $("#code").val(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
+    let code = StarblastMap.Engine.Brush.drawers.codeEditor.getValue(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
     else {
       let proc;
