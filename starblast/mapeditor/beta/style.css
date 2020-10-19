@@ -109,6 +109,7 @@ table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOpti
 
 textarea {
   background-color: inherit;
+  color: inherit;
   resize: vertical;
   width:98%;
   height:35%;
