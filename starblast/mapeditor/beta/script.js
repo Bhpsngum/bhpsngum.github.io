@@ -372,6 +372,7 @@ t = (function(){
         function(y){return y>=0 && y<StarblastMap.size},
         function(size){return size>=0 && size<=9}
       ]
+      let clone = [...list];
       for (let k=0;k<list.length;k++) {
         let p = list[k].split("-"), text = [];
         for (let i=0;i<3;i++) {
@@ -384,18 +385,14 @@ t = (function(){
         }
         else {
           let t = p.map(i=>Number(i));
-          console.log("c1");
-          if (this.Engine.Mirror.v) list.push([this.size-t[0]-1,p[1],p[2]].join("-"));
-          if (this.Engine.Mirror.h) list.push([p[0],this.size-t[1]-1,p[2]].join("-"));
-          if (this.Engine.Mirror.v && this.Engine.Mirror.h) list.push([this.size-t[0]-1,this.size-t[1]-1,p[2]].join("-"));
-          console.log("c2");
+          if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,p[1],p[2]].join("-"));
+          if (this.Engine.Mirror.h) clone.push([p[0],this.size-t[1]-1,p[2]].join("-"));
+          if (this.Engine.Mirror.v && this.Engine.Mirror.h) clone.push([this.size-t[0]-1,this.size-t[1]-1,p[2]].join("-"));
         }
       }
-      list = [...new Set(list)];
-      console.log("c3");
+      list = [...new Set(clone)];
       for (let k of list)
       {
-        console.log("c4");
         let p = k.split("-"), t = p.map(i=>Number(i));
         if (p[3] != "invalid") {
           let data = this.Asteroids.modify(...t);
