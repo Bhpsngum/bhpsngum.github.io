@@ -833,6 +833,8 @@ t = (function(){
           list: [
             {
               name: "Square Brush",
+              icon: "square",
+              description: "Fill a square of 2n+1 each side (n: Brush size)",
               code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(y-br,0);i<=Math.min(y+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(x-br,0);j<=Math.min(x+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
             }
           ],
@@ -846,16 +848,16 @@ t = (function(){
             id = Math.max(Math.min(Math.trunc(Number(id)||0),this.list.length-1),0);
             return this.get(this.list[id].code);
           },
-          update: function(code, name, desc) {
+          update: function(code, name, desc, icon) {
             let id = (this.editIndex == null)?this.list.length:this.editIndex;
-            this.list[id] = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||""};
+            this.list[id] = {name:name||("Custom Brush "+(id-this.defaultIndex)), code:code, description: desc||"", icon: icon||""};
             this.sync();
             this.redrawSelection();
           },
           redrawSelection: function() {
             $("#brushes").html("");
             for (let i=0;i<this.list.length;i++) {
-              $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-brush"></i></td>`);
+              $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-${encodeURIComponent(this.list[i].icon||"brush")}"></i></td>`);
               $("#brush"+i)[0].onmouseover = function(){StarblastMap.Engine.info.view(StarblastMap.Engine.Brush.drawers.list[i].name,StarblastMap.Engine.Brush.drawers.list[i].description||"")}
               $("#brush"+i)[0].onclick = function(){StarblastMap.Engine.Brush.drawers.select(i)};
             }
@@ -875,7 +877,7 @@ t = (function(){
               let check = this.editIndex <= this.defaultIndex && this.editIndex != null;
               $("#code").val((this.list[this.editIndex]||{}).code||"").attr("readonly",check);
               $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
-              $("#description").val((this.list[this.editIndex]||{}).description||"").attr("readonly",check);
+              $("#brushdesc").val((this.list[this.editIndex]||{}).description||"").attr("readonly",check);
               $("#save").prop("disabled",check);
             }
           },
@@ -1021,7 +1023,7 @@ t = (function(){
           ["editBrush",null,"Edit the selected custom brush"]
         ],
         view: function (title,text) {
-          $("#info").html(`<strong>${title||""}${title&&text?": ":""}</strong>${text||""}`);
+          $("#info").html(`<strong>${encodeURIComponent(title||"")}${title&&text?": ":""}</strong>${encodeURIComponent(text||"")}`);
         }
       }
     }
@@ -1231,7 +1233,7 @@ t = (function(){
     StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
     document.onkeydown = function(e)
     {
-      let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize","code","brushname","description"],check=[];
+      let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize","code","brushname","brushdesc","brushicon"],check=[];
       for (let i of size) check.push($("#"+i).is(":focus"));
       if (!Math.max(...check))
       {
@@ -1318,7 +1320,7 @@ t = (function(){
       let proc;
       if (proc = !/((window\.)*(document|localStorage|open|close|location))/g.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?");
       if (proc) {
-        StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#description").val());
+        StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#brushdesc").val(), $("#brushicon").val());
         StarblastMap.Engine.Brush.drawers.showCode(0);
         StarblastMap.Engine.Brush.drawers.select();
       }
