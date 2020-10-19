@@ -384,20 +384,21 @@ t = (function(){
           list[k]+="-invalid";
         }
         else {
-          if (StarblastMap.Engine.Mirror.v) list.push([this.size-p[0]-1,p[1],p[2]].join("-"));
-          if (StarblastMap.Engine.Mirror.h) list.push([p[0],this.size-p[1]-1,p[2]].join("-"));
-          if (StarblastMap.Engine.Mirror.v && StarblastMap.Engine.Mirror.h) list.push([this.size-p[0]-1,this.size-p[1]-1,p[2]].join("-"));
+          let t = p.map(i=>Number(i));
+          if (this.Engine.Mirror.v) list.push([this.size-t[0]-1,p[1],p[2]].join("-"));
+          if (this.Engine.Mirror.h) list.push([p[0],this.size-t[1]-1,p[2]].join("-"));
+          if (this.Engine.Mirror.v && this.Engine.Mirror.h) list.push([this.size-t[0]-1,this.size-t[1]-1,p[2]].join("-"));
         }
       }
       list = [...new Set(list)];
       for (let k of list)
       {
-        let p = k.split("-");
+        let p = k.split("-"), t = p.map(i=>Number(i));
         if (p[3] != "invalid") {
-          let data = this.Asteroids.modify(...p);
+          let data = this.Asteroids.modify(...t);
           if (data.changed){
             let pos = p[0]+"-"+p[1], prev = this.session.get(pos);
-            this.session.set(pos,[(prev)?prev[0]:data.prev,p[2]]);
+            this.session.set(pos,[(prev)?prev[0]:data.prev,t[2]]);
           }
         }
       }
@@ -864,7 +865,7 @@ t = (function(){
             for (let i=0;i<this.list.length;i++) {
               $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-${StarblastMap.Engine.encodeHTML(this.list[i].icon||"brush")}"></i></td>`);
               let brush = StarblastMap.Engine.Brush.drawers.list[i];
-              $("#brush"+i)[0].onmouseover = function(){StarblastMap.Engine.info.view(brush.name,(brush.description||"").replace(/(\.)*$/,".")+(brush.author?("By "+brush.author):""))}
+              $("#brush"+i)[0].onmouseover = function(){StarblastMap.Engine.info.view(brush.name,(brush.description||"").replace(/(\.)*$/,".")+(brush.author?(" By "+brush.author):""))}
               $("#brush"+i)[0].onclick = function(){StarblastMap.Engine.Brush.drawers.select(i)};
             }
           },
