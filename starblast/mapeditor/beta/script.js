@@ -1327,7 +1327,7 @@ t = (function(){
   }
   catch(e){}
   $("#save").on("click", function(){
-    let code = Engine.Brush.drawers.codeEditor.getValue(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
+    let code = StarblastMap.Engine.Brush.drawers.codeEditor.getValue(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
     else {
       let proc;
