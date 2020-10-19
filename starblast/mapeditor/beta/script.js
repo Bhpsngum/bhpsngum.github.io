@@ -374,13 +374,15 @@ t = (function(){
       ]
       let clone = [];
       for (let k=0;k<list.length;k++) {
-        let p = list[k].split("-"), text = [];
+        let p = list[k].split("-"), error = [], warn = [];
         for (let i of [1,0,2]) {
           let val = Number(p[i]);
-          (isNaN(val) || !check[i](val)) && text.push(`Invalid ${t[i]}: '${p[i]}'`);
+          if (isNaN(val) || !check[i](val)) error.push(`${t[i]}: '${p[i]}'`);
+          else (val-Math.trunc(val) != 0) warn.push(`${t[i]}: ${val}`);
         }
-        if (text.length) console.error(new Error("Invalid argument"+((text.length>1)?"s":"")+":\n"+text.join("\n")));
+        if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""}:\n${error.join("\n")}`));
         else {
+          (warn.length>0) && console.warn(`Found non-integer value${(warn.length>1)?"s":""}:\n${warn.join("\n")}`);
           let t = p.map(i=>Math.trunc(Number(i)));
           clone.push(t.slice(0,3).join("-"));
           if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,t[1],t[2]].join("-"));
