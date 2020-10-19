@@ -107,7 +107,7 @@ table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOpti
   overflow: scroll;
 }
 
-textarea {
+textarea,#code {
   background-color: inherit;
   color: inherit;
   resize: vertical;

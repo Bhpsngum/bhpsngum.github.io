@@ -829,6 +829,12 @@ t = (function(){
         input: $("#brush_size"),
         randomized: false,
         drawers: {
+          codeEditor: ace.edit("code",{
+            mode:"ace/mode/javascript",
+            theme:"ace/theme/monokai",
+            tabSize:2,
+            useSoftTabs: true
+          }),
           editIndex: null,
           chosenIndex: 0,
           defaultIndex: 0,
@@ -879,7 +885,7 @@ t = (function(){
             $("#BrushCode").css("display",bool?"":"none");
             if (bool) {
               let check = this.editIndex <= this.defaultIndex && this.editIndex != null;
-              $("#code").val((this.list[this.editIndex]||{}).code||"").attr("readonly",check);
+              this.codeEditor.setValue((this.list[this.editIndex]||{}).code||"").setReadOnly(check);
               $("#brushname").val((this.list[this.editIndex]||{}).name||"").attr("readonly",check);
               $("#brushdesc").val((this.list[this.editIndex]||{}).description||"").attr("readonly",check);
               $("#brushicon").val((this.list[this.editIndex]||{}).icon||"").attr("readonly",check);
@@ -1320,7 +1326,7 @@ t = (function(){
   }
   catch(e){}
   $("#save").on("click", function(){
-    let code = $("#code").val(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
+    let code = Engine.Brush.drawers.codeEditor.getValue(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
     else {
       let proc;
