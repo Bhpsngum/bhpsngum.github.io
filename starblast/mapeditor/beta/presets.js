@@ -7,7 +7,7 @@ else (function(){
     ["feedback",'?feedback','_blank'],
     ["tutorial",'https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md','_blank'],
     ["changelog",'/starblast/mapeditor/changelog.html','_blank'],
-    ["advanceddoc","https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md#advanced-documentation"]
+    ["advanceddoc","https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md#custom-brush"]
   ]
   for (let link of links) $("#"+link[0]).on("click",function(){
     window.open(link[1],link[2]);
