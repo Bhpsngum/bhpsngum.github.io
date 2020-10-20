@@ -356,7 +356,7 @@ t = (function(){
               }
               catch(e){error.push(i)}
             }
-            if (error.length>0) console.error(`[Custom Brush]Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]));
+            if (error.length>0) console.error(`[Custom Brush]Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]).flat());
             else {
               let t = [...pos.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(Number(pos[2]))], clone = [];
               (warn.length>0) && console.warn(`[Custom Brush]Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
@@ -385,7 +385,7 @@ t = (function(){
               catch(e){er.push(i)}
             }
             if (er.length>0) {
-              console.error(`[Custom Brush]Error: Invalid argument${(er.length>1)?"s":""} in 'Asteroids.set':\n`,...er.map(i => [args[i]+": ",pos[i],"\n"]));
+              console.error(`[Custom Brush]Error: Invalid argument${(er.length>1)?"s":""} in 'Asteroids.set':\n`,...er.map(i => [args[i]+": ",pos[i],"\n"]).flat());
               return null;
             }
             else {
