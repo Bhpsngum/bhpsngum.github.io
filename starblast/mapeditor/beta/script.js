@@ -338,9 +338,7 @@ t = (function(){
       catch(e){}
     },
     modify: function(x,y,num) {
-      let c = num == void 0,init, list = [], min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max;
-      if (c) init = StarblastMap.Engine.random.range(min,max);
-      let t = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
+      let init = (num == null)?StarblastMap.Engine.random.range(min,max):num, list = [], min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max, t = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
       check = [
         function(y){return y>=0 && y<StarblastMap.size},
         function(x){return x>=0 && x<StarblastMap.size},
@@ -1262,8 +1260,8 @@ t = (function(){
     StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
     document.onkeydown = function(e)
     {
-      let size=["brush_size","map_size","background-color","border-color","as-color","maxASSize","minASSize","code","brushname","brushdesc","brushicon","brushauthor"],check=[];
-      for (let i of size) check.push($("#"+i).is(":focus"));
+      let size=["#brush_size","#map_size","#background-color","#border-color","#as-color","#maxASSize","#minASSize","#brushname","#brushdesc","#brushicon","#brushauthor",".ace_text-input"],check=[];
+      for (let i of size) check.push($(i).is(":focus"));
       if (!Math.max(...check))
       {
         if (e.ctrlKey == true) switch(e.which)
