@@ -338,7 +338,7 @@ t = (function(){
       catch(e){}
     },
     modify: function(x,y,num) {
-      let list = [], custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num, check = [...new Array(2).fill([0,this.size+1]),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
+      let list = [], custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num, check = [...new Array(2).fill([0,this.size-1]),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
       Cell = {
         x:x,
         y:y,
