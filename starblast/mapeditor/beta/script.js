@@ -338,7 +338,7 @@ t = (function(){
       catch(e){}
     },
     modify: function(x,y,num) {
-      let init = (num == null)?StarblastMap.Engine.random.range(min,max):num, list = [], min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max, t = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
+      let list = [], min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max, init = (num == null)?StarblastMap.Engine.random.range(min,max):num, t = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
       check = [
         function(y){return y>=0 && y<StarblastMap.size},
         function(x){return x>=0 && x<StarblastMap.size},
