@@ -352,10 +352,10 @@ t = (function(){
             for (let i of [1,0]) {
               try {
                 let val = Number(pos[i]);
-                if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(`${args[i]}: ${this.Engine.toString(pos[i])}`);
+                if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(`${args[i]}: ${StarblastMap.Engine.toString(pos[i])}`);
                 else (val-Math.trunc(val) != 0) && wr.push({text:`${args[i]}: ${val}`,index:i});
               }
-              catch(e){er.push(`${args[i]}: '${this.Engine.toString(pos[i])}'`);}
+              catch(e){er.push(`${args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
             }
             if (er.length>0) {
               console.error(new Error(`Invalid argument${(er.length>1)?"s":""} in 'Asteroids.get':\n${er.join("\n")}`));
@@ -391,10 +391,10 @@ t = (function(){
         for (let i of [1,0,2]) {
           try {
             let val = Number(pos[i]);
-            if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(`${args[i]}: ${StarblastMap.Engine.toString(pos[i])}`);
+            if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(`${args[i]}: ${this.Engine.toString(pos[i])}`);
             else (val-Math.trunc(val) != 0) && warn.push({text:`${args[i]}: ${val}`,index:i});
           }
-          catch(e){error.push(`${args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
+          catch(e){error.push(`${args[i]}: '${this.Engine.toString(pos[i])}'`);}
         }
         if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n${error.join("\n")}`));
         else {

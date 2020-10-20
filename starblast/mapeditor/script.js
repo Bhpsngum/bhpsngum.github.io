@@ -338,24 +338,24 @@ t = (function(){
       catch(e){}
     },
     modify: function(x,y,num) {
-      let custom = num == null, list = [], min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max, init = custom?StarblastMap.Engine.random.range(min,max):num, t = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
-      check = [
-        function(y){return y>=0 && y<StarblastMap.size},
-        function(x){return x>=0 && x<StarblastMap.size},
-        function(size){return size>=0 && size<=9}
-      ],
-      SBMap = {
+      let list = [], custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num, check = [...new Array(2).fill([0,this.size-1]),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
+      Cell = {
+        x:x,
+        y:y,
+        size:init,
+        isRemoved: !custom
+      }, SBMap = {
         Asteroids: {
-          set: function(x,y,size) {
-            try{list.push([y,x,size].join("-"))}
-            catch(e){console.error(new Error("Cannot modify the Asteroid"),"\nInput value:",x,y,size)}
-          },
+          set: function(x,y,size) {list.push([y,x,size])},
           get: function(...pos) {
             let er = [], wr = [];
             for (let i of [1,0]) {
-              let val = Number(pos[i]);
-              if (isNaN(val) || !check[i](val)) er.push(`${t[i]}: '${pos[i]}'`);
-              else (val-Math.trunc(val) != 0) && wr.push({text:`${t[i]}: ${val}`,index:i});
+              try {
+                let val = Number(pos[i]);
+                if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(`${args[i]}: ${StarblastMap.Engine.toString(pos[i])}`);
+                else (val-Math.trunc(val) != 0) && wr.push({text:`${args[i]}: ${val}`,index:i});
+              }
+              catch(e){er.push(`${args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
             }
             if (er.length>0) {
               console.error(new Error(`Invalid argument${(er.length>1)?"s":""} in 'Asteroids.get':\n${er.join("\n")}`));
@@ -381,45 +381,37 @@ t = (function(){
           random: StarblastMap.Engine.random,
           randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
         }
-      }, Cell = {
-        x:x,
-        y:y,
-        size:init,
-        isRemoved: !custom
-      }
-      let u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
+      }, u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
       if (u.error) console.error(u.error);
       else try{u.drawer.call(window,Cell,SBMap)}catch(e){console.error(e)}
       list = [...new Set(list)];
       let clone = [];
-      for (let k=0;k<list.length;k++) {
-        let p = list[k].split("-"), error = [], warn = [];
-        if (p[0] === "") {
-          p.splice(0,1);
-          p[0] = "-"+p[0];
-        }
+      for (let pos of list) {
+        let error = [], warn = [];
         for (let i of [1,0,2]) {
-          let val = Number(p[i]);
-          if (isNaN(val) || !check[i](val)) error.push(`${t[i]}: '${p[i]}'`);
-          else (val-Math.trunc(val) != 0) && warn.push({text:`${t[i]}: ${val}`,index:i});
+          try {
+            let val = Number(pos[i]);
+            if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(`${args[i]}: ${this.Engine.toString(pos[i])}`);
+            else (val-Math.trunc(val) != 0) && warn.push({text:`${args[i]}: ${val}`,index:i});
+          }
+          catch(e){error.push(`${args[i]}: '${this.Engine.toString(pos[i])}'`);}
         }
         if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n${error.join("\n")}`));
         else {
-          let t = [p.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(p[2])].flat();
+          let t = [...pos.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(Number(pos[2]))];
           (warn.length>0) && console.warn(`Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
-          clone.push(t.slice(0,3).join("-"));
-          if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,t[1],t[2]].join("-"));
-          if (this.Engine.Mirror.h) clone.push([t[0],this.size-t[1]-1,t[2]].join("-"));
-          if (this.Engine.Mirror.v && this.Engine.Mirror.h) clone.push([this.size-t[0]-1,this.size-t[1]-1,t[2]].join("-"));
+          clone.push(t);
+          if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,t[1],t[2]]);
+          if (this.Engine.Mirror.h) clone.push([t[0],this.size-t[1]-1,t[2]]);
+          if (this.Engine.Mirror.v && this.Engine.Mirror.h) clone.push([this.size-t[0]-1,this.size-t[1]-1,t[2]]);
         }
       }
-      list = [...new Set(clone)];
-      for (let k of list)
+      for (let k of clone)
       {
-        let t = k.split("-").map(i=>Number(i)).slice(0,3), data = this.Asteroids.modify(...t);
+        let data = this.Asteroids.modify(...k);
         if (data.changed){
-          let pos = t.slice(0,2).join("-"), prev = this.session.get(pos);
-          this.session.set(pos,[(prev)?prev[0]:data.prev,t[2]]);
+          let pos = k.slice(0,2).join("-"), prev = this.session.get(pos);
+          this.session.set(pos,[(prev)?prev[0]:data.prev,k[2]]);
         }
       }
       this.sync();
@@ -738,6 +730,18 @@ t = (function(){
     Engine: {
       supportClipboardAPI: !!(window.Clipboard && window.ClipboardItem),
       touchHover: false,
+      toString: function (item) {
+        switch (typeof item) {
+          case "undefined":
+            return "undefined";
+          case "object":
+            return JSON.stringify(item);
+          case "string":
+            return item;
+          default:
+            return item.toString();
+        }
+      },
       Trail: {
         state: -1,
         stop: function ()
