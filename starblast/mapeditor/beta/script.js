@@ -338,7 +338,7 @@ t = (function(){
       catch(e){}
     },
     modify: function(x,y,num) {
-      let list = [], min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max, init = (num == null)?StarblastMap.Engine.random.range(min,max):num, t = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
+      let custom = num == null, list = [], min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max, init = custom?StarblastMap.Engine.random.range(min,max):num, t = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
       check = [
         function(y){return y>=0 && y<StarblastMap.size},
         function(x){return x>=0 && x<StarblastMap.size},
@@ -381,10 +381,15 @@ t = (function(){
           random: StarblastMap.Engine.random,
           randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
         }
+      }, Cell = {
+        x:x,
+        y:y,
+        size:init,
+        isRemoved: !custom
       }
       let u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
       if (u.error) console.error(u.error);
-      else try{u.drawer.call(window,{x:x,y:y,size:init},SBMap)}catch(e){console.error(e)}
+      else try{u.drawer.call(window,{},SBMap)}catch(e){console.error(e)}
       list = [...new Set(list)];
       let clone = [];
       for (let k=0;k<list.length;k++) {
@@ -858,7 +863,7 @@ t = (function(){
               author: "Bhpsngum",
               icon: "square",
               description: "Fill a square of 2n+1 each side (n: Brush size)",
-              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(Cell.x-br,0);i<=Math.min(Cell.x+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(Cell.y-br,0);j<=Math.min(Cell.y+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):Cell.size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
+              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(Cell.x-br,0);i<=Math.min(Cell.x+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(Cell.y-br,0);j<=Math.min(Cell.y+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized && !Cell.isRemoved)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):Cell.size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
             }
           ],
           get: function(code) {
