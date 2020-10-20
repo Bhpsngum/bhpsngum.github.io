@@ -337,24 +337,25 @@ t = (function(){
       }
       catch(e){}
     },
-    userData: {
-      args: ["Y Coordinate", "X Coordinate", "Asteroid Size"],
-      vals: function(){return [...new Array(2).fill([0,this.size+1]),[0,9]]},
-      proposeList: []
-    },
-    API: function() {
-      return {
+    modify: function(x,y,num) {
+      let list = [], custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num, check = [...new Array(2).fill([0,this.size+1]),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
+      Cell = {
+        x:x,
+        y:y,
+        size:init,
+        isRemoved: !custom
+      }, SBMap = {
         Asteroids: {
-          set: function(x,y,size) {StarblastMap.userData.proposeList.push([y,x,size])},
+          set: function(x,y,size) {list.push([y,x,size])},
           get: function(...pos) {
-            let er = [], wr = [], check = StarblastMap.userData.vals();
+            let er = [], wr = [];
             for (let i of [1,0]) {
               try {
                 let val = Number(pos[i]);
-                if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(`${StarblastMap.userData.args[i]}: ${StarblastMap.Engine.toString(pos[i])}`);
-                else (val-Math.trunc(val) != 0) && wr.push({text:`${StarblastMap.userData.args[i]}: ${val}`,index:i});
+                if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(`${args[i]}: ${StarblastMap.Engine.toString(pos[i])}`);
+                else (val-Math.trunc(val) != 0) && wr.push({text:`${args[i]}: ${val}`,index:i});
               }
-              catch(e){er.push(`${StarblastMap.userData.args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
+              catch(e){er.push(`${args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
             }
             if (er.length>0) {
               console.error(new Error(`Invalid argument${(er.length>1)?"s":""} in 'Asteroids.get':\n${er.join("\n")}`));
@@ -367,8 +368,8 @@ t = (function(){
             }
           },
           size: {
-            min: StarblastMap.Asteroids.size.min,
-            max: StarblastMap.Asteroids.size.max
+            min: min,
+            max: max
           }
         },
         size: StarblastMap.size,
@@ -380,30 +381,20 @@ t = (function(){
           random: StarblastMap.Engine.random,
           randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
         }
-      }
-    },
-    modify: function(x,y,num) {
-      let custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num, check = this.userData.vals(),
-      Cell = {
-        x:x,
-        y:y,
-        size:init,
-        isRemoved: !custom
       }, u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
-      this.userData.proposeList = [];
       if (u.error) console.error(u.error);
-      else try{u.drawer.call(window,Cell,this.API())}catch(e){console.error(e)}
-      this.userData.proposeList = [...new Set(this.userData.proposeList)];
+      else try{u.drawer.call(window,Cell,SBMap)}catch(e){console.error(e)}
+      list = [...new Set(list)];
       let clone = [];
-      for (let pos of this.userData.proposeList) {
+      for (let pos of list) {
         let error = [], warn = [];
         for (let i of [1,0,2]) {
           try {
             let val = Number(pos[i]);
-            if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(`${this.userData.args[i]}: ${this.Engine.toString(pos[i])}`);
-            else (val-Math.trunc(val) != 0) && warn.push({text:`${this.userData.args[i]}: ${val}`,index:i});
+            if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(`${args[i]}: ${this.Engine.toString(pos[i])}`);
+            else (val-Math.trunc(val) != 0) && warn.push({text:`${args[i]}: ${val}`,index:i});
           }
-          catch(e){error.push(`${this.userData.args[i]}: '${this.Engine.toString(pos[i])}'`);}
+          catch(e){error.push(`${args[i]}: '${this.Engine.toString(pos[i])}'`);}
         }
         if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n${error.join("\n")}`));
         else {
@@ -423,7 +414,6 @@ t = (function(){
           this.session.set(pos,[(prev)?prev[0]:data.prev,k[2]]);
         }
       }
-      this.userData.proposeList = [];
       this.sync();
     },
     sync: function () {
