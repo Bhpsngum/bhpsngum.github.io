@@ -342,42 +342,44 @@ t = (function(){
       vals: function(){return [...new Array(2).fill([0,this.size+1]),[0,9]]},
       proposeList: []
     },
-    APIs: {
-      Asteroids: {
-        set: function(x,y,size) {StarblastMap.userData.proposeList.push([y,x,size])},
-        get: function(...pos) {
-          let er = [], wr = [], check = StarblastMap.userData.vals();
-          for (let i of [1,0]) {
-            try {
-              let val = Number(pos[i]);
-              if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(`${StarblastMap.userData.args[i]}: ${StarblastMap.Engine.toString(pos[i])}`);
-              else (val-Math.trunc(val) != 0) && wr.push({text:`${StarblastMap.userData.args[i]}: ${val}`,index:i});
+    API: function() {
+      return {
+        Asteroids: {
+          set: function(x,y,size) {StarblastMap.userData.proposeList.push([y,x,size])},
+          get: function(...pos) {
+            let er = [], wr = [], check = StarblastMap.userData.vals();
+            for (let i of [1,0]) {
+              try {
+                let val = Number(pos[i]);
+                if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(`${StarblastMap.userData.args[i]}: ${StarblastMap.Engine.toString(pos[i])}`);
+                else (val-Math.trunc(val) != 0) && wr.push({text:`${StarblastMap.userData.args[i]}: ${val}`,index:i});
+              }
+              catch(e){er.push(`${StarblastMap.userData.args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
             }
-            catch(e){er.push(`${StarblastMap.userData.args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
-          }
-          if (er.length>0) {
-            console.error(new Error(`Invalid argument${(er.length>1)?"s":""} in 'Asteroids.get':\n${er.join("\n")}`));
-            return null;
-          }
-          else {
-            let t = pos.slice(0,2).map(i=>Math.trunc(Number(i)));
-            (wr.length>0) && console.warn(`Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
-            return StarblastMap.data[t[1]][t[0]];
+            if (er.length>0) {
+              console.error(new Error(`Invalid argument${(er.length>1)?"s":""} in 'Asteroids.get':\n${er.join("\n")}`));
+              return null;
+            }
+            else {
+              let t = pos.slice(0,2).map(i=>Math.trunc(Number(i)));
+              (wr.length>0) && console.warn(`Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
+              return StarblastMap.data[t[1]][t[0]];
+            }
+          },
+          size: {
+            min: StarblastMap.Asteroids.size.min,
+            max: StarblastMap.Asteroids.size.max
           }
         },
-        size: {
-          min: min,
-          max: max
+        size: StarblastMap.size,
+        Brush: {
+          size: StarblastMap.Engine.Brush.size,
+          isRandomized: StarblastMap.Engine.Brush.randomized
+        },
+        Utils: {
+          random: StarblastMap.Engine.random,
+          randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
         }
-      },
-      size: StarblastMap.size,
-      Brush: {
-        size: StarblastMap.Engine.Brush.size,
-        isRandomized: StarblastMap.Engine.Brush.randomized
-      },
-      Utils: {
-        random: StarblastMap.Engine.random,
-        randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
       }
     },
     modify: function(x,y,num) {
@@ -390,7 +392,7 @@ t = (function(){
       }, u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
       this.userData.proposeList = [];
       if (u.error) console.error(u.error);
-      else try{u.drawer.call(window,Cell,this.APIs)}catch(e){console.error(e)}
+      else try{u.drawer.call(window,Cell,this.API())}catch(e){console.error(e)}
       this.userData.proposeList = [...new Set(this.userData.proposeList)];
       let clone = [];
       for (let pos of this.userData.proposeList) {
