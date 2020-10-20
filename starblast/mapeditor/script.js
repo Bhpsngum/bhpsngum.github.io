@@ -338,7 +338,7 @@ t = (function(){
       catch(e){}
     },
     modify: function(x,y,num) {
-      let list = [], custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num, check = [...new Array(2).fill([0,this.size-1]),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
+      let custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num, check = [...new Array(2).fill([0,this.size-1]),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
       Cell = {
         x:x,
         y:y,
@@ -346,7 +346,34 @@ t = (function(){
         isRemoved: !custom
       }, SBMap = {
         Asteroids: {
-          set: function(x,y,size) {list.push([y,x,size])},
+          set: function(x,y,size) {
+            let error = [], warn = [], pos = [y,x,size];
+            for (let i of [1,0,2]) {
+              try {
+                let val = Number(pos[i]);
+                if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(`${args[i]}: ${StarblastMap.Engine.toString(pos[i])}`);
+                else (val-Math.trunc(val) != 0) && warn.push({text:`${args[i]}: ${val}`,index:i});
+              }
+              catch(e){error.push(`${args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
+            }
+            if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n${error.join("\n")}`));
+            else {
+              let t = [...pos.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(Number(pos[2]))], clone = [];
+              (warn.length>0) && console.warn(`Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
+              clone.push(t);
+              if (StarblastMap.Engine.Mirror.v) clone.push([StarblastMap.size-t[0]-1,t[1],t[2]]);
+              if (StarblastMap.Engine.Mirror.h) clone.push([t[0],StarblastMap.size-t[1]-1,t[2]]);
+              if (StarblastMap.Engine.Mirror.v && StarblastMap.Engine.Mirror.h) clone.push([StarblastMap.size-t[0]-1,StarblastMap.size-t[1]-1,t[2]]);
+              for (let k of clone)
+              {
+                let data = StarblastMap.Asteroids.modify(...k);
+                if (data.changed){
+                  let pos = k.slice(0,2).join("-"), prev = StarblastMap.session.get(pos);
+                  StarblastMap.session.set(pos,[(prev)?prev[0]:data.prev,k[2]]);
+                }
+              }
+            }
+          },
           get: function(...pos) {
             let er = [], wr = [];
             for (let i of [1,0]) {
@@ -382,38 +409,9 @@ t = (function(){
           randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
         }
       }, u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
+      window.StarblastMap = SBMap;
       if (u.error) console.error(u.error);
       else try{u.drawer.call(window,Cell,SBMap)}catch(e){console.error(e)}
-      list = [...new Set(list)];
-      let clone = [];
-      for (let pos of list) {
-        let error = [], warn = [];
-        for (let i of [1,0,2]) {
-          try {
-            let val = Number(pos[i]);
-            if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(`${args[i]}: ${this.Engine.toString(pos[i])}`);
-            else (val-Math.trunc(val) != 0) && warn.push({text:`${args[i]}: ${val}`,index:i});
-          }
-          catch(e){error.push(`${args[i]}: '${this.Engine.toString(pos[i])}'`);}
-        }
-        if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n${error.join("\n")}`));
-        else {
-          let t = [...pos.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(Number(pos[2]))];
-          (warn.length>0) && console.warn(`Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
-          clone.push(t);
-          if (this.Engine.Mirror.v) clone.push([this.size-t[0]-1,t[1],t[2]]);
-          if (this.Engine.Mirror.h) clone.push([t[0],this.size-t[1]-1,t[2]]);
-          if (this.Engine.Mirror.v && this.Engine.Mirror.h) clone.push([this.size-t[0]-1,this.size-t[1]-1,t[2]]);
-        }
-      }
-      for (let k of clone)
-      {
-        let data = this.Asteroids.modify(...k);
-        if (data.changed){
-          let pos = k.slice(0,2).join("-"), prev = this.session.get(pos);
-          this.session.set(pos,[(prev)?prev[0]:data.prev,k[2]]);
-        }
-      }
       this.sync();
     },
     sync: function () {
@@ -895,7 +893,7 @@ t = (function(){
             for (let i=0;i<this.list.length;i++) {
               $("#brushes").append(`<td id="brush${i}"><i class="fas fa-fw fa-${StarblastMap.Engine.encodeHTML(this.list[i].icon||"brush")}"></i></td>`);
               let brush = StarblastMap.Engine.Brush.drawers.list[i];
-              $("#brush"+i)[0].onmouseover = function(){StarblastMap.Engine.info.view(brush.name,(brush.description||"").replace(/(\.)*$/,".")+(brush.author?(" By "+brush.author):""))}
+              $("#brush"+i)[0].onmouseover = function(){StarblastMap.Engine.info.view(brush.name,(brush.description||"").replace(/(\t|\s|\n|\r|\.)*$/,"")+(brush.author?(". By "+brush.author):""))}
               $("#brush"+i)[0].onclick = function(){StarblastMap.Engine.Brush.drawers.select(i)};
             }
           },
@@ -1063,7 +1061,7 @@ t = (function(){
           ["editBrush",null,"Edit the selected custom brush"]
         ],
         view: function (title,text) {
-          $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${title&&text?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}`);
+          $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}`);
         }
       }
     }
