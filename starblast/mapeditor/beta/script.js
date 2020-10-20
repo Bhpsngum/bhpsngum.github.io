@@ -389,7 +389,7 @@ t = (function(){
       }
       let u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
       if (u.error) console.error(u.error);
-      else try{u.drawer.call(window,{},SBMap)}catch(e){console.error(e)}
+      else try{u.drawer.call(window,Cell,SBMap)}catch(e){console.error(e)}
       list = [...new Set(list)];
       let clone = [];
       for (let k=0;k<list.length;k++) {
