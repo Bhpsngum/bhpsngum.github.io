@@ -394,6 +394,10 @@ t = (function(){
       let clone = [];
       for (let k=0;k<list.length;k++) {
         let p = list[k].split("-"), error = [], warn = [];
+        if (p[0] === "") {
+          p.splice(0,1);
+          p[0] = "-"+p[0];
+        }
         for (let i of [1,0,2]) {
           let val = Number(p[i]);
           if (isNaN(val) || !check[i](val)) error.push(`${t[i]}: '${p[i]}'`);
