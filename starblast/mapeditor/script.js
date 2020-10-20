@@ -356,10 +356,10 @@ t = (function(){
               }
               catch(e){error.push(`${args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
             }
-            if (error.length>0) console.error(new Error(`Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n${error.join("\n")}`));
+            if (error.length>0) console.error(new StarblastMap.Engine.Error("[Custom Brush]Error",`Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n${error.join("\n")}`));
             else {
               let t = [...pos.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(Number(pos[2]))], clone = [];
-              (warn.length>0) && console.warn(`Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
+              (warn.length>0) && console.warn(`[Custom Brush]Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
               clone.push(t);
               if (StarblastMap.Engine.Mirror.v) clone.push([StarblastMap.size-t[0]-1,t[1],t[2]]);
               if (StarblastMap.Engine.Mirror.h) clone.push([t[0],StarblastMap.size-t[1]-1,t[2]]);
@@ -385,12 +385,12 @@ t = (function(){
               catch(e){er.push(`${args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
             }
             if (er.length>0) {
-              console.error(new Error(`Invalid argument${(er.length>1)?"s":""} in 'Asteroids.get':\n${er.join("\n")}`));
+              console.error(new StarblastMap.Engine.Error("[Custom Brush]Error",`Invalid argument${(er.length>1)?"s":""} in 'Asteroids.get':\n${er.join("\n")}`));
               return null;
             }
             else {
               let t = pos.slice(0,2).map(i=>Math.trunc(Number(i)));
-              (wr.length>0) && console.warn(`Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
+              (wr.length>0) && console.warn(`[Custom Brush]Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
               return StarblastMap.data[t[1]][t[0]];
             }
           },
@@ -739,6 +739,11 @@ t = (function(){
           default:
             return item.toString();
         }
+      },
+      Error: function(name,message) {
+        let u = new Error(message);
+        u.name = name;
+        return u;
       },
       Trail: {
         state: -1,
