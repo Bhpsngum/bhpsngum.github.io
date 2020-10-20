@@ -351,12 +351,12 @@ t = (function(){
             for (let i of [1,0,2]) {
               try {
                 let val = Number(pos[i]);
-                if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(`${args[i]}: ${StarblastMap.Engine.toString(pos[i])}`);
+                if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
                 else (val-Math.trunc(val) != 0) && warn.push({text:`${args[i]}: ${val}`,index:i});
               }
-              catch(e){error.push(`${args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
+              catch(e){error.push(i)}
             }
-            if (error.length>0) console.error(new StarblastMap.Engine.Error("[Custom Brush]Error",`Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n${error.join("\n")}`));
+            if (error.length>0) console.error(`[Custom Brush]Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]));
             else {
               let t = [...pos.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(Number(pos[2]))], clone = [];
               (warn.length>0) && console.warn(`[Custom Brush]Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
@@ -385,7 +385,7 @@ t = (function(){
               catch(e){er.push(`${args[i]}: '${StarblastMap.Engine.toString(pos[i])}'`);}
             }
             if (er.length>0) {
-              console.error(new StarblastMap.Engine.Error("[Custom Brush]Error",`Invalid argument${(er.length>1)?"s":""} in 'Asteroids.get':\n${er.join("\n")}`));
+              console.error(`[Custom Brush]Error: Invalid argument${(er.length>1)?"s":""} in 'Asteroids.set':\n`,...er.map(i => [args[i]+": ",pos[i],"\n"]));
               return null;
             }
             else {
@@ -739,11 +739,6 @@ t = (function(){
           default:
             return item.toString();
         }
-      },
-      Error: function(name,message) {
-        let u = new Error(message);
-        u.name = name;
-        return u;
       },
       Trail: {
         state: -1,
