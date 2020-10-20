@@ -377,7 +377,7 @@ t = (function(){
           get: function(...pos) {
             let er = [], wr = [];
             for (let i of [1,0]) {
-              try {
+              try { 
                 let val = Number(pos[i]);
                 if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(i);
                 else (val-Math.trunc(val) != 0) && wr.push({text:`${args[i]}: ${val}`,index:i});
