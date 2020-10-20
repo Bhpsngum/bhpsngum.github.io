@@ -390,6 +390,7 @@ t = (function(){
         let error = [], warn = [];
         for (let i of [1,0,2]) {
           try {
+            console.log(pos[i]);
             let val = Number(pos[i]);
             if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(`${args[i]}: ${this.Engine.toString(pos[i])}`);
             else (val-Math.trunc(val) != 0) && warn.push({text:`${args[i]}: ${val}`,index:i});
