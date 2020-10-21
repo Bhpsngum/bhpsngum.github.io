@@ -409,7 +409,7 @@ t = (function(){
           randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
         }
       }, u;
-      if (typeof this.Engine.drawers.current == "function") u = this.Engine.drawers.current;
+      if (typeof this.Engine.Brush.drawers.current == "function") u = this.Engine.Brush.drawers.current;
       else {
         let g = this.Engine.Brush.drawers.getById(this.Engine.Brush.drawers.chosenIndex);
         if (g.error) {
@@ -422,7 +422,7 @@ t = (function(){
         try{u.call(window,Cell,SBMap)}
         catch(e){
           e.name = "[Custom Brush]"+e.name;
-          console.error(e)
+          console.error(e);
         }
       }
       this.sync();
