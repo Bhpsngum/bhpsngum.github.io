@@ -377,7 +377,7 @@ t = (function(){
           get: function(...pos) {
             let er = [], wr = [];
             for (let i of [1,0]) {
-              try { 
+              try {
                 let val = Number(pos[i]);
                 if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(i);
                 else (val-Math.trunc(val) != 0) && wr.push({text:`${args[i]}: ${val}`,index:i});
@@ -408,8 +408,7 @@ t = (function(){
           random: StarblastMap.Engine.random,
           randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
         }
-      }, u = StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
-      window.StarblastMap = SBMap;
+      }, u = (typeof StarblastMap.Engine.Brush.drawers.current == "function")?StarblastMap.Engine.Brush.drawers.current:StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
       if (u.error) console.error(u.error);
       else try{u.drawer.call(window,Cell,SBMap)}catch(e){console.error(e)}
       this.sync();
@@ -860,6 +859,7 @@ t = (function(){
             tabSize:2,
             useSoftTabs: true
           }),
+          current: 0,
           editIndex: null,
           chosenIndex: 0,
           defaultIndex: 0,
@@ -898,13 +898,16 @@ t = (function(){
             }
           },
           select: function(i) {
-            i = (i == void 0)?this.chosenIndex:i;
+            i = ((i == void 0)?this.chosenIndex:i)||0;
+            i = Math.max(Math.min(i,this.list.length-1),0);
             this.editIndex = i;
             this.chosenIndex = i;
             localStorage.setItem("brushIndex",i);
             for (let j=0;j<this.list.length;j++) $("#brush"+j).css("border-width","1px");
             $("#brush"+i).css("border-width","3px");
             $("#removeBrush").prop("disabled",this.chosenIndex<=this.defaultIndex);
+            let t = this.getById(i);
+            this.current = (t.error)?0:t.drawer;
           },
           showCode: function(bool){
             $("#BrushCode").css("display",bool?"":"none");
