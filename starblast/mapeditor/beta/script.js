@@ -412,19 +412,10 @@ t = (function(){
       if (typeof this.Engine.Brush.drawers.current == "function") u = this.Engine.Brush.drawers.current;
       else {
         let g = this.Engine.Brush.drawers.getById(this.Engine.Brush.drawers.chosenIndex);
-        if (g.error) {
-          g.error.name = "[Custom Brush]"+g.error.name;
-          console.error(g.error);
-        }
+        if (g.error) console.error(`[Custom Brush]${g.error.name}: ${g.error.message}`);
         else u = g.drawer;
       }
-      if (u) {
-        try{u.call(window,Cell,SBMap)}
-        catch(e){
-          e.name = "[Custom Brush]"+e.name;
-          console.error(e);
-        }
-      }
+      if (u) try{u.call(window,Cell,SBMap)}catch(e){console.error(`[Custom Brush]${e.name}: ${e.message}`)}
       this.sync();
     },
     sync: function () {
