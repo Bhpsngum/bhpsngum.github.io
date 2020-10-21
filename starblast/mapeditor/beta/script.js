@@ -408,9 +408,23 @@ t = (function(){
           random: StarblastMap.Engine.random,
           randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
         }
-      }, u = (typeof StarblastMap.Engine.Brush.drawers.current == "function")?StarblastMap.Engine.Brush.drawers.current:StarblastMap.Engine.Brush.drawers.getById(StarblastMap.Engine.Brush.drawers.chosenIndex);
-      if (u.error) console.error(u.error);
-      else try{u.drawer.call(window,Cell,SBMap)}catch(e){console.error(e)}
+      }, u;
+      if (typeof this.Engine.drawers.current == "function") u = this.Engine.drawers.current;
+      else {
+        let g = this.Engine.Brush.drawers.getById(this.Engine.Brush.drawers.chosenIndex);
+        if (g.error) {
+          g.error.name = "[Custom Brush]"+g.error.name;
+          console.error(g.error);
+        }
+        else u = g.drawer;
+      }
+      if (u) {
+        try{u.call(window,Cell,SBMap)}
+        catch(e){
+          e.name = "[Custom Brush]"+e.name;
+          console.error(e)
+        }
+      }
       this.sync();
     },
     sync: function () {
