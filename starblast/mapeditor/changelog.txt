@@ -1,5 +1,8 @@
+3.1.1/Oct 22, 2020
+* Added show/hide map border as suggested by the community (Shortcut Ctrl (or Cmd) + B)
+
 3.1.0/Oct 19, 2020
-* Added custom Brush and brush code interface for coders (in Advanced Tab)\n
+* (BETA) Added custom Brush and brush code interface for coders (in Advanced Tab)\n
 See the documents for more info
 
 3.0.6/Oct 10, 2020

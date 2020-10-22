@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <meta name="description" content="Create and edit custom Starblast Maps, easy to use.">
+    <meta name="description" content="Create and edit custom Starblast Maps, easy to use - Beta version.">
     <meta name="author" content="Bhpsngum">
     <link rel="icon" href="icon_light.png">
-    <title>Starblast Map Editor</title>
+    <title>Starblast Map Editor (Beta)</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/gh/marcj/css-element-queries/src/ResizeSensor.min.js" type="text/javascript"></script>
@@ -123,6 +123,17 @@
             <button id="bgI-clear"><i class="fas fa-fw fa-times"></i></button>
           </div>
           <input id="border-color" type="text" placeholder="Line color"></input>
+          <input type="checkbox" id="border-show">
+          <label for="border-show">
+            <table>
+              <tr>
+                <td id="border-show1">
+                  <i class="fas fa-fw fa-border-all"></i>
+                  <i class="fas fa-fw fa-times" id="border-show-ind"></i>
+                </td>
+              </tr>
+            </table>
+          </label>
           <div style="display:none">
             <div id="color-test0"></div>
             <div id="color-test1"></div>

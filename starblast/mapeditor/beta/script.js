@@ -11,7 +11,7 @@ t = (function(){
         this.show = u;
         let text = (u?"Hide":"Show")+" the map border";
         $("#border-show1")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text)}
-        (self_trigger) && StarblastMap.Engine.info.view(null,text);
+        (!self_trigger) && StarblastMap.Engine.info.view(null,text);
         (!origin) && StarblastMap.Engine.applyColor("border-color");
       }
     },
