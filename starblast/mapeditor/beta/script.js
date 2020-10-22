@@ -10,7 +10,7 @@ t = (function(){
         let u = StarblastMap.Engine.setCheckbox(origin,"border-show","borderShow","border-show-ind");
         this.show = u;
         let text = (u?"Hide":"Show")+" the map border";
-        $("#border-show")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text)}
+        $("#border-show1")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text)}
         StarblastMap.Engine.info.view(null,text);
         (!origin) && StarblastMap.Engine.applyColor("border-color");
       }
@@ -1330,6 +1330,11 @@ t = (function(){
             e.preventDefault();
             $("#loadMap1").click();
             break;
+          case 98:
+          case 66:
+            e.preventDefault();
+            $("#border-show").click();
+            break;
         }
         else switch (e.which)
         {
@@ -1379,7 +1384,7 @@ t = (function(){
     if (p.error) alert(p.error);
     else {
       let proc;
-      if (proc = !/((window\.)*(document|localStorage|open|close|location))/g.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?");
+      if (proc = !/((window\.)*(document|localStorage|open|close|location|\$))/g.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?");
       if (proc) {
         StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#brushdesc").val(), $("#brushicon").val(), $("#brushauthor").val());
         StarblastMap.Engine.Brush.drawers.showCode(0);
