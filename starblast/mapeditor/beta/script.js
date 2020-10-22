@@ -1082,7 +1082,7 @@ t = (function(){
           ["editBrush",null,"Edit the selected custom brush"]
         ],
         view: function (title,text,HotKey) {
-          $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}${HotKey?(" ("+HotKey+")"):""}`);
+          $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}${HotKey?(" (HotKey "+HotKey+")"):""}`);
         }
       }
     }

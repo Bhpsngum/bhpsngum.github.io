@@ -5,13 +5,13 @@ t = (function(){
     gridIndex: 3,
     border: {
       color: "",
-      show: true,
+      hide: true,
       check: function (origin,self_trigger) {
-        let u = StarblastMap.Engine.setCheckbox(origin,"border-show","borderShow","border-show-ind");
-        this.show = u;
-        let text = (u?"Hide":"Show")+" the map border";
-        $("#border-show1")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text)}
-        (!self_trigger) && StarblastMap.Engine.info.view(null,text);
+        let u = StarblastMap.Engine.setCheckbox(origin,"border-show","borderHide","border-show-ind");
+        this.hide = u;
+        let text = (u?"Show":"Hide")+" the map border";
+        $("#border-show1")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text,"Ctrl(Cmd) + B")}
+        (!self_trigger) && StarblastMap.Engine.info.view(null,text,"Ctrl(Cmd) + B");
         (!origin) && StarblastMap.Engine.applyColor("border-color");
       }
     },
@@ -784,7 +784,7 @@ t = (function(){
       addBorder: function (c2d,x,y,z,t)
       {
         c2d.clearRect(x-1,y-1,z-x+2,t-y+2);
-        if (StarblastMap.border.show) {
+        if (!StarblastMap.border.hide) {
           c2d.moveTo(x,y);
           c2d.lineTo(z,t);
         }
@@ -1046,9 +1046,9 @@ t = (function(){
           ["show-menu",null,"Show the Map menu"],
           ["hide-menu",null,"Hide the Map menu"],
           ["map_size",null,'Toggle map size (from 20 to 200 and must be even)'],
-          ["asc0",null,'Remove asteroids in the map (Hotkey 0)'],
-          ...new Array(9).fill(0).map((j,i) => [`asc${i+1}`,null,`Asteroid size ${i+1} (Hotkey ${i+1})`]),
-          ["randomSize",'Random Asteroid Size','Draw random asteroids in a specific size range (Hotkey R)'],
+          ["asc0",null,'Remove asteroids in the map',"0"],
+          ...new Array(9).fill(0).map((j,i) => [`asc${i+1}`,null,`Asteroid size ${i+1}`,`${i+1}`]),
+          ["randomSize",'Random Asteroid Size','Draw random asteroids in a specific size range',"R"],
           ["brush_size",null,'Toggle brush radius (0 to current map size)'],
           ["minASSize",null,'Toggle minimum Asteroid size (0 to Maximum Asteroid Size)'],
           ["maxASSize",null,'Toggle maximum Asteroid size (Minimum Asteroid Size to 9)'],
@@ -1063,16 +1063,16 @@ t = (function(){
           ["bgI-alpha",null,"Toggle background image opacity (0% to 100% - Only available in Map Only Selection)"],
           ["bgI-clear",null,"Clear current custom background image"],
           ["border-color",null,'Toggle line color'],
-          ["undo","Undo","Undo previous actions in the map"],
-          ["redo","Redo","Redo undid actions in the map"],
+          ["undo","Undo","Undo previous actions in the map","Ctrl(Cmd) + Z"],
+          ["redo","Redo","Redo undid actions in the map","Ctrl(Cmd) + Y"],
           ["clearMap",'Clear Map','Clear all asteroids in the current map'],
-          ["exportText",'Export Map as Text','Export map as a text/plain (*.txt) file (Hotkey Ctrl + S)'],
-          ["copyText",'Copy Map','Copy current map pattern to clipboard'],
-          ["loadMap1",'Import Map','Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js) format)'],
+          ["exportText",'Export Map as Text','Export map as a text/plain (*.txt) file',"Ctrl(Cmd) + S"],
+          ["copyText",'Copy Map','Copy current map pattern to clipboard',"Ctrl(Cmd) + C"],
+          ["loadMap1",'Import Map','Import map from file (accept text/plain (*.txt/*.text) and text/javascript (*.js) format)',"Ctrl(Cmd) + Z"],
           ["random",'RandomMazeGenerator', 'Generate Random Maze according to the current map size. By [rvan_der](https://github.com/rvan-der)'],
           ["feedback",'Feedback','Give us a feedback'],
           ["permalink",'Permalink','Copy map permalink to clipboard'],
-          ["exportImage",'Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)'],
+          ["exportImage",'Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)',"Ctrl(Cmd) + Z"],
           ["copyImage",'Copy Map screenshot','Copy Map screenshot as as a PNG (*.png) file to Clipboard'],
           ["tutorial",'Tutorial','Visit the Map Editor Tutorial Page'],
           ["changelog",'Changelog',"View the update's log of Map Editor from the beginning"],
@@ -1081,8 +1081,8 @@ t = (function(){
           ["removeBrush",null,"Remove the selected custom brush"],
           ["editBrush",null,"Edit the selected custom brush"]
         ],
-        view: function (title,text) {
-          $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}`);
+        view: function (title,text,HotKey) {
+          $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}${HotKey?(" (HotKey "+HotKey+")"):""}`);
         }
       }
     }
@@ -1417,6 +1417,6 @@ t = (function(){
   for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize"])
   $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
   for (let i of StarblastMap.Engine.info.list) $("#"+i[0]).on("mouseover",function(){
-    StarblastMap.Engine.info.view(i[1],i[2]);
+    StarblastMap.Engine.info.view(i[1],i[2],i[3]);
   });
 }());
