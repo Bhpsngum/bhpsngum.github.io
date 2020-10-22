@@ -3,7 +3,14 @@ t = (function(){
     map: $("#map")[0],
     sizeInput: $("#map_size"),
     gridIndex: 3,
-    borderColor: "",
+    border: {
+      color: "",
+      show: true,
+      check: function (origin) {
+        this.hidden = StarblastMap.Engine.setCheckbox(origin,"border-show","borderShow","border-show-ind");
+        (!origin) && StarblastMap.Engine.applyColor("border-color");
+      }
+    },
     Buttons: {
       export:
       {
@@ -773,8 +780,10 @@ t = (function(){
       addBorder: function (c2d,x,y,z,t)
       {
         c2d.clearRect(x-1,y-1,z-x+2,t-y+2);
-        c2d.moveTo(x,y);
-        c2d.lineTo(z,t);
+        if (StarblastMap.border.show) {
+          c2d.moveTo(x,y);
+          c2d.lineTo(z,t);
+        }
       },
       applyColor: function (para,inp) {
         let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1,param = para.toLowerCase();
@@ -843,7 +852,7 @@ t = (function(){
             c2d.stroke();
             $('td').css(param,css);
             $('.container').css("border-color",css);
-            StarblastMap.borderColor = css;
+            StarblastMap.border.color = css;
             StarblastMap.Engine.menu.set();
             break;
         }
@@ -1008,7 +1017,7 @@ t = (function(){
         set: function(index) {
           for (let i=0;i<this.modules.length;i++) {
             if (i!==index) {
-              $("#menu"+i).css({border:"","border-color":StarblastMap.borderColor});
+              $("#menu"+i).css({border:"","border-color":StarblastMap.border.color});
               $("#container"+i).css("display","none");
             }
           }
@@ -1153,6 +1162,7 @@ t = (function(){
   else StarblastMap.Buttons.copy.image.on("click", function(){StarblastMap.copy("image")});
   StarblastMap.Engine.Brush.applyRandom(!0);
   StarblastMap.background.checkExport(!0);
+  StarblastMap.border.check(!0);
   StarblastMap.background.checkGlobal(!0);
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
   $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
@@ -1217,6 +1227,7 @@ t = (function(){
   });
   $("#bgI-global").on("change",function(){StarblastMap.background.checkGlobal()});
   $("#bgI-allowExport").on("change",function(){StarblastMap.background.checkExport()});
+  $("#border-show").on("change",function(){StarblastMap.border.check()});
   StarblastMap.sizeInput.on("change",function(){
     StarblastMap.applySize(StarblastMap.sizeInput.val());
     StarblastMap.create();
