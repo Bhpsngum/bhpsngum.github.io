@@ -7,7 +7,11 @@ t = (function(){
       color: "",
       show: true,
       check: function (origin) {
-        this.hidden = StarblastMap.Engine.setCheckbox(origin,"border-show","borderShow","border-show-ind");
+        let u = StarblastMap.Engine.setCheckbox(origin,"border-show","borderShow","border-show-ind");
+        this.show = u;
+        let text = (u?"Hide":"Show")+" the map border";
+        $("#border-show")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text)}
+        StarblastMap.Engine.info.view(null,text);
         (!origin) && StarblastMap.Engine.applyColor("border-color");
       }
     },
