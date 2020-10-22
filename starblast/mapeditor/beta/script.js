@@ -6,12 +6,12 @@ t = (function(){
     border: {
       color: "",
       show: true,
-      check: function (origin) {
+      check: function (origin,self_trigger) {
         let u = StarblastMap.Engine.setCheckbox(origin,"border-show","borderShow","border-show-ind");
         this.show = u;
         let text = (u?"Hide":"Show")+" the map border";
         $("#border-show1")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text)}
-        StarblastMap.Engine.info.view(null,text);
+        (self_trigger) && StarblastMap.Engine.info.view(null,text);
         (!origin) && StarblastMap.Engine.applyColor("border-color");
       }
     },
@@ -1333,7 +1333,8 @@ t = (function(){
           case 98:
           case 66:
             e.preventDefault();
-            $("#border-show").click();
+            $("#border-show").prop("checked",!$("#border-show").is(":checked"));
+            StarblastMap.border.check(null,true);
             break;
         }
         else switch (e.which)
