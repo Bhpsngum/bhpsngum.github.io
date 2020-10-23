@@ -385,8 +385,8 @@ t = (function(){
               }
             }
           },
-          get: function(...pos) {
-            let er = [], wr = [];
+          get: function(x,y) {
+            let er = [], wr = [], pos = [y,x];
             for (let i of [1,0]) {
               try {
                 let val = Number(pos[i]);
