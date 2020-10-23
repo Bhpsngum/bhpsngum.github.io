@@ -10,7 +10,7 @@ t = (function(){
         let u = StarblastMap.Engine.setCheckbox(origin,"border-show","borderHide","");
         this.hide = u;
         let text = (u?"Show":"Hide")+" the map border";
-        $("#border-show-ind").prop("class","fas fa-fw fa-"+(u?"none":"all"));
+        $("#border-show-ind").prop("class","fas fa-fw fa-border"+(u?"none":"all"));
         $("#border-show1")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text,"Ctrl(Cmd) + B")};
         (!self_trigger) && StarblastMap.Engine.info.view(null,text,"Ctrl(Cmd) + B");
         (!origin) && StarblastMap.Engine.applyColor("border-color");
