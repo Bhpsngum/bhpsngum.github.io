@@ -7,9 +7,10 @@ t = (function(){
       color: "",
       hide: true,
       check: function (origin,self_trigger) {
-        let u = StarblastMap.Engine.setCheckbox(origin,"border-show","borderHide","border-show-ind");
+        let u = StarblastMap.Engine.setCheckbox(origin,"border-show","borderHide","");
         this.hide = u;
         let text = (u?"Show":"Hide")+" the map border";
+        $("#border-show-ind").prop("class","fas fa-fw fa-"+(u?"none":"all"));
         $("#border-show1")[0].onmouseover = function(){StarblastMap.Engine.info.view(null,text,"Ctrl(Cmd) + B")};
         (!self_trigger) && StarblastMap.Engine.info.view(null,text,"Ctrl(Cmd) + B");
         (!origin) && StarblastMap.Engine.applyColor("border-color");
@@ -1035,9 +1036,9 @@ t = (function(){
         return ~~(Math.random()*num);
       },
       setCheckbox: function (origin, triggerID, storage, IndID) {
-        let sign=["times","check"], u = origin?(localStorage.getItem(storage) == "true"):$("#"+triggerID).is(":checked");
+        let u = origin?(localStorage.getItem(storage) == "true"):$("#"+triggerID).is(":checked");
         origin && $("#"+triggerID).prop("checked",u);
-        $("#"+IndID).prop("class","fas fa-fw fa-"+sign[Number(u)]);
+        (IndID) && $("#"+IndID).prop("class","fas fa-fw fa-"+(u?"check":"times"));
         localStorage.setItem(storage, u);
         return u;
       },
