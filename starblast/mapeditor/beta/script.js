@@ -299,9 +299,9 @@ t = (function(){
       {
         case "plain":
           let rawmap;
-          data.replace(/("|')((?!\1).)+(\1)(\+|\;|\,|\})*/gm,function(v){
-            if (rawmap == null) rawmap=v;
-            else rawmap+=v;
+          data.replace(/(("|')((?!\2).)+(\2))(\+|\;|\,|\}|\))*/g,function(v,t){
+            if (rawmap == null) rawmap=t;
+            else rawmap+=t;
           });
           try {
             let parse = Function(`return ${rawmap}`);
