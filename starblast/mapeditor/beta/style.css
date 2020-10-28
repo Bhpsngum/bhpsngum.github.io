@@ -39,6 +39,7 @@ input {
 }
 #info {
   float: right;
+  text-align: right;
 }
 #footer, #footer>* {
   padding: 2px;
