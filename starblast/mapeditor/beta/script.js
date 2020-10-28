@@ -1038,7 +1038,7 @@ t = (function(){
             "padding-top": (this.main.height()+5)+"px",
             "padding-bottom": $("#footer").height()+"px"
           });
-          $("#info").css("width",($(window).outerWidth(true)-$("#XY").width()+10)+"px")
+          $("#info").css("width",($(window).width(true)-$("#XY").width()-10)+"px")
         },
         set: function(index) {
           for (let i=0;i<this.modules.length;i++) {
