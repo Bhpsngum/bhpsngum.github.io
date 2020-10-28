@@ -1038,7 +1038,7 @@ t = (function(){
             "padding-top": (this.main.height()+5)+"px",
             "padding-bottom": $("#footer").height()+"px"
           });
-          $("#info").css("width",($(window).width(true)-$("#XY").width()-10)+"px")
+          $("#info").css("width",($(window).outerWidth()-$("#XY").width()-10)+"px")
         },
         set: function(index) {
           for (let i=0;i<this.modules.length;i++) {
@@ -1233,8 +1233,7 @@ t = (function(){
   try {
     let t = StarblastMap.Engine.menu.checkScale.bind(StarblastMap.Engine.menu);
     new ResizeSensor(StarblastMap.Engine.menu.main[0], t);
-    new ResizeSensor($("#info")[0], t);
-    window.addEventListener("resize", t);
+    new ResizeSensor($("#footer")[0], t);
   }
   catch(e){}
   StarblastMap.background.upload.on("change", function(e){
