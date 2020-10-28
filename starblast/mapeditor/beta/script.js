@@ -369,10 +369,10 @@ t = (function(){
                   let w = [];
                   if (val-Math.trunc(val) != 0) w.push(0);
                   if (typeof pos[i] != number) w.push(1);
-                  warn.push({text:`${args[i]}: ${val} ${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:[...w.map(i=>violate[i])]});
+                  warn.push({text:`${args[i]}: ${val} ${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
                 }
               }
-              catch(e){error.push(i)}
+              catch(e){error.push(i);console.log(e)}
             }
             if (error.length>0) console.error(`[Custom Brush] Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]).flat());
             else {
