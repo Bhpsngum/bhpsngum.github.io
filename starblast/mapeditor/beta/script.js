@@ -298,9 +298,10 @@ t = (function(){
       switch (type)
       {
         case "plain":
-          let parse;
+          let rawmap = "";
+          data.replace(/("|')((?!\1).)+(\1)(\+|\;|\,|\})*/gm,function(v){rawmap+=v})
           try {
-            eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
+            let parse = Function(`return ${rawmap}`);
             if (typeof parse() != 'string') throw "Not a string";
             else map=parse().split("\n");
           }
@@ -893,7 +894,7 @@ t = (function(){
           ],
           get: function(code) {
             let error = 0,t;
-            try{eval("t = function(Cell,StarblastMap){"+code+"}")}
+            try{t = Function("Cell","StarblastMap",code)}
             catch(e){error = e};
             return {error: error,drawer: t}
           },
