@@ -50,7 +50,6 @@ input[type=file], input[type=checkbox] {
   display: none;
 }
 #mapBox {
-  padding-bottom:10pt;
   overflow:hidden;
 }
 #map {

@@ -328,9 +328,9 @@ t = (function(){
             if (repeat)
               for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) map.push(qstr);
           }
-          fail = map.length != Math.max(...map.map(i => i.length)) || map.length != Math.min(...map.map(i => i.length));
           break;
       }
+      fail = map.length != Math.max(...map.map(i => i.length)) || map.length != Math.min(...map.map(i => i.length));
       if (exportData) return {map:map,fail:fail}
       if (!fail) fail = !this.load(map,init);
       if (fail) alert("Invalid Map!");
@@ -1034,7 +1034,11 @@ t = (function(){
         },
         checkScale: function() {
           this.scaleExpired = !0;
-          $("#mapBox").css("padding-top",(this.main.height()+5)+"px");
+          $("#mapBox").css({
+            "padding-top": (this.main.height()+5)+"px",
+            "padding-bottom": $("#footer").height()+"px"
+          });
+          $("#info").css("width",($("#footer").width()-$("#XY").width()-10)+"px")
         },
         set: function(index) {
           for (let i=0;i<this.modules.length;i++) {
@@ -1226,7 +1230,12 @@ t = (function(){
     StarblastMap.info(!0)();
     StarblastMap.Engine.Trail.state=1
   });
-  new ResizeSensor(StarblastMap.Engine.menu.main[0], StarblastMap.Engine.menu.checkScale.bind(StarblastMap.Engine.menu));
+  try {
+    let t = StarblastMap.Engine.menu.checkScale.bind(StarblastMap.Engine.menu);
+    new ResizeSensor(StarblastMap.Engine.menu.main[0], t);
+    new ResizeSensor($("#footer")[0], t);
+  }
+  catch(e){}
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];
