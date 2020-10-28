@@ -1,3 +1,6 @@
+3.1.2/Oct 28, 2020
+* Patched a bug that allows user to execute commands when uploading map file
+
 3.1.1/Oct 22, 2020
 * Added show/hide map border as suggested by the community (Shortcut Ctrl (or Cmd) + B)
 

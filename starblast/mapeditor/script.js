@@ -298,9 +298,13 @@ t = (function(){
       switch (type)
       {
         case "plain":
-          let parse;
+          let rawmap;
+          data.replace(/("|')((?!\1).)+(\1)(\+|\;|\,|\})*/gm,function(v){
+            if (rawmap == null) rawmap=v;
+            else rawmap+=v;
+          });
           try {
-            eval("parse=function(){return  "+data.replace(/^(var|let|const)/g,"")+"}");
+            let parse = Function(`return ${rawmap}`);
             if (typeof parse() != 'string') throw "Not a string";
             else map=parse().split("\n");
           }
@@ -350,7 +354,10 @@ t = (function(){
       catch(e){}
     },
     modify: function(x,y,num) {
-      let custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num, check = [...new Array(2).fill([0,this.size-1]),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"],
+      let custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num, check = [...new Array(2).fill([0,this.size-1]),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
+      firstUpper = function(str) {
+        return str[0].toUpperCase() + str.slice(-str.length+1);
+      },
       Cell = {
         x:x,
         y:y,
@@ -364,14 +371,19 @@ t = (function(){
               try {
                 let val = Number(pos[i]);
                 if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
-                else (val-Math.trunc(val) != 0) && warn.push({text:`${args[i]}: ${val}`,index:i});
+                else {
+                  let w = [];
+                  if (typeof pos[i] != "number") w.push(1);
+                  if (val-Math.trunc(val) != 0) w.push(0);
+                  warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
+                }
               }
               catch(e){error.push(i)}
             }
-            if (error.length>0) console.error(`[Custom Brush]Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]).flat());
+            if (error.length>0) console.error(`[Custom Brush] Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]).flat());
             else {
               let t = [...pos.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(Number(pos[2]))], clone = [];
-              (warn.length>0) && console.warn(`[Custom Brush]Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
+              (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
               clone.push(t);
               if (StarblastMap.Engine.Mirror.v) clone.push([StarblastMap.size-t[0]-1,t[1],t[2]]);
               if (StarblastMap.Engine.Mirror.h) clone.push([t[0],StarblastMap.size-t[1]-1,t[2]]);
@@ -392,17 +404,22 @@ t = (function(){
               try {
                 let val = Number(pos[i]);
                 if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(i);
-                else (val-Math.trunc(val) != 0) && wr.push({text:`${args[i]}: ${val}`,index:i});
+                else {
+                  let w = [];
+                  if (typeof pos[i] != "number") w.push(1);
+                  if (val-Math.trunc(val) != 0) w.push(0);
+                  wr.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:[...w.map(i=>violate[i])]});
+                }
               }
               catch(e){er.push(i)}
             }
             if (er.length>0) {
-              console.error(`[Custom Brush]Error: Invalid argument${(er.length>1)?"s":""} in 'Asteroids.set':\n`,...er.map(i => [args[i]+": ",pos[i],"\n"]).flat());
+              console.error(`[Custom Brush] Error: Invalid argument${(er.length>1)?"s":""} in 'Asteroids.set':\n`,...er.map(i => [args[i]+": ",pos[i],"\n"]).flat());
               return null;
             }
             else {
               let t = pos.slice(0,2).map(i=>Math.trunc(Number(i)));
-              (wr.length>0) && console.warn(`[Custom Brush]Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.map(u => (u.text+". Rounded to "+t[u.index])).join("\n")}`);
+              (wr.length>0) && console.warn(`[Custom Brush] Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
               return StarblastMap.data[t[1]][t[0]];
             }
           },
@@ -424,10 +441,10 @@ t = (function(){
       if (typeof this.Engine.Brush.drawers.current == "function") u = this.Engine.Brush.drawers.current;
       else {
         let g = this.Engine.Brush.drawers.getById(this.Engine.Brush.drawers.chosenIndex);
-        if (g.error) console.error(`[Custom Brush]${g.error.name}: ${g.error.message}`);
+        if (g.error) console.error(`[Custom Brush] ${g.error.name}: ${g.error.message}`);
         else u = g.drawer;
       }
-      if (u) try{u.call(window,Cell,SBMap)}catch(e){console.error(`[Custom Brush]${e.name}: ${e.message}`)}
+      if (u) try{u.call(window,Cell,SBMap)}catch(e){console.error(`[Custom Brush] ${e.name}: ${e.message}`)}
       this.sync();
     },
     sync: function () {
@@ -893,7 +910,7 @@ t = (function(){
           ],
           get: function(code) {
             let error = 0,t;
-            try{eval("t = function(Cell,StarblastMap){"+code+"}")}
+            try{t = Function("Cell","StarblastMap",code)}
             catch(e){error = e};
             return {error: error,drawer: t}
           },

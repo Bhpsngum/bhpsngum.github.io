@@ -298,8 +298,11 @@ t = (function(){
       switch (type)
       {
         case "plain":
-          let rawmap = "";
-          data.replace(/("|')((?!\1).)+(\1)(\+|\;|\,|\})*/gm,function(v){rawmap+=v})
+          let rawmap;
+          data.replace(/("|')((?!\1).)+(\1)(\+|\;|\,|\})*/gm,function(v){
+            if (rawmap == null) rawmap=v;
+            else rawmap+=v;
+          });
           try {
             let parse = Function(`return ${rawmap}`);
             if (typeof parse() != 'string') throw "Not a string";
@@ -372,7 +375,7 @@ t = (function(){
                   let w = [];
                   if (typeof pos[i] != "number") w.push(1);
                   if (val-Math.trunc(val) != 0) w.push(0);
-                  warn.push({text:`${args[i]}: ${val} ${(w.indexOf(1) != -1)?("("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
+                  warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
                 }
               }
               catch(e){error.push(i)}
@@ -405,7 +408,7 @@ t = (function(){
                   let w = [];
                   if (typeof pos[i] != "number") w.push(1);
                   if (val-Math.trunc(val) != 0) w.push(0);
-                  wr.push({text:`${args[i]}: ${val} ${(w.indexOf(1) != -1)?("("+(typeof pos[i])+" format)"):""}`,index:i,type:[...w.map(i=>violate[i])]});
+                  wr.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:[...w.map(i=>violate[i])]});
                 }
               }
               catch(e){er.push(i)}
