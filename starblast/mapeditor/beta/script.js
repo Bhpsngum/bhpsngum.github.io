@@ -416,7 +416,7 @@ t = (function(){
             }
             else {
               let t = pos.slice(0,2).map(i=>Math.trunc(Number(i)));
-              (wr.length>0) && console.warn(`[Custom Brush] Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.map(u => (u.text+". "+firstUpper(u.type.join(" and ")).replace(/^[a-zA-Z]/i,L=>L.toUpperCase())+" to "+t[u.index])).join("\n")}`);
+              (wr.length>0) && console.warn(`[Custom Brush] Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
               return StarblastMap.data[t[1]][t[0]];
             }
           },
