@@ -52,6 +52,26 @@
     "event": 1
   },
   {
+    "name": "Destroy the Mothership",
+    "abbreviation": "DTM",
+    "version": "1.0.0",
+    "description": "",
+    "modes": "",
+    "img": "https://starblast.data.neuronality.com/modding/img/dtm.jpg",
+    "link": {
+      "url": "",
+      "state": 1
+    },
+    "author": [
+      {
+        "name": ["Kirito","Absolute Kun"],
+        "link": ""
+      }
+    ],
+    "official": 1,
+    "event": 0
+  },
+  {
     "name": "Capture The Flag",
     "abbreviation": "CTF",
     "version": "1.0.0",
@@ -386,26 +406,6 @@
       {
         "name": ["45rfew","Money"],
         "link": "https://github.com/45rfew/"
-      }
-    ],
-    "official": 0,
-    "event": 0
-  },
-  {
-    "name": "Lunatic Mod",
-    "abbreviation": "",
-    "version": "1.5.23",
-    "description": "",
-    "modes": "",
-    "img": "",
-    "link": {
-      "url": "https://github.com/Bhpsngum/starblast/blob/master/mods/Lunatic_Mod.js",
-      "state": 2
-    },
-    "author": [
-      {
-        "name": ["Kirito","Absolute Kun"],
-        "link": ""
       }
     ],
     "official": 0,
