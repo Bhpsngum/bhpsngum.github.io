@@ -1,13 +1,11 @@
 (function(){
   var SSCV = {
     compile: function(data) {
-      let results;
-      eval("results=JSON.parse(function(){return "+data.replace(/^(\s|\n|\r)+/,"").replace(/^(var|let|const)/,"").replace(/^\n+/,"")+"}());");
-      return results;
+      return JSON.parse(Function("return " + data.replace(/^(\s|\n|\r|\t)+/,"").replace(/^(var|let|const)(\s|\t)*/,"").replace(/(\n|\r|\s|\t)+(\;|$)/,"$2"))());
     },
     convert: function (type, forced) {
       try {
-        let json = $("#input").val() || localStorage.getItem("json-input"), results = this.compile(json);
+        let json = $("#input").val() || localStorage.getItem("json-input"), tuf = console.log(json), results = this.compile(json);
         switch(type) {
           case "shipcode":
             delete results.typespec;

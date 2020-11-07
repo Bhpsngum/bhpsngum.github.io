@@ -29,11 +29,12 @@ button {
 #buttons {
   right: 50%;
   position: fixed;
-  height: 100%;
+  height: 5%;
 }
 #buttons>* {
   float:right;
   position: relative;
+  height: 100%;
 }
 #copy {
   right: 1%;
