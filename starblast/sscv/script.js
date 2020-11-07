@@ -4,8 +4,9 @@
       return JSON.parse(Function("return " + data.replace(/^(\s|\n|\r|\t)+/,"").replace(/^(var|let|const)(\s|\t)*/,"").replace(/(\n|\r|\s|\t)+(\;|$)/,"$2"))());
     },
     convert: function (type, forced) {
+      let json = $("#input").val() || localStorage.getItem("json-input"), results;
       try {
-        let json = $("#input").val() || localStorage.getItem("json-input"), tuf = console.log(json), results = this.compile(json);
+        results = this.compile(json);
         switch(type) {
           case "shipcode":
             delete results.typespec;
@@ -78,7 +79,6 @@
         }
       }
       catch(e){
-        console.log(e);
         if (forced) {
           json = "(JSON) Ship Mod Export code"
           results = "Output";
