@@ -54,7 +54,7 @@
 |speed=${dash.burst_speed.join("/")}
 |dual=N/A
 |recoil=N/A
-|frequency=N/A
+|frequency=1
 |error=N/A
 |angle=N/A
 |spread=N/A
@@ -69,7 +69,7 @@
 |frequency=${laser.rate||1}
 |error=${laser.error||0}
 |angle=${((laser.angle<0)?(360-laser.angle):laser.angle)||0}
-|spread=${laser.spread||0}
+|spread=${Math.abs(laser.spread)||0}
 }}`).join("\n\n");
             results = wikitext;
             break;
