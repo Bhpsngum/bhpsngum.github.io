@@ -14,21 +14,20 @@
             break;
           case "wikitext":
             let s = results.typespec, wikitext;
-            wikitext = `{{Ship-Infobox\n
-|name=${s.name||""}\n
-|image=${(s.name||"").replace(/\s/g,"_")}.png\n
-|shieldc=${s.specs.shield.capacity.join("/")}\n
-|shieldr=${s.specs.shield.reload.join("/")}\n
-|energyc=${s.specs.generator.capacity.join("/")}\n
-|energyr=${s.specs.generator.reload.join("/")}\n
-|turning=${s.specs.ship.rotation.join("/")}\n
-|acceleration=${s.specs.ship.acceleration.join("/")}\n
-|speed=${s.specs.ship.speed.join("/")}\n
-|tier=${s.level||1}\n
-|mass=${s.specs.ship.mass||0}\n
-|designer=${results.designer||"Neuronality"}\n
-}}\n\n
-== Cannons ==\n\n`;
+            wikitext = `{{Ship-Infobox
+|name=${s.name||""}
+|image=${(s.name||"").replace(/\s/g,"_")}.png
+|shieldc=${s.specs.shield.capacity.join("/")}
+|shieldr=${s.specs.shield.reload.join("/")}
+|energyc=${s.specs.generator.capacity.join("/")}
+|energyr=${s.specs.generator.reload.join("/")}
+|turning=${s.specs.ship.rotation.join("/")}
+|acceleration=${s.specs.ship.acceleration.join("/")}
+|speed=${s.specs.ship.speed.join("/")}
+|tier=${s.level||1}
+|mass=${s.specs.ship.mass||0}
+|designer=${results.designer||"Neuronality"}
+}}\n\n== Cannons ==\n\n`;
             let lasers = s.lasers.map(laser => {
               laser.x = Math.abs(laser.x);
               laser.y = Math.abs(laser.y);
@@ -48,29 +47,29 @@
               }
             }
             let dash = s.specs.ship.dash;
-            if (dash) wikitext+=`{{Cannon\n
-|type=Dash\n
-|energy=${dash.energy.join("/")}\n
-|damage=${dash.energy.join("/")}\n
-|speed=${dash.burst_speed.join("/")}\n
-|dual=N/A\n
-|recoil=N/A\n
-|frequency=N/A\n
-|error=N/A\n
-|angle=N/A\n
-|spread=N/A\n
+            if (dash) wikitext+=`{{Cannon
+|type=Dash
+|energy=${dash.energy.join("/")}
+|damage=${dash.energy.join("/")}
+|speed=${dash.burst_speed.join("/")}
+|dual=N/A
+|recoil=N/A
+|frequency=N/A
+|error=N/A
+|angle=N/A
+|spread=N/A
 }}\n\n`;
-            wikitext+=lasers.map(laser => `{{Cannon\n
-|type=${["Stream","Pulse"][(laser.type-1)||0]}\n
-|energy=${laser.damage.map(lar => ((laser.dual?(lar*2):lar)||0)).join("/")}\n
-|damage=${laser.damage.join("/")}\n
-|speed=${laser.speed.join("/")}\n
-|dual=${!!laser.dual}\n
-|recoil=${laser.recoil||0}\n
-|frequency=${laser.rate||1}\n
-|error=${laser.error||0}\n
-|angle=${((laser.angle<0)?(360-laser.angle):laser.angle)||0}\n
-|spread=${laser.spread||0}\n
+            wikitext+=lasers.map(laser => `{{Cannon
+|type=${["Stream","Pulse"][(laser.type-1)||0]}
+|energy=${laser.damage.map(lar => ((laser.dual?(lar*2):lar)||0)).join("/")}
+|damage=${laser.damage.join("/")}
+|speed=${laser.speed.join("/")}
+|dual=${!!laser.dual}
+|recoil=${laser.recoil||0}
+|frequency=${laser.rate||1}
+|error=${laser.error||0}
+|angle=${((laser.angle<0)?(360-laser.angle):laser.angle)||0}
+|spread=${laser.spread||0}
 }}`).join("\n\n");
             results = wikitext;
             break;
