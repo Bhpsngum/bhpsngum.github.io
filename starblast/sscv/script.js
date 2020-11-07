@@ -2,7 +2,7 @@
   var SSCV = {
     compile: function(data) {
       let results;
-      eval("results=JSON.parse(function(){return "+json.replace(/^(\s|\n|\r)+/,"").replace(/^(var|let|const)/,"").replace(/^\n+/,"")+"}());");
+      eval("results=JSON.parse(function(){return "+data.replace(/^(\s|\n|\r)+/,"").replace(/^(var|let|const)/,"").replace(/^\n+/,"")+"}());");
       return results;
     },
     convert: function (type, forced) {
