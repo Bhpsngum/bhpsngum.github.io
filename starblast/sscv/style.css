@@ -25,8 +25,12 @@ button {
   cursor: pointer;
 }
 
-#convert {
+#buttons {
   right: 50%;
+}
+#buttons>* {
+  float:right;
+  position: relative;
 }
 #copy {
   right: 1%;
