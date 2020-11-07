@@ -75,6 +75,8 @@
 }}`).join("\n\n");
             results = wikitext;
             break;
+          default:
+            results = "Output";
         }
       }
       catch(e){
@@ -103,6 +105,7 @@
       document.body.removeChild(dummy);
     }
   }
+  SSCV.convert(null, !0);
   $("#shipcode").on("click",function(){SSCV.convert("shipcode")});
   $("#wikitext").on("click",function(){SSCV.convert("wikitext")});
   $("#copy").on("click",function(){SSCV.copy($("#output").val())});
