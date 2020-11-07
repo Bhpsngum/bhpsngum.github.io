@@ -27,7 +27,7 @@
 |speed=${s.specs.ship.speed.join("/")}\n
 |tier=${s.level||1}\n
 |mass=${s.specs.ship.mass||0}\n
-|designer=${t.designer||"Neuronality"}\n
+|designer=${results.designer||"Neuronality"}\n
 }}\n\n
 == Cannons ==\n\n`;
             let lasers = s.lasers.map(laser => {
@@ -80,6 +80,7 @@
         }
       }
       catch(e){
+        console.log(e);
         if (forced) {
           json = "(JSON) Ship Mod Export code"
           results = "Output";
