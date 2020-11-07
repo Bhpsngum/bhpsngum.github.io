@@ -68,7 +68,7 @@
 |recoil=${laser.recoil||0}
 |frequency=${laser.rate||1}
 |error=${laser.error||0}
-|angle=${((laser.angle<0)?(360-laser.angle):laser.angle)||0}
+|angle=${Math.abs(laser.angle)||0}
 |spread=${Math.abs(laser.spread)||0}
 }}`).join("\n\n");
             results = wikitext;
