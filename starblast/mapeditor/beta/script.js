@@ -302,16 +302,17 @@ t = (function(){
           for (let i=0;i<data.length;i++) {
             if (matchIndex == null) {
               if (`"'`.indexOf(data[i]) != -1) {
-                matchIndex = i+1;
+                matchIndex = i;
                 matchChar = data[i];
               }
             }
             else if (data[i] == matchChar) {
-              map.push(data.slice(matchIndex, i));
+              map.push(data.slice(matchIndex, i+1));
               matchChar = null;
               matchIndex = null;
             }
           }
+          map = map.map(i => Function(`return ${i}`)()).join("").split("\n");
           break;
         case "url":
           data = LZString.decompressFromEncodedURIComponent(data);
@@ -333,11 +334,10 @@ t = (function(){
           break;
       }
       console.log(map);
-      fail = !map.length;
-      if (!fail) {
+      fail = !map.length || (map.length < 20 && map.length > 200);
+      if (!fail && type.includes("url")) {
         let len = map.map(i => i.length);
         fail = map.length != Math.max(...len) || map.length != Math.min(...len);
-        if (!fail) fail = map.length < 20 && map.length > 200;
       }
       if (exportData) return {map:map,fail:fail}
       if (!fail) fail = !this.load(map,init);
