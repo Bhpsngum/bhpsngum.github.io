@@ -294,27 +294,30 @@ t = (function(){
       }
     },
     import: function (type, data, init, exportData) {
-      let map,fail = 0;
+      let map = [],fail = 0;
       switch (type)
       {
         case "plain":
-          let rawmap;
-          data.replace(/(("|')((?!\2).)+(\2))(\+|\;|\,|\}|\))*/g,function(v,t){
-            if (rawmap == null) rawmap=t;
-            else rawmap+=t;
-          });
-          try {
-            let parse = Function(`return ${rawmap}`);
-            if (typeof parse() != 'string') throw "Not a string";
-            else map=parse().split("\n");
+          let matchIndex, matchChar;
+          for (let i=0;i<data.length;i++) {
+            if (matchIndex == null) {
+              if (`"'`.indexOf(data[i]) != -1) {
+                matchIndex = i;
+                matchChar = data[i];
+              }
+            }
+            else if (data[i] == matchChar) {
+              map.push(data.slice(matchIndex, i+1));
+              matchChar = null;
+              matchIndex = null;
+            }
           }
-          catch(e){fail=1}
+          map = map.map(i => Function(`return ${i}`)()).join("").split("\n");
           break;
         case "url":
           data = LZString.decompressFromEncodedURIComponent(data);
         case "url-old":
           let smap=data.split('e');
-          map=[];
           for (let i of smap)
           {
             let repeat=false,qstr=i.replace(/l(.+)n\d+/,"$1");
@@ -330,7 +333,12 @@ t = (function(){
           }
           break;
       }
-      fail = map.length != Math.max(...map.map(i => i.length)) || map.length != Math.min(...map.map(i => i.length));
+      console.log(map);
+      fail = !map.length || (map.length < 20 && map.length > 200);
+      if (!fail && type.includes("url")) {
+        let len = map.map(i => i.length);
+        fail = map.length != Math.max(...len) || map.length != Math.min(...len);
+      }
       if (exportData) return {map:map,fail:fail}
       if (!fail) fail = !this.load(map,init);
       if (fail) alert("Invalid Map!");
