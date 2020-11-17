@@ -337,7 +337,7 @@ t = (function(){
       if (!fail) {
         let len = map.map(i => i.length);
         fail = map.length != Math.max(...len) || map.length != Math.min(...len);
-        if (!fail) fail = map.length >= 20 && map.length <= 200;
+        if (!fail) fail = map.length < 20 && map.length > 200;
       }
       if (exportData) return {map:map,fail:fail}
       if (!fail) fail = !this.load(map,init);
