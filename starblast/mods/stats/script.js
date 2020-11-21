@@ -58,5 +58,6 @@
       });
     }).fail(e=>console.log(e));
   }
+  update();
   setInterval(update, 5000);
 })();
