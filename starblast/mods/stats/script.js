@@ -1,5 +1,5 @@
 (function(){
-  var modStatBox = function(stat, count) {
+  var modStatBox = function(stat, count, index) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg'>`,
     statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>
       ${stat.new?"<b style='color:yellow;float:right'>NEW!</b>":""}
@@ -8,8 +8,9 @@
       <p><b>Author:</b> ${stat.author}</p>
       <p><b>Times played:</b> ${getNum(stat.timesplayed)}</p>
       ${stat.active?("<p>"+count+" playing</p>"):""}`, parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id);
-    if (parent.length == 0) $('#modstats').append(`<div class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
+    if (parent.length == 0) $('#modstats').append(`<div index = "${index}" class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
     else {
+      parent.attr("index",index);
       if (imgelement.length == 0) parent.prepend(img);
       if (statelement.length == 0) parent.append(`<div id="stat-${stat.mod_id}"${statinfo}</div>`);
       else statelement.html(statinfo);
@@ -37,7 +38,7 @@
           }
           if ((player_count[a.mod_id] || 0 == 0) || (player_count[b.mod_id] || 0 == 0)) return (player_count[b.mod_id] || 0) - (player_count[a.mod_id] || 0);
           return (Number(b.date_created)||0) - (Number(a.date_created)||0);
-        }).forEach(mod => modStatBox(mod, player_count[mod.mod_id]||0));
+        }).forEach((mod, i) => modStatBox(mod, player_count[mod.mod_id]||0), i);
       });
   }).fail(e=>console.log(e));
     setTimeout(recall,5000);
