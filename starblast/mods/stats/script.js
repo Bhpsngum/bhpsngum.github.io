@@ -1,12 +1,13 @@
 (function(){
-  var modStatBox = function(stat) {
+  var modStatBox = function(stat, count) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg'>`,
     statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>
       ${stat.new?"<b style='color:yellow;float:right'>NEW!</b>":""}
       ${!stat.active?"<b style='color:red;float:right'>Removed</b>":""}</p>
       ${stat.featured?"<b style='color:green'>Featuring in Modding Space</b>":""}
       <p><b>Author:</b> ${stat.author}</p>
-      <p><b>Times played:</b> ${getNum(stat.timesplayed)}</p>`, parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id);
+      <p><b>Times played:</b> ${getNum(stat.timesplayed)}</p>
+      <p>${count} playing</p>`, parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id);
     if (parent.length == 0) $('#modstats').append(`<div class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
     else {
       if (imgelement.length == 0) parent.prepend(img);
@@ -20,10 +21,19 @@
     return str.reverse().join(" ");
   } ,recall = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(mods) {
-    mods[0].sort((a,b) => {
-      if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
-      return (Number(b.date_created)||0) - (Number(a.date_created)||0);
-    }).forEach(mod => modStatBox(mod));
+      $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
+        let player_count = {};
+        for (let i of players)
+          for (let j of i.systems) {
+            if (j.mod_id && j.mode == "modding") {
+              player_count[j.mod_id] = (player_count[j.mod_id]||0)+j.players;
+            }
+          }
+        mods[0].sort((a,b) => {
+          if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
+          return (Number(b.date_created)||0) - (Number(a.date_created)||0);
+        }).forEach(mod => modStatBox(mod, player_count[mod.mod_id]));
+      });
   }).fail(e=>console.log(e));
     setTimeout(recall,5000);
   }
