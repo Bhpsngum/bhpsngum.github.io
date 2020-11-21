@@ -33,7 +33,7 @@
           if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
           if (a.new || a.featured || b.new || b.featured) {
             let ap = Number(!!a.new) + Number(!!a.featured), bp = Number(!!b.new) + Number(!!b.featured);
-            return b-a;
+            return bp-ap;
           }
           if ((player_count[a.mod_id] || 0 == 0) || (player_count[b.mod_id] || 0 == 0)) return (player_count[b.mod_id] || 0) - (player_count[a.mod_id] || 0);
           return (Number(b.date_created)||0) - (Number(a.date_created)||0);
