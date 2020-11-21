@@ -9,7 +9,10 @@
     if (stat.featured || t) {
       statinfo+="<b style='color:green'>"
       if (stat.featured) statinfo+="Featuring";
-      else statinfo+="Available";
+      else {
+        mods[index].open = !0;
+        statinfo+="Available";
+      }
       statinfo+=" in Modding Space</b>";
     }
     else if (stat.active) statinfo += `<p>Next event: ${formatTime(time)}</p>`;
@@ -70,7 +73,11 @@
           }
           let t = (player_count[a.mod_id] || 0) == 0, v = (player_count[b.mod_id] || 0) == 0;
           if ((t || v) && !(t&&v)) return (player_count[b.mod_id] || 0) - (player_count[a.mod_id] || 0);
-          return (Number(b.date_created)||0) - (Number(a.date_created)||0);
+          let g = Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i)));
+          a.open = g === timer.get(a.mod_id);
+          b.open = g === timer.get(b.mod_id);
+          if (a.open || b.open) return Number(!!a.open) - Number(!!b.open);
+          return (timer.get(a.mod_id)||0) - (timer.get(b.mod_id)||0);
         });
         loadInfos();
         if (!init) {
