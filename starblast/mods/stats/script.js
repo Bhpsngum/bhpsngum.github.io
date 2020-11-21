@@ -1,4 +1,5 @@
 (function(){
+  tgf = [];
   var modStatBox = function(stat, count, index) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg'>`,
     statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>
@@ -20,7 +21,11 @@
     let str = [];
     for (let i=num.length-1;i>=0;i-=3) str.push(num.slice(Math.max(i-2,0),i+1));
     return str.reverse().join(" ");
-  } , update = function() {
+  }, formatTime = function (ms) {
+    ms = ms/1000;
+    let t = Math.trunc(ms/3600), u = Math.trunc((ms-t*3600)/60);
+    return [t,u,ms-t*3600-u*60].map(i => i<10?"0"+i.toString():i).join(":")
+  }, update = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(mods) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
         mods = mods[0];
@@ -35,7 +40,7 @@
         for (let i of mods) x+= 3600 * i.active_duration * 1000;
         let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
           var l, a, o, r, u, d, c, p, O;
-          return i.featured || (w += 3600 * i.active_duration * 1e3), a = n > k && n < w, O = Date.now() + k - n, k = w, O < Date.now() && (O += x);
+          return i.featured || (w += 3600 * i.active_duration * 1e3), a = n > k && n < w, O = Date.now() + k - n, k = w, tgf[s] = O < Date.now() && (O += x);
         }
         mods.forEach((O,r) => O.active && o(O,r));
         mods.sort((a,b) => {
