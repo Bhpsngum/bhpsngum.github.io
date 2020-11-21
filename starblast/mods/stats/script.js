@@ -23,6 +23,7 @@
   } ,recall = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(mods) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
+        mods = mods[0];
         let player_count = {};
         for (let i of players)
           for (let j of i.systems) {
@@ -30,7 +31,14 @@
               player_count[j.mod_id] = (player_count[j.mod_id]||0)+j.players;
             }
           }
-        mods[0].sort((a,b) => {
+        let x = 0;
+        for (let i of mods) x+= 3600 * i.active_duration * 1000;
+        let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
+          var l, a, o, r, u, d, c, p, O;
+          console.log(i.featured || (w += 3600 * i.active_duration * 1e3), mods[s] = n > k && n < w, O = Date.now() + k - n, k = w, O < Date.now() && (O += x));
+        }
+        mods.forEach((O,r) => O.active && o(O,r));
+        mods.sort((a,b) => {
           if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
           if (a.new || a.featured || b.new || b.featured) {
             let ap = Number(!!a.new) + Number(!!a.featured), bp = Number(!!b.new) + Number(!!b.featured);
