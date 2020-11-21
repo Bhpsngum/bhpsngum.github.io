@@ -54,7 +54,7 @@
   {
     "name": "Destroy the Mothership",
     "abbreviation": "DTM",
-    "version": "1.0.0",
+    "version": "1.1",
     "description": "",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/dtm.jpg",
@@ -78,7 +78,7 @@
   {
     "name": "Capture The Flag",
     "abbreviation": "CTF",
-    "version": "1.0.0",
+    "version": "1.1",
     "description": "",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/ctf.jpg",
