@@ -1,12 +1,11 @@
 (function(){
-  var mods = [], player_count = {}, timer = new Map(), init = !1, count_interval = 1000;
+  var mods = [], player_count = {}, timer = new Map(), init = !1, count_interval = 500;
   var modStatBox = function(stat, count, index, time) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg'>`,
     statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>
       ${stat.new?"<b style='color:yellow;float:right'>NEW!</b>":""}
       ${!stat.active?"<b style='color:red;float:right'>Removed</b>":""}`;
-    let t = Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i))) === time;
-    if (stat.featured || t) {
+    if (stat.featured || stat.open) {
       statinfo+="<b style='color:green'>"
       if (stat.featured) statinfo+="Featuring";
       else {
@@ -71,12 +70,10 @@
             let ap = Number(!!a.new) + Number(!!a.featured), bp = Number(!!b.new) + Number(!!b.featured);
             return bp-ap;
           }
-          let t = (player_count[a.mod_id] || 0) == 0, v = (player_count[b.mod_id] || 0) == 0;
-          if ((t || v) && !(t&&v)) return (player_count[b.mod_id] || 0) - (player_count[a.mod_id] || 0);
           let g = Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i)));
           a.open = g === timer.get(a.mod_id);
           b.open = g === timer.get(b.mod_id);
-          if (a.open || b.open) return Number(!!a.open) - Number(!!b.open);
+          if (a.open || b.open) return Number(!!b.open) - Number(!!a.open);
           return (timer.get(a.mod_id)||0) - (timer.get(b.mod_id)||0);
         });
         loadInfos();
