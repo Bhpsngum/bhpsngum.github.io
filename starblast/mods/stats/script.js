@@ -39,6 +39,13 @@
           if ((player_count[a.mod_id] || 0 == 0) || (player_count[b.mod_id] || 0 == 0)) return (player_count[b.mod_id] || 0) - (player_count[a.mod_id] || 0);
           return (Number(b.date_created)||0) - (Number(a.date_created)||0);
         }).forEach((mod, i) => modStatBox(mod, player_count[mod.mod_id]||0, i));
+        let elist = $("#modstats>*");
+        for (let i=0;i<elist.length-1;i++)
+          for (let j=i+1;j<elist.length;j++)
+            if (Number(elist[i].getAttribute("index")) > Number(elist[j].getAttribute("index"))) {
+              $(elist[j]).insertBefore($(elist[i]));
+              elist = $("#modstats>*");
+            }
       });
   }).fail(e=>console.log(e));
     setTimeout(recall,5000);
