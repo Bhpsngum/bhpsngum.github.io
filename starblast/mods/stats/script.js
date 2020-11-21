@@ -16,7 +16,7 @@
     }
     else if (stat.active) statinfo += `<p><b>Next event:</b> ${formatTime(time)}</p>`;
     statinfo+=`<p><b>Author:</b> ${stat.author}</p>
-      <p><b>Times played:</b> ${getNum(stat.timesplayed)}</p>
+      <p><b>Times played:</b> ${getNum(stat.timesplayed)} (${parseFloat((stat.timesplayed/(Date.now()-stat.date_created)/1000/3600/24).toFixed(2))} plays/day)</p>
       ${(stat.active && count)?("<p>"+count+" playing</p>"):""}`, parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id);
     if (parent.length == 0) $('#modstats').append(`<div index = "${index}" class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
     else {
@@ -60,8 +60,10 @@
         let x = 0;
         for (let i of mods) if (!i.featured && i.active) x+= 3600 * i.active_duration * 1000;
         let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
-          var l, a, o, r, u, d, c, p, O;
-          return i.featured || (w += 3600 * i.active_duration * 1e3), a = n > k && n < w, O = Date.now() + k - n, k = w, O < Date.now() && (O += x), timer.set(i.mod_id, O-Date.now());
+          if (!i.featured) w += 3600 * i.active_duration * 1e3;
+          var O = k - n;
+          if (O < 0) O += x;
+          timer.set(i.mod_id, O-Date.now());
         }
         mods.forEach((O,r) => O.active && o(O,r));
         mods.sort((a,b) => {
