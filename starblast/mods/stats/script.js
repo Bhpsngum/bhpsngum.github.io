@@ -4,7 +4,7 @@
     statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>
       ${stat.new?"<b style='color:yellow;float:right'>NEW!</b>":""}
       ${!stat.active?"<b style='color:red;float:right'>Removed</b>":""}</p>
-      ${stat.featured?"<b style='color:green'>Featuring in Modding Space</b>":(stat.open?"Available":"")}
+      <b style='color:green'>${stat.featured?"Featuring in Modding Space":(stat.open?"Available":"")}</b>
       <p><b>Author:</b> ${stat.author}</p>
       <p><b>Times played:</b> ${getNum(stat.timesplayed)}</p>
       ${(stat.active && count)?("<p>"+count+" playing</p>"):""}`, parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id);
@@ -41,7 +41,7 @@
         mods.sort((a,b) => {
           if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
           if (a.new || a.featured || b.new || b.featured || a.open || b.open) {
-            let ap = Number(!!a.new) + Number(!!a.featured) + Number(!!a.open), bp = Number(!!b.new) + Number(!!b.featured) + Number(!!a.open);
+            let ap = Number(!!a.new) + Number(!!a.featured), bp = Number(!!b.new) + Number(!!b.featured);
             return bp-ap;
           }
           let t = (player_count[a.mod_id] || 0) == 0, v = (player_count[b.mod_id] || 0) == 0;
