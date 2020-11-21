@@ -66,10 +66,7 @@
         mods.forEach((O,r) => O.active && o(O,r));
         mods.sort((a,b) => {
           if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
-          if (a.new || a.featured || b.new || b.featured) {
-            let ap = Number(!!a.new) + Number(!!a.featured), bp = Number(!!b.new) + Number(!!b.featured);
-            return bp-ap;
-          }
+          if (a.featured || b.featured) return Number(!!b.featured) - Number(!!a.featured);
           let g = Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i)));
           a.open = g === timer.get(a.mod_id);
           b.open = g === timer.get(b.mod_id);
