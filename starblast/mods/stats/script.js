@@ -38,7 +38,7 @@
           }
           if ((player_count[a.mod_id] || 0 == 0) || (player_count[b.mod_id] || 0 == 0)) return (player_count[b.mod_id] || 0) - (player_count[a.mod_id] || 0);
           return (Number(b.date_created)||0) - (Number(a.date_created)||0);
-        }).forEach((mod, i) => modStatBox(mod, player_count[mod.mod_id]||0), i);
+        }).forEach((mod, i) => modStatBox(mod, player_count[mod.mod_id]||0, i));
       });
   }).fail(e=>console.log(e));
     setTimeout(recall,5000);
