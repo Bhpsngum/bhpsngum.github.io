@@ -37,7 +37,7 @@
             }
           }
         let x = 0;
-        for (let i of mods) if (!i.featured) x+= 3600 * i.active_duration * 1000;
+        for (let i of mods) if (!i.featured && i.active) x+= 3600 * i.active_duration * 1000;
         let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
           var l, a, o, r, u, d, c, p, O;
           return i.featured || (w += 3600 * i.active_duration * 1e3), a = n > k && n < w, O = Date.now() + k - n, k = w, O < Date.now() && (O += x), tgf[s]=O;
