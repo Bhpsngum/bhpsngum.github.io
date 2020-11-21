@@ -6,13 +6,13 @@
       ${stat.new?"<b style='color:yellow;float:right'>NEW!</b>":""}
       ${!stat.active?"<b style='color:red;float:right'>Removed</b>":""}`;
     if (stat.featured || stat.open) {
-      statinfo+="<b style='color:green'>"
+      statinfo+="<a href='https://starblast.io/' style='text-decoration: none'><b style='color:green'>"
       if (stat.featured) statinfo+="Featuring";
       else {
         mods[index].open = !0;
         statinfo+="Available";
       }
-      statinfo+=" in Modding Space</b>";
+      statinfo+=" in Modding Space</b></a>";
     }
     else if (stat.active) statinfo += `<p>Next event: ${formatTime(time)}</p>`;
     statinfo+=`<p><b>Author:</b> ${stat.author}</p>
