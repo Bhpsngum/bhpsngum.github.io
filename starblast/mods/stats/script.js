@@ -14,7 +14,7 @@
       }
       statinfo+=" in Modding Space</b></a>";
     }
-    else if (stat.active) statinfo += `<p>Next event: ${formatTime(time)}</p>`;
+    else if (stat.active) statinfo += `<p><b>Next event:</b> ${formatTime(time)}</p>`;
     statinfo+=`<p><b>Author:</b> ${stat.author}</p>
       <p><b>Times played:</b> ${getNum(stat.timesplayed)}</p>
       ${(stat.active && count)?("<p>"+count+" playing</p>"):""}`, parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id);
