@@ -4,7 +4,7 @@
     statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>
       ${stat.new?"<b style='color:yellow;float:right'>NEW!</b>":""}
       ${!stat.active?"<b style='color:red;float:right'>Removed</b>":""}</p>
-      ${stat.featured?"<b style='color:green'>Featuring in Modding Space</b>":""}
+      ${stat.featured?"<b style='color:green'>Featuring in Modding Space</b>":(stat.open?"Available":"")}
       <p><b>Author:</b> ${stat.author}</p>
       <p><b>Times played:</b> ${getNum(stat.timesplayed)}</p>
       ${(stat.active && count)?("<p>"+count+" playing</p>"):""}`, parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id);
@@ -35,13 +35,13 @@
         for (let i of mods) x+= 3600 * i.active_duration * 1000;
         let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
           var l, a, o, r, u, d, c, p, O;
-          console.log(i.featured || (w += 3600 * i.active_duration * 1e3), mods[s] = n > k && n < w, O = Date.now() + k - n, k = w, O < Date.now() && (O += x));
+          console.log(i.featured || (w += 3600 * i.active_duration * 1e3), mods[s].open = n > k && n < w, O = Date.now() + k - n, k = w, O < Date.now() && (O += x));
         }
         mods.forEach((O,r) => O.active && o(O,r));
         mods.sort((a,b) => {
           if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
-          if (a.new || a.featured || b.new || b.featured) {
-            let ap = Number(!!a.new) + Number(!!a.featured), bp = Number(!!b.new) + Number(!!b.featured);
+          if (a.new || a.featured || b.new || b.featured || a.open || b.open) {
+            let ap = Number(!!a.new) + Number(!!a.featured) + Number(!!a.open), bp = Number(!!b.new) + Number(!!b.featured) + Number(!!a.open);
             return bp-ap;
           }
           let t = (player_count[a.mod_id] || 0) == 0, v = (player_count[b.mod_id] || 0) == 0;
