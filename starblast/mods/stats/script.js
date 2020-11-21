@@ -64,7 +64,7 @@
           var O = k - n;
           if (O < 0) O += x;
           k = w;
-          timer.set(i.mod_id, O-Date.now());
+          timer.set(i.mod_id, O);
         }
         mods.forEach((O,r) => O.active && o(O,r));
         mods.sort((a,b) => {
