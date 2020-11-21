@@ -16,7 +16,7 @@
     }
     else if (stat.active) statinfo += `<p><b>Next event:</b> ${formatTime(time)}</p>`;
     statinfo+=`<p><b>Author:</b> ${stat.author}</p>
-      <p><b>Times played:</b> ${getNum(stat.timesplayed)} (${parseFloat((stat.timesplayed/(Date.now()-stat.date_created)*1000*3600*24).toFixed(2))} plays/day)</p>
+      <p><b>Times played:</b> ${getNum(stat.timesplayed)} (${Math.round(stat.timesplayed/(Date.now()-stat.date_created)*1000*3600*24)} plays/day)</p>
       ${(stat.active && count)?("<p>"+count+" playing</p>"):""}`, parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id);
     if (parent.length == 0) $('#modstats').append(`<div index = "${index}" class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
     else {
