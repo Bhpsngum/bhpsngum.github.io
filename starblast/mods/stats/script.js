@@ -7,7 +7,7 @@
       ${stat.featured?"<b style='color:green'>Featuring in Modding Space</b>":""}
       <p><b>Author:</b> ${stat.author}</p>
       <p><b>Times played:</b> ${getNum(stat.timesplayed)}</p>
-      <p>${count} playing</p>`, parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id);
+      ${stat.active?("<p>"+count+" playing</p>"):""}`, parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id);
     if (parent.length == 0) $('#modstats').append(`<div class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
     else {
       if (imgelement.length == 0) parent.prepend(img);
