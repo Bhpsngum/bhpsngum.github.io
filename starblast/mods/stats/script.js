@@ -20,7 +20,7 @@
     let str = [];
     for (let i=num.length-1;i>=0;i-=3) str.push(num.slice(Math.max(i-2,0),i+1));
     return str.reverse().join(" ");
-  } ,recall = function() {
+  } , update = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(mods) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
         mods = mods[0];
@@ -56,8 +56,7 @@
               elist = $("#modstats>*");
             }
       });
-  }).fail(e=>console.log(e));
-    setTimeout(recall,5000);
+    }).fail(e=>console.log(e));
   }
-  recall();
+  setInterval(update, 5000);
 })();
