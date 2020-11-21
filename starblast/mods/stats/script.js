@@ -24,7 +24,7 @@
   }, formatTime = function (ms) {
     ms = ms/1000;
     let t = Math.trunc(ms/3600), u = Math.trunc((ms-t*3600)/60);
-    return [t,u,ms-t*3600-u*60].map(i => i<10?"0"+i.toString():i).join(":")
+    return [t,u,Math.trunc(ms-t*3600-u*60)].map(i => i<10?"0"+i.toString():i).join(":")
   }, update = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(mods) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
@@ -37,7 +37,7 @@
             }
           }
         let x = 0;
-        for (let i of mods) x+= 3600 * i.active_duration * 1000;
+        for (let i of mods) if (!i.featured) x+= 3600 * i.active_duration * 1000;
         let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
           var l, a, o, r, u, d, c, p, O;
           return i.featured || (w += 3600 * i.active_duration * 1e3), a = n > k && n < w, O = Date.now() + k - n, k = w, O < Date.now() && (O += x), tgf[s]=O;
