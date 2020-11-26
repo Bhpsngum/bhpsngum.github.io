@@ -6,7 +6,7 @@
     "racing": 1592486063588
   },
   modStatBox = function(stat, count, index, time) {
-    let img = `<img ondragstart="return false;" id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg'>`,
+    let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg'>`,
     statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>
       ${stat.new?"<b style='color:yellow;float:right'>NEW!</b>":""}
       ${!stat.active?"<b style='color:red;float:right'>Removed</b>":""}`;
