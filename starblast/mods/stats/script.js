@@ -1,5 +1,5 @@
 (function(){
-  var mods = [], player_count = {}, timer = new Map(), init = !1, count_interval = 500,
+  var mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1, count_interval = 500,
   removed_time = {
     "none": 1578454316626,
     "prototypes": 1578454316626,
@@ -29,7 +29,7 @@
     else {
       parent.attr("index",index);
       if (imgelement.length == 0) parent.prepend(img);
-      if (statelement.length == 0) parent.append(`<div id="stat-${stat.mod_id}"${statinfo}</div>`);
+      if (statelement.length == 0) $(`<div id="stat-${stat.mod_id}"${statinfo}</div>`).insertAfter("#img-"+stat.mod_id);
       else statelement.html(statinfo);
     }
   }, getNum = function(num) {
