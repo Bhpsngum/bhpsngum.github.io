@@ -6,7 +6,7 @@ body {
   font-size: 1vw;
   user-select: none;
 }
-li {
+ul, li {
   margin: 0;
 }
 .modStatBox {
