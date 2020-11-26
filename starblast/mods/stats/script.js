@@ -33,7 +33,7 @@
       let u = [];
       for (let i in (player_count_region[stat.mod_id]||{})) u.push(i);
       if (u.length > 0 && stat.active && player_count[stat.mod_id]) {
-        let playerstat = "<p><b><a href='#' onclick = 'console.log(this);'>Current players:</b> " + player_count[stat.mod_id] + "</a></p><ul>" + u.map(i => `<li>${i}: ${player_count_region[stat.mod_id][i]||0}</li>`).join("") + "</ul>";
+        let playerstat = "<p style='cursor:pointer;' onclick='console.log($(this).parent());'><b>Current players:</b> " + player_count[stat.mod_id] + "</p><ul>" + u.map(i => `<li>${i}: ${player_count_region[stat.mod_id][i]||0}</li>`).join("") + "</ul>";
         if (player_stat.length == 0) $(`<div id="players-${stat.mod_id}">${playerstat}</div>`).insertAfter("#stat-"+stat.mod_id);
         else player_stat.html(playerstat);
       }
