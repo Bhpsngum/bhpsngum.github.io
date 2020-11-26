@@ -6,6 +6,9 @@ body {
   font-size: 1vw;
   user-select: none;
 }
+li {
+  margin: 0;
+}
 .modStatBox {
   display: inline-block;
   margin: 0.5%;
