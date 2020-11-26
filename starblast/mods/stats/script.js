@@ -23,14 +23,22 @@
     statinfo+=`<p><b>Author:</b> ${stat.author}</p>
       <p><b>First released:</b> ${stat.date_created?new Date(stat.date_created).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}):"Unknown"}</p>
       <p><b>Times played:</b> ${getNum(stat.timesplayed)} (${Math.round(stat.timesplayed/(((stat.date_removed||Date.now())-stat.date_created)/1000/3600/24))} daily)</p>
-      ${(stat.active && count)?("<p>"+count+" playing</p>"):""}`;
-    let parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id), player_stat = $("#"+stat.mod_id);
+      ${(stat.active && player_count[stat.mod_id])?("<p><b>Current players:</b> "+player_count[stat.mod_id]+"</p>"):""}`;
+    let parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id), player_stat = $("#players-"+stat.mod_id);
     if (parent.length == 0) $('#modstats').append(`<div index = "${index}" class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
     else {
       parent.attr("index",index);
       if (imgelement.length == 0) parent.prepend(img);
       if (statelement.length == 0) $(`<div id="stat-${stat.mod_id}"${statinfo}</div>`).insertAfter("#img-"+stat.mod_id);
       else statelement.html(statinfo);
+      let u = [];
+      for (let i in (player_count_region[stat.mod_id]||{})) u.push(i);
+      if (u.length > 0) {
+        let playerstat = u.map(i => `<li>${i}: ${player_count_region[stat.mod_id][i]||0}</li>`).join("");
+        if (player_stat.length == 0) $(`<ul id="players-${stat.mod.id}">${playerstat}</ul>`).insertAfter("#stat-"+stat.mod_id);
+        else player_stat.html(playerstat);
+      }
+      else $("#players-"+stat.mod_id).remove();
     }
   }, getNum = function(num) {
     num = num.toString();
@@ -66,9 +74,12 @@
         mods = modss[0];
         player_count = {};
         for (let i of players)
+          let q = i.location;
           for (let j of i.systems) {
             if (j.mod_id && j.mode == "modding") {
               player_count[j.mod_id] = (player_count[j.mod_id]||0)+j.players;
+              if (!player_count_region[j.mod_id]) player_count_region[j.mod_id] = {};
+              player_count_region[j.mod_id][q] = (player_count_region[j.mod_id][q]||0) + j.players;
             }
           }
         let x = 0;
