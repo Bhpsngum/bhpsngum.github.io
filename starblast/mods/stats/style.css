@@ -3,7 +3,7 @@ body {
   background-color: rgb(24,26,27);
   color: rgb(231,229,228);
   margin: 0;
-  font-size: 2vw;
+  font-size: 1vw;
 }
 .modStatBox {
   display: inline-block;
