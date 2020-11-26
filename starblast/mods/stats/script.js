@@ -73,6 +73,7 @@
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
         mods = modss[0];
         player_count = {};
+        player_count_region = {};
         for (let i of players) {
           let q = i.location;
           for (let j of i.systems) {
