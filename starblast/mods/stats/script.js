@@ -35,7 +35,7 @@
       for (let i in (player_count_region[stat.mod_id]||{})) u.push(i);
       if (u.length > 0) {
         let playerstat = u.map(i => `<li>${i}: ${player_count_region[stat.mod_id][i]||0}</li>`).join("");
-        if (player_stat.length == 0) $(`<ul id="players-${stat.mod.id}">${playerstat}</ul>`).insertAfter("#stat-"+stat.mod_id);
+        if (player_stat.length == 0) $(`<ul id="players-${stat.mod_id}">${playerstat}</ul>`).insertAfter("#stat-"+stat.mod_id);
         else player_stat.html(playerstat);
       }
       else $("#players-"+stat.mod_id).remove();
