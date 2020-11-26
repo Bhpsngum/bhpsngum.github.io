@@ -73,7 +73,7 @@
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
         mods = modss[0];
         player_count = {};
-        for (let i of players)
+        for (let i of players) {
           let q = i.location;
           for (let j of i.systems) {
             if (j.mod_id && j.mode == "modding") {
@@ -82,6 +82,7 @@
               player_count_region[j.mod_id][q] = (player_count_region[j.mod_id][q]||0) + j.players;
             }
           }
+        }
         let x = 0;
         for (let i of mods) {
           if (!i.featured && i.active) x+= 3600 * i.active_duration * 1000;
