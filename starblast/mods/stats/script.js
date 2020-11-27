@@ -76,7 +76,6 @@
     loadInfos();
   }, update = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(modss) {
-      let latency = Date.now();
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
         mods = modss[0];
         player_count = {};
@@ -96,7 +95,7 @@
           if (!i.featured && i.active) x+= 3600 * i.active_duration * 1000;
           i.date_removed = removed_time[i.mod_id];
         }
-        let n = latency % x, k = 0, w = 0, o = function(i, s) {
+        let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
           if (!i.featured) w += 3600 * i.active_duration * 1e3;
           var O = k - n;
           if (O < 0) O += x;
