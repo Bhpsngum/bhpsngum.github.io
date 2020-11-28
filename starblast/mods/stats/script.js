@@ -114,6 +114,7 @@
         setCountdown();
         loadInfos();
         if (!init) {
+          $("#welcome-text").remove();
           setInterval(count, count_interval);
           init = !0;
         }
