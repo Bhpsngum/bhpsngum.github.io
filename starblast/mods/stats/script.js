@@ -56,6 +56,12 @@
     let t = Math.trunc(ms/3600), u = Math.trunc((ms-t*3600)/60);
     return [t,u,Math.trunc(ms-t*3600-u*60)].map(i => Math.max(i,0)).map(i => i<10?"0"+i.toString():i).join(":")
   }, loadInfos = function() {
+    mods.sort((a,b) => {
+      if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
+      if (a.featured || b.featured) return Number(!!b.featured) - Number(!!a.featured);
+      if (a.open || b.open) return Number(!!b.open) - Number(!!a.open);
+      return (timer.get(a.mod_id)||0) - (timer.get(b.mod_id)||0);
+    });
     mods.forEach((mod, i) => modStatBox(mod, player_count[mod.mod_id]||0, i, timer.get(mod.mod_id)));
     let elist = $("#modstats>*");
     for (let i=0;i<elist.length-1;i++)
@@ -85,6 +91,7 @@
       timer.set(i.mod_id, O);
     }
     mods.forEach((O,r) => O.active && o(O,r));
+    mods.forEach(a => {a.open = Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i)) === timer.get(a.mod_id)});
   }, update = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(modss) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
@@ -103,15 +110,6 @@
         }
         for (let i of mods) if (removed_time[i.mod_id]) i.date_removed = removed_time[i.mod_id];
         setCountdown();
-        mods.sort((a,b) => {
-          if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
-          if (a.featured || b.featured) return Number(!!b.featured) - Number(!!a.featured);
-          let g = Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i)));
-          a.open = g === timer.get(a.mod_id);
-          b.open = g === timer.get(b.mod_id);
-          if (a.open || b.open) return Number(!!b.open) - Number(!!a.open);
-          return (timer.get(a.mod_id)||0) - (timer.get(b.mod_id)||0);
-        });
         loadInfos();
         if (!init) {
           setInterval(count, count_interval);
