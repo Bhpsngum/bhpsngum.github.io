@@ -66,14 +66,25 @@
         }
   }, count = function() {
     var request_update = !1;
+    setCountdown();
     for (let i of timer.keys()) {
-      timer.set(i, timer.get(i) - count_interval);
       if (timer.get(i) <= 0 && !request_update) {
         update();
         request_update = !0;
       }
     }
     loadInfos();
+  }, setCountdown = function() {
+    let x = 0;
+    for (let i of mods) if (!i.featured && i.active) x+= 3600 * i.active_duration * 1000;
+    let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
+      if (!i.featured) w += 3600 * i.active_duration * 1e3;
+      var O = k - n;
+      if (O < 0) O += x;
+      k = w;
+      timer.set(i.mod_id, O);
+    }
+    mods.forEach((O,r) => O.active && o(O,r));
   }, update = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(modss) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
@@ -90,19 +101,8 @@
             }
           }
         }
-        let x = 0;
-        for (let i of mods) {
-          if (!i.featured && i.active) x+= 3600 * i.active_duration * 1000;
-          i.date_removed = removed_time[i.mod_id];
-        }
-        let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
-          if (!i.featured) w += 3600 * i.active_duration * 1e3;
-          var O = k - n;
-          if (O < 0) O += x;
-          k = w;
-          timer.set(i.mod_id, O);
-        }
-        mods.forEach((O,r) => O.active && o(O,r));
+        for (let i of mods) if (removed_time[i.mod_id]) i.date_removed = removed_time[i.mod_id];
+        setCountdown();
         mods.sort((a,b) => {
           if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
           if (a.featured || b.featured) return Number(!!b.featured) - Number(!!a.featured);
