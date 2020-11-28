@@ -82,6 +82,7 @@
     loadInfos();
   }, setCountdown = function() {
     let x = 0;
+    timer.clear();
     for (let i of mods) if (!i.featured && i.active) x+= 3600 * i.active_duration * 1000;
     let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
       if (!i.featured) w += 3600 * i.active_duration * 1e3;
