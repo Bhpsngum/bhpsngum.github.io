@@ -91,7 +91,7 @@
       timer.set(i.mod_id, O);
     }
     mods.forEach((O,r) => O.active && o(O,r));
-    mods.forEach(a => {a.open = Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i))) === timer.get(a.mod_id)});
+    mods.forEach(a => {a.open = a.active?Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i))) === timer.get(a.mod_id):!1});
   }, update = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(modss) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
