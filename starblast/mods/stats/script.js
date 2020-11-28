@@ -1,5 +1,5 @@
 (function(){
-  var mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1, count_interval = 500,
+  var mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1, count_interval = 500,
   removed_time = {
     "none": 1578454316626,
     "prototypes": 1578454316626,
@@ -83,7 +83,7 @@
   }, setCountdown = function() {
     let x = 0;
     timer.clear();
-    for (let i of mods) if (!i.featured && i.active) x+= 3600 * i.active_duration * 1000;
+    for (let i of origin_mods) if (!i.featured && i.active) x+= 3600 * i.active_duration * 1000;
     let n = Date.now() % x, k = 0, w = 0, o = function(i, s) {
       if (!i.featured) w += 3600 * i.active_duration * 1e3;
       var O = k - n;
@@ -97,6 +97,7 @@
     $.getJSON("https://starblast.io/modsinfo.json").then(function(modss) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
         mods = modss[0];
+        origin_mods = [...mods];
         player_count = {};
         player_count_region = {};
         for (let i of players) {
