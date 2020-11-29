@@ -479,8 +479,8 @@
     "name": "Multi-Class Ship Tree",
     "abbreviation": "MCST",
     "version": "",
-    "description": "",
-    "modes": "Varies",
+    "description": "This is a ship tree with hundreds of different ships to explore. You may select your class of ships between Fighter, Heavy, Speedster and Support. Be the top on the leaderboard and kill teamers!",
+    "modes": "Free For All (FFA)",
     "img": "",
     "link": {
       "url": "",
@@ -488,7 +488,11 @@
     },
     "author": [
       {
-        "name": ["Various authors"],
+        "name": ["SChickenMan"],
+        "link": ""
+      },
+      {
+        "name": ["(featuring Various authors)"],
         "link": ""
       }
     ],
@@ -544,7 +548,7 @@
     "abbreviation": "",
     "version": "",
     "description": "",
-    "modes": "Unspecified",
+    "modes": "",
     "img": "",
     "link": {
       "url": "https://pastebin.com/AGPTfXy7",
