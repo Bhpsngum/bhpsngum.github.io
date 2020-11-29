@@ -538,5 +538,25 @@
     ],
     "official": 0,
     "event": 0
+  },
+  {
+    "name": "City Mod",
+    "abbreviation": "",
+    "version": "",
+    "description": "",
+    "modes": "Unspecified",
+    "img": "",
+    "link": {
+      "url": "https://github.com/",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Nexagon"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
   }
 ]
