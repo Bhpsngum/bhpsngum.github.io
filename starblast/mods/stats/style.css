@@ -4,7 +4,6 @@ body {
   color: rgb(231,229,228);
   margin: 0;
   font-size: 1vw;
-  user-select: none;
 }
 ul, li {
   margin: 0;
