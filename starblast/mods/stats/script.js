@@ -111,9 +111,9 @@
           }
         }
         for (let i of mods) if (removed_time[i.mod_id]) i.date_removed = removed_time[i.mod_id];
-        setCountdown();
-        loadInfos();
         if (!init) {
+          setCountdown();
+          loadInfos();
           $("#welcome-text").remove();
           setInterval(count, count_interval);
           init = !0;
