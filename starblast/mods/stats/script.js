@@ -1,5 +1,5 @@
 (function(){
-  var mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1, count_interval = 500,
+  var mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
   removed_time = {
     "none": 1578454316626,
     "prototypes": 1578454316626,
@@ -71,14 +71,7 @@
           elist = $("#modstats>*");
         }
   }, count = function() {
-    var request_update = !1;
     setCountdown();
-    for (let i of timer.keys()) {
-      if (timer.get(i) <= 0 && !request_update) {
-        update();
-        request_update = !0;
-      }
-    }
     loadInfos();
   }, setCountdown = function() {
     let x = 0;
@@ -112,10 +105,9 @@
         }
         for (let i of mods) if (removed_time[i.mod_id]) i.date_removed = removed_time[i.mod_id];
         if (!init) {
-          setCountdown();
-          loadInfos();
+          count();
           $("#welcome-text").remove();
-          setInterval(count, count_interval);
+          setInterval(count, 500);
           init = !0;
         }
       });
