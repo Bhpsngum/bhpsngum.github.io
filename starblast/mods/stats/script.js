@@ -7,9 +7,7 @@
   },
   modStatBox = function(stat, count, index, time) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg'>`,
-    statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>
-      ${stat.new?"<b style='color:yellow;float:right'>NEW!</b>":""}
-      ${!stat.active?"<b style='color:red;float:right'>Removed</b>":""}`;
+    statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>${stat.new?"<b style='color:yellow;float:right'>NEW!</b>":""}${!stat.active?"<b style='color:red;float:right'>Removed</b>":""}`;
     if (stat.featured || stat.open) {
       statinfo+="<a href='https://starblast.io/' style='text-decoration: none'><b style='color:green'>"
       if (stat.featured) statinfo+="Featuring";
@@ -29,7 +27,7 @@
       parent.attr("index",index);
       if (imgelement.length == 0) parent.prepend(img);
       if (statelement.length == 0) $(`<div id="stat-${stat.mod_id}"${statinfo}</div>`).insertAfter("#img-"+stat.mod_id);
-      else statelement.html() != statinfo.trim() && (console.log(statelement.html(),"\n",statinfo),statelement.html(statinfo));
+      else statelement.html() != statinfo && (console.log(statelement.html(),"\n",statinfo),statelement.html(statinfo));
       let u = [];
       for (let i in (player_count_region[stat.mod_id]||{})) u.push(i);
       if (u.length > 0 && stat.active && player_count[stat.mod_id]) {
