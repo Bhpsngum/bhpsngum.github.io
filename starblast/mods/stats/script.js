@@ -88,12 +88,12 @@
     mods.forEach(a => {a.open = a.active?Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i))) === timer.get(a.mod_id):!1});
   }, setStatus = function(n) {
     n = Number(n);
-    let name = ["Online","Offline"], color = ["green","red"], desc = ["online data fetched from Starblast's database", "offline data (from previous successful fetch)"], status = $("#status");
+    let name = ["Online","Offline"], color = ["green","red"], desc = ["latest data fetching from Starblast's database", "offline data storing from previous successful fetch"], status = $("#status");
     if (n < name.length && n >= 0) {
       status.html(name[n]);
       status.prop({
         style: "user-select:none;text-align:center;font-size:1.5vw;color:"+color[n],
-        title: "You are using "+desc[n]
+        title: "You are viewing"+desc[n]
       });
     }
   }, update = function() {
