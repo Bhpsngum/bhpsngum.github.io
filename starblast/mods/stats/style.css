@@ -24,6 +24,7 @@ p, h3 {
 img {
   width: 100%;
   -webkit-user-drag: none;
+  user-select: none;
 }
 a, a:active, a:hover {
   color: #33A1DE;
