@@ -38,7 +38,7 @@
         else {
           let total_players = $("#total_players-"+stat.mod_id);
           if (total_players.length === 0) $("#players-"+stat.mod_id).prepend(evt+totalplayers+"</p>");
-          else total_players.html(totalplayers);
+          else total_players.html() != totalplayers && total_players.html(totalplayers);
           let lists = $("#players-"+stat.mod_id+">ul");
           if (lists.length === 0) $("<ul hidden='true'>"+playerstat+"</ul>").insertAfter("#total_players-"+stat.mod_id);
           else lists.html() != playerstat && lists.html(playerstat);
