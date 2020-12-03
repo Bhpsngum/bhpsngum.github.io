@@ -41,7 +41,7 @@
           else total_players.html(totalplayers);
           let lists = $("#players-"+stat.mod_id+">ul");
           if (lists.length === 0) $("<ul hidden='true'>"+playerstat+"</ul>").insertAfter("#total_players-"+stat.mod_id);
-          else lists.html() != playerstats && lists.html(playerstat);
+          else lists.html() != playerstat && lists.html(playerstat);
         }
       }
       else player_stat.remove();
