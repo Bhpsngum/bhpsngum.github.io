@@ -122,7 +122,7 @@
           init = !0;
         }
       });
-    }).fail(setStatus(1));
+    }).fail(e => setStatus(1));
   }
   update();
   setInterval(update, 5000);
