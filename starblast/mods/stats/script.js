@@ -29,7 +29,7 @@
       parent.attr("index",index);
       if (imgelement.length == 0) parent.prepend(img);
       if (statelement.length == 0) $(`<div id="stat-${stat.mod_id}"${statinfo}</div>`).insertAfter("#img-"+stat.mod_id);
-      else statelement.html() != statinfo && (console.log(statelement.html(),"\n",statinfo),statelement.html(statinfo));
+      else statelement.html() != statinfo.trim() && (console.log(statelement.html(),"\n",statinfo),statelement.html(statinfo));
       let u = [];
       for (let i in (player_count_region[stat.mod_id]||{})) u.push(i);
       if (u.length > 0 && stat.active && player_count[stat.mod_id]) {
