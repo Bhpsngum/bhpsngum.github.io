@@ -93,7 +93,7 @@
       status.html(name[n]);
       status.prop({
         style: "user-select:none;text-align:center;font-size:1.5vw;color:"+color[n],
-        title: "You are viewing"+desc[n]
+        title: "You are viewing "+desc[n]
       });
     }
   }, update = function() {
