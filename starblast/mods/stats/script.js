@@ -86,6 +86,16 @@
     }
     origin_mods.forEach((O,r) => O.active && o(O,r));
     mods.forEach(a => {a.open = a.active?Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i))) === timer.get(a.mod_id):!1});
+  }, setStatus = function(n) {
+    n = Number(n);
+    let name = ["Online","Offline"], color = ["green","red"], desc = ["online data fetched from Starblast's database", "offline data (from previous successful fetch)"], status = $("#status");
+    if (n < name.length && n >= 0) {
+      status.html(name[n]);
+      status.prop({
+        style: "user-select:none;text-align:center;font-size:1.5vw;color:"+color[n],
+        title: "You are using "+desc[n]
+      });
+    }
   }, update = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(modss) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
@@ -104,6 +114,7 @@
           }
         }
         for (let i of mods) if (removed_time[i.mod_id]) i.date_removed = removed_time[i.mod_id];
+        setStatus(0);
         if (!init) {
           count();
           $("#welcome-text").remove();
@@ -111,7 +122,7 @@
           init = !0;
         }
       });
-    }).fail(e=>console.log(e));
+    }).fail(setStatus(1));
   }
   update();
   setInterval(update, 5000);
