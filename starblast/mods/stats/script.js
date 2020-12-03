@@ -88,7 +88,7 @@
     mods.forEach(a => {a.open = a.active?Math.max(...[...timer.values()].filter(i => i != null && !isNaN(i))) === timer.get(a.mod_id):!1});
   }, setStatus = function(n) {
     n = Number(n);
-    let name = ["Online","Offline"], color = ["green","red"], desc = ["latest data fetching from Starblast's database", "offline data storing from previous successful fetch"], status = $("#status");
+    let name = ["Online","Offline"], color = ["green","red"], desc = ["latest data fetched from Starblast's database", "offline data stored from previous successful fetch"], status = $("#status");
     if (n < name.length && n >= 0) {
       status.html(name[n]);
       status.prop({
