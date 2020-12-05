@@ -95,7 +95,7 @@
     },
     convert: function (forced) {
       let json = $("#input").val() || localStorage.getItem("json-input"), results;
-      try {results = this.types.list[this.choose()].parse(this.compile(json))}
+      try {results = this.types.list[this.types.choose()].parse(this.compile(json))}
       catch(e){
         if (forced) {
           json = "(JSON) Ship Mod Export code"
@@ -124,7 +124,6 @@
   }
   SSCV.types.set();
   SSCV.convert(!0);
-  $("#types").on("change",SSCV.types.choose.bind(SSCV.types));
   $("#convert").on("click",SSCV.convert.bind(SSCV));
   $("#copy").on("click",function(){SSCV.copy($("#output").val())});
 })();
