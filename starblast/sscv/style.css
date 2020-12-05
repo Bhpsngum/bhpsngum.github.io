@@ -30,6 +30,14 @@ button {
   right: 50%;
   position: fixed;
   height: 5%;
+  width: 50%;
+}
+#types {
+  margin-right: 1%;
+  background: hsl(200,60%,15%);
+  border: 1px solid hsl(200,60%,10%);
+  vertical-align: middle;
+  box-sizing: border-box;
 }
 #buttons>* {
   float:right;

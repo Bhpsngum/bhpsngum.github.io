@@ -78,13 +78,13 @@
         }
       ],
       set: function() {
-        $("#types").html("<option disabled>Select conversion type</option>"+this.list.map(i => `<option>${i.name}</option>`));
+        $("#types").html("<option disabled>Select conversion type</option>"+this.list.map(i => `<option>${i.name}</option>`).join(""));
         this.choose();
       },
       choose: function() {
         let select = $("#types").prop("selectedIndex");
         if (select < 1 || select > this.list.length) {
-          let t = localStorage.getItem("selected-conversion-type");
+          let t = Number(localStorage.getItem("selected-conversion-type"));
           select = (t > 0 && t <= this.list.length && !isNaN(t))?t:1;
         }
         select = Math.trunc(select);
@@ -95,7 +95,7 @@
     },
     convert: function (forced) {
       let json = $("#input").val() || localStorage.getItem("json-input"), results;
-      try {results = this.types.list[this.types.choose()].parse(this.compile(json))}
+      try {results = this.types.list[this.types.choose() - 1].parse(this.compile(json))}
       catch(e){
         if (forced) {
           json = "(JSON) Ship Mod Export code"
