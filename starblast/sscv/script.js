@@ -3,17 +3,19 @@
     compile: function(data) {
       return JSON.parse(Function("return " + data.replace(/^(\s|\n|\r|\t)+/,"").replace(/^(var|let|const)(\s|\t)*/,"").replace(/(\n|\r|\s|\t)+(\;|$)/,"$2"))());
     },
-    convert: function (type, forced) {
-      let json = $("#input").val() || localStorage.getItem("json-input"), results;
-      try {
-        results = this.compile(json);
-        switch(type) {
-          case "shipcode":
-            delete results.typespec;
-            results = "return "+js2coffee.build("model="+JSON.stringify(results)).code.replace(/\s+(?=[^[\]]*\])/g, ",").replace(/\[,/g, "[").replace(/,\]/g, "]").replace(/'(\w+)':/g, "$1:");
-            break;
-          case "wikitext":
-            let s = results.typespec, wikitext;
+    types: {
+      list: [
+        {
+          name: "Ship Editor code",
+          parse: function(data) {
+            delete data.typespec;
+            return "return "+js2coffee.build("model="+JSON.stringify(data)).code.replace(/\s+(?=[^[\]]*\])/g, ",").replace(/\[,/g, "[").replace(/,\]/g, "]").replace(/'(\w+)':/g, "$1:");
+          }
+        },
+        {
+          name: "Basic WikiText info",
+          parse: function(data) {
+            let s = data.typespec, wikitext;
             wikitext = `{{Ship-Infobox
 |name=${s.name||""}
 |image=${(s.name||"").replace(/\s/g,"_")}.png
@@ -26,7 +28,7 @@
 |speed=${s.specs.ship.speed.join("/")}
 |tier=${s.level||1}
 |mass=${s.specs.ship.mass||0}
-|designer=${results.designer||"Neuronality"}
+|designer=${data.designer||"Neuronality"}
 }}\n\n== Cannons ==\n\n`;
             let lasers = s.lasers.map(laser => {
               laser.x = Math.abs(laser.x);
@@ -71,12 +73,29 @@
 |angle=${Math.abs(laser.angle)||0}
 |spread=${Math.abs(laser.spread)||0}
 }}`).join("\n\n");
-            results = wikitext;
-            break;
-          default:
-            results = "Output";
+            return wikitext;
+          }
         }
+      ],
+      set: function() {
+        $("#types").html("<option disabled>Select conversion type</option>"+this.list.map(i => `<option>${i.name}</option>`));
+        this.choose();
+      },
+      choose: function() {
+        let select = $("#types").prop("selectedIndex");
+        if (select < 1 || select >= this.list.length) {
+          let t = localStorage.getItem("selected-conversion-type");
+          select = (t > 0 && t < this.list.length && !isNaN(t))?t:1;
+        }
+        select = Math.trunc(select);
+        localStorage.setItem("selected-conversion-type",select);
+        $("#types").prop("selectedIndex",select);
+        return select;
       }
+    },
+    convert: function (type, forced) {
+      let json = $("#input").val() || localStorage.getItem("json-input"), results;
+      try {results = this.types[this.choose()].parse(this.compile(json))}
       catch(e){
         if (forced) {
           json = "(JSON) Ship Mod Export code"
@@ -103,8 +122,9 @@
       document.body.removeChild(dummy);
     }
   }
+  SSCV.types.set();
   SSCV.convert(null, !0);
-  $("#shipcode").on("click",function(){SSCV.convert("shipcode")});
-  $("#wikitext").on("click",function(){SSCV.convert("wikitext")});
+  $("#types").on("change",SSCV.types.set.bind(SSCV.types));
+  $("#convert").on("click",function(){SSCV.convert()});
   $("#copy").on("click",function(){SSCV.copy($("#output").val())});
 })();
