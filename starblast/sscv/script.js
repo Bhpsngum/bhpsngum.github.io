@@ -124,7 +124,7 @@
   }
   SSCV.types.set();
   SSCV.convert(!0);
-  $("#types").on("change",SSCV.types.set.bind(SSCV.types));
+  $("#types").on("change",SSCV.types.choose.bind(SSCV.types));
   $("#convert").on("click",SSCV.convert.bind(SSCV));
   $("#copy").on("click",function(){SSCV.copy($("#output").val())});
 })();
