@@ -119,7 +119,7 @@
           setInterval(count, 500);
           init = !0;
         }
-      });
+      }).fail(e => setStatus(1));
     }).fail(e => setStatus(1));
   }
   update();
