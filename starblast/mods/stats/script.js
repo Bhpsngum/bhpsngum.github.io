@@ -27,7 +27,7 @@
       parent.attr("index",index);
       if (imgelement.length == 0) parent.prepend(img);
       if (statelement.length == 0) $(`<div id="stat-${stat.mod_id}"${statinfo}</div>`).insertAfter("#img-"+stat.mod_id);
-      else statelement.html() != statinfo && statelement.html(statinfo);
+      else statelement.html(statinfo);
       let u = [];
       for (let i in (player_count_region[stat.mod_id]||{})) u.push(i);
       if (u.length > 0 && stat.active && player_count[stat.mod_id]) {
@@ -36,10 +36,10 @@
         else {
           let total_players = $("#total_players-"+stat.mod_id);
           if (total_players.length === 0) $("#players-"+stat.mod_id).prepend(evt+totalplayers+"</p>");
-          else total_players.html() != totalplayers && total_players.html(totalplayers);
+          else total_players.html(totalplayers);
           let lists = $("#players-"+stat.mod_id+">ul");
           if (lists.length === 0) $("<ul hidden='true'>"+playerstat+"</ul>").insertAfter("#total_players-"+stat.mod_id);
-          else lists.html() != playerstat && lists.html(playerstat);
+          else lists.html(playerstat);
         }
       }
       else player_stat.remove();
