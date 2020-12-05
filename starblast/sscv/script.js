@@ -83,9 +83,9 @@
       },
       choose: function() {
         let select = $("#types").prop("selectedIndex");
-        if (select < 1 || select >= this.list.length) {
+        if (select < 1 || select > this.list.length) {
           let t = localStorage.getItem("selected-conversion-type");
-          select = (t > 0 && t < this.list.length && !isNaN(t))?t:1;
+          select = (t > 0 && t <= this.list.length && !isNaN(t))?t:1;
         }
         select = Math.trunc(select);
         localStorage.setItem("selected-conversion-type",select);
@@ -93,9 +93,9 @@
         return select;
       }
     },
-    convert: function (type, forced) {
+    convert: function (forced) {
       let json = $("#input").val() || localStorage.getItem("json-input"), results;
-      try {results = this.types[this.choose()].parse(this.compile(json))}
+      try {results = this.types.list[this.choose()].parse(this.compile(json))}
       catch(e){
         if (forced) {
           json = "(JSON) Ship Mod Export code"
@@ -123,8 +123,8 @@
     }
   }
   SSCV.types.set();
-  SSCV.convert(null, !0);
+  SSCV.convert(!0);
   $("#types").on("change",SSCV.types.set.bind(SSCV.types));
-  $("#convert").on("click",function(){SSCV.convert()});
+  $("#convert").on("click",SSCV.convert.bind(SSCV));
   $("#copy").on("click",function(){SSCV.copy($("#output").val())});
 })();
