@@ -4,6 +4,7 @@ if (t) {
 }
 else (function(){
   var links = [
+    ["version",'?feedback','_blank'],
     ["feedback",'?feedback','_blank'],
     ["tutorial",'https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md','_blank'],
     ["changelog",'/starblast/mapeditor/changelog.html','_blank'],
@@ -20,6 +21,7 @@ else (function(){
   console.log('%cMap Editor, made by Bhpsngum,\n\nfeel free to distribute the code and make sure to credit my name if you intend to do that\n\nGitHub: https://github.com/Bhpsngum', 'font-weight: bold; font-size: 15px;color: Black;');
   $.ajax("/starblast/mapeditor/changelog.txt").then(function(data){
     data.replace(/\d+\.\d+\.\d+/, function(version) {
+      $("#version").html("Version " + version);
       if (localStorage.getItem("lastVer") != version)
       {
         let info = data.split("\n\n")[0].split("\n");
