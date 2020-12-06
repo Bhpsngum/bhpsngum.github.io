@@ -4,7 +4,7 @@ if (t) {
 }
 else (function(){
   var links = [
-    ["version",'?feedback','_blank'],
+    ["version",'/starblast/mapeditor/changelog.html','_blank'],
     ["feedback",'?feedback','_blank'],
     ["tutorial",'https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md','_blank'],
     ["changelog",'/starblast/mapeditor/changelog.html','_blank'],
