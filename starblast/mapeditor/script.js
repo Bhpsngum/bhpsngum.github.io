@@ -1,4 +1,4 @@
-t = (function(){
+window.t = (function(){
   var StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
@@ -545,9 +545,9 @@ t = (function(){
       },
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
-        for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
-        $("#randomSize").css("border","1px solid");
-        $(`#asc${u}`).css({"border":"3px solid"});
+        for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"0.1vmax solid"});
+        $("#randomSize").css("border","0.1vmax solid");
+        $(`#asc${u}`).css({"border":"0.3vmax solid"});
         for (let i in this.input) this.input[i].val(u);
         this.applyKey("min",u);
         this.applyKey("max",u);
@@ -567,8 +567,8 @@ t = (function(){
       randomSize: function(self_trigger,local)
       {
         this.RandomOptions.css("display","");
-        for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"1px solid"});
-        $("#randomSize").css({"border":"3px solid"});
+        for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"0.1vmax solid"});
+        $("#randomSize").css({"border":"0.3vmax solid"});
         let min = this.changeSize.applySize("min"), max = this.changeSize.applySize("max");
         if (min > max)
         {
@@ -900,8 +900,9 @@ t = (function(){
           codeEditor: ace.edit("code",{
             mode:"ace/mode/javascript",
             theme:"ace/theme/monokai",
-            tabSize:2,
-            useSoftTabs: true
+            tabSize: 2,
+            useSoftTabs: true,
+            fontSize: "1.2vmax"
           }),
           current: 0,
           editIndex: null,
@@ -947,8 +948,8 @@ t = (function(){
             this.editIndex = i;
             this.chosenIndex = i;
             localStorage.setItem("brushIndex",i);
-            for (let j=0;j<this.list.length;j++) $("#brush"+j).css("border-width","1px");
-            $("#brush"+i).css("border-width","3px");
+            for (let j=0;j<this.list.length;j++) $("#brush"+j).css("border-width","0.1vmax");
+            $("#brush"+i).css("border-width","0.3vmax");
             $("#removeBrush").prop("disabled",this.chosenIndex<=this.defaultIndex);
             let t = this.getById(i);
             this.current = (t.error)?0:t.drawer;
@@ -1046,7 +1047,7 @@ t = (function(){
             "padding-top": (this.main.height()+5)+"px",
             "padding-bottom": $("#footer").height()+"px"
           });
-          $("#info").css("width",($("#footer").width()-$("#XY").width()-10)+"px")
+          try{$("#info").css("width",($("#footer").width()-$("#XY").width()-10/detectZoom.device())+"px")}catch(e){}
         },
         set: function(index) {
           for (let i=0;i<this.modules.length;i++) {
@@ -1057,7 +1058,7 @@ t = (function(){
           }
           index = Math.max(Math.min(this.modules.length-1,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
           this.chosenIndex = index;
-          $("#menu"+index).css({"border-width":"2pt","border-bottom-color":StarblastMap.background.color});
+          $("#menu"+index).css({"border-width":"0.2vmax","border-bottom-color":StarblastMap.background.color});
           $("#container"+index).css("display","");
         }
       },
@@ -1173,7 +1174,7 @@ t = (function(){
     StarblastMap.background.checkAlpha();
   }
   if (!StarblastMap.Engine.supportClipboardAPI) {
-    $("#main").append("<p style='font-size:10pt'>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
+    $("#main").append("<p>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
     $("#copyImage").remove();
     StarblastMap.Engine.copyToClipboard = function(blob) {
       if (blob.type == "text/plain") {
@@ -1199,7 +1200,7 @@ t = (function(){
   StarblastMap.border.check(!0);
   StarblastMap.background.checkGlobal(!0);
   StarblastMap.Asteroids.template.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPrZQJDoUgDAWpZ9H7H0juwvfVRz/EBbWdxLAkTroA6Y5Syrp9YOXWkInjAUrmfeUEMo2r51GUwtHgj1eRZY4dIrJw2gOZxvIei/6yhi+Zq9RS5oa3CVmFQTJFImUAwsJ5BDmqKQaEOFun58sFaon0HeixiUhZM6y3JaSG7dUzITfd9ewihLQRf+Lw2lRY5OGr06Y7BFLt3x+stZufoQQ8EKX0A+4x7+epxEovAAAAAElFTkSuQmCC";
-  $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
+  $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}" class="as"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
   try {
     let mr = ["h","v"],mdesc = ["horizontal","vertical"];
     $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table id='mirrorChoose'><tr>"+mr.map((i,j) => `<td id="mr-${i}"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td id="almr"><i class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
@@ -1419,8 +1420,8 @@ t = (function(){
     let code = StarblastMap.Engine.Brush.drawers.codeEditor.getValue(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
     else {
-      let proc;
-      if (proc = !/((window\.)*(document|localStorage|open|close|location|\$))/g.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?");
+      let proc, test = /((window\.)*(document|localStorage|open|close|location|\$|ResizeSensor|LZString|ace|detectZoom))/g;
+      if (proc = !test.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?\nMatched criteria(s):\n"+code.match(test).join(","));
       if (proc) {
         StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#brushdesc").val(), $("#brushicon").val(), $("#brushauthor").val());
         StarblastMap.Engine.Brush.drawers.showCode(0);

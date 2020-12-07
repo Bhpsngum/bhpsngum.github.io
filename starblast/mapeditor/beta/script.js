@@ -1421,7 +1421,7 @@ window.t = (function(){
     if (p.error) alert(p.error);
     else {
       let proc, test = /((window\.)*(document|localStorage|open|close|location|\$|ResizeSensor|LZString|ace|detectZoom))/g;
-      if (proc = !test.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?\nMatched criteria(s):\n"+code.match(test).join(""));
+      if (proc = !test.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?\nMatched criteria(s):\n"+code.match(test).join(","));
       if (proc) {
         StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#brushdesc").val(), $("#brushicon").val(), $("#brushauthor").val());
         StarblastMap.Engine.Brush.drawers.showCode(0);
