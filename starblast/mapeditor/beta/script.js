@@ -545,9 +545,9 @@ t = (function(){
       },
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
-        for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"0.1vw solid"});
-        $("#randomSize").css("border","0.1vw solid");
-        $(`#asc${u}`).css({"border":"0.3vw solid"});
+        for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"0.1vmax solid"});
+        $("#randomSize").css("border","0.1vmax solid");
+        $(`#asc${u}`).css({"border":"0.3vmax solid"});
         for (let i in this.input) this.input[i].val(u);
         this.applyKey("min",u);
         this.applyKey("max",u);
@@ -567,8 +567,8 @@ t = (function(){
       randomSize: function(self_trigger,local)
       {
         this.RandomOptions.css("display","");
-        for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"0.1vw solid"});
-        $("#randomSize").css({"border":"0.3vw solid"});
+        for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"0.1vmax solid"});
+        $("#randomSize").css({"border":"0.3vmax solid"});
         let min = this.changeSize.applySize("min"), max = this.changeSize.applySize("max");
         if (min > max)
         {
@@ -902,7 +902,7 @@ t = (function(){
             theme:"ace/theme/monokai",
             tabSize: 2,
             useSoftTabs: true,
-            fontSize: "1vw"
+            fontSize: "1vmax"
           }),
           current: 0,
           editIndex: null,
@@ -948,8 +948,8 @@ t = (function(){
             this.editIndex = i;
             this.chosenIndex = i;
             localStorage.setItem("brushIndex",i);
-            for (let j=0;j<this.list.length;j++) $("#brush"+j).css("border-width","0.1vw");
-            $("#brush"+i).css("border-width","0.3vw");
+            for (let j=0;j<this.list.length;j++) $("#brush"+j).css("border-width","0.1vmax");
+            $("#brush"+i).css("border-width","0.3vmax");
             $("#removeBrush").prop("disabled",this.chosenIndex<=this.defaultIndex);
             let t = this.getById(i);
             this.current = (t.error)?0:t.drawer;
@@ -1058,7 +1058,7 @@ t = (function(){
           }
           index = Math.max(Math.min(this.modules.length-1,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
           this.chosenIndex = index;
-          $("#menu"+index).css({"border-width":"0.2vw","border-bottom-color":StarblastMap.background.color});
+          $("#menu"+index).css({"border-width":"0.2vmax","border-bottom-color":StarblastMap.background.color});
           $("#container"+index).css("display","");
         }
       },

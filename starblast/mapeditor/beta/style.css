@@ -1,5 +1,5 @@
 * {
-  font-size: 1.2vw
+  font-size: 1.2vmax
 }
 *:not([class*=ace]) {
   font-family: Verdana;
@@ -14,28 +14,28 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  padding: 0.5vw;
+  padding: 0.5vmax;
 }
 button, input, textarea {
-  border-width: 0.1vw;
+  border-width: 0.1vmax;
 }
 button,input {
   color: inherit;
-  margin: 0.3vw;
+  margin: 0.3vmax;
   border-color: #575757;
   background-color:inherit;
 }
 button {
-  width: 3.5vw;
-  height: 3.5vw;
+  width: 3.5vmax;
+  height: 3.5vmax;
   cursor: pointer;
 }
 table {
-  border-spacing: 0.2vw;
+  border-spacing: 0.2vmax;
 }
 input {
-  width:6.5vw;
-  font-size: 1.2vw;
+  width:6.5vmax;
+  font-size: 1.2vmax;
 }
 #footer {
   background-color: inherit;
@@ -52,9 +52,9 @@ input {
   text-align: right;
 }
 #footer, #footer>* {
-  padding: 0.2vw;
+  padding: 0.2vmax;
   margin: 0;
-  font-size: 1.2vw;
+  font-size: 1.2vmax;
 }
 input[type=file], input[type=checkbox] {
   display: none;
@@ -66,13 +66,13 @@ input[type=file], input[type=checkbox] {
   overflow:hidden;
 }
 input[type=number] {
-  width: 4vw;
+  width: 4vmax;
 }
 td {
-  height:3.5vw;
-  width:3.5vw;
+  height:3.5vmax;
+  width:3.5vmax;
   text-align:center;
-  border: 0.1vw solid;
+  border: 0.1vmax solid;
   border-color:inherit;
   cursor: pointer;
 }
@@ -86,14 +86,14 @@ button:disabled, textarea:read-only, input:read-only {
 }
 
 #modules>tbody>tr>td, #short-main>table>tbody>tr>td {
-  padding: 0.5vw;
-  height: 0.15vw;
-  font-size: 1.2vw;
+  padding: 0.5vmax;
+  height: 0.15vmax;
+  font-size: 1.2vmax;
 }
 
 .container {
-  margin-top: -0.3vw;
-  border-width: 0.1vw;
+  margin-top: -0.3vmax;
+  border-width: 0.1vmax;
   border-style: solid;
 }
 
@@ -125,8 +125,8 @@ textarea,#code {
   height:35%;
 }
 .fas {
-  font-size: 1.5vw;
+  font-size: 1.5vmax;
 }
 .as {
-  width: 3vw;
+  width: 3vmax;
 }
