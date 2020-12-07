@@ -1047,7 +1047,7 @@ t = (function(){
             "padding-top": (this.main.height()+5)+"px",
             "padding-bottom": $("#footer").height()+"px"
           });
-          $("#info").css("width",($("#footer").width()-$("#XY").width()-10)+"px")
+          try{$("#info").css("width",($("#footer").width()-$("#XY").width()-10*detectZoom.device())+"px")}catch(e){}
         },
         set: function(index) {
           for (let i=0;i<this.modules.length;i++) {
