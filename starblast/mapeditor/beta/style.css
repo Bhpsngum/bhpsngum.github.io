@@ -1,3 +1,6 @@
+* {
+  font-size: 1.2vw
+}
 *:not([class*=ace]) {
   font-family: Verdana;
 }
@@ -26,6 +29,7 @@ button {
 }
 input {
   width:6.5vw;
+  font-size: 1.2vw;
 }
 #footer {
   background-color: inherit;
@@ -113,9 +117,6 @@ textarea,#code {
   resize: vertical;
   width:98%;
   height:35%;
-}
-.title {
-  font-size: 1.2vw;
 }
 .fas {
   font-size: 1.5vw;

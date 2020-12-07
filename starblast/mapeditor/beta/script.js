@@ -900,8 +900,9 @@ t = (function(){
           codeEditor: ace.edit("code",{
             mode:"ace/mode/javascript",
             theme:"ace/theme/monokai",
-            tabSize:2,
-            useSoftTabs: true
+            tabSize: 2,
+            useSoftTabs: true,
+            fontSize: "1vw"
           }),
           current: 0,
           editIndex: null,
@@ -1173,7 +1174,7 @@ t = (function(){
     StarblastMap.background.checkAlpha();
   }
   if (!StarblastMap.Engine.supportClipboardAPI) {
-    $("#main").append("<p class='title'>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
+    $("#main").append("<p>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
     $("#copyImage").remove();
     StarblastMap.Engine.copyToClipboard = function(blob) {
       if (blob.type == "text/plain") {
