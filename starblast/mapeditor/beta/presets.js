@@ -30,4 +30,5 @@ else (function(){
       }
     });
   }).fail(e => {});
+  $("input, textarea").attr("spellcheck", false);
 })();
