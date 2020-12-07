@@ -902,7 +902,6 @@ t = (function(){
             theme:"ace/theme/monokai",
             tabSize: 2,
             useSoftTabs: true,
-            fontSize: "1vmax"
           }),
           current: 0,
           editIndex: null,
@@ -1047,7 +1046,6 @@ t = (function(){
             "padding-top": (this.main.height()+5)+"px",
             "padding-bottom": $("#footer").height()+"px"
           });
-          $("#info").css("width",($("#footer").width()-$("#XY").width()-10)+"px")
         },
         set: function(index) {
           for (let i=0;i<this.modules.length;i++) {
@@ -1239,12 +1237,7 @@ t = (function(){
     StarblastMap.info(!0)();
     StarblastMap.Engine.Trail.state=1
   });
-  try {
-    let t = StarblastMap.Engine.menu.checkScale.bind(StarblastMap.Engine.menu);
-    new ResizeSensor(StarblastMap.Engine.menu.main[0], t);
-    new ResizeSensor($("#footer")[0], t);
-  }
-  catch(e){}
+  new ResizeSensor(StarblastMap.Engine.menu.main[0], StarblastMap.Engine.menu.checkScale.bind(StarblastMap.Engine.menu));
   StarblastMap.background.upload.on("change", function(e){
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];
