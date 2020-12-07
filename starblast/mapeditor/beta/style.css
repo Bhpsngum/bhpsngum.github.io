@@ -16,6 +16,9 @@ body {
   left: 0;
   padding: 0.5vw;
 }
+button, input, textarea {
+  border-width: 0.1vw;
+}
 button,input {
   color: inherit;
   margin: 0.3vw;
