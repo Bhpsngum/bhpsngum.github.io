@@ -9,30 +9,30 @@ body {
   width:100%;
   background-color:inherit;
   position: fixed;
-  top:0px;
-  left:0px;
-  padding:5px;
+  top: 0;
+  left: 0;
+  padding: 0.5vw;
 }
 button,input {
   color: inherit;
-  margin:3px;
+  margin: 0.3vw;
   border-color: #575757;
   background-color:inherit;
 }
 button {
-  width: 34px;
-  height: 34px;
+  width: 3.5vw;
+  height: 3.5vw;
   cursor: pointer;
 }
 input {
-  width:65px;
+  width:6.5vw;
 }
 #footer {
   background-color: inherit;
   position: fixed;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 #XY {
   float: left;
@@ -42,9 +42,9 @@ input {
   text-align: right;
 }
 #footer, #footer>* {
-  padding: 2px;
-  margin: 0px;
-  font-size:10pt;
+  padding: 0.2vw;
+  margin: 0;
+  font-size: 1vw;
 }
 input[type=file], input[type=checkbox] {
   display: none;
@@ -56,13 +56,13 @@ input[type=file], input[type=checkbox] {
   overflow:hidden;
 }
 input[type=number] {
-  width: 40px;
+  width: 4vw;
 }
 td {
-  height:35px;
-  width:35px;
+  height:3.5vw;
+  width:3.5vw;
   text-align:center;
-  border: 1pt solid;
+  border: 0.1vw solid;
   border-color:inherit;
   cursor: pointer;
 }
@@ -76,14 +76,14 @@ button:disabled, textarea:read-only, input:read-only {
 }
 
 #modules>tbody>tr>td, #short-main>table>tbody>tr>td {
-  padding: 2pt;
-  height: 15pt;
-  font-size: 9pt;
+  padding: 0.2vw;
+  height: 0.15vw;
+  font-size: 0.9vw;
 }
 
 .container {
-  margin-top: -2.5pt;
-  border-width: 1pt;
+  margin-top: -0.25vw;
+  border-width: 0.1vw;
   border-style: solid;
 }
 
@@ -113,4 +113,7 @@ textarea,#code {
   resize: vertical;
   width:98%;
   height:35%;
+}
+.title {
+  font-size: 1vw;
 }
