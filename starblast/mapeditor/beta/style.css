@@ -19,6 +19,11 @@ body {
 button, input, textarea {
   border-width: 0.1vmax;
 }
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
 button,input {
   color: inherit;
   margin: 0.3vmax;
@@ -36,6 +41,7 @@ table {
 input {
   width:6.5vmax;
   font-size: 1.2vmax;
+  padding: 0.1vmax;
 }
 #footer {
   background-color: inherit;
@@ -67,6 +73,7 @@ input[type=file], input[type=checkbox] {
 }
 input[type=number] {
   width: 4vmax;
+  -moz-appearance: textfield;
 }
 td {
   height:3.5vmax;
