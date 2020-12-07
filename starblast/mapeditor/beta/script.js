@@ -1,4 +1,8 @@
 t = (function(){
+  // Copying the varibales used in order not to break the tool when using Brush API
+  let usedVariables = ["$","ResizeSensor","detectZoom","LZString","ace"];
+  eval("var "+usedVariables.map(i => `${i} = window['${i}']`).join(","));
+  // Main tool
   var StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
