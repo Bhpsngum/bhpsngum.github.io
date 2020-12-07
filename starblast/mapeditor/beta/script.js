@@ -1,7 +1,19 @@
 t = (function(){
   // Copying the varibales used in order not to break the tool when using Brush API
+  // Using lodash and a litte trick
+  let clone = function(value) {
+    switch (true) {
+      case value instanceof Function:
+        return eval(`(${value.toString()})`);
+    }
+  }
   let usedVariables = ["$","ResizeSensor","detectZoom","LZString","ace"];
-  eval("var "+usedVariables.map(i => `${i} = window['${i}']`).join(","));
+  for (let i of usedVariables) eval(`
+    var ${i} = window['${i}'];
+    Object.assign(${i},_.cloneDeepWith(${i},clone));
+  `);
+  // Thanks lodash, now you can rest in peace :D
+  delete window._;
   // Main tool
   var StarblastMap = {
     map: $("#map")[0],
