@@ -44,7 +44,7 @@ input {
 #footer, #footer>* {
   padding: 0.2vw;
   margin: 0;
-  font-size: 1vw;
+  font-size: 1.2vw;
 }
 input[type=file], input[type=checkbox] {
   display: none;
@@ -76,13 +76,13 @@ button:disabled, textarea:read-only, input:read-only {
 }
 
 #modules>tbody>tr>td, #short-main>table>tbody>tr>td {
-  padding: 0.2vw;
+  padding: 0.5vw;
   height: 0.15vw;
-  font-size: 0.9vw;
+  font-size: 1.2vw;
 }
 
 .container {
-  margin-top: -0.25vw;
+  margin-top: -0.3vw;
   border-width: 0.1vw;
   border-style: solid;
 }
@@ -115,5 +115,8 @@ textarea,#code {
   height:35%;
 }
 .title {
-  font-size: 1vw;
+  font-size: 1.2vw;
+}
+.fas {
+  font-size: 1.5vw;
 }
