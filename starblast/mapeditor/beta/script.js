@@ -13,7 +13,7 @@ t = (function(){
     Object.assign(${i},_.cloneDeepWith(${i},clone));
   `);
   // Thanks lodash, now you can rest in peace :D
-  delete window._;
+  //delete window._;
   // Main tool
   var StarblastMap = {
     map: $("#map")[0],
