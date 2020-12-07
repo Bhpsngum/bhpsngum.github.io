@@ -18,6 +18,7 @@ body {
 }
 button, input, textarea {
   border-width: 0.1vmax;
+  padding: 0.1vmax;
 }
 
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
@@ -41,7 +42,6 @@ table {
 input {
   width:6.5vmax;
   font-size: 1.2vmax;
-  padding: 0.1vmax;
 }
 #footer {
   background-color: inherit;
