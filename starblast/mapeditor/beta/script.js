@@ -902,7 +902,7 @@ t = (function(){
             theme:"ace/theme/monokai",
             tabSize: 2,
             useSoftTabs: true,
-            fontSize: "1.2vmax";
+            fontSize: "1.2vmax"
           }),
           current: 0,
           editIndex: null,
