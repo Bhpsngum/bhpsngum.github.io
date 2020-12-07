@@ -1,20 +1,4 @@
-t = (function(){
-  // Copying the varibales used in order not to break the tool when using Brush API
-  // Using lodash and a litte trick
-  let clone = function(value) {
-    switch (true) {
-      case value instanceof Function:
-        return eval(`(${value.toString()})`);
-    }
-  }
-  let usedVariables = ["$","ResizeSensor","detectZoom","LZString","ace"];
-  for (let i of usedVariables) eval(`
-    var ${i} = window['${i}'];
-    Object.assign(${i},_.cloneDeepWith(${i},clone));
-  `);
-  // Thanks lodash, now you can rest in peace :D
-  //delete window._;
-  // Main tool
+window.t = (function(){
   var StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
@@ -1436,8 +1420,8 @@ t = (function(){
     let code = StarblastMap.Engine.Brush.drawers.codeEditor.getValue(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
     else {
-      let proc;
-      if (proc = !/((window\.)*(document|localStorage|open|close|location|\$))/g.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?");
+      let proc, test = /((window\.)*(document|localStorage|open|close|location|\$|ResizeSensor|LZString|ace|detectZoom))/g;
+      if (proc = !test.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?\nMatched criteria(s):\n"+code.match(test).join(""));
       if (proc) {
         StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#brushdesc").val(), $("#brushicon").val(), $("#brushauthor").val());
         StarblastMap.Engine.Brush.drawers.showCode(0);
