@@ -30,6 +30,9 @@ button {
   height: 3.5vw;
   cursor: pointer;
 }
+table {
+  border-spacing: 0.2 vw;
+}
 input {
   width:6.5vw;
   font-size: 1.2vw;
