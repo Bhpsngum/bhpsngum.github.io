@@ -1,4 +1,4 @@
-if (t) {
+if (window.t) {
   $('html').html(`<head><title>Redirecting...</title></head><body style="font-family:Verdana">Redirecting, please wait...<br> Click <a href="${t}">here</a> if your browser does not redirect you automatically.</body>`);
   window.open(t,"_self");
 }
