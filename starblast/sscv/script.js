@@ -78,7 +78,7 @@
         }
       ],
       set: function() {
-        $("#types").html("<option disabled>Select conversion type</option>"+this.list.map(i => `<option>${i.name}</option>`).join(""));
+        $("#types").html("<option selected disabled>Select conversion type</option>"+this.list.map(i => `<option>${i.name}</option>`).join(""));
         this.choose();
       },
       choose: function() {
