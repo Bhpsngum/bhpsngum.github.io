@@ -562,5 +562,65 @@
     ],
     "official": 0,
     "event": 0
+  },
+  {
+    "name": "In-game Map Editor",
+    "abbreviation": "",
+    "version": "",
+    "description": "",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://pastebin.com/yKUsardk",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Uranus","UranusOrbiter"],
+        "link": "https://bitbucket.org/strutinsky5386"
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
+    "name": "Football Mod",
+    "abbreviation": "",
+    "version": "",
+    "description": "",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://pastebin.com/9rfN2QKi",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Uranus","UranusOrbiter"],
+        "link": "https://bitbucket.org/strutinsky5386"
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
+    "name": "Safe Zones Mod",
+    "abbreviation": "",
+    "version": "",
+    "description": "",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://github.com/Bhpsngum/starblast/blob/master/mods/safeZones.js",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Bhpsngum"],
+        "link": "https://github.com/Bhpsngum/"
+      }
+    ],
+    "official": 0,
+    "event": 0
   }
 ]
