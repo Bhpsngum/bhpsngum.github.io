@@ -374,7 +374,7 @@
   {
     "name": "Starfleet",
     "abbreviation": "",
-    "version": "3.0",
+    "version": "3.2.1",
     "description": "Basically a Star Wars mod. CC meta.",
     "modes": "Varies",
     "img": "img/Starfleet.png",
@@ -567,7 +567,7 @@
     "name": "In-game Map Editor",
     "abbreviation": "",
     "version": "",
-    "description": "",
+    "description": "In-game map editor! Make maps in Starblast, for Starblast!\nHere's a quick tutorial: write authorize(<ship index>) in the console to be able to edit your map, then use buttons x and e to do stuff",
     "modes": "",
     "img": "",
     "link": {
