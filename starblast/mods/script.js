@@ -74,11 +74,17 @@
     window.history.pushState({path:domain},'',domain);
     fetch();
   }
+  function encodeHTML(str) {
+    return str.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;").replace(/\[(.+)\]\((.+)\)/g,"<a href='$2' target='_blank'>$1</a>");
+  }
   function processData(mods, Aqua, response)
   {
     if (Array.isArray(mods))
     {
       try {
+        mods.forEach(function(mod) {
+          for (let i in mod) typeof mod[i] == "string" && mod[i] = encodeHTML(mod[i]);
+        });
         modsinfo = mods;
         localStorage.setItem("modsinfo",JSON.stringify(mods));
         $("#modsinfo").html("");
