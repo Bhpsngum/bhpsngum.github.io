@@ -83,7 +83,8 @@
     {
       try {
         mods.forEach(function(mod) {
-          for (let i in mod) (typeof mod[i] == "string") && mod[i] = encodeHTML(mod[i]);
+          for (let i in mod)
+            if (typeof mod[i] == "string") mod[i] = encodeHTML(mod[i]);
         });
         modsinfo = mods;
         localStorage.setItem("modsinfo",JSON.stringify(mods));
