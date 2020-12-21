@@ -1,6 +1,18 @@
 [
   {
     "id": "MapEditorFeedback",
-    "url": "https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link"
+    "url": "https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform"
+  },
+  {
+    "id": "SETFeedback",
+    "url": "https://docs.google.com/forms/d/e/1FAIpQLSf9CpBf3y2-xB3IdhktvYOWgUJB_cgUuaFPUH3UxonHs64pyQ/viewform"
+  },
+  {
+    "id": "SET_Translate",
+    "url": "https://docs.google.com/spreadsheets/d/1IZlrb7kOPK04CqrbIQctfAPoz9qZRkkZzFqj5nIGTaU/edit"
+  },
+  {
+    "id": "ModsArchiveSuggestion",
+    "url": "https://docs.google.com/forms/d/e/1FAIpQLSffBeH_dakpXfUgQqJZG6ePiM6hH7AqfeuKEQUKu0jlYirnTQ/viewform"
   }
 ]

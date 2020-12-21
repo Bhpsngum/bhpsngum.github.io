@@ -1143,8 +1143,6 @@ window.t = (function(){
         }
         else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error);
         break;
-      case "feedback":
-        return "https://docs.google.com/forms/d/e/1FAIpQLSe-NQ8QTj0bnX65LMT8NbO9ppEYRtgQ1Fa3AwJX-GfTFHUQSw/viewform?usp=sf_link";
       default:
         if (error = !confirm("You are using the old map permalink\nWould you like to go to the new one?"), !error) return '?map='+query[0];
     }
