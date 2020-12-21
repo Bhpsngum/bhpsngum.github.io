@@ -333,7 +333,6 @@ window.t = (function(){
           }
           break;
       }
-      console.log(map);
       fail = !map.length || (map.length < 20 && map.length > 200);
       if (!fail && type.includes("url")) {
         let len = map.map(i => i.length);
