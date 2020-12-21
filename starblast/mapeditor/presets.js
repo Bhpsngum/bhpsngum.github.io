@@ -5,10 +5,10 @@ if (window.t) {
 else (function(){
   var links = [
     ["version",'/starblast/mapeditor/changelog.html','_blank'],
-    ["feedback",'?feedback','_blank'],
+    ["feedback",'/redirect?id=MapEditorFeedback','_blank'],
     ["tutorial",'https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md','_blank'],
     ["changelog",'/starblast/mapeditor/changelog.html','_blank'],
-    ["advanceddoc","https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md#custom-brush"]
+    ["advanceddoc","https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md#custom-brush",'_blank']
   ]
   for (let link of links) $("#"+link[0]).on("click",function(){
     window.open(link[1],link[2]);
