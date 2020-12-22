@@ -15,17 +15,24 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            let s = data.typespec, wikitext;
-            wikitext = `{{Ship-Infobox
+            let s = data.typespec, t = function(arr) {
+              if (!Array.isArray(arr)) return arr;
+              let i=0;
+              while (i<arr.length) {
+                if (arr.indexOf(arr[i])<i) arr.splice(i,1);
+                else i++
+              }
+              return arr.join("/");
+            }, wikitext = `{{Ship-Infobox
 |name=${s.name||""}
 |image=${(s.name||"").replace(/\s/g,"_")}.png
-|shieldc=${s.specs.shield.capacity.join("/")}
-|shieldr=${s.specs.shield.reload.join("/")}
-|energyc=${s.specs.generator.capacity.join("/")}
-|energyr=${s.specs.generator.reload.join("/")}
-|turning=${s.specs.ship.rotation.join("/")}
-|acceleration=${s.specs.ship.acceleration.join("/")}
-|speed=${s.specs.ship.speed.join("/")}
+|shieldc=${t(s.specs.shield.capacity)}
+|shieldr=${t(s.specs.shield.reload)}
+|energyc=${t(s.specs.generator.capacity)}
+|energyr=${t(s.specs.generator.reload)}
+|turning=${t(s.specs.ship.rotation)}
+|acceleration=${t(s.specs.ship.acceleration)}
+|speed=${t(s.specs.ship.speed)}
 |tier=${s.level||1}
 |mass=${s.specs.ship.mass||0}
 |designer=${data.designer||"Neuronality"}
@@ -51,9 +58,9 @@
             let dash = s.specs.ship.dash;
             if (dash) wikitext+=`{{Cannon
 |type=Dash
-|energy=${dash.energy.join("/")}
-|damage=${dash.energy.join("/")}
-|speed=${dash.burst_speed.join("/")}
+|energy=${t(dash.energy)}
+|damage=${t(dash.energy)}
+|speed=${t(dash.burst_speed)}
 |dual=N/A
 |recoil=N/A
 |frequency=1
@@ -63,9 +70,9 @@
 }}\n\n`;
             wikitext+=lasers.map(laser => `{{Cannon
 |type=${["Stream","Pulse"][(laser.type-1)||0]}
-|energy=${laser.damage.map(lar => ((laser.dual?(lar*2):lar)||0)).join("/")}
-|damage=${laser.damage.join("/")}
-|speed=${laser.speed.join("/")}
+|energy=${t(laser.damage.map(lar => ((laser.dual?(lar*2):lar)||0)))}
+|damage=${t(laser.damage)}
+|speed=${t(laser.speed)}
 |dual=${!!laser.dual}
 |recoil=${laser.recoil||0}
 |frequency=${laser.rate||1}
