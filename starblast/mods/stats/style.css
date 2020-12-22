@@ -29,3 +29,8 @@ img {
 a, a:active, a:hover {
   color: #33A1DE;
 }
+#status {
+  user-select:none;
+  text-align:center;
+  font-size:1.5vw;
+}

@@ -5,6 +5,11 @@
     "prototypes": 1578454316626,
     "racing": 1592486063588
   },
+  created_time = {
+    "useries": 1528459800000,
+    "racing": 1529679300000,
+    "battleroyale": 1511530440000
+  },
   modStatBox = function(stat, count, index, time) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg' onerror="this.src = this.src">`,
     statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>${stat.new?'<b style="color:yellow;float:right">NEW!</b>':""}${!stat.active?'<b style="color:red;float:right">Removed</b>':""}`;
@@ -90,7 +95,7 @@
     if (n < name.length && n >= 0) {
       status.html(name[n]);
       status.prop({
-        style: "user-select:none;text-align:center;font-size:1.5vw;color:"+color[n],
+        style: "color:"+color[n],
         title: "You are viewing "+desc[n]
       });
     }
@@ -111,7 +116,10 @@
             }
           }
         }
-        for (let i of mods) if (removed_time[i.mod_id]) i.date_removed = removed_time[i.mod_id];
+        for (let i of mods) {
+          if (removed_time[i.mod_id]) i.date_removed = removed_time[i.mod_id];
+          i.date_created = created_time[i.mod_id] || i.date_created;
+        }
         setStatus(0);
         if (!init) {
           count();
