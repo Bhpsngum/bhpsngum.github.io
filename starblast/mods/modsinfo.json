@@ -622,5 +622,29 @@
     ],
     "official": 0,
     "event": 0
+  },
+  {
+    "name": "Starblast O.P",
+    "abbreviation": "SBOP",
+    "version": "",
+    "description": "",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://github.com/Bhpsngum/starblast/blob/master/mods/Starblast_OP_(by_TheFish-ProfessorPi31415).js",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["TheFish","ProfessorPi31415"],
+        "link": ""
+      },
+      {
+        "name": ["(featuring Various authors)"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
   }
 ]
