@@ -1,3 +1,6 @@
+3.1.4/Jan 1, 2021
+* New feedback link shortener: "https://bhpsngum.github.io/redirect?id=MapEditorFeedback"
+
 3.1.3/Dec 7, 2020
 * Anti-zooming mechanism: Only the map can be zoomed in/out
 * Added version string in the Tab Menu
@@ -37,7 +40,7 @@ also fixed bugs relating to undo + redo actions
 * Feedback link shortener: "https://bhpsngum.github.io/starblast/mapeditor/?feedback"
 IMPORTANT!
 * There is a slight change in Map Permalink, you'll be asked to redirect to new permalink whenever you use the old permalink.
-This feature will be deprecated soon, so remember to save your new permalink :)
+This feature will be deprecated soon, so remember to save your new one :)
 
 3.0.2/Sep 14, 2020
 * Bug fixed: Weird map history and future when using random asteroid drawer
@@ -45,7 +48,7 @@ This feature will be deprecated soon, so remember to save your new permalink :)
 
 3.0.1/Sep 11, 2020
 * Change copy algorithm + added Copy Map screenshot
-* Added tutorial
+* Added tutorial, visit here: "https://github.com/Bhpsngum/starblast/blob/master/MapEditorTutorial.md"
 * Added changelog page
 
 3.0.0/Sep 9, 2020
