@@ -27,7 +27,7 @@ else (function(){
       {
         let info = data.split("\n\n")[0].split("\n");
         localStorage.setItem("lastVer",version);
-        confirm("What's new ("+version+")\n"+info.slice(1,info.length).join("\n").replace(/\\n/g,"")+"\n\nWould you like to see the full updates?") && $('#changelog').click();
+        confirm("What's new ("+version+")\n"+info.slice(1,info.length).join("\n").replace(/\\n/g,"")+"\n\nWould you like to see full updates?") && $('#changelog').click();
       }
     });
   }).fail(e => {});
