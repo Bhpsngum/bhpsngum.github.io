@@ -19,16 +19,16 @@ else (function(){
   console.log('%c Stop!!', 'font-weight: bold; font-size: 100px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38)');
   console.log('%cYou are accessing the Web Developing Area.\n\nPlease do not write/copy/paste/run any scripts here (unless you know what you\'re doing) to better protect yourself from loosing your map data, and even your other sensitive data.\n\nWe will not be responsible for any problems if you do not follow the warnings.', 'font-weight: bold; font-size: 15px;color: grey;');
   console.log('%cMap Editor, made by Bhpsngum,\n\nfeel free to distribute the code and make sure to credit my name if you intend to do that\n\nGitHub: https://github.com/Bhpsngum', 'font-weight: bold; font-size: 15px;color: Black;');
+  $("input, textarea").attr("spellcheck", false);
   $.ajax("/starblast/mapeditor/changelog.txt").then(function(data){
     data.replace(/\d+\.\d+\.\d+/, function(version) {
       $("#version").html("Version " + version);
       if (localStorage.getItem("lastVer") != version)
       {
         let info = data.split("\n\n")[0].split("\n");
-        alert("What's new ("+version+")\n"+info.slice(1,info.length).join("\n").replace(/\\n/g,""));
         localStorage.setItem("lastVer",version);
+        confirm("What's new ("+version+")\n"+info.slice(1,info.length).join("\n").replace(/\\n/g,"")+"\n\nWould you like to see the full updates?") && $('#changelog').click();
       }
     });
   }).fail(e => {});
-  $("input, textarea").attr("spellcheck", false);
 })();
