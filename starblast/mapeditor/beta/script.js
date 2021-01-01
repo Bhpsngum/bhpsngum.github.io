@@ -1260,7 +1260,7 @@ window.t = (function(){
     StarblastMap.background.check(prompt("Paste your image link here"));
   });
   StarblastMap.background.clear.on("click",function(){
-    StarblastMap.background.check(null,1);
+    confirm("Would you like to remove your background image?") && StarblastMap.background.check(null,1);
   });
   $("#bgI-global").on("change",function(){StarblastMap.background.checkGlobal()});
   $("#bgI-allowExport").on("change",function(){StarblastMap.background.checkExport()});
