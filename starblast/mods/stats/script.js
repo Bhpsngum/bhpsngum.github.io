@@ -124,7 +124,7 @@
         if (!init) {
           count();
           $("#welcome-text").remove();
-          setInterval(count, 500);
+          setInterval(count, 1000);
           init = !0;
         }
       }).fail(e => setStatus(1));
