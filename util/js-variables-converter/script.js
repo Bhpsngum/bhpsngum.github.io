@@ -72,7 +72,7 @@ function process()
         {
           erinf=e.message;
         }
-      $("#error").html(erinf);
+      $("#error").html(erinf||"Unknown reason");
       $("#warning").css("display","none");
     }
     $("#output").val(checked.name);
