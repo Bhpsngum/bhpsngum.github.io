@@ -1,13 +1,11 @@
 (function(){
   var SSCV = {
-    compile: function(data) {
-      return data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3").replace(/\\+/g,function(v){return v.slice(1,v.length)});
-    },
     types: {
       list: [
         {
           name: "Ship Editor code",
           parse: function(data) {
+            data = data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3").replace(/\\+/g,function(v){return v.slice(1,v.length)});
             let result;
             try {
               let ship = JSON.parse(data);
@@ -23,7 +21,7 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            data = eval("(function(){return "+data+"})();");
+            data = eval("(function(){return "+data.replace(/^(\r|\n\|\s)+/g,"").replace(/^(var|let|const)/,"")+"})();");
             let s = data.typespec, t = function(arr) {
               if (!Array.isArray(arr)) return arr;
               let i=0;
@@ -111,7 +109,7 @@
     },
     convert: function (forced) {
       let json = $("#input").val() || localStorage.getItem("json-input"), results;
-      try {results = this.types.list[this.types.choose() - 1].parse(this.compile(json))}
+      try {results = this.types.list[this.types.choose() - 1].parse(json)}
       catch(e){
         if (forced) {
           json = "Ship Mod Export code"
