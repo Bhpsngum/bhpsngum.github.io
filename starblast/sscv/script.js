@@ -21,7 +21,7 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            data = eval("(function(){return "+data.replace(/^(\r|\n\|\s)+/g,"").replace(/^(var|let|const)/,"")+"})();");
+            data = eval("(function(){return "+data.replace(/^(\r|\n\|\s)+/g,"").replace(/^(var|let|const)/,"").replace(/\\/g,"\\\\")+"})();");
             let s = data.typespec, t = function(arr) {
               if (!Array.isArray(arr)) return arr;
               let i=0;
