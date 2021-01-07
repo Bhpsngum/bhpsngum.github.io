@@ -23,7 +23,7 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            kl = data;data = eval(data);
+            data = eval("(function(){"+data+"})();");
             let s = data.typespec, t = function(arr) {
               if (!Array.isArray(arr)) return arr;
               let i=0;
