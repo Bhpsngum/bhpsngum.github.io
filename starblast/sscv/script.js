@@ -1,7 +1,7 @@
 (function(){
   var SSCV = {
     compile: function(data) {
-      return data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3");
+      return data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3").replace(/\\+/g,function(v){return v.slice(1,v.length)});
     },
     types: {
       list: [
@@ -15,7 +15,7 @@
               result = "return "+js2coffee.build("model="+JSON.stringify(ship)).code;
             }
             catch(e) {
-              result = js2coffee.build(data.replace(/\\+/g,function(v){return v.slice(1,v.length)})).code.replace(/^\(\-\>\n*/,"").replace(/\n*\)\.call\sthis\n*$/,"").replace(/\n*\s*\w+\s*=\s*undefined/g,"").replace(/(\n\s+)/g,function(v){return v.slice(0,v.length-2)}).replace(/_this\s*=\s*this/,"").trim().replace(/(model$|^model)/,"return $1").replace(/\(\n\s+/g,"(").replace(/\n\s+\)/g,")");
+              result = js2coffee.build(data).code.replace(/^\(\-\>\n*/,"").replace(/\n*\)\.call\sthis\n*$/,"").replace(/\n*\s*\w+\s*=\s*undefined/g,"").replace(/(\n\s+)/g,function(v){return v.slice(0,v.length-2)}).replace(/_this\s*=\s*this/,"").trim().replace(/(model$|^model)/,"return $1").replace(/\(\n\s+/g,"(").replace(/\n\s+\)/g,")");
             }
             return result.replace(/\n+\s+(?=[^[\]]*\])/g, ",").replace(/\[,/g, "[").replace(/,\]/g, "]").replace(/'(\w+)':/g, "$1:");
           }
@@ -23,7 +23,7 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            ghps = data;data = eval(data);
+            data = eval(data);
             let s = data.typespec, t = function(arr) {
               if (!Array.isArray(arr)) return arr;
               let i=0;
