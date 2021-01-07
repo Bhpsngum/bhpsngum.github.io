@@ -23,7 +23,7 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            data = eval(data);
+            data = eval(data);console.log(data);
             let s = data.typespec, t = function(arr) {
               if (!Array.isArray(arr)) return arr;
               let i=0;
@@ -113,9 +113,8 @@
       let json = $("#input").val() || localStorage.getItem("json-input"), results;
       try {results = this.types.list[this.types.choose() - 1].parse(this.compile(json))}
       catch(e){
-        console.log(e);
         if (forced) {
-          json = "(JSON) Ship Mod Export code"
+          json = "Ship Mod Export code"
           results = "Output";
         }
         else {
@@ -141,6 +140,6 @@
   }
   SSCV.types.set();
   SSCV.convert(!0);
-  $("#convert").on("click",SSCV.convert.bind(SSCV));
+  $("#convert").on("click",function(){SSCV.convert()});
   $("#copy").on("click",function(){SSCV.copy($("#output").val())});
 })();
