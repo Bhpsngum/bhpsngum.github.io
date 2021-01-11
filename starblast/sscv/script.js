@@ -21,7 +21,7 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            let s = JSON.parse(eval("(function(){return "+data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3")+"})();")) || {}, x = s.typespec || {}, t = function(first,...props) {
+            let s = JSON.parse(eval(jhk = "(function(){return "+data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3")+"})();")) || {}, x = s.typespec || {}, t = function(first,...props) {
               try {
                 let arr = a(first,...props);
                 if (!Array.isArray(arr)) return "N/A";
