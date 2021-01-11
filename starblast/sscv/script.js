@@ -1,14 +1,13 @@
 (function(){
   var SSCV = {
     compile: function(data) {
-      return data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3");
+      return data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3").replace(/\\+/g,function(v){return v.slice(1,v.length)});
     },
     types: {
       list: [
         {
           name: "Ship Editor code",
           parse: function(data) {
-            data = data.replace(/\\+/g,function(v){return v.slice(1,v.length)});
             let result;
             try {
               let ship = JSON.parse(data);
@@ -24,7 +23,7 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            let s = eval(ghk="(function(){return "+data+"})();") || {}, x = s.typespec || {}, t = function(first,...props) {
+            let s = eval("(function(){return "+data+"})();") || {}, x = s.typespec || {}, t = function(first,...props) {
               try {
                 let arr = a(first,...props);
                 if (!Array.isArray(arr)) return "N/A";
