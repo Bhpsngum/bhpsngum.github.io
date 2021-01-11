@@ -80,7 +80,7 @@
             if (dash) wikitext+=`{{Cannon
 |type=Dash
 |energy=${t(dash,"energy")}
-|damage=${t(dash,"energy")
+|damage=${t(dash,"energy")}
 |speed=${t(dash,"burst_speed")}
 |dual=N/A
 |recoil=N/A
