@@ -1,11 +1,14 @@
 (function(){
   var SSCV = {
+    compile: function(data) {
+      data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3");
+    },
     types: {
       list: [
         {
           name: "Ship Editor code",
           parse: function(data) {
-            data = data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3").replace(/\\+/g,function(v){return v.slice(1,v.length)});
+            data = data.replace(/\\+/g,function(v){return v.slice(1,v.length)});
             let result;
             try {
               let ship = JSON.parse(data);
@@ -21,7 +24,7 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            let s = JSON.parse(eval("(function(){return "+data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"'$3'").replace(/\\+/g,function(v){return v.slice(1,v.length)})+"})();")) || {}, x = s.typespec || {}, t = function(first,...props) {
+            let s = eval("(function(){return "+data+"})();") || {}, x = s.typespec || {}, t = function(first,...props) {
               try {
                 let arr = a(first,...props);
                 if (!Array.isArray(arr)) return "N/A";
@@ -124,7 +127,7 @@
     },
     convert: function (forced) {
       let json = $("#input").val() || localStorage.getItem("json-input"), results;
-      try {results = this.types.list[this.types.choose() - 1].parse(json)}
+      try {results = this.types.list[this.types.choose() - 1].parse(this.compile(json))}
       catch(e){
         if (forced) {
           json = "Ship Mod Export code"
