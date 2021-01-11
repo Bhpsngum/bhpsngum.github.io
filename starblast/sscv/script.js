@@ -2,6 +2,7 @@
   var SSCV = {
     compile: function(data) {
       data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3");
+      console.log(data);
     },
     types: {
       list: [
