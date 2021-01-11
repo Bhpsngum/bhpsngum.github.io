@@ -42,21 +42,21 @@
               catch(e){j = null}
               return (j!=null)?j:(b!=null?b:"N/A");
             }
-            wikitext = `{{Ship-Infobox\n
-|name=${s.name||""}\n
-|image=${(s.name||"").replace(/\s/g,"_")}.png\n
-|shieldc=${t(s,"specs","shield","capacity")}\n
-|shieldr=${t(s,"specs","shield","reload")}\n
-|energyc=${t(s,"specs","generator","capacity")}\n
-|energyr=${t(s,"specs","generator","reload")}\n
-|turning=${t(s,"specs","ship","rotation")}\n
-|acceleration=${t(s,"specs","ship","acceleration")}\n
-|speed=${t(s,"specs","ship","speed")}\n
-|tier=${u(s,null,"level")}\n
-|mass=${u(s,null,"spec","ship","mass")}\n
-|designer=${u(x,"Neuronality","designer")}\n
-}}\n\n
-== Cannons ==\n\n`;
+            wikitext = `{{Ship-Infobox
+|name=${s.name||""}
+|image=${(s.name||"").replace(/\s/g,"_")}.png
+|shieldc=${t(s,"specs","shield","capacity")}
+|shieldr=${t(s,"specs","shield","reload")}
+|energyc=${t(s,"specs","generator","capacity")}
+|energyr=${t(s,"specs","generator","reload")}
+|turning=${t(s,"specs","ship","rotation")}
+|acceleration=${t(s,"specs","ship","acceleration")}
+|speed=${t(s,"specs","ship","speed")}
+|tier=${u(s,null,"level")}
+|mass=${u(s,null,"spec","ship","mass")}
+|designer=${u(x,"Neuronality","designer")}
+}}\n
+== Cannons ==\n`;
             let lasers = s.lasers;
             lasers = (Array.isArray(lasers)?lasers:[]).map(laser => {
               laser.x = Math.abs(laser.x);
@@ -77,30 +77,31 @@
               }
             };
             let dash = u(s,0,"specs","ship","dash");
-            if (dash) wikitext+=`{{Cannon\n
-|type=Dash\n
-|energy=${t(dash,"energy")}\n
-|damage=${t(dash,"energy")}\n
-|speed=${t(dash,"burst_speed")}\n
-|dual=N/A\n
-|recoil=N/A\n
-|frequency=1\n
-|error=N/A\n
-|angle=N/A\n
-|spread=N/A\n
-}}\n\n`;
-            for (let laser of lasers) wikitext+=`{{Cannon\n
-|type=${["Stream","Pulse"][(laser.type-1)||0]}\n
-|energy=${(function(){let gx = u(laser,"N/A","damage","map");return Array.isArray(gx)?gx.map(lar => ((laser.dual?(lar*2):lar)||0)):"N/A"})()}\n
-|damage=${t(laser,"damage")}\n
-|speed=${t(laser,"speed")}\n
-|dual=${!!u(laser,0,"dual")}\n
-|recoil=${u(laser,0,"recoil")}\n
-|frequency=${u(laser,1,"rate")}\n
-|error=${u(laser,0,"error")}\n
-|angle=${Math.abs(u(laser,0,"angle"))}\n
-|spread=${Math.abs(u(laser,0,"spread"))}\n
-}}\n\n`;
+            if (dash) wikitext+=`{{Cannon
+|type=Dash
+|energy=${t(dash,"energy")}
+|damage=${t(dash,"energy")
+|speed=${t(dash,"burst_speed")}
+|dual=N/A
+|recoil=N/A
+|frequency=1
+|error=N/A
+|angle=N/A
+|spread=N/A
+}}\n`;
+            for (let laser of lasers) wikitext+=`{{Cannon
+|type=${["Stream","Pulse"][(laser.type-1)||0]}
+|energy=${(function(){let gx = u(laser,"N/A","damage","map");return Array.isArray(gx)?gx.map(lar => ((laser.dual?(lar*2):lar)||0)):"N/A"})()}
+|damage=${t(laser,"damage")}
+|speed=${t(laser,"speed")}
+|dual=${!!u(laser,0,"dual")}
+|recoil=${u(laser,0,"recoil")}
+|frequency=${u(laser,1,"rate")}
+|error=${u(laser,0,"error")}
+|angle=${Math.abs(u(laser,0,"angle"))}
+|spread=${Math.abs(u(laser,0,"spread"))}
+}}\n`;
+            if (!(dash || lasers.length)) wikitext+="This ship has no cannons or dashes";
             return wikitext;
           }
         }
