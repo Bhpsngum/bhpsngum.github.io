@@ -21,7 +21,7 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            let s = JSON.parse(eval("(function(){return "+data.replace(/.+?\=\s*(.+)/g,"$1")+"})();")) || {}, x = s.typespec || {}, t = function(first,...props) {
+            let x = JSON.parse(eval("(function(){return "+data.replace(/.+?\=\s*(.+)/g,"$1")+"})();")) || {}, s = x.typespec || {}, t = function(first,...props) {
               try {
                 let arr = a(first,...props);
                 if (!Array.isArray(arr)) return "N/A";
@@ -42,7 +42,6 @@
               catch(e){j = null}
               return (j!=null)?j:(b!=null?b:"N/A");
             }
-            ghk = s;
             wikitext = `{{Ship-Infobox
 |name=${s.name||""}
 |image=${(s.name||"").replace(/\s/g,"_")}.png
