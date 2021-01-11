@@ -21,7 +21,27 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            let s = JSON.parse(eval("(function(){return "+data.replace(/^(\r|\n\|\s)+/g,"").replace(/^(var|let|const)/,"")+"})();")) || {}, x = s.typespec || {};
+            let s = JSON.parse(eval("(function(){return "+data.replace(/^(\r|\n\|\s)+/g,"").replace(/^(var|let|const)/,"")+"})();")) || {}, x = s.typespec || {}, t = function(first,...props) {
+              try {
+                let arr = a(first,...props);
+                if (!Array.isArray(arr)) return "N/A";
+                let i=0;
+                while (i<arr.length) {
+                  if (arr.indexOf(arr[i])<i) arr.splice(i,1);
+                  else i++
+                }
+                return arr.join("/")||"N/A";
+              }
+              catch(e){return "N/A"}
+            }, a = function(a,...b){
+              let kx = a;
+              return b.forEach(i=>kx = kx[i]),kx;
+            }, u = function(k,b,...c) {
+              let j;
+              try{j = a(k,...c)}
+              catch(e){j = null}
+              return (j!=null)?j:(b!=null?b:"N/A");
+            }
             wikitext = `{{Ship-Infobox\n
 |name=${s.name||""}\n
 |image=${(s.name||"").replace(/\s/g,"_")}.png\n
