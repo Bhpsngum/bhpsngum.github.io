@@ -1,8 +1,7 @@
 (function(){
   var SSCV = {
     compile: function(data) {
-      data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3");
-      console.log(data);
+      return data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3");
     },
     types: {
       list: [
@@ -25,7 +24,7 @@
         {
           name: "Basic WikiText info",
           parse: function(data) {
-            let s = eval("(function(){return "+data+"})();") || {}, x = s.typespec || {}, t = function(first,...props) {
+            let s = eval(ghk="(function(){return "+data+"})();") || {}, x = s.typespec || {}, t = function(first,...props) {
               try {
                 let arr = a(first,...props);
                 if (!Array.isArray(arr)) return "N/A";
