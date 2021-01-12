@@ -1,5 +1,5 @@
 (function(){
-  var mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
+  var available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
   removed_time = {
     "none": 1578454316626,
     "prototypes": 1578454316626,
@@ -75,6 +75,7 @@
         }
   }, count = function() {
     setCountdown();
+    checknewAvailableMods();
     loadInfos();
   }, setCountdown = function() {
     let x = 0;
@@ -129,6 +130,23 @@
         }
       }).fail(e => setStatus(1));
     }).fail(e => setStatus(1));
+  }, handleNotification = function() {
+    let notif = Notification.requestPermission, handler = console.log;
+    try {
+      notif().then(handler);
+    } catch(e) {
+      handler(notif());
+    }
+  }, showNotification = function (mod) {
+    let notif = new Notification(`New mod ${mod.featured?"featuring":"available"} in Modding Space!`, {
+      body: mod.title+"\nby "+mod.author,
+      icon: `https://starblast.data.neuronality.com/modding/img/${mod.mod_id!="none"?mod.mod_id:"prototypes"}.jpg`
+    });
+    notif.onshow = function(){setTimeout(function(){notif.close()},5000)};
+  }, checknewAvailableMods = function() {
+    let check_mods = mods.filter(i=> i.open || i.featured);
+    check_mods.forEach(mod => (available_mods.indexOf(mod.mod_id) == -1 && available_mods.length > 0) && showNotification(mod));
+    available_mods = check_mods.map(i=>i.mod_id);
   }
   update();
   setInterval(update, 5000);
