@@ -144,6 +144,7 @@
     });
     notif.onshow = function(){setTimeout(function(){notif.close()},5000)};
   }, checknewAvailableMods = function() {
+    console.log(available_mods);
     let check_mods = mods.filter(i=> i.open || i.featured);
     check_mods.forEach(mod => (available_mods.indexOf(mod.mod_id) == -1 && available_mods.length > 0) && showNotification(mod));
     available_mods = check_mods.map(i=>i.mod_id);

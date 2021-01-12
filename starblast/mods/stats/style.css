@@ -34,3 +34,8 @@ a, a:active, a:hover {
   text-align:center;
   font-size:1.5vw;
 }
+#notification {
+  position: fixed;
+  top: 1vmax;
+  right: 1vmax;
+}
