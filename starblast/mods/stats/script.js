@@ -147,9 +147,6 @@
     if (notif_enabled) handleNotification(function(res){
       notif_enabled&&=(res=="granted");
       applyNotif();
-      let t = Number(notif_enabled), u = ["-slash",""], a = ["Enable","Disable"];
-      $("#notif-box").prop("title",a[t]+" new available mod notification"+(notif_enabled?"":"\n(Requires Notification permission)"));
-      $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
     });
     else applyNotif();
   }, handleNotification = function(func) {
@@ -162,6 +159,9 @@
   }, applyNotif = function() {
     localStorage.setItem("mod-notif",notif_enabled);
     notif_box.prop("checked",notif_enabled);
+    let t = Number(notif_enabled), u = ["-slash",""], a = ["Enable","Disable"];
+    $("#notif-box").prop("title",a[t]+" new available mod notification"+(notif_enabled?"":"\n(Requires Notification permission)"));
+    $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
   }
   update();
   checknotifEnabled(!0);
