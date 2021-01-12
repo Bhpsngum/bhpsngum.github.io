@@ -6,18 +6,18 @@
     this.html = `<div class="ModTab" id='${data.name||"unknown"}'>
       <div style="float:left"><img src="${data.img||"img/default.png"}"></div>
       <table>
-        <tr><td><h3><a class="${state}" title="This link is currently ${state}" ${(data.link.url)?("href='"+data.link.url+"'"):""} target="_blank">${(key.name)?name.replace(key.name,"gi",function(v){return `<mn>${v}</mn>`}):name}${displayVer(data)}</a></h3></th></tr>
-        <tr><td><h5>${data.author.map(data => `<a ${(data.link)?("href='"+data.link+"'"):""} target="_blank">${(data.name||[]).map(data => (key.author)?data.replace(key.author,"gi",function(v){return `<ma>${v}</ma>`}):data).join("/")}</a>`).join()}</h5></td></tr>
+        <tr><td><h3><a class="${state}" title="This link is currently ${state}" ${encodeURI((data.link.url)?("href='"+data.link.url+"'"):"")} target="_blank">${(encodeHTML(key.name)?name.replace(key.name,"gi",function(v){return `<mn>${v}</mn>`}):name)}${displayVer(data)}</a></h3></th></tr>
+        <tr><td><h5>${data.author.map(data => `<a ${encodeURI((data.link)?("href='"+data.link+"'"):"")} target="_blank">${(data.name||[]).map(data => encodeHTML((key.author)?data.replace(key.author,"gi",function(v){return `<ma>${v}</ma>`}):data)).join("/")}</a>`).join()}</h5></td></tr>
         ${(data.official || data.event)?("<tr "+((data.official<2 && data.event<2)?"style='color:yellow'":"")+" title='This "+((data.official<2 && data.event<2)?"is currently":"used to be")+" an official "+((data.event)?"event":"mod in Modding Space")+"'><td><p><i class='fa fa-fw fa-star'></i>Official "+((data.event)?"event":"mod")+"</p></td></tr>"):""}
         <tr><td><p><b>Game Mode(s): </b>${data.modes||"Unspecified"}</p></td></tr>
-        <tr><td><p>${data.description||"No description provided."}</p></td></tr>
+        <tr><td><p>${encodeHTML(data.description||"No description provided.")}</p></td></tr>
       </table>
     </div>`;
   }
   function displayVer(mod) {
     if (!mod.version) return "";
-    if (mod.event) return " - "+mod.version;
-    return `<sup>${mod.version}</sup>`;
+    if (mod.event) return encodeHTML(" - "+mod.version);
+    return `<sup>${encodeHTML(mod.version)}</sup>`;
   }
   function loadError()
   {
@@ -84,7 +84,7 @@
       try {
         mods.forEach(function(mod) {
           for (let i in mod)
-            if (typeof mod[i] == "string") mod[i] = encodeHTML(mod[i]);
+            if (typeof mod[i] == "string") mod[i] = mod[i];
         });
         modsinfo = mods;
         localStorage.setItem("modsinfo",JSON.stringify(mods));
