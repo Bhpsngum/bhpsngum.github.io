@@ -144,11 +144,21 @@
   }, checknotifEnabled = function(init) {
     if (init) notif_enabled = localStorage.getItem("mod-notif") == "true";
     else notif_enabled = notif_box.is(":checked");
-    localStorage.setItem("mod-notif",notif_enabled);
-    notif_box.prop("checked",notif_enabled);
-    let t = Number(notif_enabled), u = ["-slash",""], a = ["Enable","Disable"];
-    $("#notif-box").prop("title",a[t]+" new available mod notification\n(Requires Notification permission)");
-    $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
+    handleNotification(function(res){
+      notif_enabled&&=(res=="granted");
+      localStorage.setItem("mod-notif",notif_enabled);
+      notif_box.prop("checked",notif_enabled);
+      let t = Number(notif_enabled), u = ["-slash",""], a = ["Enable","Disable"];
+      $("#notif-box").prop("title",a[t]+" new available mod notification"+(notif_enabled?"":"\n(Requires Notification permission)"));
+      $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
+    });
+  }, handleNotification = function(func) {
+    let notif = Notification.requestPermission, handler = typeof func == "function"?func:function(){};
+    try {
+      notif().then(handler);
+    } catch(e) {
+      handler(notif());
+    }
   }
   update();
   checknotifEnabled(!0);
