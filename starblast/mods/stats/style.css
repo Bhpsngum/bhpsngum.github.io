@@ -7,6 +7,8 @@ body {
 }
 ul, li {
   margin: 0;
+  padding: 0;
+  padding-left: 2.5vmax;
 }
 .modStatBox {
   display: inline-block;
