@@ -130,13 +130,6 @@
         }
       }).fail(e => setStatus(1));
     }).fail(e => setStatus(1));
-  }, handleNotification = function() {
-    let notif = Notification.requestPermission, handler = console.log;
-    try {
-      notif().then(handler);
-    } catch(e) {
-      handler(notif());
-    }
   }, showNotification = function (mod) {
     let notif = new Notification(`New mod ${mod.featured?"featuring":"available"} in Modding Space!`, {
       body: mod.title+"\nby "+mod.author,
@@ -152,9 +145,9 @@
     else notif_enabled = notif_box.is(":checked");
     localStorage.setItem("mod-notif",notif_enabled);
     notif_box.prop("checked",notif_enabled);
-    let t = Number(notif_enabled), u = ["-slash",""], a = ["disabled","enabled"], g = $("#notif-indicator");
-    g.prop("alt","New available mod notification is"+a[t]);
-    g.prop("class","fas fa-bell"+u[t]);
+    let t = Number(notif_enabled), u = ["-slash",""], a = ["Enable","Disable"];
+    $("#notif-box").prop("title",a[t]+" new available mod notification\n(Requires Notification permission)");
+    $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
   }
   update();
   checknotifEnabled(!0);

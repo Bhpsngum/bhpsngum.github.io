@@ -39,3 +39,9 @@ a, a:active, a:hover {
   top: 1vmax;
   right: 1vmax;
 }
+#notif-box {
+  background-color: rgb(24,26,27);
+  padding: 1vmax;
+  cursor: pointer;
+  text-align: center;
+}
