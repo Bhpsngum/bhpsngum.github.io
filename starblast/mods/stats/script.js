@@ -1,5 +1,5 @@
 (function(){
-  var available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
+  var notif_box = $("#notif-enabled"), notif_enabled, available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
   removed_time = {
     "none": 1578454316626,
     "prototypes": 1578454316626,
@@ -144,11 +144,21 @@
     });
     notif.onshow = function(){setTimeout(function(){notif.close()},5000)};
   }, checknewAvailableMods = function() {
-    console.log(available_mods);
     let check_mods = mods.filter(i=> i.open || i.featured);
-    check_mods.forEach(mod => (available_mods.indexOf(mod.mod_id) == -1 && available_mods.length > 0) && showNotification(mod));
+    check_mods.forEach(mod => (available_mods.indexOf(mod.mod_id) == -1 && available_mods.length > 0 && notif_enabled) && showNotification(mod));
     available_mods = check_mods.map(i=>i.mod_id);
+  }, checknotifEnabled = function(init) {
+    if (init) notif_enabled = localStorage.getItem("mod-notif") == "true";
+    else notif_enabled = notif_box.is(":checked");
+    localStorage.setItem("mod-notif",notif_enabled);
+    notif_box.prop("checked",notif_enabled);
+    let t = Number(notif_enabled), u = ["-slash",""], a = ["disabled","enabled"], g = $("#notif-indicator");
+    g.prop("alt","New available mod notification is"+a[t]);
+    g.prop("class","fas fa-bell"+u[t]);
   }
   update();
+  checknotifEnabled(!0);
+  notif_box.on("change",function(){checknotifEnabled()});
+  notif_box.on("change")
   setInterval(update, 5000);
 })();
