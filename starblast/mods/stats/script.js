@@ -131,14 +131,15 @@
       }).fail(e => setStatus(1));
     }).fail(e => setStatus(1));
   }, showNotification = function (mod) {
-    let notif = new Notification(`New mod ${mod.featured?"featuring":"available"} in Modding Space!`, {
+    let audioAlert = new Audio('alert.mp3'), notif = new Notification(`New mod ${mod.featured?"featuring":"available"} in Modding Space!`, {
       body: mod.title+"\nby "+mod.author,
       icon: `https://starblast.data.neuronality.com/modding/img/${mod.mod_id!="none"?mod.mod_id:"prototypes"}.jpg`
     });
+    audioAlert.play();
     notif.onshow = function(){setTimeout(function(){notif.close()},5000)};
   }, checknewAvailableMods = function() {
     let check_mods = mods.filter(i=> i.open || i.featured);
-    check_mods.forEach(mod => (available_mods.indexOf(mod.mod_id) == -1 && /*available_mods.length > 0 &&*/ notif_enabled) && showNotification(mod));
+    check_mods.forEach(mod => (available_mods.indexOf(mod.mod_id) == -1 /*&& available_mods.length > 0*/ && notif_enabled) && showNotification(mod));
     available_mods = check_mods.map(i=>i.mod_id);
   }, checknotifEnabled = function(init) {
     if (init) notif_enabled = localStorage.getItem("mod-notif") == "true";
