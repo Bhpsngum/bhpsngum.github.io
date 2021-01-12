@@ -42,6 +42,9 @@ a, a:active, a:hover {
 #notif-box, .modStatBox {
   border-radius: 1vmax;
 }
+table {
+  border-spacing: 1vmax;
+}
 #notif-box {
   background-color: rgb(24,26,27);
   padding: 1vmax;
