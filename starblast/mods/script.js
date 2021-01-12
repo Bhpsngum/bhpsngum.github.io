@@ -6,20 +6,18 @@
     this.html = `<div class="ModTab" id='${data.name||"unknown"}'>
       <div style="float:left"><img src="${data.img||"img/default.png"}"></div>
       <table>
-        <tr><td><h3><a class="${state}" title="This link is currently ${state}" ${encodeURI(data.link.url?("href='"+data.link.url+"'"):"")} target="_blank">${encodeHTML(key.name?name.replace(key.name,"gi",function(v){return `<mn>${v}</mn>`}):name)}${displayVer(data)}</a></h3></th></tr>
-        <tr><td><h5>${data.author.map(data => `<a ${encodeURI(data.link?("href='"+data.link+"'"):"")} target="_blank">${(data.name||[]).map(data => encodeHTML(key.author?data.replace(key.author,"gi",function(v){return `<ma>${v}</ma>`}):data)).join("/")}</a>`).join()}</h5></td></tr>
+        <tr><td><h3><a class="${state}" title="This link is currently ${state}" ${data.link.url?("href='"+encodeURI(data.link.url)+"'"):""} target="_blank">${encodeHTML(revtitle(name),key.name,"gi",function(v){return `<mn>${v}</mn>`}}${displayVer(data)}</a></h3></th></tr>
+        <tr><td><h5>${data.author.map(data => `<a ${data.link?("href='"+encodeURI(data.link)+"'"):""} target="_blank">${(data.name||[]).map(data => encodeHTML(revtitle(data),key.author,"gi",function(v){return `<ma>${v}</ma>`})).join("/")}</a>`).join()}</h5></td></tr>
         ${(data.official || data.event)?("<tr "+((data.official<2 && data.event<2)?"style='color:yellow'":"")+" title='This "+((data.official<2 && data.event<2)?"is currently":"used to be")+" an official "+((data.event)?"event":"mod in Modding Space")+"'><td><p><i class='fa fa-fw fa-star'></i>Official "+((data.event)?"event":"mod")+"</p></td></tr>"):""}
         <tr><td><p><b>Game Mode(s): </b>${encodeHTML(data.modes||"Unspecified")}</p></td></tr>
         <tr><td><p>${encodeHTML(data.description||"No description provided.")}</p></td></tr>
       </table>
     </div>`;
-  }
-  function displayVer(mod) {
+  }, displayVer = function (mod) {
     if (!mod.version) return "";
     if (mod.event) return encodeHTML(" - "+mod.version);
     return `<sup>${encodeHTML(mod.version)}</sup>`;
-  }
-  function loadError()
+  }, loadError = function ()
   {
     let oldmodsinfo, oldDate, oldfail = 0;
     if (modsinfo && lastDate)
@@ -37,12 +35,10 @@
     $("#status").prop("style","color:red;float:left");
     $("#refresh-ico").prop("class","fa fa-fw fa-refresh");
     $("#refresh-text").html("Refresh");
-  }
-  function processKey(a)
+  }, processKey = function(a)
   {
     return a.toLowerCase();
-  }
-  function performSearch()
+  }, performSearch = function()
   {
     let data = [];
     for (let name of namespace)
@@ -60,24 +56,41 @@
       window.history.pushState({url:domain+encodeURI("?"+data.join("&"))},'',domain+encodeURI("?"+data.join("&")));
       fetch();
     }
-  }
-  $("#search").on("click", performSearch);
-  $("#home").on("click",showAll);
-  $("#refresh").on("click", function() {
-    $("#refresh-ico").prop("class","fa fa-fw fa-refresh fa-spin");
-    $("#refresh-text").html("Refreshing...");
-    fetch();
-  });
-  function showAll()
+  }, showAll = function ()
   {
     key = {};
     window.history.pushState({path:domain},'',domain);
     fetch();
-  }
-  function encodeHTML(str) {
-    return str.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;").replace(/\[(.+)\]\((.+)\)/g,"<a href='$2' target='_blank'>$1</a>");
-  }
-  function processData(mods, Aqua, response)
+  }, revtitle = function(s) {
+    return s.replace(/\(/g,"&#40;").replace(/\)/g,"&#41;").replace(/\[/g,"&#91;").replace(/\]/g,"&#93;")
+  }, basicrev = function (j) {
+    return j.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;");
+  }, rev = function(k){
+    return k.replace(/<|>|'|"|(\[(.+)\]\((.+)\))/g,function(a,b,c,d){
+      let s = "";
+      if (a.length > 1) {
+        s+=`<a href="${encodeURI(d)}">`;
+        a=c;
+      }
+      return s+basicrev(a)+(s?"</a>":"");
+    });
+  }, encodeHTML = function (str, key, flags, replacer) {
+    if (!key) return rev(str);
+    let t = [], f = 0, link = /\[(.+)\]\((.+)\)/g;
+    str.replace(link,function(a,b,c,i){t.push(["none",str.slice(f,i)],["link",a]);f=i+a.length});
+    if (f<str.length) t.push(["none",str.slice(f,str.length)]);
+    t = t.filter(i=>i[1]);
+    for (let i=0;i<t.length;i++) {
+      if (t[i][0] == "none") {
+        let tx = [], fx = 0, st = t[i][1];
+        st.replace(key,flags,function(a,j){tx.push(["none",st.slice(fx,j)],["result",a]);fx=j+a.length});
+        if (fx<st.length) tx.push(["none",st.slice(fx,st.length)]);
+        t[i][1] = tx.map(i=>i[0]=="result"&&typeof replacer=="function"?replacer(rev(i[1])):rev(i[1])).join("");
+      }
+      else t[i][1] = t[i][1].replace(link,function(a,b,c){return `<a href="${encodeURI(b)}">${basicrev(a)}</a>`});
+    }
+    return t.map(i=>i[1]).join("");
+  }, processData = function (mods, Aqua, response)
   {
     if (Array.isArray(mods))
     {
@@ -163,11 +176,17 @@
       catch(e){alert("Fetch failed :(\nPlease reload the page and try again!")}
     }
     else loadError();
-  }
-  function fetch()
+  }, fetch = function ()
   {
     $.getJSON("modsinfo.json").done(processData).fail(loadError);
   }
+  $("#search").on("click", performSearch);
+  $("#home").on("click",showAll);
+  $("#refresh").on("click", function() {
+    $("#refresh-ico").prop("class","fa fa-fw fa-refresh fa-spin");
+    $("#refresh-text").html("Refreshing...");
+    fetch();
+  });
   fetch();
   namespace.map(x => {$("#"+x).on("keydown",function(e){(e.which == 13 && e.ctrlKey) && performSearch()})});
   console.log('%c Stop!!', 'font-weight: bold; font-size: 100px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38)');
