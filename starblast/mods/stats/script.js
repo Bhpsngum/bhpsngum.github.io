@@ -144,14 +144,14 @@
   }, checknotifEnabled = function(init) {
     if (init) notif_enabled = localStorage.getItem("mod-notif") == "true";
     else notif_enabled = notif_box.is(":checked");
-    handleNotification(function(res){
+    if (notif_enabled) handleNotification(function(res){
       notif_enabled&&=(res=="granted");
-      localStorage.setItem("mod-notif",notif_enabled);
-      notif_box.prop("checked",notif_enabled);
+      applyNotif();
       let t = Number(notif_enabled), u = ["-slash",""], a = ["Enable","Disable"];
       $("#notif-box").prop("title",a[t]+" new available mod notification"+(notif_enabled?"":"\n(Requires Notification permission)"));
       $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
     });
+    else applyNotif();
   }, handleNotification = function(func) {
     let notif = Notification.requestPermission, handler = typeof func == "function"?func:function(){};
     try {
@@ -159,6 +159,9 @@
     } catch(e) {
       handler(notif());
     }
+  }, applyNotif = function() {
+    localStorage.setItem("mod-notif",notif_enabled);
+    notif_box.prop("checked",notif_enabled);
   }
   update();
   checknotifEnabled(!0);
