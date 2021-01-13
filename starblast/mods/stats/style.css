@@ -63,5 +63,8 @@ table {
   border-collapse: collapse;
 }
 .numbers {
-  text-align:left;
+  text-align:right;
+}
+.playerstat>tbody>tr>td {
+  padding: 0;
 }
