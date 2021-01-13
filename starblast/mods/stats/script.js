@@ -9,7 +9,9 @@
     "useries": 1528459800000,
     "racing": 1529679300000,
     "battleroyale": 1511530440000
-  },
+  }, formatDate = function(date) {
+    return new Date(date).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})
+  }
   modStatBox = function(stat, count, index, time) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">`,
     statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>${stat.new?'<b style="color:yellow;float:right">NEW!</b>':""}${!stat.active?'<b style="color:red;float:right">Removed</b>':""}`;
@@ -24,7 +26,8 @@
     }
     else if (stat.active) statinfo += `<p><b>Next event:</b> ${formatTime(time)}</p>`;
     statinfo+=`<p><b>Author:</b> ${stat.author}</p>
-      <p><b>First released:</b> ${stat.date_created?new Date(stat.date_created).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}):"Unknown"}</p>
+      <p><b>Date released:</b> ${stat.date_created?formatDate(stat.date_created):"Unknown"}</p>
+      ${stat.date_removed?("<p><b>Date removed</b> "+formatDate(stat.date_removed)+"</p>"):""}
       <p><b>Times played:</b> ${getNum(stat.timesplayed)} (${Math.round(stat.timesplayed/(((stat.date_removed||Date.now())-stat.date_created)/1000/3600/24))} daily)</p>`;
     let parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id), player_stat = $("#players-"+stat.mod_id);
     if (parent.length == 0) $('#modstats').append(`<div index = "${index}" class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
