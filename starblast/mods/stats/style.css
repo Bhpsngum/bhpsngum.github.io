@@ -56,5 +56,7 @@ table {
   height: 2.5vmax;
 }
 .playerstat {
-  
+  padding: 0;
+  margin: 0;
+  border-spacing: 0;
 }
