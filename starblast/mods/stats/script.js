@@ -145,8 +145,9 @@
     if (init) notif_enabled = localStorage.getItem("mod-notif") == "true";
     else notif_enabled = notif_box.is(":checked");
     if (notif_enabled) handleNotification(function(res){
-      notif_enabled&&=(res=="granted");
-      applyNotif();
+      let allow_notif = res=="granted";
+      notif_enabled&&=allow_notif;
+      applyNotif(allow_notif);
     });
     else applyNotif();
   }, handleNotification = function(func) {
@@ -156,11 +157,11 @@
     } catch(e) {
       handler(notif());
     }
-  }, applyNotif = function() {
+  }, applyNotif = function(y) {
     localStorage.setItem("mod-notif",notif_enabled);
     notif_box.prop("checked",notif_enabled);
     let t = Number(notif_enabled), u = ["-slash",""], a = ["Enable","Disable"];
-    $("#notif-box").prop("title",a[t]+" new available mod notification"+(notif_enabled?"":"\n(Requires Notification permission)"));
+    $("#notif-box").prop("title",a[t]+" new available mod notification"+(y?"":"\n(Requires Notification permission)"));
     $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
   }
   update();
