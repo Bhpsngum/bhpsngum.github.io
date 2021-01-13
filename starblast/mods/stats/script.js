@@ -36,7 +36,7 @@
       let u = [];
       for (let i in (player_count_region[stat.mod_id]||{})) u.push(i);
       if (u.length > 0 && stat.active && player_count[stat.mod_id]) {
-        let c = "<td>:&nbsp;</td>", evt = "<tr id='total_players-"+stat.mod_id+"'>", totalplayers = "<td><b>Current players</b</td>"+c+"<td class='numbers'>"+player_count[stat.mod_id]+"</td>", getStat = function(t){return u.filter(i => player_count_region[stat.mod_id][i]).sort((a,b)=>b-a).map(i => `<tr ${$("#players-"+stat.mod_id).attr("hide") == "true"||t?"hidden":""}><td>${i}</td>${c}<td class='numbers'>${player_count_region[stat.mod_id][i]}</td></tr>`).join("")};
+        let c = "<td>:&nbsp;</td>", evt = "<tr id='total_players-"+stat.mod_id+"'>", totalplayers = "<td><b>Current players</b</td>"+c+"<td class='numbers'>"+player_count[stat.mod_id]+"</td>", getStat = function(t){return u.map(i=>[i,player_count_region[stat.mod_id][i]]).filter(i => i[1]).sort((a,b)=>b[1]-a[1]).map(i => `<tr ${$("#players-"+stat.mod_id).attr("hide") == "true"||t?"hidden":""}><td>${i[0]}</td>${c}<td class='numbers'>${i[1]}</td></tr>`).join("")};
         if (player_stat.length == 0) $(`<table class="playerstat" hide="true" onclick='let e = $(this), t = e.attr("hide") == "true";$("#players-${stat.mod_id}>tbody>tr:not(#total_players-${stat.mod_id})").prop("hidden",!t);e.attr("hide",!t)' style='cursor:pointer;' id="players-${stat.mod_id}">${evt}${totalplayers}</tr>${getStat(!0)}</table>`).insertAfter("#stat-"+stat.mod_id);
         else {
           let total_players = $("#total_players-"+stat.mod_id);
