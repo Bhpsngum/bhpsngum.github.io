@@ -44,7 +44,6 @@
           else total_players.html(totalplayers);
           let lists = $("#players-"+stat.mod_id+">tbody>tr:not(#total_players-"+stat.mod_id+")").remove();
           $(playerstat).insertAfter("#total_players-"+stat.mod_id);
-          else lists.html(playerstat);
         }
       }
       else player_stat.remove();
