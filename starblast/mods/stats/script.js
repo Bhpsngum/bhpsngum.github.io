@@ -37,12 +37,12 @@
       for (let i in (player_count_region[stat.mod_id]||{})) u.push(i);
       if (u.length > 0 && stat.active && player_count[stat.mod_id]) {
         let evt = "<tr id='total_players-"+stat.mod_id+"'>", totalplayers = "<td><b>Current players:</b</td><td>"+player_count[stat.mod_id]+"</td>", playerstat = u.filter(i => player_count_region[stat.mod_id][i]).map(i => `<tr ${player_stat.attr("hide") == "true"?"hidden":""}><td>${i}</td><td>${player_count_region[stat.mod_id][i]}</td></tr>`).join("");
-        if (player_stat.length == 0) $(`<table hide="true" onclick='let e = $(this), t = e.attr(\"hide\") == \"true\";$(\"#players-"+stat.mod_id+">tbody>tr:not(#total_players-"+stat.mod_id+")\").prop(\"hidden\",!t);e.prop(\"hide\",!t)' style='cursor:pointer;' id="players-${stat.mod_id}">${evt}${totalplayers}</tr>${playerstat}</table>`).insertAfter("#stat-"+stat.mod_id);
+        if (player_stat.length == 0) $(`<table hide="true" onclick='let e = $(this), t = e.attr("hide") == "true";$("#players-${stat.mod_id}>tbody>tr:not(#total_players-${stat.mod_id})").prop("hidden",!t);e.attr("hide",!t)' style='cursor:pointer;' id="players-${stat.mod_id}">${evt}${totalplayers}</tr>${playerstat}</table>`).insertAfter("#stat-"+stat.mod_id);
         else {
           let total_players = $("#total_players-"+stat.mod_id);
           if (total_players.length === 0) $("#players-"+stat.mod_id).prepend(evt+totalplayers+"</tr>");
           else total_players.html(totalplayers);
-          let lists = $("#players-"+stat.mod_id+">tbody>tr:not(#total_players-"+stat.mod_id+")").remove();
+          $("#players-"+stat.mod_id+">tbody>tr:not(#total_players-"+stat.mod_id+")").remove();
           $(playerstat).insertAfter("#total_players-"+stat.mod_id);
         }
       }
