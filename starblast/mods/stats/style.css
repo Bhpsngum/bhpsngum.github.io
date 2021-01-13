@@ -4,6 +4,11 @@ body {
   color: rgb(231,229,228);
   margin: 0;
   font-size: 1vw;
+  background-image: url(/Starblastio_background18.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
 }
 ul, li {
   margin: 0;
