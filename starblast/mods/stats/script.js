@@ -1,5 +1,5 @@
 (function(){
-  var notif_box = $("#notif-enabled"), notif_enabled, available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
+  var audioAlert = new Audio('alert.mp3'), notif_box = $("#notif-enabled"), notif_enabled, available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
   removed_time = {
     "none": 1578454316626,
     "prototypes": 1578454316626,
@@ -131,7 +131,7 @@
       }).fail(e => setStatus(1));
     }).fail(e => setStatus(1));
   }, showNotification = function (mod) {
-    let audioAlert = new Audio('alert.mp3'), notif = new Notification(`New mod ${mod.featured?"featuring":"available"} in Modding Space!`, {
+    let notif = new Notification(`New mod ${mod.featured?"featuring":"available"} in Modding Space!`, {
       body: mod.title+"\nby "+mod.author,
       icon: `https://starblast.data.neuronality.com/modding/img/${mod.mod_id!="none"?mod.mod_id:"prototypes"}.jpg`
     });
