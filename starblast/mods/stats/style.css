@@ -52,4 +52,6 @@ table {
   padding: 1vmax;
   cursor: pointer;
   text-align: center;
+  width: 2.5vmax;
+  height: 2.5vmax;
 }
