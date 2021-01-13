@@ -36,14 +36,14 @@
       let u = [];
       for (let i in (player_count_region[stat.mod_id]||{})) u.push(i);
       if (u.length > 0 && stat.active && player_count[stat.mod_id]) {
-        let totalplayers = "<b>Current players:</b> "+player_count[stat.mod_id], playerstat = u.filter(i => player_count_region[stat.mod_id][i]).map(i => `<li>${i}: ${player_count_region[stat.mod_id][i]}</li>`).join(""), evt = "<p id='total_players-"+stat.mod_id+"'style='cursor:pointer;' onclick='let p = $(this).parent()[0]; if (p) {p = $(\"#\"+p.id+\">ul\"); p.prop(\"hidden\",!p.prop(\"hidden\"))}'>";
-        if (player_stat.length == 0) $(`<div id="players-${stat.mod_id}">${evt}${totalplayers}</p><ul hidden="true">${playerstat}</ul></div>`).insertAfter("#stat-"+stat.mod_id);
+        let totalplayers = "<b>Current players:</b> "+player_count[stat.mod_id], playerstat = u.filter(i => player_count_region[stat.mod_id][i]).map(i => `<tr><td>${i}</td><td> ${player_count_region[stat.mod_id][i]}</td></tr>`).join(""), evt = "<tr id='total_players-"+stat.mod_id+"'style='cursor:pointer;' onclick='let p = $(this).parent()[0]; if (p) {p = $(\"#\"+p.id+\">ul\"); p.prop(\"hidden\",!p.prop(\"hidden\"))}'><td>";
+        if (player_stat.length == 0) $(`<table id="players-${stat.mod_id}">${evt}${totalplayers}</td></tr><tr><td>< hidden="true">${playerstat}</td></tr></table>`).insertAfter("#stat-"+stat.mod_id);
         else {
           let total_players = $("#total_players-"+stat.mod_id);
-          if (total_players.length === 0) $("#players-"+stat.mod_id).prepend(evt+totalplayers+"</p>");
+          if (total_players.length === 0) $("#players-"+stat.mod_id).prepend(evt+"</td><td>"+totalplayers+"</td></tr>");
           else total_players.html(totalplayers);
-          let lists = $("#players-"+stat.mod_id+">ul");
-          if (lists.length === 0) $("<ul hidden='true'>"+playerstat+"</ul>").insertAfter("#total_players-"+stat.mod_id);
+          let lists = $("#players-"+stat.mod_id+">td");
+          if (lists.length === 0) $("<tr><td hidden='true'>"+playerstat+"</td></tr>").insertAfter("#total_players-"+stat.mod_id);
           else lists.html(playerstat);
         }
       }
