@@ -42,8 +42,8 @@
           let total_players = $("#total_players-"+stat.mod_id);
           if (total_players.length === 0) $("#players-"+stat.mod_id).prepend(evt+"</td><td>"+totalplayers+"</td></tr>");
           else total_players.html(totalplayers);
-          let lists = $("#players-"+stat.mod_id+">tbody>tr:not(#total_players-"+stat.mod_id+")");
-          if (lists.length === 0) $(playerstat).insertAfter("#total_players-"+stat.mod_id);
+          let lists = $("#players-"+stat.mod_id+">tbody>tr:not(#total_players-"+stat.mod_id+")").remove();
+          $(playerstat).insertAfter("#total_players-"+stat.mod_id);
           else lists.html(playerstat);
         }
       }
