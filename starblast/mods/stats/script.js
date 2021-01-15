@@ -168,7 +168,7 @@
     $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
   }, img_size = 360, padding_ratio = 15, margin_ratio = 30, full_ratio = 1+2/padding_ratio+2/margin_ratio;
   new ResizeSensor($(".modStatBox")[0], function(){
-    let g $(document).width(), t = g/Math.trunc(g/(img_size*full_ratio))/full_ratio;
+    let g = $(document).width(), t = g/Math.trunc(g/(img_size*full_ratio))/full_ratio;
     $(".modStatBox").css({width: (t*(1+2/padding_ratio))+"px",padding: (t/padding_ratio)+"px", margin: (t/margin_ratio)+"px"});
   });
   update();
