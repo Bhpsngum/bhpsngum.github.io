@@ -129,7 +129,7 @@
           $("#welcome-text").remove();
           setInterval(count, 1000);
           new ResizeSensor($(".modStatBox")[0], function(){
-            let g = $(document).width(), t = g/Math.trunc(g/(img_size*full_ratio))/full_ratio;
+            let g = $(document).width(), x = Math.trunc(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio;
             $(".modStatBox").css({width: (t*(1+2/padding_ratio))+"px",padding: (t/padding_ratio)+"px", margin: (t/margin_ratio)+"px"});
           });
           init = !0;
