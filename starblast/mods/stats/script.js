@@ -171,7 +171,6 @@
   }, img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, adjustwidth = function(){
     let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
     $(".modStatBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px","border-radius":m+"px"});
-    $(".playerstat").css({"font-size":$(".modStatBox>div>*").css("font-size")});
   }
   new ResizeSensor($("#title")[0], adjustwidth);
   update();
