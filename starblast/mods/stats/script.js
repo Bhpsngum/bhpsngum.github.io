@@ -128,10 +128,6 @@
           count();
           $("#welcome-text").remove();
           setInterval(count, 1000);
-          new ResizeSensor($("#title")[0], function(){
-            let g = $('body').width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio;
-            $(".modStatBox").css({width: Math.trunc(t*(1+2/padding_ratio))+"px",padding: Math.trunc(t/padding_ratio)+"px", margin: Math.trunc(t/margin_ratio)+"px"});
-          });
           init = !0;
         }
       }).fail(e => setStatus(1));
@@ -171,6 +167,10 @@
     $("#notif-box").prop("title",a[t]+" new available mod notifications"+(notif_enabled?"":"\n(Requires Notifications permissions)"));
     $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
   }, img_size = 360, padding_ratio = 15, margin_ratio = 30, full_ratio = 1+2/padding_ratio+2/margin_ratio;
+  new ResizeSensor($("#title")[0], function(){
+    let g = $('body').width()-10, x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio;
+    $(".modStatBox").css({width: Math.trunc(t*(1+2/padding_ratio))+"px",padding: Math.trunc(t/padding_ratio)+"px", margin: Math.trunc(t/margin_ratio)+"px"});
+  });
   update();
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
