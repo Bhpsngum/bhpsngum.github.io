@@ -167,9 +167,8 @@
     let t = Number(notif_enabled), u = ["-slash",""], a = ["Enable","Disable"];
     $("#notif-box").prop("title",a[t]+" new available mod notifications"+(notif_enabled?"":"\n(Requires Notifications permissions)"));
     $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
-  }, img_size = 360, padding_ratio = 1/15, adjust = 0, full_ratio = 1+2*padding_ratio, adjustwidth = function(){
-    let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = Math.max(g/(x||1)/full_ratio - adjust,0), m = Math.trunc(t*padding_ratio);
-    console.log(x,t);
+  }, img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, adjustwidth = function(){
+    let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
     $(".modStatBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px","border-radius":m+"px"});
   }
   new ResizeSensor($("#title")[0], adjustwidth);
