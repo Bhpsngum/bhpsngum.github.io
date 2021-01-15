@@ -13,9 +13,6 @@ body {
 }
 .modStatBox {
   display: inline-block;
-  margin: 0.5%;
-  margin-top: 0.5%;
-  margin-bottom: 0.5%;
   height: auto;
   background-color: rgb(47,79,79);
   font-size: 100%;
