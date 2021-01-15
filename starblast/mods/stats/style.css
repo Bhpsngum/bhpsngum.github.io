@@ -63,9 +63,11 @@ table {
 .playerstat>tbody>tr>td {
   padding: 0;
 }
+#status, #title {
+  margin-right: 55pt;
+}
 #title {
   text-align:center;
   user-select:none;
-  margin-right: 55pt;
   margin-bottom:0
 }

@@ -135,12 +135,18 @@
       }).fail(e => setStatus(1));
     }).fail(e => setStatus(1));
   }, showNotification = function (mod) {
-    let notif = new Notification(`New mod ${mod.featured?"featuring":"available"} in Modding Space!`, {
+    let title = `New mod ${mod.featured?"featuring":"available"} in Modding Space!`, options = {
       body: mod.title+"\nby "+mod.author,
       icon: `https://starblast.data.neuronality.com/modding/img/${mod.mod_id!="none"?mod.mod_id:"prototypes"}.jpg`
-    });
+    }
     audioAlert.play();
-    notif.onshow = function(){setTimeout(function(){notif.close()},5000)};
+    try {
+      let notif = new Notification(title, options);
+      notif.onshow = function(){setTimeout(function(){notif.close()},5000)};
+    }
+    catch(e) {
+      alert(title+"\n"+options.body);
+    }
   }, checknewAvailableMods = function() {
     let check_mods = mods.filter(i=> i.open || i.featured);
     (available_mods.length > 0 && notif_enabled) && check_mods.forEach(mod => (available_mods.indexOf(mod.mod_id) == -1) && showNotification(mod));
