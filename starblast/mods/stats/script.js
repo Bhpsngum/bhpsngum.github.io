@@ -128,8 +128,8 @@
           count();
           $("#welcome-text").remove();
           setInterval(count, 1000);
-          new ResizeSensor($(".modStatBox")[0], function(){
-            let g = $('body').width(), x = Math.trunc(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio;
+          new ResizeSensor($("#title")[0], function(){
+            let g = $('body').width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio;
             $(".modStatBox").css({width: Math.trunc(t*(1+2/padding_ratio))+"px",padding: Math.trunc(t/padding_ratio)+"px", margin: Math.trunc(t/margin_ratio)+"px"});
           });
           init = !0;
