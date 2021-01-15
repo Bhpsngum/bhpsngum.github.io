@@ -3,7 +3,7 @@ body {
   background-color: rgb(24,26,27);
   color: rgb(231,229,228);
   margin: 0;
-  font-size: 1vw;
+  font-size: 10pt;
   background-image: url(/Starblastio_background18.jpg);
   background-size: cover;
   background-repeat: no-repeat;
@@ -11,20 +11,14 @@ body {
   background-attachment: fixed;
   cursor: default;
 }
-ul, li {
-  margin: 0;
-  padding: 0;
-  padding-left: 2.5vmax;
-}
 .modStatBox {
   display: inline-block;
   margin: 0.5%;
   margin-top: 0.5%;
   margin-bottom: 0.5%;
-  width: 30%;
   height: auto;
   background-color: rgb(47,79,79);
-  padding: 1%;
+  font-size: 100%;
 }
 p, h3 {
   margin: 0;
@@ -40,7 +34,7 @@ a, a:active, a:hover {
 #status {
   user-select:none;
   text-align:center;
-  font-size:1.5vw;
+  font-size:15pt;
 }
 #notification {
   position: fixed;
