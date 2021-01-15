@@ -35,8 +35,9 @@ a, a:active, a:hover {
 }
 #notification {
   position: fixed;
-  top: 1vmax;
-  right: 1vmax;
+  top: 10pt;
+  right: 10pt;
+  z-index: 1;
 }
 table {
   border-spacing: 0;
@@ -44,13 +45,12 @@ table {
 }
 #notif-box {
   background-color: rgb(24,26,27);
-  padding: 1vmax;
+  padding: 10pt;
   cursor: pointer;
   text-align: center;
-  width: 2.5vmax;
-  height: 2.5vmax;
-  border-radius: 1vmax;
-  font-size: 1vmax;
+  width: 25pt;
+  height: 25pt;
+  border-radius: 10pt;
 }
 .playerstat {
   padding: 0;
@@ -62,4 +62,10 @@ table {
 }
 .playerstat>tbody>tr>td {
   padding: 0;
+}
+#title {
+  text-align:center;
+  user-select:none;
+  margin-right: 55pt;
+  margin-bottom:0
 }
