@@ -38,9 +38,6 @@ a, a:active, a:hover {
   top: 1vmax;
   right: 1vmax;
 }
-#notif-box, .modStatBox {
-  border-radius: 1vmax;
-}
 table {
   border-spacing: 0;
   border-collapse: collapse;
@@ -52,6 +49,8 @@ table {
   text-align: center;
   width: 2.5vmax;
   height: 2.5vmax;
+  border-radius: 1vmax;
+  font-size: 1vmax;
 }
 .playerstat {
   padding: 0;
