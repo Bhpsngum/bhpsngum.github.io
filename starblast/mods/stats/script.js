@@ -11,9 +11,7 @@
     "battleroyale": 1511530440000
   }, formatDate = function(date) {
     return new Date(date).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})
-  }, sw;
-  addServiceWorker(function(t){sw = t;window.sw = sw});
-  modStatBox = function(stat, count, index, time) {
+  }, sw, modStatBox = function(stat, count, index, time) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">`,
     statinfo = `<h3 style="text-align:center">${stat.title} <sup>${stat.version}</sup></h3>${stat.new?'<b style="color:yellow;float:right">NEW!</b>':""}${!stat.active?'<b style="color:red;float:right">Removed</b>':""}`;
     if (stat.featured || stat.open) {
@@ -131,6 +129,7 @@
           $("#welcome-text").remove();
           setInterval(count, 1000);
           adjustwidth();
+          addServiceWorker(function(t){sw = t});
           init = !0;
         }
       }).fail(e => setStatus(1));
@@ -146,7 +145,8 @@
       notif.onshow = function(){setTimeout(function(){notif.close()},5000)};
     }
     catch(e) {
-      alert(title+"\n"+options.body);
+      if (sw) sw.showNotification(title, options);
+      else alert(title+"\n"+options.body);
     }
   }, checknewAvailableMods = function() {
     let check_mods = mods.filter(i=> i.open || i.featured);
