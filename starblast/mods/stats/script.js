@@ -142,10 +142,7 @@
     audioAlert.play();
     try {sw.showNotification(title, options)}
     catch(e) {
-      try {
-        let notif = new Notification(title, options);
-        notif.onshow = function(){setTimeout(function(){notif.close()},5000)}
-      }
+      try {new Notification(title, options)}
       catch(ex){alert(title+"\n"+options.body)}
     }
   }, checknewAvailableMods = function() {
