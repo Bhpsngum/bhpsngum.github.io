@@ -65,6 +65,7 @@ table {
 }
 #status, #title {
   margin-right: 55pt;
+  margin-left: 55pt;
 }
 #title {
   text-align:center;

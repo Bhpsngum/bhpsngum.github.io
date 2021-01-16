@@ -145,8 +145,8 @@
       notif.onshow = function(){setTimeout(function(){notif.close()},5000)};
     }
     catch(e) {
-      if (sw) sw.showNotification(title, options);
-      else alert(title+"\n"+options.body);
+      try {sw.showNotification(title, options)}
+      catch(ex){alert(title+"\n"+options.body)}
     }
   }, checknewAvailableMods = function() {
     let check_mods = mods.filter(i=> i.open || i.featured);
