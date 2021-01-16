@@ -140,12 +140,12 @@
       icon: `https://starblast.data.neuronality.com/modding/img/${mod.mod_id!="none"?mod.mod_id:"prototypes"}.jpg`
     }
     audioAlert.play();
-    try {
-      let notif = new Notification(title, options);
-      notif.onshow = function(){setTimeout(function(){notif.close()},5000)};
-    }
+    try {sw.showNotification(title, options)}
     catch(e) {
-      try {sw.showNotification(title, options)}
+      try {
+        let notif = new Notification(title, options);
+        notif.onshow = function(){setTimeout(function(){notif.close()},5000)}
+      }
       catch(ex){alert(title+"\n"+options.body)}
     }
   }, checknewAvailableMods = function() {
