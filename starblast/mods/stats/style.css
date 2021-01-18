@@ -27,6 +27,7 @@ img {
 }
 a, a:active, a:hover {
   color: #33A1DE;
+  -webkit-user-drag: none;
 }
 #status {
   user-select:none;
