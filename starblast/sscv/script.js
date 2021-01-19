@@ -5,7 +5,7 @@
         {
           name: "Ship Editor code",
           parse: function(data) {
-            data = data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"$3").replace(/\\+/g,function(v){return v.slice(1,v.length)});
+            data = Function("return "+data.replace(/.+?[^\\]'((return)*(.+?[^\\]))'.+/,"'$3'"))();
             let result;
             try {
               let ship = JSON.parse(data);
