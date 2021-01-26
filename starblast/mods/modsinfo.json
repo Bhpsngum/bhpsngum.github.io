@@ -59,8 +59,8 @@
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/dtm.jpg",
     "link": {
-      "url": "",
-      "state": 1
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/destroy%20the%20mothership.js",
+      "state": 2
     },
     "author": [
       {
@@ -83,8 +83,8 @@
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/ctf.jpg",
     "link": {
-      "url": "https://github.com/45rfew/CaptureTheFlag/",
-      "state": 1
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/capture%20the%20flag.js",
+      "state": 2
     },
     "author": [
       {
@@ -107,8 +107,8 @@
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/rumble.jpg",
     "link": {
-      "url": "https://github.com/45rfew/Starblast-mods-n-objs/blob/master/Mods/Rumble%20mod.js",
-      "state": 1
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/rumble.js",
+      "state": 2
     },
     "author": [
       {
@@ -151,7 +151,7 @@
     "modes": "Team",
     "img": "https://starblast.data.neuronality.com/modding/img/nauticseries.jpg",
     "link": {
-      "url": "https://pastebin.com/ciyyc8qK",
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/nauticseries.js",
       "state": 2
     },
     "author": [
@@ -171,7 +171,7 @@
     "modes": "Team",
     "img": "https://starblast.data.neuronality.com/modding/img/alienintrusion.jpg",
     "link": {
-      "url": "https://pastebin.com/atKnxfJv",
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/alienintrusion.js",
       "state": 2
     },
     "author": [
@@ -191,7 +191,7 @@
     "modes": "Team",
     "img": "https://starblast.data.neuronality.com/modding/img/useries.jpg",
     "link": {
-      "url": "https://pastebin.com/bQKkbqr1",
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/useries.js",
       "state": 2
     },
     "author": [
