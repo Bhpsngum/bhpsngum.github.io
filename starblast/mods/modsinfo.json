@@ -646,5 +646,25 @@
     ],
     "official": 0,
     "event": 0
+  },
+  {
+    "name": "Tic Tac Toe",
+    "abbreviation": "XO",
+    "version": "1.0.0",
+    "description": "Tic Tac Toe in Starblast (currently 3x3)",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://github.com/DoDucMinh1608/modding/blob/main/XO/main.js",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["__"],
+        "link": "https://github.com/DoDucMinh1608"
+      }
+    ],
+    "official": 0,
+    "event": 0
   }
 ]
