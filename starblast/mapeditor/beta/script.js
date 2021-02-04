@@ -69,10 +69,7 @@ window.t = (function(){
           console.error(`[Custom Brush] Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.${param}':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]).flat())
         }
         else {
-          let t = pos, warn = [], results = [];
-          if (typeof this.transform[type] != "function" || type == 0) {
-
-          }
+          let t = pos, warn = [];
           for (let i of [0,1,2]) {
             let w = [], val = t[i];
             if (typeof val != "number") w.push(1);
@@ -90,6 +87,7 @@ window.t = (function(){
             }
             (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
           }
+          results = t;
           (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           switch(type) {
             case 1:
