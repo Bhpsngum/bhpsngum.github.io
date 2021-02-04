@@ -3,7 +3,7 @@ window.t = (function(){
     try{eval("(async function(){})")}catch(e){return !1}
     return !0
   }(), asyncFunc = function(func) {
-    return eval((hasAsync?"async ":"") + func)
+    return hasAsync?("async "+func.toString()):func
   }, StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
@@ -133,8 +133,8 @@ window.t = (function(){
         }
       }
     },
-    copy: asyncFunc(`function(type) {
-      let map;
+    copy: asyncFunc(function(type) {
+      let map, needawait;
       switch (type)
       {
         case "plain":
@@ -144,12 +144,14 @@ window.t = (function(){
           map = new Blob([StarblastMap.Engine.permalink(this.export("url"))],{type:"text/plain"});
           break;
         case "image":
-          const t = await window.fetch(this.export("image"));
-          map = await t.blob();
+          needawait = !0;
+          window.fetch(this.export("image")).then(function(res){
+            res.blob().then(StarblastMap.Engine.copyToClipboard.bind(StarblastMap.Engine))
+          });
           break;
       }
-      StarblastMap.Engine.copyToClipboard(map);
-    }`),
+      !needawait && StarblastMap.Engine.copyToClipboard(map);
+    }),
     download: function (type) {
       let map;
       switch (type)
@@ -1009,10 +1011,10 @@ window.t = (function(){
       generateName: function() {
         return "starblast-map_" + Date.now();
       },
-      copyToClipboard: asyncFunc(`function (blob)
+      copyToClipboard: asyncFunc(function (blob)
       {
-        await navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
-      }`),
+        navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
+      }),
       download: function (name, data) {
         var element = document.createElement('a');
         element.setAttribute('href', data);
