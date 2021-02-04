@@ -3,7 +3,7 @@ window.t = (function(){
     try{eval("(async function(){})")}catch(e){return !1}
     return !0
   }(), asyncFunc = function(func) {
-    return hasAsync?eval("async "+func.toString()):func
+    return hasAsync?eval("(async "+func.toString()+")"):func
   }, StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
