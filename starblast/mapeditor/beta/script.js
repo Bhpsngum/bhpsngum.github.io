@@ -43,8 +43,8 @@ window.t = (function(){
       names: ["Map Index","Cartesian"],
       chosenType: 0,
       typeChooser: $("#coordtype"),
-      ranges: function() {
-        switch (this.chosenType) {
+      ranges: function(type) {
+        switch (type) {
           case 1:
             return [-StarblastMap.size*5, StarblastMap.size*5-1]
           default:
@@ -53,7 +53,7 @@ window.t = (function(){
       },
       restore: function (x,y,size,type,param) {
         type = type || 0;
-        let error = [], warn = [], check = [...new Array(2).fill(this.ranges()),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
+        let error = [], warn = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
         firstUpper = function(str) {
           return str[0].toUpperCase() + str.slice(-str.length+1);
         }, pos = [x,y,size], success = !0, results = null;
@@ -82,8 +82,8 @@ window.t = (function(){
               pos[0] = Math.trunc(pos[0]/10)-StarblastMap.size/2;
               pos[1] = StarblastMap.size/2-Math.trunc(pos[1]/10);
             default:
-              pos[0] = Math.trunc(pos[0]);
-              pos[1] = Math.trunc(pos[1]);
+              pos[0] = Math.trunc(pos[1]);
+              pos[1] = Math.trunc(pos[0]);
           }
           pos[2] = Math.round(pos[2]);
           results = pos
