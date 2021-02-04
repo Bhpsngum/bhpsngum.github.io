@@ -54,7 +54,7 @@ window.t = (function(){
       transform: [
         null,
         function (x,y) {
-          return {x: (StarblastMap.size-y*2-1)*5,y: (y*2-StarblastMap.size+1)*5}
+          return {x: (StarblastMap.size-x*2-1)*5,y: (y*2-StarblastMap.size+1)*5}
         }
       ],
       view: function (x,y) {
