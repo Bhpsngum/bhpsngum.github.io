@@ -53,7 +53,7 @@ window.t = (function(){
       },
       restore: function (x,y,size,type,param) {
         type = type || 0;
-        let error = [], warn = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
+        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
         firstUpper = function(str) {
           return str[0].toUpperCase() + str.slice(-str.length+1);
         }, pos = [x,y,size], success = !0, results = null;
@@ -61,12 +61,6 @@ window.t = (function(){
           try {
             let val = Number(pos[i]);
             if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
-            else {
-              let w = [];
-              if (typeof pos[i] != "number") w.push(1);
-              if (val-Math.trunc(val) != 0) w.push(0);
-              (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
-            }
           }
           catch(e){error.push(i)}
         }
@@ -75,19 +69,40 @@ window.t = (function(){
           console.error(`[Custom Brush] Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.${param}':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]).flat())
         }
         else {
-          pos = pos.map(Number);
+          let t = pos, warn = [], results = [];
+          if (typeof this.transform[type] != "function" || type == 0) {
+
+          }
+          for (let i of [0,1,2]) {
+            let w = [], val = t[i];
+            if (typeof val != "number") w.push(1);
+            else {
+              t[i] = Number(val);
+              if (i == 2) {
+                if (t[i]-Math.round(t[i]) != 0) w.push(0);
+                t[i] = Math.round(t[i]);
+              }
+              else switch(type) {
+                case 1:
+                  break;
+                default:
+                  if (t[i]-Math.trunc(t[i]) != 0) w.push(0);
+                  t[i] = Math.trunc(t[i]);
+              }
+            }
+            (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
+          }
+          (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           switch(type) {
             case 1:
-              pos[0] = Math.trunc((pos[0]+StarblastMap.size*5)/10)
-              pos[1] = Math.trunc((StarblastMap.size*5-pos[1])/10);
+              results[0] = Math.trunc((t[0]+StarblastMap.size*5)/10)
+              results[1] = Math.trunc((StarblastMap.size*5-t[1])/10);
               break;
             default:
-              pos[0] = Math.trunc(pos[1]);
-              pos[1] = Math.trunc(pos[0]);
+              results[0] = t[1];
+              results[1] = t[0];
           }
-          pos[2] = Math.round(pos[2]);
-          results = pos
-          (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+results[u.index])).join("\n")}`);
+          results[2] = t[2];
         }
         return {success: success, results: results}
       },
