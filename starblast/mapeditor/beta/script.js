@@ -3,7 +3,7 @@ window.t = (function(){
     try{eval("(async function(){})")}catch(e){return !1}
     return !0
   }(), asyncFunc = function(func) {
-    return hasAsync?("async "+func.toString()):func
+    return hasAsync?eval("async "+func.toString()):func
   }, StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
@@ -146,7 +146,7 @@ window.t = (function(){
         case "image":
           needawait = !0;
           window.fetch(this.export("image")).then(function(res){
-            res.blob().then(StarblastMap.Engine.copyToClipboard.bind(StarblastMap.Engine))
+            res.blob().then(StarblastMap.Engine.copyToClipboard)
           });
           break;
       }
