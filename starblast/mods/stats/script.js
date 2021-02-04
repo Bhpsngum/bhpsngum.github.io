@@ -155,7 +155,7 @@
     else notif_enabled = notif_box.is(":checked");
     if (notif_enabled) handleNotification(function(res){
       let allow_notif = res=="granted";
-      notif_enabled&&=allow_notif;
+      notif_enabled = notif_enabled && allow_notif;
       !allow_notif && alert("You must allow Notifications in this site to use this feature!");
       applyNotif();
     });
