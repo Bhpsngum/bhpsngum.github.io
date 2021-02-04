@@ -76,19 +76,17 @@ window.t = (function(){
           for (let i of [0,1,2]) {
             let w = [], val = t[i];
             if (typeof val != "number") w.push(1);
-            else {
-              t[i] = Number(val);
-              if (i == 2) {
-                if (t[i]-Math.round(t[i]) != 0) w.push(0);
-                t[i] = Math.round(t[i]);
-              }
-              else switch(type) {
-                case 1:
-                  break;
-                default:
-                  if (t[i]-Math.trunc(t[i]) != 0) w.push(0);
-                  t[i] = Math.trunc(t[i]);
-              }
+            t[i] = Number(val);
+            if (i == 2) {
+              if (t[i] != Math.round(t[i])) w.push(0);
+              t[i] = Math.round(t[i]);
+            }
+            else switch(type) {
+              case 1:
+                break;
+              default:
+                if (t[i] != Math.trunc(t[i])) w.push(0);
+                t[i] = Math.trunc(t[i]);
             }
             (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
           }
