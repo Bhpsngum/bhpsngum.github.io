@@ -79,8 +79,9 @@ window.t = (function(){
           pos = pos.map(Number);
           switch(type) {
             case 1:
-              pos[0] = Math.trunc(pos[0]/10)-StarblastMap.size/2;
-              pos[1] = StarblastMap.size/2-Math.trunc(pos[1]/10);
+              pos[0] = Math.trunc((pos[0]+StarblastMap.size*5)/10)
+              pos[1] = Math.trunc((StarblastMap.size*5-pos[1])/10);
+              break;
             default:
               pos[0] = Math.trunc(pos[1]);
               pos[1] = Math.trunc(pos[0]);
