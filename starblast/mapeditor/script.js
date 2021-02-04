@@ -39,12 +39,90 @@ window.t = (function(){
     Coordinates: {
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
+      types: ["MapIndex","Cartesian"],
+      names: ["Map Index","Cartesian"],
+      chosenType: 0,
+      typeChooser: $("#coordtype"),
+      ranges: function(type) {
+        switch (type) {
+          case 1:
+            return [-StarblastMap.size*5, StarblastMap.size*5-1]
+          default:
+            return [0,StarblastMap.size-1]
+        }
+      },
+      restore: function (x,y,size,type,param) {
+        type = type || 0;
+        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
+        firstUpper = function(str) {
+          return str[0].toUpperCase() + str.slice(-str.length+1);
+        }, pos = [x,y,size], success = !0, results = null;
+        for (let i of [0,1,2]) {
+          try {
+            let val = Number(pos[i]);
+            if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
+          }
+          catch(e){error.push(i)}
+        }
+        if (error.length>0) {
+          success = !1;
+          console.error(`[Custom Brush] Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.${param}':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]).flat())
+        }
+        else {
+          let t = pos, warn = [];
+          for (let i of [0,1,2]) {
+            let w = [], val = t[i];
+            if (typeof val != "number") w.push(1);
+            t[i] = Number(val);
+            if (i == 2) {
+              if (t[i] != Math.round(t[i])) w.push(0);
+              t[i] = Math.round(t[i]);
+            }
+            else switch(type) {
+              case 1:
+                break;
+              default:
+                if (t[i] != Math.trunc(t[i])) w.push(0);
+                t[i] = Math.trunc(t[i]);
+            }
+            (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
+          }
+          results = [...t];
+          (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
+          switch(type) {
+            case 1:
+              results[0] = Math.trunc((t[0]+StarblastMap.size*5)/10)
+              results[1] = Math.trunc((StarblastMap.size*5-t[1])/10);
+              break;
+            default:
+              results[0] = t[1];
+              results[1] = t[0];
+          }
+        }
+        return {success: success, results: results}
+      },
+      setType: function(init){
+        let t = init?localStorage.getItem("coordinate-type"):(this.typeChooser.prop("selectedIndex")-1);
+        t = Math.max(Math.min(t,this.types.length - 1),0) || 0;
+        this.chosenType = t;
+        localStorage.setItem("coordinate-type", t);
+        this.typeChooser.prop("selectedIndex",t+1);
+        return t
+      },
+      transform: [
+        function (x,y) {
+          return {x:y,y:x}
+        },
+        function (x,y) {
+          return {x: (x*2-StarblastMap.size+1)*5,y: (StarblastMap.size-y*2-1)*5}
+        }
+      ],
       view: function (x,y) {
         if (this.lastViewed[0]!=x || this.lastViewed[1]!=y)
         {
-          let d= StarblastMap.data[y][x],gl="No Asteroids";
+          let d= StarblastMap.data[y][x], gl="No Asteroids", chooser = this.transform[this.chosenType], a = (typeof chooser == "function")?chooser(x,y):this.transform[0](x,y);
           if (d) gl="Asteroid size: "+d.toString();
-          $("#XY").html(`(${y};${x}). ${gl}`);
+          $("#XY").html(`(${a.x};${a.y}). ${gl}`);
           this.lastViewed = [x,y];
         }
         if (this.lastVisited[0]!=x || this.lastVisited[1]!=y)
@@ -128,8 +206,8 @@ window.t = (function(){
         }
       }
     },
-    copy: async function(type) {
-      let map;
+    copy: function(type) {
+      let map, needawait;
       switch (type)
       {
         case "plain":
@@ -139,11 +217,13 @@ window.t = (function(){
           map = new Blob([StarblastMap.Engine.permalink(this.export("url"))],{type:"text/plain"});
           break;
         case "image":
-          const t = await window.fetch(this.export("image"));
-          map = await t.blob();
+          needawait = !0;
+          window.fetch(this.export("image")).then(function(res){
+            res.blob().then(StarblastMap.Engine.copyToClipboard)
+          });
           break;
       }
-      StarblastMap.Engine.copyToClipboard(map);
+      !needawait && StarblastMap.Engine.copyToClipboard(map);
     },
     download: function (type) {
       let map;
@@ -361,10 +441,7 @@ window.t = (function(){
       catch(e){}
     },
     modify: function(x,y,num) {
-      let custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num, check = [...new Array(2).fill([0,this.size-1]),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
-      firstUpper = function(str) {
-        return str[0].toUpperCase() + str.slice(-str.length+1);
-      },
+      let custom = num == null, min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max, init = custom?StarblastMap.Engine.random.range(min,max):num,
       Cell = {
         x:x,
         y:y,
@@ -372,26 +449,10 @@ window.t = (function(){
         isRemoved: !custom
       }, SBMap = {
         Asteroids: {
-          set: function(x,y,size) {
-            let error = [], warn = [], pos = [y,x,size];
-            for (let i of [1,0,2]) {
-              try {
-                let val = Number(pos[i]);
-                if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
-                else {
-                  let w = [];
-                  if (typeof pos[i] != "number") w.push(1);
-                  if (val-Math.trunc(val) != 0) w.push(0);
-                  (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
-                }
-              }
-              catch(e){error.push(i)}
-            }
-            if (error.length>0) console.error(`[Custom Brush] Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]).flat());
-            else {
-              let t = [...pos.slice(0,2).map(i=>Math.trunc(Number(i))),Math.round(Number(pos[2]))], clone = [];
-              (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
-              clone.push(t);
+          set: function(x,y,size,type) {
+            let results = StarblastMap.Coordinates.restore(x,y,size,type,"set");
+            if (results.success) {
+              let t = results.results, clone = [t];
               if (StarblastMap.Engine.Mirror.v) clone.push([StarblastMap.size-t[0]-1,t[1],t[2]]);
               if (StarblastMap.Engine.Mirror.h) clone.push([t[0],StarblastMap.size-t[1]-1,t[2]]);
               if (StarblastMap.Engine.Mirror.v && StarblastMap.Engine.Mirror.h) clone.push([StarblastMap.size-t[0]-1,StarblastMap.size-t[1]-1,t[2]]);
@@ -405,30 +466,13 @@ window.t = (function(){
               }
             }
           },
-          get: function(x,y) {
-            let er = [], wr = [], pos = [y,x];
-            for (let i of [1,0]) {
-              try {
-                let val = Number(pos[i]);
-                if (isNaN(val) || val<check[i][0] || val>check[i][1]) er.push(i);
-                else {
-                  let w = [];
-                  if (typeof pos[i] != "number") w.push(1);
-                  if (val-Math.trunc(val) != 0) w.push(0);
-                  (w.length>0) && wr.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
-                }
-              }
-              catch(e){er.push(i)}
+          get: function(x,y,type) {
+            let h = StarblastMap.Coordinates.restore(x,y,0,type,"get");
+            if (h.success) {
+              let t = h.results;
+              return StarblastMap.data[t[1]][t[0]]
             }
-            if (er.length>0) {
-              console.error(`[Custom Brush] Error: Invalid argument${(er.length>1)?"s":""} in 'Asteroids.set':\n`,...er.map(i => [args[i]+": ",pos[i],"\n"]).flat());
-              return null;
-            }
-            else {
-              let t = pos.slice(0,2).map(i=>Math.trunc(Number(i)));
-              (wr.length>0) && console.warn(`[Custom Brush] Found non-integer value${(wr.length>1)?"s":""} in 'Asteroids.get':\n${wr.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
-              return StarblastMap.data[t[1]][t[0]];
-            }
+            else return null;
           },
           size: {
             min: min,
@@ -1004,9 +1048,9 @@ window.t = (function(){
       generateName: function() {
         return "starblast-map_" + Date.now();
       },
-      copyToClipboard: async function (blob)
+      copyToClipboard: function (blob)
       {
-        await navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
+        navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
       },
       download: function (name, data) {
         var element = document.createElement('a');
@@ -1411,6 +1455,11 @@ window.t = (function(){
     let cbrid = Number(localStorage.getItem("brushIndex"))||0;
     cbrid = Math.max(Math.min(cbrid,StarblastMap.Engine.Brush.drawers.list.length-1),0);
     StarblastMap.Engine.Brush.drawers.select(cbrid);
+    let chooser = StarblastMap.Coordinates.setType.bind(StarblastMap.Coordinates);
+    StarblastMap.Coordinates.typeChooser.html("<option disabled>Choose Coordinate Type</option>");
+    StarblastMap.Coordinates.names.forEach(function(t){StarblastMap.Coordinates.typeChooser.append("<option>"+t+"</option>")});
+    StarblastMap.Coordinates.typeChooser.on("click",function(){chooser()});
+    chooser(!0);
   }
   catch(e){}
   $("#save").on("click", function(){

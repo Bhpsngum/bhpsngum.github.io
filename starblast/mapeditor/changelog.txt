@@ -1,3 +1,7 @@
+3.1.5/Feb 4, 2021
+* Little fixes to support older browser versions (except IE)
+* Added Cartesian Coordinates setting (inside Map Tab), updated the brush codes to support Cartesian Coordinates.
+
 3.1.4/Jan 1, 2021
 HAPPY NEW YEAR 2021! :)
 * New feedback link shortener: "https://bhpsngum.github.io/redirect?id=MapEditorFeedback"
