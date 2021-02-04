@@ -60,7 +60,7 @@ window.t = (function(){
       view: function (x,y) {
         if (this.lastViewed[0]!=x || this.lastViewed[1]!=y)
         {
-          let d= StarblastMap.data[y][x], gl="No Asteroids", chooser = this.transform[this.chosenType], a = (typeof chooser == "function")?chooser(y,x):({x:y,y:x});
+          let d= StarblastMap.data[y][x], gl="No Asteroids", chooser = this.transform[this.chosenType], a = (typeof chooser == "function")?chooser(x,y):({x:x,y:y});
           if (d) gl="Asteroid size: "+d.toString();
           $("#XY").html(`(${a.x};${a.y}). ${gl}`);
           this.lastViewed = [x,y];
