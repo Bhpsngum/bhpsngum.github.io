@@ -441,7 +441,7 @@ window.t = (function(){
           set: function(x,y,size,type) {
             let results = StarblastMap.Coordinates.restore(x,y,size,type,"set");
             if (results.success) {
-              let clone = results.results;
+              let t = results.results, clone = [t];
               if (StarblastMap.Engine.Mirror.v) clone.push([StarblastMap.size-t[0]-1,t[1],t[2]]);
               if (StarblastMap.Engine.Mirror.h) clone.push([t[0],StarblastMap.size-t[1]-1,t[2]]);
               if (StarblastMap.Engine.Mirror.v && StarblastMap.Engine.Mirror.h) clone.push([StarblastMap.size-t[0]-1,StarblastMap.size-t[1]-1,t[2]]);
@@ -481,7 +481,7 @@ window.t = (function(){
       if (typeof this.Engine.Brush.drawers.current == "function") u = this.Engine.Brush.drawers.current;
       else {
         let g = this.Engine.Brush.drawers.getById(this.Engine.Brush.drawers.chosenIndex);
-        if (g.error) console.error(`[Custom Brush] ${g.error.name}: ${g.error.message}`,g);
+        if (g.error) console.error(`[Custom Brush] ${g.error.name}: ${g.error.message}`);
         else u = g.drawer;
       }
       if (u) try{u.call(window,Cell,SBMap)}catch(e){console.error(`[Custom Brush] ${e.name}: ${e.message}`)}
