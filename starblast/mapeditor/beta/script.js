@@ -40,7 +40,7 @@ window.t = (function(){
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
       types: ["MapIndex","Cartesian"],
-      name: ["Map Index","Cartesian"],
+      names: ["Map Index","Cartesian"],
       chosenType: 0,
       typeChooser: $("#coordtype"),
       setType: function(init){
@@ -1442,7 +1442,7 @@ window.t = (function(){
     cbrid = Math.max(Math.min(cbrid,StarblastMap.Engine.Brush.drawers.list.length-1),0);
     StarblastMap.Engine.Brush.drawers.select(cbrid);
     let chooser = StarblastMap.Coordinates.setType
-    StarblastMap.Coordinates.typeChooser.html("");
+    StarblastMap.Coordinates.typeChooser.html("<option disabled>Choose Coordinate Type</option>");
     StarblastMap.Coordinates.names.forEach(function(t){StarblastMap.Coordinates.typeChooser.append("<option>"+t+"</option>")});
     StarblastMap.Coordinates.typeChooser.on("click",function(){chooser()});
     chooser(!0);
