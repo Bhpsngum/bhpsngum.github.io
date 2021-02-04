@@ -77,7 +77,7 @@ window.t = (function(){
         else {
           (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           pos = pos.map(Number);
-          switch(this.chosenType) {
+          switch(type) {
             case 1:
               pos[0] = Math.trunc(pos[0]/10)-StarblastMap.size/2;
               pos[1] = StarblastMap.size/2-Math.trunc(pos[1]/10);
