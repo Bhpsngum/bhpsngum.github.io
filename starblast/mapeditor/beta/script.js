@@ -1443,7 +1443,7 @@ window.t = (function(){
     StarblastMap.Engine.Brush.drawers.select(cbrid);
     let chooser = StarblastMap.Coordinates.setType
     StarblastMap.Coordinates.typeChooser.html("");
-    StarblastMap.Coordinates.names.forEach(function(t){StarblastMap.Coordinates.typeChooser.append("<select>"+t+"</select>")});
+    StarblastMap.Coordinates.names.forEach(function(t){StarblastMap.Coordinates.typeChooser.append("<option>"+t+"</option>")});
     StarblastMap.Coordinates.typeChooser.on("click",function(){chooser()});
     chooser(!0);
   }
