@@ -44,11 +44,11 @@ window.t = (function(){
       chosenType: 0,
       typeChooser: $("#coordtype"),
       setType: function(init){
-        let t = init?localStorage.getItem("coordinate-type"):(typeChooser.prop("selectedIndex")-1);
+        let t = init?localStorage.getItem("coordinate-type"):(this.typeChooser.prop("selectedIndex")-1);
         t = Math.max(Math.min(t,this.types.length - 1),0) || 0;
         this.chosenType = t;
         localStorage.setItem("coordinate-type", t);
-        typeChooser.prop("selectedIndex",t+1);
+        this.typeChooser.prop("selectedIndex",t+1);
         return t
       },
       restore: function(x,y) {
