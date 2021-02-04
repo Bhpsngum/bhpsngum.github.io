@@ -1,5 +1,10 @@
 window.t = (function(){
-  var StarblastMap = {
+  var hasAsync = function() {
+    try{eval("(async function(){})")}catch(e){return !1}
+    return !0
+  }(), asyncFunc = function(func) {
+    return hasAsync?eval("async "+func.toString()):func
+  }, StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
     gridIndex: 3,
@@ -128,7 +133,7 @@ window.t = (function(){
         }
       }
     },
-    copy: async function(type) {
+    copy: asyncFunc(function(type) {
       let map;
       switch (type)
       {
@@ -144,7 +149,7 @@ window.t = (function(){
           break;
       }
       StarblastMap.Engine.copyToClipboard(map);
-    },
+    }),
     download: function (type) {
       let map;
       switch (type)
@@ -1004,10 +1009,10 @@ window.t = (function(){
       generateName: function() {
         return "starblast-map_" + Date.now();
       },
-      copyToClipboard: async function (blob)
+      copyToClipboard: asyncFunc(function (blob)
       {
         await navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]);
-      },
+      }),
       download: function (name, data) {
         var element = document.createElement('a');
         element.setAttribute('href', data);
