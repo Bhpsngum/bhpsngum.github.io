@@ -60,7 +60,7 @@ window.t = (function(){
       view: function (x,y) {
         if (this.lastViewed[0]!=x || this.lastViewed[1]!=y)
         {
-          let d= StarblastMap.data[y][x], gl="No Asteroids", chooser = this.transform[this.chosenType], a = (typeof chooser == "function")?chooser(x,y):({x:x,y:y});
+          let d= StarblastMap.data[y][x], gl="No Asteroids", chooser = this.transform[this.chosenType], a = (typeof chooser == "function")?chooser(x,y):({x:y,y:x});
           if (d) gl="Asteroid size: "+d.toString();
           $("#XY").html(`(${a.x};${a.y}). ${gl}`);
           this.lastViewed = [x,y];
@@ -392,7 +392,7 @@ window.t = (function(){
         isRemoved: !custom
       }, SBMap = {
         Asteroids: {
-          set: function(x,y,size) {
+          set: function(x,y,size,type) {
             let error = [], warn = [], pos = [y,x,size];
             for (let i of [1,0,2]) {
               try {
