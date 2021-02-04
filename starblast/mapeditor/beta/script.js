@@ -51,20 +51,10 @@ window.t = (function(){
         this.typeChooser.prop("selectedIndex",t+1);
         return t
       },
-      restore: function(x,y) {
-        switch (this.chosenType) {
-          case 1:
-            x = Math.trunc(x/10);
-            y = Math.trunc(y/10);
-            return {x: x, y: StarblastMap.size - y}
-          default:
-            return {x: x, y: y}
-        }
-      },
       transform: [
         null,
         function (x,y) {
-          return {x: (x*2-StarblastMap.size+1)*5,y: (StarblastMap.size-y*2-1)*5}
+          return {x: (StarblastMap.size-y*2-1)*5,y: (y*2-StarblastMap.size+1)*5}
         }
       ],
       view: function (x,y) {
