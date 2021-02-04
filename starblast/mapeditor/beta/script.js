@@ -87,7 +87,7 @@ window.t = (function(){
             }
             (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
           }
-          results = t;
+          results = [...t];
           (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           switch(type) {
             case 1:
@@ -98,7 +98,6 @@ window.t = (function(){
               results[0] = t[1];
               results[1] = t[0];
           }
-          results[2] = t[2];
         }
         return {success: success, results: results}
       },
