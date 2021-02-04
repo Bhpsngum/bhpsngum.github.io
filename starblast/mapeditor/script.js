@@ -1153,7 +1153,8 @@ window.t = (function(){
           ["XY",null,'Your cursor position in the map. Hover the map for details'],
           ["addBrush",null,"Add your custom brush"],
           ["removeBrush",null,"Remove the selected custom brush"],
-          ["editBrush",null,"Edit the selected custom brush"]
+          ["editBrush",null,"Edit the selected custom brush"],
+          ["coordtype",null,"Toggle Coordinates' perspective"]
         ],
         view: function (title,text,HotKey) {
           $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}${HotKey?(" (HotKey "+HotKey+")"):""}`);
