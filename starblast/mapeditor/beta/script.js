@@ -39,12 +39,40 @@ window.t = (function(){
     Coordinates: {
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
+      types: ["MapIndex","Cartesian"],
+      name: ["Map Index","Cartesian"],
+      chosenType: 0,
+      typeChooser: $("#coordtype"),
+      setType: function(init){
+        let t = init?localStorage.getItem("coordinate-type"):(typeChooser.prop("selectedIndex")-1);
+        t = Math.max(Math.min(t,this.types.length - 1),0) || 0;
+        this.chosenType = t;
+        localStorage.setItem("coordinate-type", t);
+        typeChooser.prop("selectedIndex",t+1);
+        return t
+      },
+      restore: function(x,y) {
+        switch (this.chosenType) {
+          case 1:
+            x = Math.trunc(x/10);
+            y = Math.trunc(y/10);
+            return {x: x, y: StarblastMap.size - y}
+          default:
+            return {x: x, y: y}
+        }
+      },
+      transform: [
+        null,
+        function (x,y) {
+          return {x: (x*2-StarblastMap.size+1)*5,y: (StarblastMap.size-y*2-1)*5}
+        }
+      ],
       view: function (x,y) {
         if (this.lastViewed[0]!=x || this.lastViewed[1]!=y)
         {
-          let d= StarblastMap.data[y][x],gl="No Asteroids";
+          let d= StarblastMap.data[y][x], gl="No Asteroids", chooser = this.transform[this.chosenType], a = (typeof chooser == "function")?chooser(y,x):({x:y,y:x});
           if (d) gl="Asteroid size: "+d.toString();
-          $("#XY").html(`(${y};${x}). ${gl}`);
+          $("#XY").html(`(${a.x};${a.y}). ${gl}`);
           this.lastViewed = [x,y];
         }
         if (this.lastVisited[0]!=x || this.lastVisited[1]!=y)
@@ -1413,6 +1441,11 @@ window.t = (function(){
     let cbrid = Number(localStorage.getItem("brushIndex"))||0;
     cbrid = Math.max(Math.min(cbrid,StarblastMap.Engine.Brush.drawers.list.length-1),0);
     StarblastMap.Engine.Brush.drawers.select(cbrid);
+    let chooser = StarblastMap.Coordinates.setType
+    StarblastMap.Coordinates.typeChooser.html("");
+    StarblastMap.Coordinates.names.forEach(function(t){StarblastMap.Coordinates.typeChooser.append("<select>"+t+"</select>")});
+    StarblastMap.Coordinates.typeChooser.on("click",function(){chooser()});
+    chooser(!0);
   }
   catch(e){}
   $("#save").on("click", function(){
