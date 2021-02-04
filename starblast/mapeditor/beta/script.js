@@ -51,7 +51,7 @@ window.t = (function(){
             return [0,StarblastMap.size-1]
         }
       },
-      restore: function (x,y,size,type) {
+      restore: function (x,y,size,type,param) {
         type = type || 0;
         let error = [], warn = [], check = [...new Array(2).fill(this.ranges()),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
         firstUpper = function(str) {
@@ -72,10 +72,10 @@ window.t = (function(){
         }
         if (error.length>0) {
           success = !1;
-          console.error(`[Custom Brush] Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.set':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]).flat())
+          console.error(`[Custom Brush] Error: Invalid argument${(error.length>1)?"s":""} in 'Asteroids.${param}':\n`,...error.map(i => [args[i]+": ",pos[i],"\n"]).flat())
         }
         else {
-          (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.set':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
+          (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           pos = pos.map(Number);
           switch(this.chosenType) {
             case 1:
@@ -439,7 +439,7 @@ window.t = (function(){
       }, SBMap = {
         Asteroids: {
           set: function(x,y,size,type) {
-            let results = StarblastMap.Coordinates.restore(x,y,size,type);
+            let results = StarblastMap.Coordinates.restore(x,y,size,type,"set");
             if (results.success) {
               let clone = results.results;
               if (StarblastMap.Engine.Mirror.v) clone.push([StarblastMap.size-t[0]-1,t[1],t[2]]);
@@ -456,7 +456,7 @@ window.t = (function(){
             }
           },
           get: function(x,y,type) {
-            let h = StarblastMap.Coordinates.restore(x,y,0,type);
+            let h = StarblastMap.Coordinates.restore(x,y,0,type,"get");
             if (h.success) {
               let t = h.results;
               return StarblastMap.data[t[1]][t[0]]
@@ -481,7 +481,7 @@ window.t = (function(){
       if (typeof this.Engine.Brush.drawers.current == "function") u = this.Engine.Brush.drawers.current;
       else {
         let g = this.Engine.Brush.drawers.getById(this.Engine.Brush.drawers.chosenIndex);
-        if (g.error) console.error(`[Custom Brush] ${g.error.name}: ${g.error.message}`);
+        if (g.error) console.error(`[Custom Brush] ${g.error.name}: ${g.error.message}`,g);
         else u = g.drawer;
       }
       if (u) try{u.call(window,Cell,SBMap)}catch(e){console.error(`[Custom Brush] ${e.name}: ${e.message}`)}
