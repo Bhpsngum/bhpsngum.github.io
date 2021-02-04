@@ -430,7 +430,7 @@ window.t = (function(){
       catch(e){}
     },
     modify: function(x,y,num) {
-      let custom = num == null, min = this.Asteroids.size.min, max = this.Asteroids.size.max, init = custom?this.Engine.random.range(min,max):num,
+      let custom = num == null, min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max, init = custom?StarblastMap.Engine.random.range(min,max):num,
       Cell = {
         x:x,
         y:y,
@@ -456,8 +456,11 @@ window.t = (function(){
             }
           },
           get: function(x,y,type) {
-            let t = StarblastMap.Coordinates.restore(x,y,0,type);
-            if (t.success) return StarblastMap.data[t[1]][t[0]];
+            let h = StarblastMap.Coordinates.restore(x,y,0,type);
+            if (h.success) {
+              let t = h.results;
+              return StarblastMap.data[t[1]][t[0]]
+            }
             else return null;
           },
           size: {
