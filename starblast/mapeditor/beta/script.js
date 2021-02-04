@@ -52,6 +52,7 @@ window.t = (function(){
         }
       },
       restore: function (x,y,size,type) {
+        type = type || 0;
         let error = [], warn = [], check = [...new Array(2).fill(this.ranges()),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
         firstUpper = function(str) {
           return str[0].toUpperCase() + str.slice(-str.length+1);
@@ -438,7 +439,6 @@ window.t = (function(){
       }, SBMap = {
         Asteroids: {
           set: function(x,y,size,type) {
-            type = type || 0;
             let results = StarblastMap.Coordinates.restore(x,y,size,type);
             if (results.success) {
               let clone = results.results;
@@ -456,7 +456,6 @@ window.t = (function(){
             }
           },
           get: function(x,y,type) {
-            type = type || 0;
             let t = StarblastMap.Coordinates.restore(x,y,0,type);
             if (t.success) return StarblastMap.data[t[1]][t[0]];
             else return null;
