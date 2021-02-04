@@ -1441,7 +1441,7 @@ window.t = (function(){
     let cbrid = Number(localStorage.getItem("brushIndex"))||0;
     cbrid = Math.max(Math.min(cbrid,StarblastMap.Engine.Brush.drawers.list.length-1),0);
     StarblastMap.Engine.Brush.drawers.select(cbrid);
-    let chooser = StarblastMap.Coordinates.setType
+    let chooser = StarblastMap.Coordinates.setType.bind(StarblastMap.Coordinates);
     StarblastMap.Coordinates.typeChooser.html("<option disabled>Choose Coordinate Type</option>");
     StarblastMap.Coordinates.names.forEach(function(t){StarblastMap.Coordinates.typeChooser.append("<option>"+t+"</option>")});
     StarblastMap.Coordinates.typeChooser.on("click",function(){chooser()});
