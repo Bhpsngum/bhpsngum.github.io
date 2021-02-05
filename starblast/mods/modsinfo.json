@@ -52,6 +52,30 @@
     "event": 1
   },
   {
+    "name": "Multi-Class Ship Tree",
+    "abbreviation": "MCST",
+    "version": "1.0.0",
+    "description": "This is a ship tree with hundreds of different ships to explore. You may select your class of ships between Fighter, Heavy, Speedster and Support. Be the top on the leaderboard and kill teamers!",
+    "modes": "Free For All (FFA)",
+    "img": "https://starblast.data.neuronality.com/modding/img/mcst.jpg",
+    "link": {
+      "url": "",
+      "state": 1
+    },
+    "author": [
+      {
+        "name": ["SChickenMan"],
+        "link": ""
+      },
+      {
+        "name": ["(featuring Various authors)"],
+        "link": ""
+      }
+    ],
+    "official": 1,
+    "event": 0
+  },
+  {
     "name": "Destroy the Mothership",
     "abbreviation": "DTM",
     "version": "1.1",
@@ -470,30 +494,6 @@
       {
         "name": ["Malefor","MaleficArtist"],
         "link": "https://github.com/MALEFOR27/"
-      }
-    ],
-    "official": 0,
-    "event": 0
-  },
-  {
-    "name": "Multi-Class Ship Tree",
-    "abbreviation": "MCST",
-    "version": "",
-    "description": "This is a ship tree with hundreds of different ships to explore. You may select your class of ships between Fighter, Heavy, Speedster and Support. Be the top on the leaderboard and kill teamers!",
-    "modes": "Free For All (FFA)",
-    "img": "",
-    "link": {
-      "url": "",
-      "state": 1
-    },
-    "author": [
-      {
-        "name": ["SChickenMan"],
-        "link": ""
-      },
-      {
-        "name": ["(featuring Various authors)"],
-        "link": ""
       }
     ],
     "official": 0,
