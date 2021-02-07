@@ -145,4 +145,7 @@ select {
   padding: 0.5vmax;
   margin: 0;
   height: 3.5vmax;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
