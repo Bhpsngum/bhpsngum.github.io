@@ -58,7 +58,7 @@ window.t = (function(){
         let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
         firstUpper = function(str) {
           return str[0].toUpperCase() + str.slice(-str.length+1);
-        }, pos = [y,x,size], success = !0, results = null;
+        }, pos = [x,y,size], success = !0, results = null;
         for (let i of [0,1,2]) {
           try {
             let val = Number(pos[i]);
@@ -93,20 +93,23 @@ window.t = (function(){
             }
             (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof val)+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
           }
-          results = [t[1],t[0],t[2]];
+          results = [...t];
           (warn.length>0) && console.warn(`[Custom Brush] Found improper value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           switch(type) {
             case 1:
-              results[0] = Math.trunc((StarblastMap.size*5-t[0]-1)/10)
-              results[1] = Math.trunc((StarblastMap.size*5+t[1])/10);
+              results[0] = Math.trunc((StarblastMap.size*5+t[0])/10)
+              results[1] = Math.trunc((StarblastMap.size*5-t[1]-1)/10);
               break;
             case 2:
-              results[0] = Math.trunc(StarblastMap.size/2 - t[0] - 0.1);
-              results[1] = Math.trunc(StarblastMap.size/2 + t[1]);
+              results[0] = Math.trunc(StarblastMap.size/2 + t[0]);
+              results[1] = Math.trunc(StarblastMap.size/2 + t[1] - 0.1);
               break;
             default:
               break;
           }
+          let j = results[0];
+          results[0] = results[1];
+          results[1] = j;
         }
         return {success: success, results: results}
       },
