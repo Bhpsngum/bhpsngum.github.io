@@ -110,7 +110,7 @@ window.t = (function(){
       },
       transform: [
         function (x,y) {
-          return {x:y,y:x}
+          return {x:x,y:y}
         },
         function (x,y) {
           return {x: (x*2-StarblastMap.size+1)*5,y: (StarblastMap.size-y*2-1)*5}
@@ -463,6 +463,7 @@ window.t = (function(){
                   StarblastMap.session.set(pos,[(prev)?prev[0]:data.prev,k[2]]);
                 }
               }
+              StarblastMap.sync()
             }
           },
           get: function(x,y,type) {
@@ -495,7 +496,6 @@ window.t = (function(){
         else u = g.drawer;
       }
       if (u) try{u.call(window,Cell,SBMap)}catch(e){console.error(`[Custom Brush] ${e.name}: ${e.message}`)}
-      this.sync();
     },
     sync: function () {
       localStorage.setItem("map",JSON.stringify(this.data));
