@@ -39,25 +39,27 @@ window.t = (function(){
     Coordinates: {
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
-      types: ["MapIndex","Cartesian"],
-      names: ["Map Index","Cartesian"],
+      types: ["MapIndex","Cartesian","Mixed"],
+      names: ["Map Index","Cartesian","Mixed"],
       chosenType: 0,
       typeChooser: $("#coordtype"),
       ranges: function(type) {
         switch (type) {
           case 1:
-            return [-StarblastMap.size*5, StarblastMap.size*5-1]
+            return [-StarblastMap.size*5+1, StarblastMap.size*5-1];
+          case 2:
+            return [-StarblastMap.size/2, StarblastMap.size/2 - 0.1];
           default:
             return [0,StarblastMap.size-1]
         }
       },
       restore: function (x,y,size,type,param) {
         type = type || 0;
-        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
+        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
         firstUpper = function(str) {
           return str[0].toUpperCase() + str.slice(-str.length+1);
-        }, pos = [y,x,size], success = !0, results = null;
-        for (let i of [1,0,2]) {
+        }, pos = [x,y,size], success = !0, results = null;
+        for (let i of [0,1,2]) {
           try {
             let val = Number(pos[i]);
             if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
@@ -70,7 +72,7 @@ window.t = (function(){
         }
         else {
           let t = pos, warn = [];
-          for (let i of [1,0,2]) {
+          for (let i of [0,1,2]) {
             let w = [], val = t[i];
             if (typeof val != "number") w.push(1);
             t[i] = Number(val);
@@ -81,6 +83,10 @@ window.t = (function(){
             else switch(type) {
               case 1:
                 break;
+              case 2:
+                if (t[i] != Number((Math.trunc(t[i]*2)/2).toFixed(1))) w.push(0);
+                t[i] = Number((Math.trunc(t[i]*2)/2).toFixed(1));
+                break;
               default:
                 if (t[i] != Math.trunc(t[i])) w.push(0);
                 t[i] = Math.trunc(t[i]);
@@ -88,24 +94,30 @@ window.t = (function(){
             (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof val)+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
           }
           results = [...t];
-          (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
+          (warn.length>0) && console.warn(`[Custom Brush] Found improper value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           switch(type) {
             case 1:
-              results[0] = Math.trunc((StarblastMap.size*5-t[0])/10)
-              results[1] = Math.trunc((StarblastMap.size*5+t[1])/10);
+              results[0] = Math.trunc((StarblastMap.size*5+t[0])/10)
+              results[1] = Math.trunc((StarblastMap.size*5-t[1]-1)/10);
+              break;
+            case 2:
+              results[0] = Math.trunc(StarblastMap.size/2 + t[0]);
+              results[1] = Math.trunc(StarblastMap.size/2 + t[1] - 0.1);
               break;
             default:
               break;
           }
-          for (let i = 0;i<results.length;i++) results[i] = Math.min(Math.max(results[i],0),StarblastMap.size-1)
+          let j = results[0];
+          results[0] = results[1];
+          results[1] = j;
         }
         return {success: success, results: results}
       },
       setType: function(init){
-        let t = init?localStorage.getItem("coordinate-type"):(this.typeChooser.prop("selectedIndex")-1);
+        let t = init?this.types.indexOf(localStorage.getItem("coordinate-type")):(this.typeChooser.prop("selectedIndex")-1);
         t = Math.max(Math.min(t,this.types.length - 1),0) || 0;
         this.chosenType = t;
-        localStorage.setItem("coordinate-type", t);
+        localStorage.setItem("coordinate-type", this.types[t]);
         this.typeChooser.prop("selectedIndex",t+1);
         return t
       },
@@ -115,12 +127,20 @@ window.t = (function(){
         },
         function (x,y) {
           return {x: (x*2-StarblastMap.size+1)*5,y: (StarblastMap.size-y*2-1)*5}
+        },
+        function (x,y) {
+          return {x: x-StarblastMap.size/2 + 1/2, y: StarblastMap.size/2 - y - 1/2}
         }
       ],
+      getPosition: function(x,y,type) {
+        type = type || 0;
+        let chooser = this.transform[this.chosenType];
+        return (typeof chooser == "function")?chooser(x,y):this.transform[0](x,y);
+      },
       view: function (x,y) {
         if (this.lastViewed[0]!=x || this.lastViewed[1]!=y)
         {
-          let d= StarblastMap.data[y][x], gl="No Asteroids", chooser = this.transform[this.chosenType], a = (typeof chooser == "function")?chooser(x,y):this.transform[0](x,y);
+          let d= StarblastMap.data[y][x], gl="No Asteroids", a = this.getPosition(x,y,this.chosenType);
           if (d) gl="Asteroid size: "+d.toString();
           $("#XY").html(`(${a.x};${a.y}). ${gl}`);
           this.lastViewed = [x,y];
@@ -443,8 +463,9 @@ window.t = (function(){
     modify: function(x,y,num) {
       let custom = num == null, min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max, init = custom?StarblastMap.Engine.random.range(min,max):num,
       Cell = {
-        x:x,
-        y:y,
+        getPosition: function(type) {
+          return StarblastMap.Coordinates.getPosition(x,y,type)
+        },
         size:init,
         isRemoved: !custom
       }, SBMap = {
@@ -551,23 +572,26 @@ window.t = (function(){
       RandomOptions: $("#RandomOptions"),
       template: new Image(),
       modify: function(x,y,num,init) {
-        let prev=(StarblastMap.data[x]||[])[y]||-1;
-        if (prev != num || init)
-        {
-          let c2d = StarblastMap.map.getContext('2d'), gridIndex = StarblastMap.gridIndex;
-          c2d.clearRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
-          c2d.beginPath();
-          c2d.drawImage(this.template,(y*10+6-num/2)*gridIndex+num/4,(x*10+6-num/2)*gridIndex+num/4,num*(gridIndex-1/2),num*(gridIndex-1/2));
-          c2d.fillStyle = this.color;
-          c2d.globalCompositeOperation = "source-atop";
-          c2d.fillRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
-          c2d.globalCompositeOperation = "source-over";
-          if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
-          else StarblastMap.pattern.set(`${x}-${y}`,num);
-          StarblastMap.data[x][y]=num;
-          return {changed: true, prev: (prev == -1)?0:prev};
+        try {
+          let prev=(StarblastMap.data[x]||[])[y]||-1;
+          if (prev != num || init)
+          {
+            let c2d = StarblastMap.map.getContext('2d'), gridIndex = StarblastMap.gridIndex;
+            c2d.clearRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
+            c2d.beginPath();
+            c2d.drawImage(this.template,(y*10+6-num/2)*gridIndex+num/4,(x*10+6-num/2)*gridIndex+num/4,num*(gridIndex-1/2),num*(gridIndex-1/2));
+            c2d.fillStyle = this.color;
+            c2d.globalCompositeOperation = "source-atop";
+            c2d.fillRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
+            c2d.globalCompositeOperation = "source-over";
+            if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
+            else StarblastMap.pattern.set(`${x}-${y}`,num);
+            StarblastMap.data[x][y]=num;
+            return {changed: true, prev: (prev == -1)?0:prev};
+          }
+          else return {changed:false};
         }
-        else return {changed:false};
+        catch(e){throw "Unknown cell"}
       },
       drawSelection: function (i) {
         let c = $("#as"+i)[0];
@@ -957,7 +981,7 @@ window.t = (function(){
               author: "Bhpsngum",
               icon: "square",
               description: "Fill a square of 2n+1 each side (n: Brush size)",
-              code: "let br = StarblastMap.Brush.size;\nfor (let i=Math.max(Cell.x-br,0);i<=Math.min(Cell.x+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(Cell.y-br,0);j<=Math.min(Cell.y+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized && !Cell.isRemoved)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):Cell.size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
+              code: "let br = StarblastMap.Brush.size, cell = Cell.getPosition(0);\nfor (let i=Math.max(cell.x-br,0);i<=Math.min(cell.x+br,StarblastMap.size-1);i++)\n  for (let j=Math.max(cell.y-br,0);j<=Math.min(cell.y+br,StarblastMap.size-1);j++) {\n    let num = (StarblastMap.Brush.isRandomized && !Cell.isRemoved)?StarblastMap.Utils.randomInRange(StarblastMap.Asteroids.size.min,StarblastMap.Asteroids.size.max):Cell.size;\n    StarblastMap.Asteroids.set(i,j,num);\n  }"
             }
           ],
           get: function(code) {
