@@ -39,14 +39,16 @@ window.t = (function(){
     Coordinates: {
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
-      types: ["MapIndex","Cartesian"],
-      names: ["Map Index","Cartesian"],
+      types: ["MapIndex","Cartesian","Mixed"],
+      names: ["Map Index","Cartesian","Mixed"],
       chosenType: 0,
       typeChooser: $("#coordtype"),
       ranges: function(type) {
         switch (type) {
           case 1:
-            return [-StarblastMap.size*5, StarblastMap.size*5-1]
+            return [-StarblastMap.size*5, StarblastMap.size*5-1];
+          case 2:
+            return [-StarblastMap.size/2, StarblastMap.size - 1];
           default:
             return [0,StarblastMap.size-1]
         }
@@ -102,10 +104,10 @@ window.t = (function(){
         return {success: success, results: results}
       },
       setType: function(init){
-        let t = init?localStorage.getItem("coordinate-type"):(this.typeChooser.prop("selectedIndex")-1);
+        let t = init?this.types.indexOf(localStorage.getItem("coordinate-type")):(this.typeChooser.prop("selectedIndex")-1);
         t = Math.max(Math.min(t,this.types.length - 1),0) || 0;
         this.chosenType = t;
-        localStorage.setItem("coordinate-type", t);
+        localStorage.setItem("coordinate-type", this.types[t]);
         this.typeChooser.prop("selectedIndex",t+1);
         return t
       },
@@ -115,6 +117,9 @@ window.t = (function(){
         },
         function (x,y) {
           return {x: (x*2-StarblastMap.size+1)*5,y: (StarblastMap.size-y*2-1)*5}
+        },
+        function (x,y) {
+          return {x: x*2-StarblastMap.size+1, y: StarblastMap.size - y*2}
         }
       ],
       view: function (x,y) {
