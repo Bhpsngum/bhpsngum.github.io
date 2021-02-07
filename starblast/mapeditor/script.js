@@ -53,11 +53,11 @@ window.t = (function(){
       },
       restore: function (x,y,size,type,param) {
         type = type || 0;
-        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
+        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
         firstUpper = function(str) {
           return str[0].toUpperCase() + str.slice(-str.length+1);
-        }, pos = [x,y,size], success = !0, results = null;
-        for (let i of [0,1,2]) {
+        }, pos = [y,x,size], success = !0, results = null;
+        for (let i of [1,0,2]) {
           try {
             let val = Number(pos[i]);
             if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
@@ -70,7 +70,7 @@ window.t = (function(){
         }
         else {
           let t = pos, warn = [];
-          for (let i of [0,1,2]) {
+          for (let i of [1,0,2]) {
             let w = [], val = t[i];
             if (typeof val != "number") w.push(1);
             t[i] = Number(val);
@@ -85,18 +85,17 @@ window.t = (function(){
                 if (t[i] != Math.trunc(t[i])) w.push(0);
                 t[i] = Math.trunc(t[i]);
             }
-            (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
+            (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof val)+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
           }
           results = [...t];
           (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           switch(type) {
             case 1:
-              results[0] = Math.trunc((t[0]+StarblastMap.size*5)/10)
-              results[1] = Math.trunc((StarblastMap.size*5-t[1])/10);
+              results[0] = Math.trunc((StarblastMap.size*5-t[0])/10)
+              results[1] = Math.trunc((StarblastMap.size*5+t[1])/10);
               break;
             default:
-              results[0] = t[1];
-              results[1] = t[0];
+              break;
           }
         }
         return {success: success, results: results}
@@ -111,7 +110,7 @@ window.t = (function(){
       },
       transform: [
         function (x,y) {
-          return {x:y,y:x}
+          return {x:x,y:y}
         },
         function (x,y) {
           return {x: (x*2-StarblastMap.size+1)*5,y: (StarblastMap.size-y*2-1)*5}
@@ -464,6 +463,7 @@ window.t = (function(){
                   StarblastMap.session.set(pos,[(prev)?prev[0]:data.prev,k[2]]);
                 }
               }
+              StarblastMap.sync()
             }
           },
           get: function(x,y,type) {
@@ -496,7 +496,6 @@ window.t = (function(){
         else u = g.drawer;
       }
       if (u) try{u.call(window,Cell,SBMap)}catch(e){console.error(`[Custom Brush] ${e.name}: ${e.message}`)}
-      this.sync();
     },
     sync: function () {
       localStorage.setItem("map",JSON.stringify(this.data));
