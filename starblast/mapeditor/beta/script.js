@@ -48,7 +48,7 @@ window.t = (function(){
           case 1:
             return [-StarblastMap.size*5, StarblastMap.size*5-1];
           case 2:
-            return [-StarblastMap.size/2, StarblastMap.size - 1];
+            return [-StarblastMap.size/2, StarblastMap.size/2 - 1];
           default:
             return [0,StarblastMap.size-1]
         }
@@ -82,6 +82,7 @@ window.t = (function(){
             }
             else switch(type) {
               case 1:
+              case 2:
                 break;
               default:
                 if (t[i] != Math.trunc(t[i])) w.push(0);
@@ -99,8 +100,8 @@ window.t = (function(){
               results[1] = Math.trunc((StarblastMap.size*5-t[1])/10);
               break;
             case 2:
-              results[0] = StarblastMap.size/2 + t[0];
-              results[1] = StarblastMap.size/2 - t[1];
+              results[0] = Math.trunc(StarblastMap.size/2 + t[0]);
+              results[1] = Math.trunc(StarblastMap.size/2 - t[1]);
             default:
               break;
           }
@@ -124,7 +125,7 @@ window.t = (function(){
           return {x: (x*2-StarblastMap.size+1)*5,y: (StarblastMap.size-y*2-1)*5}
         },
         function (x,y) {
-          return {x: x-StarblastMap.size/2, y: StarblastMap.size/2 - y}
+          return {x: x-StarblastMap.size/2 + 1/2, y: StarblastMap.size/2 - y - 1/2}
         }
       ],
       view: function (x,y) {
