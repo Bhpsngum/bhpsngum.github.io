@@ -97,19 +97,16 @@ window.t = (function(){
           (warn.length>0) && console.warn(`[Custom Brush] Found improper value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           switch(type) {
             case 1:
-              results[0] = Math.trunc((StarblastMap.size*5+t[0])/10)
-              results[1] = Math.trunc((StarblastMap.size*5-t[1]-1)/10);
+              results[0] = Math.trunc((StarblastMap.size*5-t[0]-1)/10)
+              results[1] = Math.trunc((StarblastMap.size*5+t[1])/10);
               break;
             case 2:
-              results[0] = Math.trunc(StarblastMap.size/2 + t[0]);
-              results[1] = Math.trunc(StarblastMap.size/2 - t[1] - 0.1);
+              results[0] = Math.trunc(StarblastMap.size/2 - t[0] - 0.1);
+              results[1] = Math.trunc(StarblastMap.size/2 + t[1]);
               break;
             default:
               break;
           }
-          // let x = results[0];
-          // results[0] = results[1];
-          // results[1] = x;
         }
         return {success: success, results: results}
       },
@@ -566,23 +563,26 @@ window.t = (function(){
       RandomOptions: $("#RandomOptions"),
       template: new Image(),
       modify: function(x,y,num,init) {
-        let prev=(StarblastMap.data[x]||[])[y]||-1;
-        if (prev != num || init)
-        {
-          let c2d = StarblastMap.map.getContext('2d'), gridIndex = StarblastMap.gridIndex;
-          c2d.clearRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
-          c2d.beginPath();
-          c2d.drawImage(this.template,(y*10+6-num/2)*gridIndex+num/4,(x*10+6-num/2)*gridIndex+num/4,num*(gridIndex-1/2),num*(gridIndex-1/2));
-          c2d.fillStyle = this.color;
-          c2d.globalCompositeOperation = "source-atop";
-          c2d.fillRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
-          c2d.globalCompositeOperation = "source-over";
-          if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
-          else StarblastMap.pattern.set(`${x}-${y}`,num);
-          StarblastMap.data[x][y]=num;
-          return {changed: true, prev: (prev == -1)?0:prev};
+        try {
+          let prev=(StarblastMap.data[x]||[])[y]||-1;
+          if (prev != num || init)
+          {
+            let c2d = StarblastMap.map.getContext('2d'), gridIndex = StarblastMap.gridIndex;
+            c2d.clearRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
+            c2d.beginPath();
+            c2d.drawImage(this.template,(y*10+6-num/2)*gridIndex+num/4,(x*10+6-num/2)*gridIndex+num/4,num*(gridIndex-1/2),num*(gridIndex-1/2));
+            c2d.fillStyle = this.color;
+            c2d.globalCompositeOperation = "source-atop";
+            c2d.fillRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
+            c2d.globalCompositeOperation = "source-over";
+            if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
+            else StarblastMap.pattern.set(`${x}-${y}`,num);
+            StarblastMap.data[x][y]=num;
+            return {changed: true, prev: (prev == -1)?0:prev};
+          }
+          else return {changed:false};
         }
-        else return {changed:false};
+        catch(e){throw "Unknown cell"}
       },
       drawSelection: function (i) {
         let c = $("#as"+i)[0];
