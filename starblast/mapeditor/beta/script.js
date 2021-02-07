@@ -93,7 +93,7 @@ window.t = (function(){
             }
             (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof val)+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
           }
-          results = [...t];
+          results = [t[1],t[0],t[2]];
           (warn.length>0) && console.warn(`[Custom Brush] Found improper value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           switch(type) {
             case 1:
@@ -107,8 +107,9 @@ window.t = (function(){
             default:
               break;
           }
-          results[0] = -results[0];
-          results[1] = -results[1];
+          let x = results[0];
+          results[0] = results[1];
+          results[1] = x;
         }
         return {success: success, results: results}
       },
