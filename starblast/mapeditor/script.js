@@ -97,6 +97,7 @@ window.t = (function(){
             default:
               break;
           }
+          for (let i = 0;i<results.length;i++) results[i] = Math.min(Math.max(results[i],0),StarblastMap.size-1)
         }
         return {success: success, results: results}
       },
