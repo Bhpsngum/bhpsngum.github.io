@@ -85,14 +85,14 @@ window.t = (function(){
                 if (t[i] != Math.trunc(t[i])) w.push(0);
                 t[i] = Math.trunc(t[i]);
             }
-            (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof pos[i])+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
+            (w.length>0) && warn.push({text:`${args[i]}: ${val}${(w.indexOf(1) != -1)?(" ("+(typeof val)+" format)"):""}`,index:i,type:w.map(i=>violate[i])});
           }
           results = [...t];
           (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
           switch(type) {
             case 1:
-              results[0] = Math.trunc((t[0]+StarblastMap.size*5)/10)
-              results[1] = Math.trunc((StarblastMap.size*5-t[1])/10);
+              results[0] = Math.trunc((StarblastMap.size*5-t[0])/10)
+              results[1] = Math.trunc((StarblastMap.size*5+t[1])/10);
               break;
             default:
               break;
