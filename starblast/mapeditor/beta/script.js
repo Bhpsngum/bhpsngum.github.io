@@ -55,11 +55,11 @@ window.t = (function(){
       },
       restore: function (x,y,size,type,param) {
         type = type || 0;
-        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
+        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
         firstUpper = function(str) {
           return str[0].toUpperCase() + str.slice(-str.length+1);
         }, pos = [y,x,size], success = !0, results = null;
-        for (let i of [1,0,2]) {
+        for (let i of [0,1,2]) {
           try {
             let val = Number(pos[i]);
             if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
@@ -72,7 +72,7 @@ window.t = (function(){
         }
         else {
           let t = pos, warn = [];
-          for (let i of [1,0,2]) {
+          for (let i of [0,1,2]) {
             let w = [], val = t[i];
             if (typeof val != "number") w.push(1);
             t[i] = Number(val);
@@ -91,15 +91,20 @@ window.t = (function(){
           }
           results = [...t];
           (warn.length>0) && console.warn(`[Custom Brush] Found non-integer value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
+          results[0] = t[1];
+          results[1] = t[0];
           switch(type) {
             case 1:
-              results[0] = Math.trunc((StarblastMap.size*5-t[0])/10)
-              results[1] = Math.trunc((StarblastMap.size*5+t[1])/10);
+              results[0] = Math.trunc((StarblastMap.size*5+t[0])/10)
+              results[1] = Math.trunc((StarblastMap.size*5-t[1])/10);
               break;
+            case 2:
+              results[0] = StarblastMap.size/2 + t[0];
+              results[1] = StarblastMap.size/2 - t[1];
             default:
               break;
           }
-          for (let i = 0;i<results.length;i++) results[i] = Math.min(Math.max(results[i],0),StarblastMap.size-1)
+          for (let i of [0,1]) results[i] = Math.min(Math.max(results[i],0),StarblastMap.size-1)
         }
         return {success: success, results: results}
       },
@@ -119,7 +124,7 @@ window.t = (function(){
           return {x: (x*2-StarblastMap.size+1)*5,y: (StarblastMap.size-y*2-1)*5}
         },
         function (x,y) {
-          return {x: x*2-StarblastMap.size+1, y: StarblastMap.size - y*2}
+          return {x: x-StarblastMap.size/2, y: StarblastMap.size/2 - y}
         }
       ],
       view: function (x,y) {
