@@ -48,7 +48,7 @@ window.t = (function(){
           case 1:
             return [-StarblastMap.size*5+1, StarblastMap.size*5-1];
           case 2:
-            return [-StarblastMap.size/2, StarblastMap.size/2];
+            return [-StarblastMap.size/2, StarblastMap.size/2 - 0.1];
           default:
             return [0,StarblastMap.size-1]
         }
@@ -95,8 +95,6 @@ window.t = (function(){
           }
           results = [...t];
           (warn.length>0) && console.warn(`[Custom Brush] Found improper value${(warn.length>1)?"s":""} in 'Asteroids.${param}':\n${warn.map(u => (u.text+". "+firstUpper(u.type.join(" and "))+" to "+t[u.index])).join("\n")}`);
-          results[0] = t[1];
-          results[1] = t[0];
           switch(type) {
             case 1:
               results[0] = Math.trunc((StarblastMap.size*5+t[0])/10)
@@ -104,12 +102,14 @@ window.t = (function(){
               break;
             case 2:
               results[0] = Math.trunc(StarblastMap.size/2 + t[0]);
-              results[1] = Math.trunc(StarblastMap.size/2 - t[1] - 1);
+              results[1] = Math.trunc(StarblastMap.size/2 - t[1] - 0.1);
               break;
             default:
               break;
           }
-          //for (let i of [0,1]) results[i] = Math.min(Math.max(results[i],0),StarblastMap.size-1)
+          let x = results[0];
+          results[0] = results[1];
+          results[1] = x;
         }
         return {success: success, results: results}
       },
