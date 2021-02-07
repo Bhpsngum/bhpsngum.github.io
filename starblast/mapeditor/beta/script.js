@@ -107,9 +107,8 @@ window.t = (function(){
             default:
               break;
           }
-          let x = results[0];
-          results[0] = results[1];
-          results[1] = x;
+          results[0] = -results[0];
+          results[1] = -results[1];
         }
         return {success: success, results: results}
       },
