@@ -466,6 +466,7 @@ window.t = (function(){
         getPosition: function(type) {
           return StarblastMap.Coordinates.getPosition(x,y,type)
         },
+        size:init,
         isRemoved: !custom
       }, SBMap = {
         Asteroids: {
