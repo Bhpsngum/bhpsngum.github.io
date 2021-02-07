@@ -53,11 +53,11 @@ window.t = (function(){
       },
       restore: function (x,y,size,type,param) {
         type = type || 0;
-        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
+        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["Y Coordinate", "X Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
         firstUpper = function(str) {
           return str[0].toUpperCase() + str.slice(-str.length+1);
-        }, pos = [x,y,size], success = !0, results = null;
-        for (let i of [0,1,2]) {
+        }, pos = [y,x,size], success = !0, results = null;
+        for (let i of [1,0,2]) {
           try {
             let val = Number(pos[i]);
             if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
@@ -70,7 +70,7 @@ window.t = (function(){
         }
         else {
           let t = pos, warn = [];
-          for (let i of [0,1,2]) {
+          for (let i of [1,0,2]) {
             let w = [], val = t[i];
             if (typeof val != "number") w.push(1);
             t[i] = Number(val);
@@ -95,8 +95,7 @@ window.t = (function(){
               results[1] = Math.trunc((StarblastMap.size*5-t[1])/10);
               break;
             default:
-              results[0] = t[1];
-              results[1] = t[0];
+              break;
           }
         }
         return {success: success, results: results}
