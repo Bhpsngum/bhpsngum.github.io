@@ -136,7 +136,7 @@ window.t = (function(){
         type = type || 0;
         let chooser = this.transform[this.chosenType];
         return (typeof chooser == "function")?chooser(x,y):this.transform[0](x,y);
-      }
+      },
       view: function (x,y) {
         if (this.lastViewed[0]!=x || this.lastViewed[1]!=y)
         {
