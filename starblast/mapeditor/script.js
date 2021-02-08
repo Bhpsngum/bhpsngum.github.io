@@ -40,29 +40,29 @@ window.t = (function(){
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
       types: ["MapIndex","Cartesian","Mixed"],
-      names: ["Map Index","Cartesian","Mixed"],
+      names: ["Map Index","Cartesian (Real Size)","Cartesian (Map Size)"],
       chosenType: 0,
       typeChooser: $("#coordtype"),
       ranges: function(type) {
         switch (type) {
           case 1:
-            return [-StarblastMap.size*5+1, StarblastMap.size*5-1];
+            return [-StarblastMap.size*5, StarblastMap.size*5];
           case 2:
-            return [-StarblastMap.size/2, StarblastMap.size/2 - 0.1];
+            return [-StarblastMap.size/2, StarblastMap.size/2];
           default:
-            return [0,StarblastMap.size-1]
+            return [0,StarblastMap.size]
         }
       },
       restore: function (x,y,size,type,param) {
         type = type || 0;
-        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
+        let error = [], check = [...new Array(2).fill(this.ranges(type)),[0,9.5]], args = ["X Coordinate", "Y Coordinate", "Asteroid Size"], violate=["rounded","parsed"],
         firstUpper = function(str) {
           return str[0].toUpperCase() + str.slice(-str.length+1);
         }, pos = [x,y,size], success = !0, results = null;
         for (let i of [0,1,2]) {
           try {
             let val = Number(pos[i]);
-            if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
+            if (isNaN(val) || val<check[i][0] || val>=check[i][1]) error.push(i);
           }
           catch(e){error.push(i)}
         }
@@ -82,10 +82,7 @@ window.t = (function(){
             }
             else switch(type) {
               case 1:
-                break;
               case 2:
-                if (t[i] != Number((Math.trunc(t[i]*2)/2).toFixed(1))) w.push(0);
-                t[i] = Number((Math.trunc(t[i]*2)/2).toFixed(1));
                 break;
               default:
                 if (t[i] != Math.trunc(t[i])) w.push(0);
@@ -102,7 +99,7 @@ window.t = (function(){
               break;
             case 2:
               results[0] = Math.trunc(StarblastMap.size/2 + t[0]);
-              results[1] = Math.trunc(StarblastMap.size/2 + t[1] - 0.1);
+              results[1] = Math.trunc(StarblastMap.size/2 - t[1] - 0.1);
               break;
             default:
               break;
