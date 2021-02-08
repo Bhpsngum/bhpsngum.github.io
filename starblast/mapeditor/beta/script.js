@@ -130,8 +130,7 @@ window.t = (function(){
         }
       ],
       getPosition: function(x,y,type) {
-        type = type || 0;
-        let chooser = this.transform[this.chosenType];
+        let chooser = this.transform[type];
         return (typeof chooser == "function")?chooser(x,y):this.transform[0](x,y);
       },
       view: function (x,y) {
