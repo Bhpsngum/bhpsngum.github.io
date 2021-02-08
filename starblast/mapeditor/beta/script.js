@@ -40,17 +40,17 @@ window.t = (function(){
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
       types: ["MapIndex","Cartesian","Mixed"],
-      names: ["Map Index","Cartesian","Mixed"],
+      names: ["Map Index","Cartesian (Real Size)","Cartesian (Map Size)"],
       chosenType: 0,
       typeChooser: $("#coordtype"),
       ranges: function(type) {
         switch (type) {
           case 1:
-            return [-StarblastMap.size*5, StarblastMap.size*5-1];
+            return [-StarblastMap.size*5, StarblastMap.size*5];
           case 2:
-            return [-StarblastMap.size/2, StarblastMap.size/2 - 0.1];
+            return [-StarblastMap.size/2, StarblastMap.size/2];
           default:
-            return [0,StarblastMap.size-1]
+            return [0,StarblastMap.size]
         }
       },
       restore: function (x,y,size,type,param) {
@@ -62,7 +62,7 @@ window.t = (function(){
         for (let i of [0,1,2]) {
           try {
             let val = Number(pos[i]);
-            if (isNaN(val) || val<check[i][0] || val>check[i][1]) error.push(i);
+            if (isNaN(val) || val<check[i][0] || val>=check[i][1]) error.push(i);
           }
           catch(e){error.push(i)}
         }
