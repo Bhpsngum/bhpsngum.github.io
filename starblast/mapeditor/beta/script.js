@@ -99,7 +99,7 @@ window.t = (function(){
               break;
             case 2:
               results[0] = Math.trunc(StarblastMap.size/2 + t[0]);
-              results[1] = Math.trunc(StarblastMap.size/2 + t[1] - 0.1);
+              results[1] = Math.trunc(StarblastMap.size/2 - t[1] - 0.1);
               break;
             default:
               break;
