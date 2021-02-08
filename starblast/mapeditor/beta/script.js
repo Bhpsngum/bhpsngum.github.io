@@ -46,7 +46,7 @@ window.t = (function(){
       ranges: function(type) {
         switch (type) {
           case 1:
-            return [-StarblastMap.size*5+1, StarblastMap.size*5-1];
+            return [-StarblastMap.size*5, StarblastMap.size*5-1];
           case 2:
             return [-StarblastMap.size/2, StarblastMap.size/2 - 0.1];
           default:
@@ -82,10 +82,7 @@ window.t = (function(){
             }
             else switch(type) {
               case 1:
-                break;
               case 2:
-                if (t[i] != Number((Math.trunc(t[i]*2)/2).toFixed(1))) w.push(0);
-                t[i] = Number((Math.trunc(t[i]*2)/2).toFixed(1));
                 break;
               default:
                 if (t[i] != Math.trunc(t[i])) w.push(0);
