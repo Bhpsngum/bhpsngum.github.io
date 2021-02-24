@@ -1107,7 +1107,7 @@ window.t = (function(){
         checkScale: function() {
           this.scaleExpired = !0;
           $("#mapBox").css({
-            "padding-top": (this.main.height()+10)+"px",
+            "padding-top": (this.main.height()+10/detectZoom.device())+"px",
             "padding-bottom": $("#footer").height()+"px"
           });
           try{$("#info").css("width",($("#footer").width()-$("#XY").width()-10/detectZoom.device())+"px")}catch(e){}
