@@ -1,7 +1,7 @@
 {
-  "name": "Starblast Map Editor (Beta)",
-  "short_name": "SME Beta",
-  "description": "Create and edit custom Starblast Maps, easy to use - Beta version.",
+  "name": "Starblast Map Editor",
+  "short_name": "SME",
+  "description": "Create and edit custom Starblast Maps, easy to use.",
   "icons": [
     {
       "src": "/starblast/mapeditor/icon_dark.png",
