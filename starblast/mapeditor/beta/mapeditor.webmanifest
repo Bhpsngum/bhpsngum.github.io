@@ -5,6 +5,21 @@
   "icons": [
     {
       "src": "/starblast/mapeditor/icon_dark.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/starblast/mapeditor/icon_dark.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/starblast/mapeditor/icon_dark.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/starblast/mapeditor/icon_dark.png",
       "sizes": "128x128",
       "type": "image/png"
     }
