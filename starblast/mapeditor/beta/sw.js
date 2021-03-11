@@ -10,3 +10,6 @@ self.addEventListener('install', (e) => {
     await cache.addAll(MapImages);
   })());
 });
+self.addEventListener('fetch', function (event) {
+    
+});
