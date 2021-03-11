@@ -8,7 +8,7 @@ self.addEventListener('install', (e) => {
 });
 self.addEventListener('fetch', (e) => {
   e.request = e.request || {};
-  e.respondWith((async () => {
+  e.respondWith((async (e) => {
     try{const r = await caches.match(e.request.url);
     if (r) return r;
     const response = await fetch(e.request.url);
