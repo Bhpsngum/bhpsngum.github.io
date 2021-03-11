@@ -1,3 +1,6 @@
+3.1.6/Mar 11, 2021
+* Both the Main and Beta version can now be installed as PWA apps.
+
 3.1.5/Feb 4, 2021
 * Little fixes to support older browser versions (except IE)
 * Added Cartesian and Mixed Coordinates views (inside Map Tab), updated the brush codes to support those new features.

@@ -1,4 +1,5 @@
 var imports = [
+  "/starblast/mapeditor/beta/index.html",,
 	"/starblast/mapeditor/icon_dark.png",
   "/starblast/mapeditor/icon_light.png",
   "/starblast/mapeditor/Asteroid.png",

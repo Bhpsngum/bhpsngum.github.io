@@ -9,7 +9,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/starblast/mapeditor/beta/index.html",
+  "start_url": "/starblast/mapeditor/index.html",
   "display": "fullscreen",
   "theme_color": "#666666",
   "background_color": "#181A1B"
