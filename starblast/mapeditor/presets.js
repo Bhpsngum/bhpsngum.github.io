@@ -3,6 +3,7 @@ if (window.t) {
   window.open(t,"_self");
 }
 else (function(){
+  addServiceWorker("sw.js");
   var links = [
     ["version",'/starblast/mapeditor/changelog.html','_blank'],
     ["feedback",'/redirect?id=MapEditorFeedback','_blank'],
