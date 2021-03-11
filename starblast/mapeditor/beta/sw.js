@@ -1,8 +1,9 @@
+self.importScripts('imports.js');
 const cacheName = "MapEditor-v3.1.5_beta";
 self.addEventListener('install', (e) => {
   e.waitUntil((async () => {
     const cache = await caches.open(cacheName);
-    await cache.addAll(SRCs);
+    await cache.addAll(imports);
   })());
 });
 self.addEventListener('fetch', (e) => {
