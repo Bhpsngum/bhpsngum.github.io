@@ -1,13 +1,9 @@
 const cacheName = "MapEditor-v3.1.5_beta";
-const MapImages = [
-  "/starblast/mapeditor/icon_light.png",
-  "/starblast/mapeditor/icon_dark.png",
-  "/starblast/mapeditor/Asteroid.png"
-];
+const SRCs = [...[...document.querySelectorAll("link")].map(i=>i.href),...[...document.querySelectorAll("script")].map(i=>i.src).filter(i => i)];
 self.addEventListener('install', (e) => {
   e.waitUntil((async () => {
     const cache = await caches.open(cacheName);
-    await cache.addAll(MapImages);
+    await cache.addAll(SRCs);
   })());
 });
 self.addEventListener('fetch', (e) => {
