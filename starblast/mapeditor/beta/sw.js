@@ -13,6 +13,6 @@ self.addEventListener('fetch', (e) => {
     const response = await fetch(e.request);
     const cache = await caches.open(cacheName);
     cache.put(e.request, response.clone());
-    return response;}catch(e){console.log(e)}
+    return response;}catch(tgx){console.log(e)}
   })());
 });
