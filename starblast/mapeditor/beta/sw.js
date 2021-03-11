@@ -7,13 +7,12 @@ self.addEventListener('install', (e) => {
   })());
 });
 self.addEventListener('fetch', (e) => {
-  e.request = e.request || {};
-  e.respondWith((async (e) => {
-    try{const r = await caches.match(e.request.url);
+  e.respondWith((async () => {
+    const r = await caches.match(e.request);
     if (r) return r;
-    const response = await fetch(e.request.url);
+    const response = await fetch(e.request);
     const cache = await caches.open(cacheName);
-    cache.put(e.request.url, response.clone());
-    return response;}catch(tgx){}
+    cache.put(e.request, response.clone());
+    return response;
   })());
 });
