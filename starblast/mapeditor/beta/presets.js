@@ -3,6 +3,7 @@ if (window.t) {
   window.open(t,"_self");
 }
 else (function(){
+  window.SRCs = [...[...document.querySelectorAll("link")].map(i=>i.href),...[...document.querySelectorAll("script")].map(i=>i.src)].filter(i => i);
   addServiceWorker("sw.js");
   var links = [
     ["version",'/starblast/mapeditor/changelog.html','_blank'],
