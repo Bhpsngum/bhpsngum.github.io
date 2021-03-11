@@ -129,7 +129,7 @@
           $("#welcome-text").remove();
           setInterval(count, 1000);
           adjustwidth();
-          addServiceWorker(function(t){sw = t});
+          addServiceWorker("/sw.js", function(t){sw = t});
           init = !0;
         }
       }).fail(e => setStatus(1));
