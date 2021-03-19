@@ -651,7 +651,7 @@
     "name": "Tic Tac Toe",
     "abbreviation": "XO",
     "version": "1.0.0",
-    "description": "Tic Tac Toe in Starblast (currently 3x3)",
+    "description": "Tic Tac Toe in Starblast",
     "modes": "",
     "img": "",
     "link": {
@@ -662,6 +662,74 @@
       {
         "name": ["__"],
         "link": "https://github.com/DoDucMinh1608"
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
+    "name": "Flappy Bird",
+    "abbreviation": "",
+    "version": "1.0.0",
+    "description": "",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://github.com/DoDucMinh1608/mod/blob/master/flappy%20bird%20-%20finished/main.js",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["__"],
+        "link": "https://github.com/DoDucMinh1608"
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
+    "name": "Starblast Racing Championship",
+    "abbreviation": "SDC",
+    "version": "1.0",
+    "description": "",
+    "modes": "",
+    "img": "sdc.png",
+    "link": {
+      "url": "",
+      "state": 1
+    },
+    "author": [
+      {
+        "name": ["L.Gaming"],
+        "link": "https://www.youtube.com/channel/UCM7D5GzpRA8pxhgMbMcADpQ"
+      },
+      {
+        "name": ["Bhpsngum"],
+        "link": "https://github.com/Bhpsngum"
+      },
+      {
+        "name": ["Eggsagon","Thulliux"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
+    "name": "Starblast Murder Mystery",
+    "abbreviation": "",
+    "version": "1.0.0 (Beta)",
+    "description": "Based on the Murder Mystery game",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://github.com/Bhpsngum/starblast/blob/master/mods/murder_mystery.js",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Bhpsngum"],
+        "link": "https://github.com/Bhpsngum/"
       }
     ],
     "official": 0,
