@@ -527,7 +527,7 @@
     "modes": "Varies",
     "img": "",
     "link": {
-      "url": "https://pastebin.com/T4a22y7S",
+      "url": "https://pastebin.com/PzYfZBMi",
       "state": 2
     },
     "author": [
@@ -537,6 +537,26 @@
       },
       {
         "name": ["MGRocket"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
+    "name": "X-Series",
+    "abbreviation": "",
+    "version": "",
+    "description": "",
+    "modes": "Varies",
+    "img": "",
+    "link": {
+      "url": "https://pastebin.com/HHK4dyYN",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Void"],
         "link": ""
       }
     ],
