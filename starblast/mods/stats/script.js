@@ -119,6 +119,8 @@
             }
           }
         }
+        player_count["none"] = player_count["prototypes"];
+        player_count_region["none"] = player_count_region["prototypes"];
         for (let i of mods) {
           if (removed_time[i.mod_id]) i.date_removed = removed_time[i.mod_id];
           i.date_created = created_time[i.mod_id] || i.date_created;
