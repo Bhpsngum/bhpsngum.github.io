@@ -124,7 +124,7 @@
     },
     convert: function (forced) {
       let json = $("#input").val() || localStorage.getItem("json-input"), results;
-      try {results = this.types.list[this.types.choose() - 1].parse(json.replace(/^(\n|\r|\s)+/,"").replace(/(\n|\r|\s)+$/,""))}
+      try {results = this.types.list[this.types.choose() - 1].parse(json.trim())}
       catch(e){
         if (forced) {
           json = "Ship Mod Export code"
