@@ -754,5 +754,26 @@
     ],
     "official": 0,
     "event": 0
+  },
+  {
+    "name": "Fitz Arena",
+    "abbreviation": "FA",
+    "version": "1.0",
+    "description": "Fitz Arena is a mod with two teams. Players have to kills ennemies and aliens to gain points. The first team to reach 25K wins.
+Dying make your team losing points.",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://github.com/W0lfan/Fitz-Arena",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Wolfan"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
   }
 ]
