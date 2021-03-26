@@ -52,6 +52,34 @@
     "event": 1
   },
   {
+    "name": "Starblast Dueling Championship",
+    "abbreviation": "SDC",
+    "version": "1.0",
+    "description": "This is the Starblast Dueling Championship mod, here you fight people in fair, 1 on 1 matches (duels).\nChoose your ship and fight!",
+    "modes": "",
+    "img": "https://starblast.data.neuronality.com/modding/img/sdc.jpg",
+    "link": {
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/dueling%20championship.js",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Lexagon"],
+        "link": "https://www.youtube.com/channel/UCM7D5GzpRA8pxhgMbMcADpQ"
+      },
+      {
+        "name": ["Bhpsngum"],
+        "link": "https://github.com/Bhpsngum"
+      },
+      {
+        "name": ["Eggsagon","Thulliux"],
+        "link": ""
+      }
+    ],
+    "official": 1,
+    "event": 0
+  },
+  {
     "name": "Multi-Class Ship Tree",
     "abbreviation": "MCST",
     "version": "1.1 (AOW Version)",
@@ -702,34 +730,6 @@
       {
         "name": ["__"],
         "link": "https://github.com/DoDucMinh1608"
-      }
-    ],
-    "official": 0,
-    "event": 0
-  },
-  {
-    "name": "Starblast Dueling Championship",
-    "abbreviation": "SDC",
-    "version": "1.0",
-    "description": "This is the Starblast Dueling Championship mod, here you fight people in fair, 1 on 1 matches (duels).\nChoose your ship and fight!",
-    "modes": "",
-    "img": "img/sdc.jpg",
-    "link": {
-      "url": "",
-      "state": 1
-    },
-    "author": [
-      {
-        "name": ["Lexagon"],
-        "link": "https://www.youtube.com/channel/UCM7D5GzpRA8pxhgMbMcADpQ"
-      },
-      {
-        "name": ["Bhpsngum"],
-        "link": "https://github.com/Bhpsngum"
-      },
-      {
-        "name": ["Eggsagon","Thulliux"],
-        "link": ""
       }
     ],
     "official": 0,
