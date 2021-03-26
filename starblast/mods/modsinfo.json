@@ -59,7 +59,7 @@
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/sdc.jpg",
     "link": {
-      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/dueling%20championship.js",
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/dueling_championship.js",
       "state": 2
     },
     "author": [
@@ -87,7 +87,7 @@
     "modes": "Free For All (FFA)",
     "img": "https://starblast.data.neuronality.com/modding/img/mcst.jpg",
     "link": {
-      "url": "https://github.com/Bhpsngum/starblast/blob/master/mods/MCST_(by_SChickenMan_and_co).js",
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/mcst.js",
       "state": 2
     },
     "author": [
