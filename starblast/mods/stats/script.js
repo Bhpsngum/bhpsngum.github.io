@@ -13,7 +13,7 @@
     return new Date(date).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})
   }, sw, modStatBox = function(stat, count, index, time) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">`,
-    statinfo = `<h3 style="text-align:center"><a style="text-decoration:none" href="https://starblastio.gamepedia.com/${stat.title.replace(/\s/g,"_")}" target="_blank">${stat.title}</a> <sup>${stat.version}</sup></h3>${stat.new?'<b style="color:yellow;float:right">NEW!</b>':""}${!stat.active?'<b style="color:red;float:right">Removed</b>':""}`;
+    statinfo = `<h3 style="text-align:center"><a style="text-decoration:none" href="https://starblastio.gamepedia.com/${stat.title.replace(/\s/g,"_")}" target="_blank">${stat.title}</a> <sup>${stat.version}</sup></h3>${stat.new&&stat.active?'<b style="color:yellow;float:right">NEW!</b>':""}${!stat.active?'<b style="color:red;float:right">Removed</b>':""}`;
     if (stat.featured || stat.open) {
       statinfo+="<a href='https://starblast.io/' style='text-decoration: none'><b style='color:#69ff69'>"
       if (stat.featured) statinfo+="Featuring";
