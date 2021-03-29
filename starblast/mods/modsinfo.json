@@ -54,7 +54,7 @@
   {
     "name": "Starblast Dueling Championship",
     "abbreviation": "SDC",
-    "version": "1.0",
+    "version": "1.0.1",
     "description": "This is the Starblast Dueling Championship mod, here you fight people in fair, 1 on 1 matches (duels).\nChoose your ship and fight!",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/sdc.jpg",
@@ -63,10 +63,6 @@
       "state": 2
     },
     "author": [
-      {
-        "name": ["Lexagon"],
-        "link": "https://www.youtube.com/channel/UCM7D5GzpRA8pxhgMbMcADpQ"
-      },
       {
         "name": ["Bhpsngum"],
         "link": "https://github.com/Bhpsngum"
