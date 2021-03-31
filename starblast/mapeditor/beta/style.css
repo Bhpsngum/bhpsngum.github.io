@@ -1,5 +1,5 @@
 * {
-  font-size: 1.2vmax
+  font-size: 95%
 }
 *:not([class*=ace]) {
   font-family: Verdana;
@@ -41,7 +41,6 @@ table {
 }
 input {
   width:6.5vmax;
-  font-size: 1.2vmax;
 }
 #footer {
   background-color: inherit;
@@ -60,7 +59,6 @@ input {
 #footer, #footer>* {
   padding: 0.2vmax;
   margin: 0;
-  font-size: 1.2vmax;
 }
 input[type=file], input[type=checkbox] {
   display: none;
@@ -96,7 +94,6 @@ button:disabled, textarea:read-only, input:read-only {
 #modules>tbody>tr>td, #short-main>table>tbody>tr>td {
   padding: 0.5vmax;
   height: 0.15vmax;
-  font-size: 1.2vmax;
 }
 
 .container {
@@ -133,7 +130,7 @@ textarea,#code {
   height:35%;
 }
 .fas {
-  font-size: 1.5vmax;
+  font-size: 130%;
 }
 .as {
   width: 3vmax;
