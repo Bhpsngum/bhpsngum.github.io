@@ -32,8 +32,8 @@ button,input {
   background-color:inherit;
 }
 button {
-  width: 3.5vmax;
-  height: 3.5vmax;
+  width: 3vmax;
+  height: 3vmax;
   cursor: pointer;
 }
 table {
@@ -141,7 +141,7 @@ select {
   border: inherit;
   padding: 0.5vmax;
   margin: 0;
-  height: 3.5vmax;
+  height: 3vmax;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
