@@ -1,5 +1,5 @@
 * {
-  font-size: 1.2vmax
+  font-size: 95%
 }
 *:not([class*=ace]) {
   font-family: Verdana;
@@ -32,8 +32,8 @@ button,input {
   background-color:inherit;
 }
 button {
-  width: 3.5vmax;
-  height: 3.5vmax;
+  width: 3vmax;
+  height: 3vmax;
   cursor: pointer;
 }
 table {
@@ -41,7 +41,6 @@ table {
 }
 input {
   width:6.5vmax;
-  font-size: 1.2vmax;
 }
 #footer {
   background-color: inherit;
@@ -60,7 +59,6 @@ input {
 #footer, #footer>* {
   padding: 0.2vmax;
   margin: 0;
-  font-size: 1.2vmax;
 }
 input[type=file], input[type=checkbox] {
   display: none;
@@ -76,8 +74,8 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 td {
-  height:3.5vmax;
-  width:3.5vmax;
+  height:3vmax;
+  width:3vmax;
   text-align:center;
   border: 0.1vmax solid;
   padding: 0.1vmax;
@@ -96,7 +94,6 @@ button:disabled, textarea:read-only, input:read-only {
 #modules>tbody>tr>td, #short-main>table>tbody>tr>td {
   padding: 0.5vmax;
   height: 0.15vmax;
-  font-size: 1.2vmax;
 }
 
 .container {
@@ -133,7 +130,7 @@ textarea,#code {
   height:35%;
 }
 .fas {
-  font-size: 1.5vmax;
+  font-size: 150%;
 }
 .as {
   width: 3vmax;
@@ -144,7 +141,7 @@ select {
   border: inherit;
   padding: 0.5vmax;
   margin: 0;
-  height: 3.5vmax;
+  height: 3vmax;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
