@@ -1,5 +1,5 @@
 * {
-  font-size: 95%
+  font-size: 100%
 }
 *:not([class*=ace]) {
   font-family: Verdana;
@@ -74,8 +74,8 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 td {
-  height:3.5vmax;
-  width:3.5vmax;
+  height:3vmax;
+  width:3vmax;
   text-align:center;
   border: 0.1vmax solid;
   padding: 0.1vmax;
@@ -130,7 +130,7 @@ textarea,#code {
   height:35%;
 }
 .fas {
-  font-size: 130%;
+  font-size: 150%;
 }
 .as {
   width: 3vmax;
