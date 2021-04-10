@@ -1,0 +1,32 @@
+{
+  "ecp": [
+    {"name": "Star", "decoration": {"symbol": "S"}},
+    {"name": "Reddit", "decoration": {"symbol": "~"}},
+    {"name": "Pirate", "decoration": {"symbol": ""}},
+    {"name": "Centauri Space Force", "url": "csf.png"},
+    {"name": "Proxima Mining Front", "url": "pmf.png"},
+    {"name": "New World Army Citizens", "url": "nwac.png"},
+    {"name": "United Nations Green Eagles", "url": "unge.png"},
+    {"name": "Halo Corsairs", "url": "halo.png"},
+    {"name": "Youtube", "decoration": {}},
+    {"name": "Twitch", "url": "twitch.png"},
+    {"name": "Invader", "decoration": {}},
+    {"name": "Galactic Empire", "decoration": {}},
+    {"name": "Rebel Alliance", "decoration": {}},
+    {"name": "Soloist Defence Force", "decoration": {}},
+    {"name": "Paw", "decoration": {}},
+    {"name": "Gamepedia", "url": "gamepedia.png"},
+    {"name": "Discord", "url": "discord.png"},
+    {"name": "Medic", "url": "medic.jpg"},
+    {"name": "Blank", "decoration": {}}
+  ],
+  "sucp": [
+    {"name": "Developer", "url": "dev.png"},
+    {"name": "Translator", "url": "translator.png"},
+    {"name": "Shipwright", "url": "shipdesigner.jpg"},
+    {"name": "SRC Champ", "url": "srcchamp.png"},
+  ],
+  "ucp": [
+    {"name": "X-27", "url": "x27.png"}
+  ]
+}
