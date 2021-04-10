@@ -1,5 +1,5 @@
 (function(){
-  var ecp_data, query_index, resolution, title = "ECP Icon Viewer - ", name_regex = /^name\=/i, names = {
+  var ecp_data, query_index, resolution, title = " - ECP Icon Viewer", name_regex = /^name\=/i, names = {
     ecp: "Elite Commander Pass (ECP)",
     sucp: "shared Unique Commander Pass (sUCP)",
     ucp: "Unique Commander Pass (UCP)"
@@ -28,7 +28,8 @@
     // load the ecp info to the screen
     $("#index").html((query_index+1) + "/" + ecp_data.length);
     $("#name").html(query_info.name);
-    $("title")[0].innerHTML = title + query_info.name;
+    $("title")[0].innerHTML = query_info.name + title;
+    window.history.pushState({path: 'url'}, '', window.location.protocol + "//" + window.location.host + window.location.pathname + "?name=" + query_info.name.toLowerCase());
     $("#type").html(names[query_info.type] || "Unknown");
     // load the ecp image
     resolution = Number($("#custom-res").val() || localStorage.getItem("ecp-resolution")) || 200;
@@ -64,9 +65,10 @@
   }, search = function(name) {
     if (!name) {
       let queries = window.location.search.replace(/^\?/,"").split("&");
-      name = (queries.find(function (query) {return name_regex.test(query)}) || "").replace(name_regex, "")
+      name = (queries.find(function (query) {return name_regex.test(query)}) || "").replace(name_regex, "").toLowerCase()
     }
-    return ecp_data.findIndex(function(ecp) {return ecp.name.toLowerCase() === name.toLowerCase()}) || 0;
+    let i = ecp_data.findIndex(function(ecp) {return ecp.name.toLowerCase() === name});
+    return i==-1?0:i;
   }
   window.addEventListener("load", fetch);
 })();

@@ -1,14 +1,14 @@
 {
   "ecp": [
-    {"name": "Star", "decoration": {"unicode": 53}},
-    {"name": "Reddit", "decoration": {"unicode": 126}},
-    {"name": "Pirate", "decoration": {"unicode": 127}},
+    {"name": "Star", "decoration": {"unicode": 53, "fill": "hsl(200,50%,20%)", "stroke": "hsl(50,100%,70%)"}},
+    {"name": "Reddit", "decoration": {"unicode": 126, "fill": "#246", "stroke": "#FFF"}},
+    {"name": "Pirate", "decoration": {"unicode": 127, "fill": "#111", "stroke": "#FFF"}},
     {"name": "Centauri Space Force", "url": "csf.png"},
     {"name": "Proxima Mining Front", "url": "pmf.png"},
     {"name": "New World Army Citizens", "url": "nwac.png"},
     {"name": "United Nations Green Eagles", "url": "unge.png"},
     {"name": "Halo Corsairs", "url": "halo.png"},
-    {"name": "Youtube", "decoration": {"unicode": 90}},
+    {"name": "Youtube", "decoration": {"unicode": 90, "fill": "#B11", "stroke": "#FFF"}},
     {"name": "Twitch", "url": "twitch.png"},
     {"name": "Invader", "decoration": {"custom": [
         [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
@@ -19,12 +19,12 @@
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1],
         [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1],
         [0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0]
-      ]
+      ], "fill": "#111", "stroke": "hsl(120,100%,50%)"
     }},
-    {"name": "Galactic Empire", "decoration": {"unicode": 52}},
-    {"name": "Rebel Alliance", "decoration": {"unicode": 58}},
-    {"name": "Soloist Defence Force", "decoration": {"unicode": 59}},
-    {"name": "Paw", "decoration": {"unicode": 56}},
+    {"name": "Galactic Empire", "decoration": {"unicode": 52, "fill": "#111", "stroke": "#FFF"}},
+    {"name": "Rebel Alliance", "decoration": {"unicode": 58, "fill": "#111", "stroke": "#F00"}},
+    {"name": "Soloist Defence Force", "decoration": {"unicode": 59, "fill": "#111", "stroke": "#FFF"}},
+    {"name": "Paw", "decoration": {"unicode": 56, "fill": "#DA5", "stroke": "#000"}},
     {"name": "Gamepedia", "url": "gamepedia.png"},
     {"name": "Discord", "url": "discord.png"},
     {"name": "Medic", "url": "medic.jpg"},

@@ -4,3 +4,18 @@
   font-weight:normal;
   font-style:normal
 }
+* {
+  font-family: Verdana;
+  font-size: 100%;
+}
+
+#info {
+  text-align: center;
+}
+
+#badge-showcase {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
