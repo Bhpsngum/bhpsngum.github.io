@@ -28,7 +28,7 @@
     {"name": "Gamepedia", "url": "gamepedia.png"},
     {"name": "Discord", "url": "discord.png"},
     {"name": "Medic", "url": "medic.jpg"},
-    {"name": "Blank", "decoration": {}}
+    {"name": "Blank"}
   ],
   "sucp": [
     {"name": "Developer", "url": "dev.png"},
