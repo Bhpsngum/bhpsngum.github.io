@@ -3,9 +3,30 @@
   <head>
     <meta charset="utf-8">
     <title>ECP Badge Viewer</title>
+    <script src="https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <link rel = "stylesheet" href = "style.css">
+    <link rel = "icon" href = "icon.png">
   </head>
   <body>
-
+    <div id = "infobox">
+      <div id = "info">
+        <div id = "index"></div>
+        <div id = "name"></div>
+        <div id = "type"></div>
+        <div id = "date"></div>
+      </div>
+      <div id = "resolution">
+        <div>Choose resolution:</div>
+        <select id = "res-selection">
+          <option value = "original">Original</option>
+          <option value = "default">Default (200px)</option>
+          <option value = "custom">Custom:</option>
+        </select>
+        <input type = "number" id = "custom-res">
+        <button id = "download">Download File</button>
+      </div>
+    </div>
+    <img id = "badge-showcase">
   </body>
   <script type="text/javascript" src="script.js"></script>
 </html>
