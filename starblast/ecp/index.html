@@ -8,6 +8,7 @@
     <link rel = "icon" href = "icon.png">
   </head>
   <body>
+    <div id="init">Initializating...</div>
     <div id = "infobox">
       <div id = "info">
         <div id = "index"></div>
@@ -23,10 +24,16 @@
           <option value = "custom">Custom</option>
         </select>
         <input type = "number" id = "custom-res">
-        <button id = "download">Download File</button>
+        <button id = "apply-res">Apply</button>
+        <button id = "download">Download</button>
+        <a id="download-template" style = "display: none;"></a>
       </div>
     </div>
-    <img id = "badge-showcase">
+    <div>
+      <img id = "badge-showcase">
+      <a href = "javascript:void(0);" id = "next" class = "navigation" title = "Next">&gt;</a>
+      <a href = "javascript:void(0);" id = "prev" class = "navigation" title = "Previous">&lt;</a>
+    </div>
   </body>
-  <script type="text/javascript" src="script.js"></script>
+  <script type="text/javascript" src="script.js" defer></script>
 </html>

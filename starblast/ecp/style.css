@@ -6,7 +6,14 @@
 }
 * {
   font-family: Verdana;
-  font-size: 100%;
+  font-size: 100%
+}
+
+#infobox {
+  position: fixed;
+  top: 0;
+  padding: 1%;
+  width: 100vw;
 }
 
 #info {
@@ -14,6 +21,30 @@
 }
 
 #badge-showcase {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.navigation {
+  position: fixed;
+  text-decoration: none;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 200%;
+}
+
+#prev {
+  left: 1%;
+}
+
+#next {
+  right: 1%;
+}
+
+#init {
   position: absolute;
   left: 50%;
   top: 50%;
