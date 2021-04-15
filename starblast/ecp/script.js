@@ -52,7 +52,7 @@ window.addEventListener("load", function(){
       }, applySize = function(init) {
         let request_id = current_id++;
         $("#download").attr("disabled", true);
-        let t = init?localStorage.getItem("ecp-res-option"):$("#res-selection>option:selected").val(), query_info = ecp_data[query_index];
+        let t = (init?localStorage.getItem("ecp-res-option"):$("#res-selection>option:selected").val()) || "default", query_info = ecp_data[query_index];
         if (t == "original") size = osize;
         else if (t == "default") size = 200;
         else {
@@ -143,6 +143,14 @@ window.addEventListener("load", function(){
       });
       $("#download").on("click", function() {
         $("#download-template")[0].click()
+      });
+      $("#hideinfo").on("click", function() {
+        $("#infobox").css("display", "none");
+        $("#showinfo").css("display", "");
+      });
+      $("#showinfo").on("click", function() {
+        $("#infobox").css("display", "");
+        $("#showinfo").css("display", "none");
       });
       fetch(true);
       $("#init").css("display", "none");
