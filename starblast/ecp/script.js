@@ -37,6 +37,7 @@ window.addEventListener("load", function(){
         $("#name").html(query_info.name);
         $("#date").html("");
         $("#badge-showcase")[0].src = "";
+        $("link[rel='icon']").attr("href","icon.png");
         $("title")[0].innerHTML = query_info.name + title;
         window.history.pushState({path: 'url'}, '', window.location.protocol + "//" + window.location.host + window.location.pathname + "?name=" + query_info.name.toLowerCase().replace(/\s/g, "_"));
         $("#type").html(names[query_info.type] || "Unknown");
@@ -120,6 +121,7 @@ window.addEventListener("load", function(){
         }
       }, loadImage = function (canvas, info) {
         let link = canvas.toDataURL();
+        $("link[rel='icon']").attr("href", link);
         $("#download-template").attr({
           href: link,
           download: info.id + (size!=osize?("_"+size+"px"):"")
