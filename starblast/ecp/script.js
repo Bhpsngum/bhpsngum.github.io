@@ -172,15 +172,15 @@ window.addEventListener("load", function(){
         $("#download-template")[0].click()
       });
       document.onkeydown = function (event) {
-        if ($("#input").is(":focus")) switch (event.keyCode) {
+        if ($("input").is(":focus")) switch (event.keyCode) {
           case 13: /* Enter */
             if ($("#custom-res").is(":focus")) applySize();
-            $("#input").blur();
+            $("input").blur();
             break;
         }
         else switch (event.keyCode) {
           default:
-            let handler = Object.values(nav_key_actions).find(action => action.keyCode == event.keyCode);
+            let handler = (Object.values(nav_key_actions).find(action => action.keyCode == event.keyCode)||{}).handler;
             if (typeof handler == "function") handler();
         }
       }
