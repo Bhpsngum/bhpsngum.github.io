@@ -2,7 +2,7 @@ window.addEventListener("load", function(){
   $("#init").css("font-family", "SBGlyphs");
   let it = setInterval(function () {
     if (document.fonts.check("12px 'SBGlyphs'")) {
-      var ecp_data, query_index, osize, current_id = 0, resolution, size, title = " - ECP Icon Viewer", name_regex = /^name\=/i, names = {
+      var ecp_data, query_index, osize, current_id = 0, resolution, size, title = " - Starblast ECP Icon Viewer", name_regex = /^name\=/i, names = {
         ecp: "Elite Commander Pass (ECP)",
         sucp: "shared Unique Commander Pass (sUCP)",
         ucp: "Unique Commander Pass (UCP)"
