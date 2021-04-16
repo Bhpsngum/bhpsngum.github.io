@@ -131,29 +131,58 @@ window.addEventListener("load", function(){
         localStorage.setItem("ecp-resolution", size);
         $("#custom-res").val(size);
       }
-      $("#prev").on("click", function() {
-        apply((query_index>0?query_index:ecp_data.length)-1)
-      });
-      $("#next").on("click", function() {
-        apply(++query_index<ecp_data.length?query_index:0)
-      });
       $("#res-selection").on("change", function() {
         applySize()
       });
       $("#apply-res").on("click", function() {
         applySize()
       });
+      var nav_key_actions = {
+        prev: {
+          handler: function() {
+            apply((query_index>0?query_index:ecp_data.length)-1)
+          },
+          keyCode: 37
+        },
+        next: {
+          handler: function() {
+            apply(++query_index<ecp_data.length?query_index:0)
+          },
+          keyCode: 39
+        },
+        hideinfo: {
+          handler: function() {
+            $("#infobox").css("display", "none");
+            $("#showinfo").css("display", "");
+          },
+          keyCode: 38
+        },
+        showinfo: {
+          handler: function() {
+            $("#infobox").css("display", "");
+            $("#showinfo").css("display", "none");
+          },
+          keyCode: 40
+        }
+      }
+      for (let i in nav_key_actions) {
+        $("#" + i).on("click", nav_key_actions[i].handler);
+      }
       $("#download").on("click", function() {
         $("#download-template")[0].click()
       });
-      $("#hideinfo").on("click", function() {
-        $("#infobox").css("display", "none");
-        $("#showinfo").css("display", "");
-      });
-      $("#showinfo").on("click", function() {
-        $("#infobox").css("display", "");
-        $("#showinfo").css("display", "none");
-      });
+      document.onkeydown = function (event) {
+        if ($("#input").is(":focus")) switch (event.keyCode) {
+          case 13: /* Enter */
+            $("#input").blur();
+            break;
+        }
+        else switch (event.keyCode) {
+          default:
+            let handler = nav_key_actions.find(action => action.keyCode == event.keyCode);
+            if (typeof handler == "function") handler();
+        }
+      }
       fetch(true);
       $("#init").css("display", "none");
       clearInterval(it);
