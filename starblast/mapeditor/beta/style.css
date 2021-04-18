@@ -1,5 +1,5 @@
 * {
-  font-size: 95%
+  font-size: 1vmax
 }
 *:not([class*=ace]) {
   font-family: Verdana;
@@ -130,7 +130,7 @@ textarea,#code {
   height:35%;
 }
 .fas {
-  font-size: 150%;
+  font-size: 1.5vmax;
 }
 .as {
   width: 3vmax;
