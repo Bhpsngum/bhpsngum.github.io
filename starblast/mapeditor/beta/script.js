@@ -1110,7 +1110,7 @@ window.t = (function(){
             "padding-top": (this.main.height()+10/detectZoom.device())+"px",
             "padding-bottom": $("#footer").height()+"px"
           });
-          try{$("#info").css("width",($("#footer").width()-$("#XY").width()-10/detectZoom.device())+"px")}catch(e){}
+          try{$("#info").css("width",($("#footer").width()-$("#XY").width()-15/detectZoom.device())+"px")}catch(e){}
         },
         set: function(index) {
           for (let i=0;i<this.modules.length;i++) {
