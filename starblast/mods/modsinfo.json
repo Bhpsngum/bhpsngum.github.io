@@ -810,5 +810,29 @@
     ],
     "official": 0,
     "event": 0
+  },
+  {
+    "name": "A-Series",
+    "abbreviation": "",
+    "version": "1.0",
+    "description": "",
+    "modes": "Team/Survival",
+    "img": "",
+    "link": {
+      "url": "https://pastebin.com/Q9W8N9JE",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["ORION"],
+        "link": ""
+      },
+      {
+        "name": ["iom"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
   }
 ]
