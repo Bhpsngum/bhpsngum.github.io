@@ -2,6 +2,7 @@ body {
   font-family: Verdana;
   background-color: rgb(24,26,27);
   text-align: center;
+  overflow: hidden;
 }
 p,a {
   margin: 10pt;

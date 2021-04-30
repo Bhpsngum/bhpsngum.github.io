@@ -3,10 +3,11 @@
   {
     return ~~(Math.random()*num);
   }
-  let name = ["Megumin","Black Hole"],img_types = ["png","jpg"],
+  let name = ["Megumin","Black Hole","Hanako-kun"],img_types = ["png","jpg"],
   styles = [
     [null,null,"rgb(0,0,0)",null,"rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)"],
-    ["rgb(0,0,0)",null,null,"rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)",null,"rgb(0,0,0)",null,null,"rgb(0,0,0)"]
+    ["rgb(0,0,0)",null,null,"rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)",null,"rgb(0,0,0)",null,null,"rgb(0,0,0)"],
+    [null,null,null,null,null,null,null,null,null,null,null]
   ];
   (!t) && document.addEventListener('DOMContentLoaded', function(){
     let i = random(name.length), ind = random(styles[i].length), body = document.body;
