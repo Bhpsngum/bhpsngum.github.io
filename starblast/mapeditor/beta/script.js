@@ -177,7 +177,7 @@ window.t = (function(){
         StarblastMap.Engine.info.view(null,text);
       },
       checkAlpha: function(alpha) {
-        alpha = Number((alpha != void 0)?alpha:(localStorage.getItem("bgI-alpha")||1));
+        alpha = Number((alpha != void 0)?alpha:(localStorage.getItem("bgI-alpha")||100));
         this.alpha = Math.min(Math.max((isNaN(alpha)?100:alpha),0),100);
         this.alphaInput.val(this.alpha);
         localStorage.setItem("bgI-alpha",this.alpha);
