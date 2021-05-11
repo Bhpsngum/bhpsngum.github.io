@@ -78,7 +78,6 @@
     setCountdown();
     checknewAvailableMods();
     loadInfos();
-    adjustwidth();
   }, setCountdown = function() {
     let x = 0;
     timer.clear();
