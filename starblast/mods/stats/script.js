@@ -1,7 +1,6 @@
 (function(){
   var audioAlert = new Audio('alert.mp3'), notif_box = $("#notif-enabled"), notif_enabled, available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
   removed_time = {
-    "none": 1578454316626,
     "prototypes": 1578454316626,
     "racing": 1592486063588
   },
@@ -12,7 +11,7 @@
   }, formatDate = function(date) {
     return new Date(date).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})
   }, sw, modStatBox = function(stat, count, index, time) {
-    let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id != "none"?stat.mod_id:"prototypes"}.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">`,
+    let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id}.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">`,
     statinfo = `<h3 style="text-align:center"><a style="text-decoration:none" href="https://starblastio.fandom.com/wiki/${stat.title.replace(/\s/g,"_")}" target="_blank">${stat.title}</a> <sup>${stat.version}</sup></h3>${stat.new&&stat.active?'<b style="color:yellow;float:right">NEW!</b>':""}${!stat.active?'<b style="color:red;float:right">Removed</b>':""}`;
     if (stat.featured || stat.open) {
       statinfo+="<a href='https://starblast.io/' style='text-decoration: none'><b style='color:#69ff69'>"
@@ -105,6 +104,15 @@
     $.getJSON("https://starblast.io/modsinfo.json").then(function(modss) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
         mods = modss[0];
+        for (let mod of mods) {
+          if (mod.mod_id == "none") switch (mod.title) {
+            case "Starblast Prototypes":
+              mod.mod_id = "prototypes";
+              break;
+            default:
+              break;
+          }
+        }
         origin_mods = [...mods];
         player_count = {};
         player_count_region = {};
@@ -118,8 +126,6 @@
             }
           }
         }
-        player_count["none"] = player_count["prototypes"];
-        player_count_region["none"] = player_count_region["prototypes"];
         for (let i of mods) {
           if (removed_time[i.mod_id]) i.date_removed = removed_time[i.mod_id];
           i.date_created = created_time[i.mod_id] || i.date_created;
@@ -138,7 +144,7 @@
   }, showNotification = function (mod) {
     let title = `New mod ${mod.featured?"featuring":"available"} in Modding Space!`, options = {
       body: mod.title+"\nby "+mod.author,
-      icon: `https://starblast.data.neuronality.com/modding/img/${mod.mod_id!="none"?mod.mod_id:"prototypes"}.jpg`,
+      icon: `https://starblast.data.neuronality.com/modding/img/${mod.mod_id}.jpg`,
       tag: "newMod"
     }
     audioAlert.play();
