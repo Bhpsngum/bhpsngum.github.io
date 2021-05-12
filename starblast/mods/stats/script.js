@@ -139,8 +139,17 @@
           addServiceWorker("/sw.js", function(t){sw = t});
           init = !0;
         }
-      }).fail(e => setStatus(1));
-    }).fail(e => setStatus(1));
+        queueNextUpdate();
+      }).fail(function(e) {
+        setStatus(1);
+        queueNextUpdate();
+      });
+    }).fail(function(e) {
+      setStatus(1);
+      queueNextUpdate();
+    });
+  }, queueNextUpdate = function() {
+    setTimeout(update, 5000)
   }, showNotification = function (mod) {
     let title = `New mod ${mod.featured?"featuring":"available"} in Modding Space!`, options = {
       body: mod.title+"\nby "+mod.author,
@@ -185,10 +194,8 @@
     $(".modStatBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px","border-radius":m+"px"});
     console.log("resized");
   }
-  update();
   window.addEventListener("resize", adjustwidth);
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
-  notif_box.on("change")
-  setInterval(update, 5000);
+  update();
 })();
