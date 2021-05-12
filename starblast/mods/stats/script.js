@@ -134,6 +134,7 @@
         if (!init) {
           count();
           $("#welcome-text").remove();
+          adjustwidth();
           setInterval(count, 1000);
           addServiceWorker("/sw.js", function(t){sw = t});
           init = !0;
