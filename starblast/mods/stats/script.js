@@ -136,6 +136,7 @@
           $("#welcome-text").remove();
           setInterval(count, 1000);
           adjustwidth();
+          window.addEventListener("resize", adjustwidth);
           addServiceWorker("/sw.js", function(t){sw = t});
           init = !0;
         }
@@ -184,7 +185,6 @@
     let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
     $(".modStatBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px","border-radius":m+"px"});
   }
-  window.addEventListener("resize", adjustwidth);
   update();
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
