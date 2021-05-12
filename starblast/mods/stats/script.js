@@ -184,7 +184,7 @@
     let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
     $(".modStatBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px","border-radius":m+"px"});
   }
-  try{new ResizeSensor($("#title")[0], adjustwidth)}catch(e){}
+  window.addEventListener("resize", adjustwidth);
   update();
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
