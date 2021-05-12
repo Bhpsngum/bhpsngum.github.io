@@ -135,7 +135,6 @@
           count();
           $("#welcome-text").remove();
           setInterval(count, 1000);
-          adjustwidth();
           addServiceWorker("/sw.js", function(t){sw = t});
           init = !0;
         }
@@ -194,7 +193,7 @@
     $(".modStatBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px","border-radius":m+"px"});
     console.log("resized");
   }
-  window.addEventListener("resize", adjustwidth);
+  $("h1#title")[0].addEventListener("resize", adjustwidth);
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
   update();
