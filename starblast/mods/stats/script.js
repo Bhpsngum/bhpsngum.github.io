@@ -199,7 +199,7 @@
     console.log("Resized because window size is changed");
     adjustwidth();
   });
-  document.addEventListener("ready", function() {
+  $(document).ready(function() {
     console.log("Initial resize");
     adjustwidth();
   });
