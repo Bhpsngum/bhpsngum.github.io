@@ -199,9 +199,12 @@
     console.log("Resized because window size is changed");
     adjustwidth();
   });
-  $(document).ready(function() {
+  $(document).one('DOMSubtreeModified', function(e) {
     console.log("Initial resize");
     adjustwidth();
+  });
+  $(document).ready(function() {
+
   });
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
