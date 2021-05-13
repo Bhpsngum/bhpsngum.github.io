@@ -134,6 +134,7 @@
         if (!init) {
           count();
           $("#welcome-text").remove();
+          console.log("Initial resize");
           adjustwidth();
           setInterval(count, 1000);
           addServiceWorker("/sw.js", function(t){sw = t});
@@ -192,10 +193,16 @@
   }, img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, adjustwidth = function(){
     let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
     $(".modStatBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px","border-radius":m+"px"});
-    console.log("resized");
   }
   //try{new ResizeSensor($("h1#title")[0], adjustwidth)}catch(e){}
-  window.addEventListener("resize", adjustwidth);
+  window.addEventListener("resize", function() {
+    console.log("Resized because window size is changed");
+    adjustwidth();
+  });
+  $("h1#title")[0].addEventListener("resize", function() {
+    console.log("Resize on changes to h1#title");
+    adjustwidth();
+  });
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
   update();
