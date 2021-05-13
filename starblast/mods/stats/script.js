@@ -199,8 +199,8 @@
     console.log("Resized because window size is changed");
     adjustwidth();
   });
-  $("h1#title")[0].addEventListener("resize", function() {
-    console.log("Resize on changes to h1#title");
+  document.addEventListener("ready", function() {
+    console.log("Initial resize");
     adjustwidth();
   });
   checknotifEnabled(!0);
