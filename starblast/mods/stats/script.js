@@ -194,7 +194,8 @@
     $(".modStatBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px","border-radius":m+"px"});
     console.log("resized");
   }
-  try{new ResizeSensor($("h1#title")[0], adjustwidth)}catch(e){}
+  //try{new ResizeSensor($("h1#title")[0], adjustwidth)}catch(e){}
+  window.addEventListener("resize", adjustwidth);
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
   update();
