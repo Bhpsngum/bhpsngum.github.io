@@ -134,8 +134,8 @@
         if (!init) {
           count();
           $("#welcome-text").remove();
-          console.log("Initial resize");
           adjustwidth();
+          setTimeout(adjustwidth, 1000);
           setInterval(count, 1000);
           addServiceWorker("/sw.js", function(t){sw = t});
           init = !0;
@@ -194,17 +194,7 @@
     let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
     $(".modStatBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px","border-radius":m+"px"});
   }
-  //try{new ResizeSensor($("h1#title")[0], adjustwidth)}catch(e){}
-  window.addEventListener("resize", function() {
-    console.log("Resized because window size is changed");
-    adjustwidth();
-  });
-  var obs = new MutationObserver(function(e) {
-    console.log("Initial resize");
-    obs.disconnect();
-    adjustwidth();
-  });
-  obs.observe($("h1#title")[0], { attributes: true, childList: true, characterData: true });
+  window.addEventListener("resize", adjustwidth);
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
   update();
