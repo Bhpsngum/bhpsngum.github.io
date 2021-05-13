@@ -199,13 +199,12 @@
     console.log("Resized because window size is changed");
     adjustwidth();
   });
-  $(document).one('DOMSubtreeModified', function(e) {
+  var obs = new MutationObserver(function(e) {
     console.log("Initial resize");
+    obs.disconnect();
     adjustwidth();
   });
-  $(document).ready(function() {
-
-  });
+  obs.observe($("h1#title"), { attributes: true, childList: true, characterData: true });
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
   update();
