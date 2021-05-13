@@ -204,7 +204,7 @@
     obs.disconnect();
     adjustwidth();
   });
-  obs.observe($("h1#title"), { attributes: true, childList: true, characterData: true });
+  obs.observe($("h1#title")[0], { attributes: true, childList: true, characterData: true });
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
   update();
