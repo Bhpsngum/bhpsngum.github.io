@@ -135,7 +135,7 @@
           count();
           $("#welcome-text").remove();
           adjustwidth();
-          setTimeout(adjustwidth, 1000);
+          setTimeout(adjustwidth, 1);
           setInterval(count, 1000);
           addServiceWorker("/sw.js", function(t){sw = t});
           init = !0;
