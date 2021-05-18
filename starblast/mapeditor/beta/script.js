@@ -51,7 +51,7 @@ window.t = (function(){
       idInput: $("#map_id"),
       modeChecker: $("#game_mode"),
       loadGameModes: function() {
-        this.modeChecker.innerHTML = this.installed_modes.map(i => "<option>"+i.name+"</option>").join("");
+        this.modeChecker.html(this.installed_modes.map(i => "<option>"+i.name+"</option>").join(""));
       }
     },
     Coordinates: {
