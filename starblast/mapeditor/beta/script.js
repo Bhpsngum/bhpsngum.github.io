@@ -47,7 +47,7 @@ window.t = (function(){
         localStorage.setItem("game_mode", game_mode);
         this.modeChecker.prop("selectedIndex", game_mode);
         this.game_mode = game_mode;
-        this.createMapByID();
+        !init && this.createMapByID();
       },
       idInput: $("#map_id"),
       modeChecker: $("#game_mode"),
