@@ -50,6 +50,7 @@ window.t = (function(){
       },
       idInput: $("#map_id"),
       modeChecker: $("#game_mode"),
+      applyButton: $("#IDMapperApply"),
       loadGameModes: function() {
         this.modeChecker.html(this.installed_modes.map(i => "<option>"+i.name+"</option>").join(""));
       }
@@ -1031,7 +1032,8 @@ window.t = (function(){
           ["editBrush",null,"Edit the selected custom brush"],
           ["coordtype",null,"Toggle Coordinates' perspective"],
           ["map_id",null, "(IDMapper) Map ID"],
-          ["game_mode",null,"(IDMapper) Applied Game Mode"]
+          ["game_mode",null,"(IDMapper) Applied Game Mode"],
+          ["IDMapperApply",null,"(IDMapper) Apply changes and create map"]
         ],
         view: function (title,text,HotKey) {
           $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}${HotKey?(" (HotKey "+HotKey+")"):""}`);
@@ -1226,8 +1228,7 @@ window.t = (function(){
   $("#hide-menu").on("click", function(){StarblastMap.Engine.menu.hide(!0)});
   StarblastMap.background.alphaInput.on("change", function(){StarblastMap.background.checkAlpha(StarblastMap.background.alphaInput.val())});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
-  StarblastMap.IDMapper.idInput.on("change", function(){StarblastMap.IDMapper.check()});
-  StarblastMap.IDMapper.modeChecker.on("change", function(){StarblastMap.IDMapper.check()})
+  StarblastMap.IDMapper.applyButton.on("click", function(){StarblastMap.IDMapper.check()});
   StarblastMap.Buttons.import.on("change", function(e) {
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];

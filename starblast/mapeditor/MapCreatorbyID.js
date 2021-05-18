@@ -130,7 +130,7 @@
       }
     }
   ], createMapByID = function() {
-    var size = this.StarblastMap.size, edge = size/2, t = new llOO1(this.map_id, edge, installed_modes[this.game_mode]), map = [...new Array(size)].map(i=> new Array(size).fill(0)), f = {};
+    var size = this.StarblastMap.size, edge = size/2, t = new llOO1(this.map_id, edge, this.installed_modes[this.game_mode]), map = [...new Array(size)].map(i=> new Array(size).fill(0)), f = {};
     for (let i = -edge; i < edge; i++) {
       for (let j = -edge; j < edge; j++) {
         t.get(i,j,f);
