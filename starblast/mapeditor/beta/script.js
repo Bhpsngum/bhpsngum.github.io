@@ -1183,6 +1183,7 @@ window.t = (function(){
     }
   }
   StarblastMap.Engine.info.list.unshift(...StarblastMap.Engine.menu.modules.map((i,j) => ["menu"+j,null,i+" Tab"]));
+  bindIDMapper(StarblastMap);
   Object.assign(StarblastMap.Asteroids.changeSize,{
     applySize: function(key)
     {
