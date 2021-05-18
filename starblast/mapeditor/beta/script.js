@@ -1256,7 +1256,7 @@ window.t = (function(){
     StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
     document.onkeydown = function(e)
     {
-      let size=["#brush_size","#map_size","#background-color","#border-color","#as-color","#maxASSize","#minASSize","#brushname","#brushdesc","#brushicon","#brushauthor",".ace_text-input"],check=[];
+      let size=["#brush_size","#map_size","#background-color","#border-color","#as-color","#maxASSize","#minASSize","#brushname","#brushdesc","#brushicon","#brushauthor",".ace_text-input","#map_id"],check=[];
       for (let i of size) check.push($(i).is(":focus"));
       if (!Math.max(...check))
       {
