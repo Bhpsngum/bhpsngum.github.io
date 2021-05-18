@@ -141,7 +141,7 @@
   }
   window.bindIDMapper = function(object) {
     Object.assign(object.IDMapper, {
-      createMapByID: createMapByID.bind(object.IDMapper),
+      createMapByID: createMapByID,
       installed_modes: installed_modes
     });
   }
