@@ -1029,7 +1029,9 @@ window.t = (function(){
           ["addBrush",null,"Add your custom brush"],
           ["removeBrush",null,"Remove the selected custom brush"],
           ["editBrush",null,"Edit the selected custom brush"],
-          ["coordtype",null,"Toggle Coordinates' perspective"]
+          ["coordtype",null,"Toggle Coordinates' perspective"],
+          ["map_id",null, "(IDMapper) Map ID"],
+          ["game_mode",null,"(IDMapper) Applied Game Mode"]
         ],
         view: function (title,text,HotKey) {
           $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}${HotKey?(" (HotKey "+HotKey+")"):""}`);
@@ -1379,7 +1381,7 @@ window.t = (function(){
     StarblastMap.Engine.setURL(StarblastMap.export("url"));
     StarblastMap.copy("url");
   });
-  for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize"])
+  for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize","map_id"])
   $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
   for (let i of StarblastMap.Engine.info.list) $("#"+i[0]).on("mouseover",function(){
     StarblastMap.Engine.info.view(i[1],i[2],i[3]);
