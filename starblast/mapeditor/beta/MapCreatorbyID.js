@@ -129,7 +129,7 @@
         return i = Math.sqrt(t * t + e * e), s = .5 * Math.sqrt(2), null != this.options.teams && 1 === this.options.teams.length && (s = 0), i = Math.abs(i - s), i < .15 ? 0 : 1
       }
     }
-  ], createMapById = function() {
+  ], createMapByID = function() {
     var size = this.StarblastMap.size, edge = size/2, t = new llOO1(this.map_id, edge, installed_modes[this.game_mode]), map = [...new Array(size)].map(i=> new Array(size).fill(0)), f = {};
     for (let i = -edge; i < edge; i++) {
       for (let j = -edge; j < edge; j++) {
