@@ -36,6 +36,25 @@ window.t = (function(){
     info: function(t) {
       return function(){StarblastMap.Engine.info.view(null,`${t?"Touch":"Left-click"} to apply asteroid, ${t?"One-finger swipe":"right-click to remove, drag"} for trails`)}
     },
+    IDMapper: {
+      StarblastMap: StarblastMap,
+      check: function (init) {
+        let id = Math.round(Math.max(Math.min(init?localStorage.getItem("map_id"):this.idInput.val(), 9999), 1)) || 5000;
+        let game_mode = Number(!!parseInt(init?localStorage.getItem("game_mode"):this.modeChecker.prop("selectedIndex")));
+        localStorage.setItem("map_id", id);
+        this.idInput.val(id);
+        this.map_id = id;
+        localStorage.setItem("game_mode", game_mode);
+        this.modeChecker.prop("selectedIndex", game_mode);
+        this.game_mode = game_mode;
+        this.createMapByID();
+      },
+      idInput: $("#map_id"),
+      modeChecker: $("#game_mode"),
+      loadGameModes: function() {
+        this.modeChecker.innerHTML = this.installed_modes.map(i => "<option>"+i.name+"</option>").join("");
+      }
+    },
     Coordinates: {
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
@@ -1235,6 +1254,8 @@ window.t = (function(){
     }
     StarblastMap.background.check(null,0,1);
     StarblastMap.background.checkAlpha();
+    StarblastMap.IDMapper.loadGameModes();
+    StarblastMap.IDMapper.check(1);
   }
   if (!StarblastMap.Engine.supportClipboardAPI) {
     $("#main").append("<p>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
@@ -1365,6 +1386,8 @@ window.t = (function(){
   $("#hide-menu").on("click", function(){StarblastMap.Engine.menu.hide(!0)});
   StarblastMap.background.alphaInput.on("change", function(){StarblastMap.background.checkAlpha(StarblastMap.background.alphaInput.val())});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
+  StarblastMap.IDMapper.idInput.on("change", function(){StarblastMap.IDMapper.check()});
+  StarblastMap.IDMapper.modeChecker.on("change", function(){StarblastMap.IDMapper.check()})
   StarblastMap.Buttons.import.on("change", function(e) {
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];

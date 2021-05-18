@@ -117,29 +117,32 @@
     }, t
   }(), installed_modes = [
     {
+      name: "Survival",
+      options: {},
+      asteroidsDensityModifier: function (t, e) { return 1 }
+    },
+    {
       name: "Team",
       options: {teams: [1,1]},
       asteroidsDensityModifier: function(t, e) {
         var i, s;
         return i = Math.sqrt(t * t + e * e), s = .5 * Math.sqrt(2), null != this.options.teams && 1 === this.options.teams.length && (s = 0), i = Math.abs(i - s), i < .15 ? 0 : 1
       }
-    },
-    {
-      name: "Survival",
-      options: {},
-      asteroidsDensityModifier: function (t, e) { return 1 }
     }
-  ], createMapById = function(id, mode_index) {
-    var edge = this.size/2, t = new llOO1(id, edge, installed_modes[mode_index]), map = [...new Array(this.size)].map(i=> new Array(this.size).fill(0)), f = {};
+  ], createMapById = function() {
+    var size = this.StarblastMap.size, edge = size/2, t = new llOO1(this.map_id, edge, installed_modes[this.game_mode]), map = [...new Array(size)].map(i=> new Array(size).fill(0)), f = {};
     for (let i = -edge; i < edge; i++) {
       for (let j = -edge; j < edge; j++) {
         t.get(i,j,f);
         if (f.on) map[Math.trunc(edge-f.y-0.1)][Math.trunc(f.x+edge)] = Math.min(Math.round(f.size*100/6),9);
       }
     }
-    this.load(map);
+    this.StarblastMap.load(map);
   }
   window.bindIDMapper = function(object) {
-    object.createMapById = createMapById;
+    Object.assign(object.IDMapper, {
+      createMapByID: createMapByID.bind(object.IDMapper),
+      installed_modes: installed_modes
+    });
   }
 })();
