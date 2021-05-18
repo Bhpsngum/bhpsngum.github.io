@@ -37,7 +37,6 @@ window.t = (function(){
       return function(){StarblastMap.Engine.info.view(null,`${t?"Touch":"Left-click"} to apply asteroid, ${t?"One-finger swipe":"right-click to remove, drag"} for trails`)}
     },
     IDMapper: {
-      StarblastMap: StarblastMap,
       check: function (init) {
         let id = Math.round(Math.max(Math.min(init?localStorage.getItem("map_id"):this.idInput.val(), 9999), 1)) || 5000;
         let game_mode = Number(!!parseInt(init?localStorage.getItem("game_mode"):this.modeChecker.prop("selectedIndex")));
@@ -1203,6 +1202,7 @@ window.t = (function(){
   }
   StarblastMap.Engine.info.list.unshift(...StarblastMap.Engine.menu.modules.map((i,j) => ["menu"+j,null,i+" Tab"]));
   bindIDMapper(StarblastMap);
+  StarblastMap.IDMapper.StarblastMap = StarblastMap;
   Object.assign(StarblastMap.Asteroids.changeSize,{
     applySize: function(key)
     {
