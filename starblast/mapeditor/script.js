@@ -36,6 +36,24 @@ window.t = (function(){
     info: function(t) {
       return function(){StarblastMap.Engine.info.view(null,`${t?"Touch":"Left-click"} to apply asteroid, ${t?"One-finger swipe":"right-click to remove, drag"} for trails`)}
     },
+    IDMapper: {
+      check: function (init) {
+        let id = Math.round(Math.max(Math.min(init?localStorage.getItem("map_id"):this.idInput.val(), 9999), 1)) || 5000;
+        let game_mode = Number(!!parseInt(init?localStorage.getItem("game_mode"):this.modeChecker.prop("selectedIndex")));
+        localStorage.setItem("map_id", id);
+        this.idInput.val(id);
+        this.map_id = id;
+        localStorage.setItem("game_mode", game_mode);
+        this.modeChecker.prop("selectedIndex", game_mode);
+        this.game_mode = game_mode;
+        !init && this.createMapByID();
+      },
+      idInput: $("#map_id"),
+      modeChecker: $("#game_mode"),
+      loadGameModes: function() {
+        this.modeChecker.html(this.installed_modes.map(i => "<option>"+i.name+"</option>").join(""));
+      }
+    },
     Coordinates: {
       lastVisited: [-1,-1],
       lastViewed: [-1,-1],
@@ -653,169 +671,6 @@ window.t = (function(){
         min: 0
       }
     },
-    randomMaze: function (size)
-    {
-      'use strict'
-
-      var MAP_SIZE = size;
-
-      var CELLS = MAP_SIZE / 2;
-      var DIRECTIONS = ['north', 'south', 'east', 'west'];
-
-      function Cell() {
-        this.visited = false;
-        this.walls = {'north': true, 'south': true, 'east': true, 'west': true};
-        this.neighbours = {'north': null, 'south': null, 'east': null, 'west': null};
-      }
-
-      Cell.prototype.carveTo = function(direction){
-        this.walls[direction] = false;
-        this.neighbours[direction].walls[inverseDirection(direction)] = false;
-        this.neighbours[direction].visited = true;
-      }
-
-
-      function inverseDirection(direction){
-        switch (direction){
-          case 'north':
-            return 'south';
-          case 'south':
-            return 'north';
-          case 'east':
-            return 'west';
-          case 'west':
-            return 'east';
-          default:
-            return (undefined);
-        }
-      }
-
-
-      function mod(x, n){
-        return ((x % n) + n) % n
-      }
-
-      function initCellMap(){
-        var cellMap = [];
-
-        for (var i = 0; i < CELLS; i++){
-          cellMap[i] = []
-          for (var j = 0; j < CELLS; j++){
-            cellMap[i].push(new Cell());
-          }
-        }
-
-        for (var i = 0; i < CELLS; i++){
-          for (var j = 0; j < CELLS; j++){
-            cellMap[i][j].neighbours['north'] = cellMap[mod(i - 1, CELLS)][j];
-            cellMap[i][j].neighbours['south'] = cellMap[mod(i + 1, CELLS)][j];
-            cellMap[i][j].neighbours['east'] = cellMap[i][mod(j + 1, CELLS)];
-            cellMap[i][j].neighbours['west'] = cellMap[i][mod(j - 1, CELLS)];
-          }
-        }
-        return (cellMap);
-      }
-
-      function isSurrounded(cell){
-        for (var i = 0; i < 4; i++){
-          if (!cell.neighbours[DIRECTIONS[i]].visited){
-            return (false);
-          }
-        }
-        return (true);
-      }
-
-      function selectRandomDirection(cell){
-
-        var i = Math.floor(Math.random() * 4);
-        var inc = 1;
-        if (Math.random() >= 0.5){
-          inc = -1;
-        }
-        while (cell.neighbours[DIRECTIONS[i]].visited){
-          i = mod(i + inc, 4);
-        }
-        return (DIRECTIONS[i]);
-      }
-
-      function walk(start){
-
-        var current = start;
-        var direction;
-        var count = 0;
-        while (!isSurrounded(current) && count < (CELLS * CELLS) / 5){
-          direction = selectRandomDirection(current);
-          current.carveTo(direction);
-          current = current.neighbours[direction];
-          count++;
-        }
-      }
-
-      function selectNewStart(cMap){
-
-        var modeI = Math.floor(Math.random() * 2);
-        var modeJ = Math.floor(Math.random() * 2);
-        var incI = 1;
-        var incJ = 1;
-        var limI = CELLS;
-        var limJ = CELLS;
-        if (modeI){
-          incI = -1;
-          limI = -1;
-        }
-        if (modeJ){
-          incJ = -1;
-          limJ = -1;
-        }
-        for (var i = modeI * (CELLS - 1); i !== limI; i += incI){
-          for (var j = modeJ * (CELLS - 1); j !== limJ; j += incJ){
-            if (cMap[i][j].visited && !isSurrounded(cMap[i][j])){
-              return (cMap[i][j]);
-            }
-          }
-        }
-        return (undefined);
-      }
-
-      function generateMaze(){
-        var cellMap;
-        var maze = "";
-        var line1;
-        var line2;
-        var start;
-
-        cellMap = initCellMap();
-
-        cellMap[Math.floor(CELLS / 2)][Math.floor(CELLS / 2)].visited = true;
-        while (true){
-          start = selectNewStart(cellMap);
-          if (start === undefined){
-            break;
-          }
-          walk(start);
-        }
-
-        for (var i = 0; i < CELLS ; i++){
-          line1 = "";
-          line2 = "";
-          for (var j = 0; j < CELLS; j++){
-            line1 += " ";
-            line1 += cellMap[i][j].walls['east'] ? "9" : " ";
-            line2 += cellMap[i][j].walls['south'] ? "9" : " ";
-            line2 += "9";
-          }
-          line1 += "\n";
-          if (i < CELLS - 1){
-            line2 += "\n";
-          }
-          maze += line1;
-          maze += line2;
-        }
-        return (maze);
-      }
-
-      return generateMaze();
-    },
     applySize: function (num) {
       let dsize= {
         min:20,
@@ -1174,7 +1029,9 @@ window.t = (function(){
           ["addBrush",null,"Add your custom brush"],
           ["removeBrush",null,"Remove the selected custom brush"],
           ["editBrush",null,"Edit the selected custom brush"],
-          ["coordtype",null,"Toggle Coordinates' perspective"]
+          ["coordtype",null,"Toggle Coordinates' perspective"],
+          ["map_id",null, "(IDMapper) Map ID"],
+          ["game_mode",null,"(IDMapper) Applied Game Mode"]
         ],
         view: function (title,text,HotKey) {
           $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}${HotKey?(" (HotKey "+HotKey+")"):""}`);
@@ -1183,6 +1040,9 @@ window.t = (function(){
     }
   }
   StarblastMap.Engine.info.list.unshift(...StarblastMap.Engine.menu.modules.map((i,j) => ["menu"+j,null,i+" Tab"]));
+  bindIDMapper(StarblastMap);
+  StarblastMap.IDMapper.StarblastMap = StarblastMap;
+  bindRandomMaze(StarblastMap);
   Object.assign(StarblastMap.Asteroids.changeSize,{
     applySize: function(key)
     {
@@ -1234,6 +1094,8 @@ window.t = (function(){
     }
     StarblastMap.background.check(null,0,1);
     StarblastMap.background.checkAlpha();
+    StarblastMap.IDMapper.loadGameModes();
+    StarblastMap.IDMapper.check(1);
   }
   if (!StarblastMap.Engine.supportClipboardAPI) {
     $("#main").append("<p>Copy Image is disabled. <a href='#' id='error'>Learn more why</a></p>");
@@ -1357,13 +1219,15 @@ window.t = (function(){
     StarblastMap.download("image");
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
-    StarblastMap.load(StarblastMap.randomMaze(StarblastMap.size).split("\n"));
+    StarblastMap.load(StarblastMap.randomMaze().split("\n"));
   });
   StarblastMap.Engine.menu.hide();
   $("#show-menu").on("click", function(){StarblastMap.Engine.menu.hide(!1)});
   $("#hide-menu").on("click", function(){StarblastMap.Engine.menu.hide(!0)});
   StarblastMap.background.alphaInput.on("change", function(){StarblastMap.background.checkAlpha(StarblastMap.background.alphaInput.val())});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
+  StarblastMap.IDMapper.idInput.on("change", function(){StarblastMap.IDMapper.check()});
+  StarblastMap.IDMapper.modeChecker.on("change", function(){StarblastMap.IDMapper.check()})
   StarblastMap.Buttons.import.on("change", function(e) {
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];
@@ -1517,7 +1381,7 @@ window.t = (function(){
     StarblastMap.Engine.setURL(StarblastMap.export("url"));
     StarblastMap.copy("url");
   });
-  for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize"])
+  for (let i of ["brush_size","map_size","border-color","background-color","minASSize","maxASSize","map_id"])
   $("#"+i).on("keypress",function(e){if (e.which == 13) $("#"+i).blur()});
   for (let i of StarblastMap.Engine.info.list) $("#"+i[0]).on("mouseover",function(){
     StarblastMap.Engine.info.view(i[1],i[2],i[3]);

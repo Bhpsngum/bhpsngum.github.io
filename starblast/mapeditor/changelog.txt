@@ -1,3 +1,8 @@
+3.2.0/May 18, 2021
+Now introducing IDMapper (BETA)!
+* Now you can create maps with real map ID from the game!
+* Little bugs fixed
+
 3.1.6/Mar 11, 2021
 * Both the Main and Beta version can now be installed as PWA apps.
 

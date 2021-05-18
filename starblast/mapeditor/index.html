@@ -14,6 +14,8 @@
     <script src="https://cdn.jsdelivr.net/gh/marcj/css-element-queries/src/ResizeSensor.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/gh/pieroxy/lz-string/libs/lz-string.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" type="text/javascript"></script>
+    <script src="MapCreatorbyID.js" type="text/javascript"></script>
+    <script src="RandomMaze.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/ccd821e6cb.js" crossorigin="anonymous"></script>
   </head>
   <body oncontextmenu="return false;">
@@ -68,6 +70,8 @@
           <button id="redo"><i class="fas fa-fw fa-redo"></i></button>
           <button id="clearMap"><i class="fas fa-fw fa-trash"></i></button>
           <button id="random"><i class="fas fa-fw fa-random"></i></button>
+          <input type="number" min="1" max="9999" placeholder="Map ID" id="map_id">
+          <select id="game_mode"></select>
         </div>
         <div id="container2" class="container">
           <table id="brushContainer"><tbody><tr id="brushes"></tr></tbody></table>
