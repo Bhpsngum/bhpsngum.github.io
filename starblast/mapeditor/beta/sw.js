@@ -8,11 +8,15 @@ self.addEventListener('install', (e) => {
 });
 self.addEventListener('fetch', (e) => {
   e.respondWith((async () => {
-    const r = await caches.match(e.request);
-    if (r) return r;
     const response = await fetch(e.request);
-    const cache = await caches.open(cacheName);
-    cache.put(e.request, response.clone());
-    return response;
+    if (Math.trunc(response.status / 2) == 1) {
+      const cache = await caches.open(cacheName);
+      cache.put(e.request, response.clone());
+      return response;
+    }
+    else {
+      const r = await caches.match(e.request);
+      if (r) return r;
+    }
   })());
 });
