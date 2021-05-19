@@ -3,16 +3,23 @@ const cacheName = "MapEditorCaches";
 self.addEventListener('install', (e) => {
   e.waitUntil((async () => {
     const cache = await caches.open(cacheName);
-    await cache.addAll(imports);
+    imports.forEach(function (imp) {
+      let res = fetch(imp);
+      res.ok && cache.put(imp,res);
+    });
   })());
 });
 self.addEventListener('fetch', (e) => {
   e.respondWith((async () => {
-    const r = await caches.match(e.request);
-    if (r) return r;
     const response = await fetch(e.request);
-    const cache = await caches.open(cacheName);
-    cache.put(e.request, response.clone());
-    return response;
+    if (response.ok) {
+      const cache = await caches.open(cacheName);
+      cache.put(e.request, response.clone());
+      return response;
+    }
+    else {
+      const r = await caches.match(e.request);
+      if (r) return r;
+    }
   })());
 });

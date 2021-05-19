@@ -1,5 +1,4 @@
 window.t = (function(){
-  addServiceWorker("sw.js");
   var StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
