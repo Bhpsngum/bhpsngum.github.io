@@ -9,7 +9,7 @@ self.addEventListener('install', (e) => {
 self.addEventListener('fetch', (e) => {
   e.respondWith((async () => {
     const response = await fetch(e.request);
-    if (Math.trunc(response.status / 2) == 1) {
+    if (status.ok) {
       const cache = await caches.open(cacheName);
       cache.put(e.request, response.clone());
       return response;
