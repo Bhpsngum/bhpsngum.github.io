@@ -1,5 +1,5 @@
 self.importScripts('imports.js');
-const cacheName = "MapEditorCaches";
+const cacheName = "MapEditorCachesBeta";
 self.addEventListener('install', (e) => {
   e.waitUntil((async () => {
     const cache = await caches.open(cacheName);
