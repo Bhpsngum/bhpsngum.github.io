@@ -12,7 +12,7 @@ self.addEventListener('install', (e) => {
 self.addEventListener('fetch', (e) => {
   e.respondWith((async () => {
     const response = await fetch(e.request);
-    if (status.ok) {
+    if (response.ok) {
       const cache = await caches.open(cacheName);
       cache.put(e.request, response.clone());
       return response;
