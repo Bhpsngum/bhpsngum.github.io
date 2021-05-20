@@ -15,5 +15,7 @@ var imports = [
 	"https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js",
 	"https://cdn.jsdelivr.net/gh/tombigel/detect-zoom/detect-zoom.min.js",
 	"/starblast/mapeditor/script.js",
-	"/starblast/mapeditor/presets.js"
+	"/starblast/mapeditor/presets.js",
+  "/starblast/mapeditor/MapCreatorbyID.js",
+  "/starblast/mapeditor/RandomMaze.js"
 ];
