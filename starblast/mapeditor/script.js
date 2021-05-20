@@ -1374,10 +1374,7 @@ window.t = (function(){
     }
   });
   $("#editBrush").on("click",function(){StarblastMap.Engine.Brush.drawers.showCode(1)});
-  window.addEventListener("mouseup", StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
-  window.addEventListener("blur", StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
-  window.addEventListener("touchcancel",StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
-  window.addEventListener("touchend",StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
+  for (let eventname of ["mouseup", "blur", "touchcancel", "touchend"]) window.addEventListener(eventname, StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
   StarblastMap.Buttons.permalink.on("click", function(){
     StarblastMap.Engine.setURL(StarblastMap.export("url"));
     StarblastMap.copy("url");
