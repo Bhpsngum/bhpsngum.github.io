@@ -38,7 +38,7 @@ window.t = (function(){
     },
     IDMapper: {
       check: function (init) {
-        let id = Math.round(Math.max(Math.min(init?localStorage.getItem("map_id"):this.idInput.val(), 9999), 1)) || 5000;
+        let id = Math.round(Math.max(Math.min(init?(localStorage.getItem("map_id") || "undefined"):this.idInput.val(), 9999), 1)) || 5000;
         let game_mode = Math.min(Math.max(init?localStorage.getItem("game_mode"):(this.modeChecker.prop("selectedIndex") - 1), 0), 1) || 0;
         localStorage.setItem("map_id", id);
         this.idInput.val(id);
