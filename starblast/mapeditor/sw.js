@@ -15,11 +15,11 @@ self.addEventListener('fetch', (e) => {
     if (response.ok) {
       const cache = await caches.open(cacheName);
       cache.put(e.request, response.clone());
-      return response;
     }
     else {
       const r = await caches.match(e.request);
       if (r) return r;
     }
+    return response
   })());
 });
