@@ -97,7 +97,7 @@ button:disabled, textarea:read-only, input:read-only {
 }
 
 .container {
-  margin-top: -0.3vmax;
+  margin-top: -0.2vmax;
   border-width: 0.1vmax;
   border-style: solid;
 }
@@ -133,7 +133,7 @@ textarea,#code {
   font-size: 1.5vmax;
 }
 .as {
-  width: 3vmax;
+  width: 2.5vmax;
 }
 select {
   background-color: inherit;
