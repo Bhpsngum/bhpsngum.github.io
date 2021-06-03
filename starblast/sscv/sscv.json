@@ -11,6 +11,7 @@
   ],
   "start_url": "/starblast/sscv/index.html",
   "display": "fullscreen",
+  "orientation": "landscape",
   "theme_color": "#666666",
   "background_color": "#0b1b22"
 }
