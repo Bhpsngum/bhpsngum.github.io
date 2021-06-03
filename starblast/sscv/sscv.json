@@ -5,11 +5,11 @@
   "icons": [
     {
       "src": "/starblast/sscv/icon.png",
-      "sizes": "64x64",
+      "sizes": "128x128",
       "type": "image/png"
     }
   ],
-  "start_url": "/starblast/ecp/index.html",
+  "start_url": "/starblast/sscv/index.html",
   "display": "fullscreen",
   "theme_color": "#666666",
   "background_color": "#0b1b22"
