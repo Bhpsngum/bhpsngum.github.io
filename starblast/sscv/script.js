@@ -127,8 +127,8 @@
       try {results = this.types.list[this.types.choose() - 1].parse(json.trim())}
       catch(e){
         if (forced) {
-          json = "Ship Mod Export code"
-          results = "Output";
+          json = ""
+          results = "";
         }
         else {
           this.error();
