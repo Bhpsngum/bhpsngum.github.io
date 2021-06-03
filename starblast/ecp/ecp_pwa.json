@@ -1,0 +1,16 @@
+{
+  "name": "Starblast ECP Icon Viewer",
+  "short_name": "ECP Gallery",
+  "description": "Dowloadable image gallery of all ecp icons in Starblast.",
+  "icons": [
+    {
+      "src": "/starblast/sscv/icon.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/starblast/ecp/index.html",
+  "display": "fullscreen",
+  "theme_color": "#666666",
+  "background_color": "#000000"
+}

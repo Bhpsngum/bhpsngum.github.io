@@ -1,4 +1,5 @@
 (function(){
+  addServiceWorker("sw.js");
   var SSCV = {
     types: {
       list: [

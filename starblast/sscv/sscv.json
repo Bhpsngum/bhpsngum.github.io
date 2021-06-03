@@ -1,0 +1,16 @@
+{
+  "name": "Starblast Ship Code Converters",
+  "short_name": "SSCV",
+  "description": "A tool to convert Ship Mod Export code to some other text/codes",
+  "icons": [
+    {
+      "src": "/starblast/ecp/icon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/starblast/ecp/index.html",
+  "display": "fullscreen",
+  "theme_color": "#666666",
+  "background_color": "#0b1b22"
+}

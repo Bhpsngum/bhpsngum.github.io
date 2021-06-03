@@ -1,3 +1,4 @@
+addServiceWorker("sw.js");
 window.addEventListener("load", function(){
   $("#init").css("font-family", "SBGlyphs");
   let it = setInterval(function () {
