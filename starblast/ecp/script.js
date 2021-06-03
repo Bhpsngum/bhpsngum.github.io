@@ -41,7 +41,8 @@ window.addEventListener("load", function(){
         $("link[rel='icon']").attr("href","icon.png");
         $("title")[0].innerHTML = query_info.name + title;
         window.history.pushState({path: 'url'}, '', window.location.protocol + "//" + window.location.host + window.location.pathname + "?name=" + query_info.name.toLowerCase().replace(/\s/g, "_"));
-        $("#type").html(names[query_info.type] || "Unknown");
+        let ecp_type = names[query_info.type];
+        $("#type").html("<a href='"+(ecp_type?("https://starblastio.fandom.com/wiki/"+ecp_type+"' target='_blank'>"):"javascript:void(0);'")+">"+(ecp_type || "Unknown")+"</a>");
         // load the ecp image
         applySize(init);
       }, search = function(name) {
