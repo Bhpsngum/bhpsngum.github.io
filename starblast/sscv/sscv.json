@@ -4,7 +4,7 @@
   "description": "A tool to convert Ship Mod Export code to some other text/codes",
   "icons": [
     {
-      "src": "/starblast/ecp/icon.png",
+      "src": "/starblast/sscv/icon.png",
       "sizes": "64x64",
       "type": "image/png"
     }
