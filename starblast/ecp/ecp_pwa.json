@@ -5,7 +5,7 @@
   "icons": [
     {
       "src": "/starblast/ecp/icon.png",
-      "sizes": "225x225",
+      "sizes": "64x64",
       "type": "image/png"
     }
   ],
