@@ -54,7 +54,7 @@
   {
     "name": "Starblast Dueling Championship",
     "abbreviation": "SDC",
-    "version": "1.0.1",
+    "version": "1.1",
     "description": "This is the Starblast Dueling Championship mod, here you fight people in fair, 1 on 1 matches (duels).\nChoose your ship and fight!",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/sdc.jpg",
@@ -102,7 +102,7 @@
   {
     "name": "Destroy the Mothership",
     "abbreviation": "DTM",
-    "version": "1.1",
+    "version": "1.2.5",
     "description": "",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/dtm.jpg",
@@ -126,7 +126,7 @@
   {
     "name": "Capture The Flag",
     "abbreviation": "CTF",
-    "version": "1.1",
+    "version": "1.2",
     "description": "",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/ctf.jpg",
@@ -150,7 +150,7 @@
   {
     "name": "Rumble",
     "abbreviation": "",
-    "version": "1.1.5",
+    "version": "1.2.5",
     "description": "",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/rumble.jpg",
