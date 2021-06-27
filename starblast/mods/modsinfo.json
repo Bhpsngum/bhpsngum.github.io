@@ -2,12 +2,12 @@
   {
     "name": "Mega Rumble",
     "abbreviation": "",
-    "version": "",
+    "version": "2.0",
     "description": "",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/events/megarumble.jpg",
     "link": {
-      "url": "https://pastebin.com/tSw6TEbK",
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/mega_rumble.js",
       "state": 2
     },
     "author": [
