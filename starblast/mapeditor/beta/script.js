@@ -1426,7 +1426,7 @@ window.t = (function(){
   for (let eventname of ["mouseup", "blur"]) window.addEventListener(eventname, function (e) {
     this.Trail.stop(e);
     this.touches = new Map();
-  }.bind(Starblast.Engine));
+  }.bind(StarblastMap.Engine));
   for (let eventname of ["touchend", "touchcancel"]) window.addEventListener(eventname, function (e){
     for (let i of e.touches) this.touches.delete(i.id);
     if (this.touches.size == 0) this.Trail.stop(e);
