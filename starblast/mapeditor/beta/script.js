@@ -721,12 +721,12 @@ window.t = (function(){
       },
       Trail: {
         state: -1,
-        stop: function ()
+        start: function ()
         {
           if (StarblastMap.Asteroids.dragMode) this.startDrag();
           else this.startModify(x,y,event);
         },
-        start: function (x,y,event) {
+        stop: function (x,y,event) {
           if (StarblastMap.Asteroids.dragMode) this.stopDrag();
           else this.stopModify();
         },
