@@ -35,7 +35,7 @@ window.t = (function(){
     },
     info: function(t) {
       let dragEnabled = this.Asteroids.dragMode, caller;
-      if (dragEnabled) caller = function(){StarblastMap.Engine.info.view((t?"Swipe":"Drag the mouse") + " for navigation around the map")}
+      if (dragEnabled) caller = function(){StarblastMap.Engine.info.view(null, (t?"Swipe":"Drag the mouse") + " for navigation around the map")}
       else caller = function(){StarblastMap.Engine.info.view(null,`${t?"Touch":"Left-click"} to apply asteroid, ${t?"Swipe":"right-click to remove, drag"} for trails`)}
       return caller;
     },
@@ -652,7 +652,7 @@ window.t = (function(){
         $("#"+id).css({"border":"0.3vmax solid"});
       },
       toggleDragMode: function () {
-        this.dragMode = !this.dragMode;
+        this.dragMode = true;
         if (this.dragMode) {
           this.highlightButton("dragMode");
           this.RandomOptions.css("display", "none");
