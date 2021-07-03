@@ -588,7 +588,7 @@ window.t = (function(){
     },
     Asteroids: {
       RandomOptions: $("#RandomOptions"),
-      dragMode: true,
+      dragMode: false,
       template: new Image(),
       modify: function(x,y,num,init) {
         try {
