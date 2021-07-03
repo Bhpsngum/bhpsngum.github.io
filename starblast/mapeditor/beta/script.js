@@ -638,7 +638,6 @@ window.t = (function(){
         this.applyKey("min",u);
         this.applyKey("max",u);
         this.RandomOptions.css("display","none");
-        StarblastMap.Engine.applyColor("border-color");
       },
       clearSelection: function () {
         for (let i of Array(10).fill(0).map((i,j)=>"asc"+j).concat("randomSize", "dragMode")) $("#"+i).css({"border":"0.1vmax solid"});
@@ -650,6 +649,7 @@ window.t = (function(){
       highlightButton: function (id) {
         this.clearSelection();
         $("#"+id).css({"border":"0.3vmax solid"});
+        StarblastMap.Engine.applyColor("border-color");
       },
       toggleDragMode: function () {
         this.dragMode = true;
@@ -667,8 +667,6 @@ window.t = (function(){
       },
       randomSize: function(self_trigger,local)
       {
-        this.RandomOptions.css("display","");
-        this.highlightButton("randomSize");
         this.dragMode = false;
         let min = this.changeSize.applySize("min"), max = this.changeSize.applySize("max");
         if (min > max)
@@ -682,8 +680,11 @@ window.t = (function(){
           this.applyKey("min",min);
           this.applyKey("max",max);
         }
-        (self_trigger && this.size.max == this.size.min) && this.changeSize(this.size.min);
-        StarblastMap.Engine.applyColor("border-color");
+        if (self_trigger && this.size.max == this.size.min) this.changeSize(this.size.min);
+        else {
+          this.RandomOptions.css("display","");
+          this.highlightButton("randomSize");
+        }
       },
       size:{
         max: 0,
@@ -1020,6 +1021,7 @@ window.t = (function(){
           ["show-menu",null,"Show the Map menu"],
           ["hide-menu",null,"Hide the Map menu"],
           ["map_size",null,'Toggle map size (from 20 to 200 and must be even)'],
+          ["dragMode","Drag Mode","Move freely around the map without modifying any asteroids"],
           ["asc0",null,'Remove asteroids in the map',"0"],
           ...new Array(9).fill(0).map((j,i) => [`asc${i+1}`,null,`Asteroid size ${i+1}`,`${i+1}`]),
           ["randomSize",'Random Asteroid Size','Draw random asteroids in a specific size range',"R"],
