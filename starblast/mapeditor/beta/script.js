@@ -723,32 +723,40 @@ window.t = (function(){
         state: -1,
         stop: function ()
         {
-          if (StarblastMap.Asteroids.dragMode) {}
-          else {
-            this.state = -1;
-            StarblastMap.Engine.touchHover = false;
-            StarblastMap.Coordinates.lastVisited = [-1,-1];
-            StarblastMap.pushSession("history",["m",StarblastMap.session]);
-            StarblastMap.session = new Map();
-          }
+          if (StarblastMap.Asteroids.dragMode) this.startDrag();
+          else this.startModify(x,y,event);
         },
         start: function (x,y,event) {
-          if (StarblastMap.Asteroids.dragMode) {}
-          else {
-            switch (event.button) {
-              case 0:
-                this.state=1;
-                StarblastMap.modify(x,y);
-                break;
-              case 2:
-                this.state=0;
-                StarblastMap.modify(x,y,0);
-                break;
-            }
-            StarblastMap.future = [];
-            StarblastMap.Buttons.redo.prop("disabled",true);
-            StarblastMap.Coordinates.lastVisited = [x,y];
+          if (StarblastMap.Asteroids.dragMode) this.stopDrag();
+          else this.stopModify();
+        },
+        startModify: function (x,y event) {
+          this.state = -1;
+          StarblastMap.Engine.touchHover = false;
+          StarblastMap.Coordinates.lastVisited = [-1,-1];
+          StarblastMap.pushSession("history",["m",StarblastMap.session]);
+          StarblastMap.session = new Map();
+        },
+        stopModify: function () {
+          switch (event.button) {
+            case 0:
+              this.state=1;
+              StarblastMap.modify(x,y);
+              break;
+            case 2:
+              this.state=0;
+              StarblastMap.modify(x,y,0);
+              break;
           }
+          StarblastMap.future = [];
+          StarblastMap.Buttons.redo.prop("disabled",true);
+          StarblastMap.Coordinates.lastVisited = [x,y];
+        },
+        startDrag: function () {
+          this.state = -1;
+        },
+        stopDrag: function () {
+          this.stats = -1;
         }
       },
       addBorder: function (c2d,x,y,z,t)
