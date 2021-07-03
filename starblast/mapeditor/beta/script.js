@@ -1197,16 +1197,16 @@ window.t = (function(){
     StarblastMap.Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
   StarblastMap.map.addEventListener("touchstart", function(e){
-    StarblastMap.info(!0)();
+    this.info(!0)();
     e.preventDefault();
-    if (StarblastMap.Engine.menu.scaleExpired) {
-      Object.assign(StarblastMap.Engine.menu,$(StarblastMap.map).offset());
-      StarblastMap.Engine.menu.scaleExpired = !1;
+    if (this.Engine.menu.scaleExpired) {
+      Object.assign(this.Engine.menu,$(this.map).offset());
+      this.Engine.menu.scaleExpired = !1;
     }
     for (let i of e.touches) {
-      StarblastMap.Engine.Trail.start(this.get(i.pageX-StarblastMap.Engine.menu.left),this.get(i.pageY-StarblastMap.Engine.menu.top));
+      this.Engine.Trail.start(this.Coordinates.get(i.pageX-this.Engine.menu.left),this.Coordinates.get(i.pageY-this.Engine.menu.top));
     }
-  });
+  }.bind(StarblastMap));
   try {
     let t = StarblastMap.Engine.menu.checkScale.bind(StarblastMap.Engine.menu);
     new ResizeSensor(StarblastMap.Engine.menu.main[0], t);
