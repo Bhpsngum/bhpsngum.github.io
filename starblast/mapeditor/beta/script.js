@@ -1203,14 +1203,13 @@ window.t = (function(){
   StarblastMap.map.addEventListener("touchstart", function(e){
     this.info(!0)();
     if (!this.Asteroids.dragMode) e.preventDefault();
-    this.Engine.menu.scale
     if (this.Engine.menu.scaleExpired) {
       Object.assign(this.Engine.menu,$(this.map).offset());
       this.Engine.menu.scaleExpired = !1;
     }
     for (let i of e.touches) {
-      i.id = this.Engine.Trail.touchID++;
-      this.Engine.Trail.touches.push(i);
+      i.id = this.Engine.touchID++;
+      this.Engine.touches.set(i.id, i);
       this.Engine.Trail.start(this.Coordinates.get(i.pageX-this.Engine.menu.left),this.Coordinates.get(i.pageY-this.Engine.menu.top), {button: 0});
     }
   }.bind(StarblastMap));
