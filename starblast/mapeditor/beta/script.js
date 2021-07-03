@@ -707,6 +707,8 @@ window.t = (function(){
     Engine: {
       supportClipboardAPI: !!(window.Clipboard && window.ClipboardItem),
       touchHover: false,
+      touches: new Map(),
+      touchID: 1,
       toString: function (item) {
         switch (typeof item) {
           case "undefined":
@@ -1201,11 +1203,14 @@ window.t = (function(){
   StarblastMap.map.addEventListener("touchstart", function(e){
     this.info(!0)();
     if (!this.Asteroids.dragMode) e.preventDefault();
+    this.Engine.menu.scale
     if (this.Engine.menu.scaleExpired) {
       Object.assign(this.Engine.menu,$(this.map).offset());
       this.Engine.menu.scaleExpired = !1;
     }
     for (let i of e.touches) {
+      i.id = this.Engine.Trail.touchID++;
+      this.Engine.Trail.touches.push(i);
       this.Engine.Trail.start(this.Coordinates.get(i.pageX-this.Engine.menu.left),this.Coordinates.get(i.pageY-this.Engine.menu.top), {button: 0});
     }
   }.bind(StarblastMap));
@@ -1418,7 +1423,14 @@ window.t = (function(){
     }
   });
   $("#editBrush").on("click",function(){StarblastMap.Engine.Brush.drawers.showCode(1)});
-  for (let eventname of ["mouseup", "blur", "touchcancel", "touchend"]) window.addEventListener(eventname, StarblastMap.Engine.Trail.stop.bind(StarblastMap.Engine.Trail));
+  for (let eventname of ["mouseup", "blur"]) window.addEventListener(eventname, function (e) {
+    this.Trail.stop(e);
+    this.touches = new Map();
+  }.bind(Starblast.Engine));
+  for (let eventname of ["touchend", "touchcancel"]) window.addEventListener(eventname, function (e){
+    for (let i of e.touches) this.touches.delete(i.id);
+    if (this.touches.size == 0) this.Trail.stop(e);
+  }.bind(StarblastMap.Engine));
   StarblastMap.Buttons.permalink.on("click", function(){
     StarblastMap.Engine.setURL(StarblastMap.export("url"));
     StarblastMap.copy("url");
