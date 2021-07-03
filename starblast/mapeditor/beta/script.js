@@ -34,7 +34,10 @@ window.t = (function(){
       redo: $("#redo")
     },
     info: function(t) {
-      return function(){StarblastMap.Engine.info.view(null,`${t?"Touch":"Left-click"} to apply asteroid, ${t?"One-finger swipe":"right-click to remove, drag"} for trails`)}
+      let dragEnabled = this.Asteroids.dragMode, caller;
+      if (dragEnabled) caller = function(){StarblastMap.Engine.info.view((t?"Swipe":"Drag the mouse") + " for navigation around the map")}
+      else caller = function(){StarblastMap.Engine.info.view(null,`${t?"Touch":"Left-click"} to apply asteroid, ${t?"Swipe":"right-click to remove, drag"} for trails`)}
+      return caller;
     },
     IDMapper: {
       check: function (init) {
@@ -585,6 +588,7 @@ window.t = (function(){
     },
     Asteroids: {
       RandomOptions: $("#RandomOptions"),
+      dragMode: true,
       template: new Image(),
       modify: function(x,y,num,init) {
         try {
@@ -627,18 +631,33 @@ window.t = (function(){
       },
       changeSize: function (num) {
         let u=Math.min(Math.max(Number(num)||0,0),9);
-        for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"0.1vmax solid"});
-        $("#randomSize").css("border","0.1vmax solid");
-        $(`#asc${u}`).css({"border":"0.3vmax solid"});
+        this.clearSelection();
+        this.highlightButton("asc"+u);
         for (let i in this.input) this.input[i].val(u);
+        this.dragMode = false;
         this.applyKey("min",u);
         this.applyKey("max",u);
         this.RandomOptions.css("display","none");
         StarblastMap.Engine.applyColor("border-color");
       },
+      clearSelection: function () {
+        for (let i of Array(10).fill(0).map((i,j)=>"asc"+j).concat("randomSize", "dragMode")) $("#"+i).css({"border":"0.1vmax solid"});
+      },
       input: {
         max: $("#maxASSize"),
         min: $("#minASSize")
+      },
+      highlightButton: function (id) {
+        this.clearSelection();
+        $("#"+id).css({"border":"0.3vmax solid"});
+      },
+      toggleDragMode: function () {
+        this.dragMode = !this.dragMode;
+        if (this.dragMode) {
+          this.highlightButton("dragMode");
+          this.RandomOptions.css("display", "none");
+        }
+        else this.randomSize(true);
       },
       applyKey: function(key,num){
         let size = Math.min(Math.max(Number(num)||0,0),9);
@@ -649,8 +668,8 @@ window.t = (function(){
       randomSize: function(self_trigger,local)
       {
         this.RandomOptions.css("display","");
-        for (let i=0;i<9;i++) for (let i=0;i<=9;i++) $(`#asc${i}`).css({"border":"0.1vmax solid"});
-        $("#randomSize").css({"border":"0.3vmax solid"});
+        this.highlightButton("randomSize");
+        this.dragMode = false;
         let min = this.changeSize.applySize("min"), max = this.changeSize.applySize("max");
         if (min > max)
         {
@@ -665,7 +684,6 @@ window.t = (function(){
         }
         (self_trigger && this.size.max == this.size.min) && this.changeSize(this.size.min);
         StarblastMap.Engine.applyColor("border-color");
-
       },
       size:{
         max: 0,
@@ -704,26 +722,32 @@ window.t = (function(){
         state: -1,
         stop: function ()
         {
-          this.state = -1;
-          StarblastMap.Engine.touchHover = false;
-          StarblastMap.Coordinates.lastVisited = [-1,-1];
-          StarblastMap.pushSession("history",["m",StarblastMap.session]);
-          StarblastMap.session = new Map();
+          if (StarblastMap.Asteroids.dragMode) {}
+          else {
+            this.state = -1;
+            StarblastMap.Engine.touchHover = false;
+            StarblastMap.Coordinates.lastVisited = [-1,-1];
+            StarblastMap.pushSession("history",["m",StarblastMap.session]);
+            StarblastMap.session = new Map();
+          }
         },
         start: function (x,y,event) {
-          switch (event.button) {
-            case 0:
-              this.state=1;
-              StarblastMap.modify(x,y);
-              break;
-            case 2:
-              this.state=0;
-              StarblastMap.modify(x,y,0);
-              break;
+          if (StarblastMap.Asteroids.dragMode) {}
+          else {
+            switch (event.button) {
+              case 0:
+                this.state=1;
+                StarblastMap.modify(x,y);
+                break;
+              case 2:
+                this.state=0;
+                StarblastMap.modify(x,y,0);
+                break;
+            }
+            StarblastMap.future = [];
+            StarblastMap.Buttons.redo.prop("disabled",true);
+            StarblastMap.Coordinates.lastVisited = [x,y];
           }
-          StarblastMap.future = [];
-          StarblastMap.Buttons.redo.prop("disabled",true);
-          StarblastMap.Coordinates.lastVisited = [x,y];
         }
       },
       addBorder: function (c2d,x,y,z,t)
@@ -1094,6 +1118,7 @@ window.t = (function(){
       (i) && StarblastMap.Asteroids.drawSelection(i);
       $("#asc"+(i)).on("click", function(){StarblastMap.Asteroids.changeSize(i)});
     }
+    $("#dragMode").on('click', function(){StarblastMap.Asteroids.toggleDragMode()});
     StarblastMap.background.check(null,0,1);
     StarblastMap.background.checkAlpha();
     StarblastMap.IDMapper.loadGameModes();
@@ -1126,7 +1151,7 @@ window.t = (function(){
   StarblastMap.border.check(!0);
   StarblastMap.background.checkGlobal(!0);
   StarblastMap.Asteroids.template.src = "/starblast/mapeditor/Asteroid.png";
-  $("#asChoose").html(`<tr><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}" class="as"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
+  $("#asChoose").html(`<tr><td id="dragMode"><i class="fas fa-fw fa-mouse-pointer"></i></td></td><td id="asc0"><i class="fas fa-fw fa-eraser"></i></td>`+Array(9).fill(0).map((x,i) => `<td id='asc${i+1}'><canvas id="as${i+1}" class="as"></canvas></td>`).join("")+`<td id='randomSize'><i class="fas fa-fw fa-dice"></i></td></tr>`);
   try {
     let mr = ["h","v"],mdesc = ["horizontal","vertical"];
     $("#MirrorOptions").html(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<table id='mirrorChoose'><tr>"+mr.map((i,j) => `<td id="mr-${i}"><i class="fas fa-fw fa-arrows-alt-${i}"></i><i class="fas fa-fw fa-times" id="mrmark-${i}"></i></td>`).join("")+`<td id="almr"><i class="fas fa-fw fa-expand-arrows-alt"></i></td></tr>`);
