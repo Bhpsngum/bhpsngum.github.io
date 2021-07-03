@@ -1183,22 +1183,29 @@ window.t = (function(){
       StarblastMap.info(!0)();
       StarblastMap.Engine.touchHover = true;
     }
-    if (e.touches.length == 1) {
-      e.preventDefault();
-      if (StarblastMap.Engine.menu.scaleExpired) {
-        Object.assign(StarblastMap.Engine.menu,$(StarblastMap.map).offset());
-        StarblastMap.Engine.menu.scaleExpired = !1;
-      }
-      this.view(this.get(e.touches[0].pageX-StarblastMap.Engine.menu.left),this.get(e.touches[0].pageY-StarblastMap.Engine.menu.top));
+    e.preventDefault();
+    if (StarblastMap.Engine.menu.scaleExpired) {
+      Object.assign(StarblastMap.Engine.menu,$(StarblastMap.map).offset());
+      StarblastMap.Engine.menu.scaleExpired = !1;
+    }
+    for (let i of e.touches) {
+      this.view(this.get(i.pageX-StarblastMap.Engine.menu.left),this.get(i.pageY-StarblastMap.Engine.menu.top));
     }
   }.bind(StarblastMap.Coordinates));
   StarblastMap.map.addEventListener("mouseover",function(){(!StarblastMap.Engine.touchHover) && StarblastMap.info()()});
   StarblastMap.map.addEventListener("mousedown", function(e){
     StarblastMap.Engine.Trail.start(StarblastMap.Coordinates.get(e.offsetX),StarblastMap.Coordinates.get(e.offsetY),e);
   });
-  StarblastMap.map.addEventListener("touchstart", function(){
+  StarblastMap.map.addEventListener("touchstart", function(e){
     StarblastMap.info(!0)();
-    StarblastMap.Engine.Trail.state=1
+    e.preventDefault();
+    if (StarblastMap.Engine.menu.scaleExpired) {
+      Object.assign(StarblastMap.Engine.menu,$(StarblastMap.map).offset());
+      StarblastMap.Engine.menu.scaleExpired = !1;
+    }
+    for (let i of e.touches) {
+      StarblastMap.Engine.Trail.start(this.get(i.pageX-StarblastMap.Engine.menu.left),this.get(i.pageY-StarblastMap.Engine.menu.top));
+    }
   });
   try {
     let t = StarblastMap.Engine.menu.checkScale.bind(StarblastMap.Engine.menu);
