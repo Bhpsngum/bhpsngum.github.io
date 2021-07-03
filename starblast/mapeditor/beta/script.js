@@ -730,7 +730,7 @@ window.t = (function(){
           if (StarblastMap.Asteroids.dragMode) this.stopDrag();
           else this.stopModify();
         },
-        startModify: function (x,y event) {
+        startModify: function (x,y, event) {
           this.state = -1;
           StarblastMap.Engine.touchHover = false;
           StarblastMap.Coordinates.lastVisited = [-1,-1];
