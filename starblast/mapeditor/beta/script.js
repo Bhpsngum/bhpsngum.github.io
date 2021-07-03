@@ -1183,7 +1183,7 @@ window.t = (function(){
       StarblastMap.info(!0)();
       StarblastMap.Engine.touchHover = true;
     }
-    e.preventDefault();
+    if (!this.Asteroids.dragMode) e.preventDefault();
     if (StarblastMap.Engine.menu.scaleExpired) {
       Object.assign(StarblastMap.Engine.menu,$(StarblastMap.map).offset());
       StarblastMap.Engine.menu.scaleExpired = !1;
@@ -1200,7 +1200,7 @@ window.t = (function(){
   });
   StarblastMap.map.addEventListener("touchstart", function(e){
     this.info(!0)();
-    e.preventDefault();
+    if (!this.Asteroids.dragMode) e.preventDefault();
     if (this.Engine.menu.scaleExpired) {
       Object.assign(this.Engine.menu,$(this.map).offset());
       this.Engine.menu.scaleExpired = !1;
