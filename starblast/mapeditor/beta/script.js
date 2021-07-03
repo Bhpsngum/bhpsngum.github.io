@@ -1183,7 +1183,7 @@ window.t = (function(){
       StarblastMap.info(!0)();
       StarblastMap.Engine.touchHover = true;
     }
-    if (!this.Asteroids.dragMode) e.preventDefault();
+    if (!StarblastMap.Asteroids.dragMode) e.preventDefault();
     if (StarblastMap.Engine.menu.scaleExpired) {
       Object.assign(StarblastMap.Engine.menu,$(StarblastMap.map).offset());
       StarblastMap.Engine.menu.scaleExpired = !1;
