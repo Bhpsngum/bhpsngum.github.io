@@ -137,7 +137,7 @@
       "max_value": 2
     },
     "release_crystal": {
-      "description": "Allow/Forbid [V] to realeasing gems",
+      "description": "Allow/Forbid [V] to realease gems",
       "type": "boolean"
     },
     "mines_self_destroy": {
@@ -227,9 +227,10 @@
       "max_value": 359
     },
     "station_regeneration": {
-      "description": "Station shield regen factor (currently not sattable)",
+      "description": "Station shield regen factor",
       "type": "float",
-      "min_value": 1
+      "min_value": 0,
+      "max_value": 2
     },
     "station_size": {
       "description": "Station size",
