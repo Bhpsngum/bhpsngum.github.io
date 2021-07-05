@@ -20,13 +20,19 @@
       "description": "An array of ships to add to the tree",
       "type": "text",
       "multi": true,
-      "parser": "function(data){return data}"
+      "parser": ["data", "let ship = eval(data.trim().replace(/^(var|let|const)\s+/,'')); return JSON.stringify(ship)"],
+      "finalizer": ["data","return data.filter(i=>i)"]
     },
     "map_size": {
       "description": "Size of the map",
       "type": "even",
       "min_value": 20,
       "max_value": 200
+    },
+    "custom_map": {
+      "description": "Custom map pattern in the game",
+      "type": "text",
+      "parser": ["data", "return eval(data)"]
     },
     "soundtrack": {
       "description": "BGM playing in the game",
@@ -40,7 +46,7 @@
         {"item": "warp_drive", "name": "Warp Drive"},
         {"item": "", "name": "None"}
       ],
-      "parser": "function(data){return data + (data?'.mp3':'')}"
+      "parser": ["data", "return data + (data?'.mp3':'')"]
     },
     "max_players": {
       "description": "Maximum players allowed in the game",
@@ -254,7 +260,9 @@
       "type": "string",
       "multi": true,
       "additional_info": "From 1-> 4 ships",
-      "items_per_group": 4
+      "items_per_group": 4,
+      "parser": ["data", "return data.filter(i=>i)"],
+      "finalizer": ["data", "return data.filter(i=>i)"]
     }
   },
   "invasion": {
