@@ -1,0 +1,266 @@
+{
+  "": {
+    "root_mode": {
+      "description": "The mode to inherit from",
+      "type": "dropdown",
+      "list": [
+        {"item": "survival", "name": "Survival"},
+        {"item": "team", "name": "Team"},
+        {"item": "invasion", "name": "Invasion"},
+        {"item": "deathmatch", "name": "Deathmatch"},
+        {"item": "battleroyale", "name": "Battle Royale"},
+        {"item": "", "name": "Unspecified"}
+      ]
+    },
+    "reset_tree": {
+      "description": "Ship tree will be reset or not",
+      "type": "boolean"
+    },
+    "ships": {
+      "description": "An array of ships to add to the tree",
+      "type": "text",
+      "multi": true,
+      "parser": "function(data){return data}"
+    },
+    "map_size": {
+      "description": "Size of the map",
+      "type": "even",
+      "min_value": 20,
+      "max_value": 200
+    },
+    "soundtrack": {
+      "description": "BGM playing in the game",
+      "type": "dropdown",
+      "list": [
+        {"item": "procedurality", "name": "Procedurality"},
+        {"item": "argon", "name": "Argon"},
+        {"item": "crystals", "name": "Crystals"},
+        {"item": "red_mist", "name": "Red Mist"},
+        {"item": "civilisation", "name": "Civilisation"},
+        {"item": "warp_drive", "name": "Warp Drive"},
+        {"item": "", "name": "None"}
+      ],
+      "parser": "function(data){return data + (data?'.mp3':'')}"
+    },
+    "max_players": {
+      "description": "Maximum players allowed in the game",
+      "type": "integer",
+      "min_value": 1,
+      "max_value": 240
+    },
+    "crystal_value": {
+      "description": "Crystal multiplier dropped from the asteroids",
+      "type": "float",
+      "min_value": 0,
+      "max_value": 10
+    },
+    "lives": {
+      "description": "Number of lives",
+      "type": "integer",
+      "min_value": 0,
+      "max_value": 5
+    },
+    "maxtierlives": {
+      "description": "Number of lives in the highest tier",
+      "type": "integer",
+      "min_value": 0,
+      "max_value": 5
+    },
+    "max_level": {
+      "description": "Max level you can reach",
+      "type": "integer",
+      "min_value": 1,
+      "max_value": 7
+    },
+    "friendly_colors": {
+      "description": "Number of teams",
+      "type": "integer",
+      "min_value": 0,
+      "max_value": 5
+    },
+    "map_name": {
+      "description": "Name of the map",
+      "type": "string"
+    },
+    "starting_ship": {
+      "description": "Code of starting ship in the game",
+      "type": "integer"
+    },
+    "starting_ship_maxed": {
+      "description": "Starting ship maxed or not",
+      "type": "boolean"
+    },
+    "asteroids_strength": {
+      "description": "Strength of the asteroids",
+      "type": "float",
+      "min_value": 0,
+      "max_value": 1000000
+    },
+    "friction_ratio": {
+      "description": "Ratio of the friction",
+      "type": "float",
+      "min_value": 0,
+      "max_value": 2
+    },
+    "strafe": {
+      "description": "Strafing speed factor",
+      "type": "integer",
+      "min_value": 0,
+      "max_value": 1
+    },
+    "speed_mod": {
+      "description": "Ship speed multiplier in the game",
+      "type": "float",
+      "min_value": 0,
+      "max_value": 2
+    },
+    "rcs_toggle": {
+      "description": "Allow RCS toggle in game",
+      "type": "boolean"
+    },
+    "map_id": {
+      "description": "ID of generated map pattern",
+      "type": "integer",
+      "min_value": 1,
+      "max_value": 9999
+    },
+    "map_density": {
+      "description": "Density of the map",
+      "type": "integer",
+      "min_value": 0,
+      "max_value": 2
+    },
+    "release_crystal": {
+      "description": "Allow/Forbid [V] to realeasing gems",
+      "type": "boolean"
+    },
+    "mines_self_destroy": {
+      "description": "Mines will self-destroy after a while or not",
+      "type": "boolean"
+    },
+    "mines_destroy_delay": {
+      "description": "The lifespan of each mine",
+      "unit": "Tick",
+      "type": "float",
+      "min_value": 0
+    },
+    "healing_enabled": {
+      "description": "Enable/Disable healing in game",
+      "type": "boolean"
+    },
+    "healing_ratio": {
+      "description": "Healing ratio (currently not settable)",
+      "type": "float",
+      "min_value": 0,
+      "max_value": 2
+    },
+    "shield_regen_factor": {
+      "description": "Shield regen factor",
+      "type": "float"
+    },
+    "power_regen_factor": {
+      "description": "Power regen factor",
+      "type": "float"
+    },
+    "invulnerable_ships": {
+      "description": "Ships are invulnerable or not",
+      "type": "boolean"
+    },
+    "weapons_store": {
+      "description": "Allow/Forbid access to the Weapons Store",
+      "type": "boolean"
+    },
+    "radar_zoom": {
+      "description": "Zooming of the player radar",
+      "type": "float",
+      "min_value": 1
+    },
+    "auto_refill": {
+      "description": "Collected energy/shield pill automatically refill or not",
+      "type": "boolean"
+    },
+    "projectile_speed": {
+      "description": "Speed of projectiles",
+      "type": "float",
+      "min_value": 0
+    },
+    "choose_ship": {
+      "description": "List of ships chosen before joining the game",
+      "type": "integer",
+      "multi": true
+    },
+    "collider": {
+      "description": "Enable/Disable collisions of player ships with anything",
+      "type": "boolean"
+    },
+    "acw_allowed": {
+      "description": "Unlock limits in some options in order to do an AOW/ACW-like modded game",
+      "type": "boolean"
+    }
+  },
+  "survival": {
+    "survival_time": {
+      "description": "When to trigger survival mode",
+      "unit": "Minute",
+      "type": "float",
+      "min_value": 0,
+      "max_value": 600
+    },
+    "survival_level": {
+      "description": "Level which triggers Survival Mode",
+      "type": "integer",
+      "min_value": 2,
+      "max_value": 8
+    }
+  },
+  "team": {
+    "hues": {
+      "description": "List of team hues",
+      "type": "float",
+      "min_value": 0,
+      "max_value": 359
+    },
+    "station_regeneration": {
+      "description": "Station shield regen factor (currently not sattable)",
+      "type": "float",
+      "min_value": 1
+    },
+    "station_size": {
+      "description": "Station size",
+      "type": "integer",
+      "min_value": 1,
+      "max_value": 5
+    },
+    "station_crystal_capacity": {
+      "description": "Station crystal capacity factor",
+      "type": "float",
+      "min_value": 0.1,
+      "max_value": 10
+    },
+    "station_repair_threshold": {
+      "description": "Part of the station crystal capacity that must be refilled to repair a module",
+      "type": "float",
+      "min_value": 0,
+      "max_value": 1
+    },
+    "auto_assign_teams": {
+      "description": "Enable/Disable auto assigning players to teams",
+      "type": "boolean"
+    }
+  },
+  "deathmatch": {
+    "ship_groups": {
+      "description": "List of ship groups (cotaining ship names) that can be chosen in each round",
+      "type": "string",
+      "multi": true,
+      "additional_info": "From 1-> 4 ships",
+      "items_per_group": 4
+    }
+  },
+  "invasion": {
+
+  },
+  "battleroyale": {
+
+  }
+}
