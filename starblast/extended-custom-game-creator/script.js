@@ -11,7 +11,7 @@
     },
     getFunction: function(array) {
       let body = array.pop();
-      return new Function.apply(window, array.concat("EGC", body))
+      return Function.apply(window, array.concat("EGC", body))
     }
   }
   $.getJSON("options.json").then(function(data){
