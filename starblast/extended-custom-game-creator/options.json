@@ -20,7 +20,7 @@
       "description": "An array of ships to add to the tree",
       "type": "text",
       "multi": true,
-      "parser": ["data", "return JSON.stringify(eval(data.trim().replace(/^(var|let|const)\s+/,'')))"],
+      "parser": ["data", "return JSON.stringify(eval(data.trim().replace(/^(var|let|const)\\s+/,'')))"],
       "finalizer": ["data","return data.filter(i=>i)"]
     },
     "map_size": {
