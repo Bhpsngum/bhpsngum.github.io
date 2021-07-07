@@ -132,7 +132,7 @@
           results = "";
         }
         else {
-          this.error();
+          this.error(e);
           return;
         }
       };
@@ -140,7 +140,8 @@
       $("#output").val(results);
       $("#input").val(json);
     },
-    error: function() {
+    error: function(e) {
+      console.log(e);
       alert("Cannot parse the requested code!");
     },
     copy: function (text) {
