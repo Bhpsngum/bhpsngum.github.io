@@ -141,7 +141,7 @@
       $("#input").val(json);
     },
     error: function(e) {
-      console.log(e);
+      console.error(e);
       alert("Cannot parse the requested code!");
     },
     copy: function (text) {
