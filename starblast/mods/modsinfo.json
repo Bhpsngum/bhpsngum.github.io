@@ -755,7 +755,7 @@
     "name": "Starblast Arena",
     "abbreviation": "SA",
     "version": "1.0",
-    "description": "Starblast Arena is a mod with two teams. Players have to kills ennemies and aliens to gain points. The first team to reach 25K wins. Dying make your team losing points.",
+    "description": "Starblast Arena is a mod with two teams randomly chosen. Players have to kills ennemies and aliens to gain points. The first team to reach a certain amount of players and aliens kills wins.",
     "modes": "",
     "img": "",
     "link": {
