@@ -107,7 +107,7 @@
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/dtm.jpg",
     "link": {
-      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/destroy%20the%20mothership.js",
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/destroy_the_mothership.js",
       "state": 2
     },
     "author": [
@@ -131,7 +131,7 @@
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/ctf.jpg",
     "link": {
-      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/capture%20the%20flag.js",
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/capture_the_flag.js",
       "state": 2
     },
     "author": [

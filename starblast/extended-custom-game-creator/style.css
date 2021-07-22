@@ -1,0 +1,22 @@
+* {
+  font-family: Verdana;
+}
+
+body {
+  margin: 0;
+}
+
+.options {
+  width: 50%;
+  height: 100%;
+  position: fixed;
+  top: 0
+}
+
+#main-options {
+  left: 0;
+}
+
+#mode-options {
+  left: 50%;
+}
