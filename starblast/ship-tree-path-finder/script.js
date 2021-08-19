@@ -105,6 +105,7 @@
           }
           else {
             let next_ships = internals.ships[nextLevel];
+            let current_ships = internals.ships[level];
             if (!next_ships) return submitPath(path);
             let model = code - level * 100 - 1;
             let alpha = Math.max(0, Math.round(model / Math.max(current_ships.length - 1, 1) * (next_ships.length - 2)));
