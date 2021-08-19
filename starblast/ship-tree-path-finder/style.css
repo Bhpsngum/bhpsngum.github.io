@@ -1,0 +1,8 @@
+body {
+  font-family: Verdana;
+  background: transparent;
+}
+
+*:not(b) {
+	margin: 1%;
+}
