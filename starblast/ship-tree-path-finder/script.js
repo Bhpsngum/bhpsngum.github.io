@@ -88,12 +88,17 @@
 
         let results = [];
 
+        let parsed_code = [...internals.names.entries()].find(entry => entry[1] === ship_name);
+        if (parsed_code) parsed_code = parsed_code[0];
+        else parsed_code = Number(ship_name);
+
         let submitPath = function(path) {
           if (path.length > 0) results.push([...path])
         }
 
         let getNextShipCodes = function (code, level, path) {
           code = getNum(code);
+          if (code === parsed_code) return submitPath(path);
           let custom_next = internals.nexts.get(code);
           let nextLevel = Number(level) + 1;
           if (Array.isArray(custom_next)) {
@@ -116,13 +121,13 @@
 
         for (let i of internals.ships[1]) getNextShipCodes(i, 1, []);
 
-        let parsed_code = [...internals.names.entries()].find(entry => entry[1] === ship_name);
-        if (parsed_code) parsed_code = parsed_code[0];
-        else parsed_code = Number(ship_name);
+        results = results.filter(path => path[0] === parsed_code);
 
-        results = results.filter(path => path.find(ship => ship[0] === parsed_code));
+        console.log(results);
 
-        console.log(results)
+        let res_text = `${results.length>0?results.length:"No"} result${results.length!=1?"s":""} found`;
+
+        showResults(res_text);
       }).catch(function(e){showError("Connection failed.")})
     }
   }
