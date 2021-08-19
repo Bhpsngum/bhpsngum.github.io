@@ -8,7 +8,7 @@ function findPath (){
   let mod_name = $("#tree-select").val();
   if (["vanilla", "kest"].indexOf(mod_name) != -1) link = "https://raw.githubusercontent.com/Bhpsngum/starblast/master";
   else link = "https://starblast.data.neuronality.com";
-  link += "/mod/" + mod_name + ".js";
+  link += "/mods/" + mod_name + ".js";
   let game = {custom: {}};
   if (!ship_name || !mod_name) {
     if (!ship_name) showError("Please enter a ship to lookup");
