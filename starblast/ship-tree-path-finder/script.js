@@ -116,7 +116,13 @@
 
         for (let i of internals.ships[1]) getNextShipCodes(i, 1, []);
 
-        console.log(results);
+        let parsed_code = [...internals.names.entries()].find(entry => entry[1] === ship_name);
+        if (parsed_code) parsed_code = parsed_code[0];
+        else parsed_code = Number(ship_name);
+
+        results = results.filter(path => path.find(ship => ship[0] === parsed_code));
+
+        console.log(results)
       }).catch(function(e){showError("Connection failed.")})
     }
   }
