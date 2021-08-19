@@ -9,7 +9,8 @@ function findPath (){
   if (["vanilla", "kest"].indexOf(mod_name) != -1) link = "https://raw.githubusercontent.com/Bhpsngum/starblast/master";
   else link = "https://starblast.data.neuronality.com";
   link += "/mods/" + mod_name + ".js";
-  let game = {custom: {}};
+  let game = {custom: {}}
+  for (let i of ["addAlien","addAsteroid","addCollectible","setObject","setCustomMap","setUIComponent","removeObject"]) game[i] = function(){}
   if (!ship_name || !mod_name) {
     if (!ship_name) showError("Please enter a ship to lookup");
     else showError("Please choose a ship tree to lookup")
