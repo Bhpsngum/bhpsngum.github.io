@@ -111,17 +111,17 @@
           else {
             let next_ships = internals.ships[nextLevel];
             let current_ships = internals.ships[level];
-            if (!next_ships) return submitPath(path);
+            if (!next_ships) return;
             let model = code - level * 100 - 1;
             let alpha = Math.max(0, Math.round(model / Math.max(current_ships.length - 1, 1) * (next_ships.length - 2)));
             return next_ships.slice(alpha, alpha + 2).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [ship, i]]));
           }
-          return submitPath(path)
+          return
         }
 
-        for (let i of internals.ships[1]) getNextShipCodes(i, 1, []);
+        // for (let i of internals.ships[1]) getNextShipCodes(i, 1, []);
 
-        results = results.filter(path => path[0] === parsed_code);
+        getNextShipCodes(101, 1, []);
 
         console.log(results);
 
