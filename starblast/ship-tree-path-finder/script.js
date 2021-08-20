@@ -71,7 +71,7 @@
               let level = getNum(prs.typespec.level);
               if (!Array.isArray(internals.ships[level])) internals.ships[level] = [];
               internals.ships[level].push(code);
-              internals.names.set(code, prs.name);
+              internals.names.set(code, prs.name.replace(/_/g," "));
               if (prs.typespec.model !== code%100) internals.models.set(code, prs.typespec.model);
               let cnxt = uAr(Array.isArray(next)?next:[]);
               if (cnxt.length > 0) internals.nexts.set(code, cnxt)
