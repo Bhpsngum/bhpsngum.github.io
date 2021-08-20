@@ -100,28 +100,28 @@
           code = getNum(code);
           if (code === parsed_code) return submitPath(path);
           let custom_next = internals.nexts.get(code);
+          let nextLevel = Number(level) + 1;
           if (Array.isArray(custom_next)) {
             let cnext = [], ships = Object.values(internals.ships).flat();
             for (let type of custom_next) {
               if (ships.indexOf(type) != -1) cnext.push(type);
             }
-            return uAr(cnext).forEach((ship, i) => getNextShipCodes(ship, level, [...path, [ship, i]]));
+            return uAr(cnext).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [ship, i]]));
           }
           else {
-            let nextLevel = Number(level) + 1;
             let next_ships = internals.ships[nextLevel];
             if (!next_ships) return;
             let current_ships = internals.ships[level];
             let model = code - level * 100 - 1;
             let alpha = Math.max(0, Math.round(model / Math.max(current_ships.length - 1, 1) * (next_ships.length - 2)));
-            return next_ships.slice(alpha, alpha + 2).forEach((ship, i) => getNextShipCodes(ship, level, [...path, [ship, i]]));
+            return next_ships.slice(alpha, alpha + 2).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [ship, i]]));
           }
           return
         }
 
         // for (let i of internals.ships[1]) getNextShipCodes(i, 1, []);
 
-        getNextShipCodes(101, 1, [[101,]]);
+        getNextShipCodes(101, 1, [[101,null]]);
 
         console.log(results, internals);
 
