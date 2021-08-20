@@ -121,8 +121,6 @@
 
         for (let i of internals.ships[1]) getNextShipCodes(i, 1, [[1,i,null]]);
 
-        console.log(results);
-
         let res_text = `<b>${results.length>0?results.length:"No"} result${results.length!=1?"s":""} found</b>`;
 
         res_text += results.map((path, i) => `<br></br><h3>Path ${i+1}</h3><table><tr><th>Tier</th>${path.map(v => "<th>" + v[0] + "</th>").join("")}</tr><tr><th>Ship name</th>${path.map(v => "<td>"+internals.names.get(v[1])+"</td>").join("")}</tr><tr><th>Ship code</th>${path.map(v => "<td>"+v[1]+"</td>").join("")}</tr><tr><th>Upgrade option</th>${path.map(v => "<td>"+(v[2] == null ? "Starting ship" : (v[2] != 0?"0 (Right)":"9 (Left)"))+"</td>").join("")}</tr></table>`).join("");
