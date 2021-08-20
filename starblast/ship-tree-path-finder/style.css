@@ -1,7 +1,7 @@
 body {
   font-family: Verdana;
-  background-color: rgb(24,26,27);
-  color: rgb(231,229,228);
+  background-color: #1b2a32;
+  color: #e6e6e6;
 }
 
 *:not(b) {
@@ -13,10 +13,22 @@ body {
 table {
   width: 100%;
   text-align: center;
+  padding:0.5%;
+  background-color: #25333b;
+  border: 1px solid #4e595f;
+  border-spacing: 0.5vmax;
 }
 
-table, table>tbody>tr>* {
-  border: 1px solid;
+table>tbody>tr>* {
+  padding: 1%;
+}
+
+table>tbody>tr>th {
+  background-color: #ced7dc;
+}
+
+table>tbody>tr>td {
+  background-color: rgba(0,0,0,.3);
 }
 
 table>tbody>tr>th:nth-child(1) {
