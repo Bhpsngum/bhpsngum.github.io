@@ -106,7 +106,7 @@
             for (let type of custom_next) {
               if (ships.indexOf(type) != -1) cnext.push(type);
             }
-            return uAr(cnext).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [level, ship, i]]));
+            return uAr(cnext).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [nextLevel, ship, i]]));
           }
           else {
             let next_ships = internals.ships[nextLevel];
@@ -114,7 +114,7 @@
             let current_ships = internals.ships[level];
             let model = code - level * 100 - 1;
             let alpha = Math.max(0, Math.round(model / Math.max(current_ships.length - 1, 1) * (next_ships.length - 2)));
-            return next_ships.slice(alpha, alpha + 2).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [level, ship, i]]));
+            return next_ships.slice(alpha, alpha + 2).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [nextLevel, ship, i]]));
           }
           return
         }
