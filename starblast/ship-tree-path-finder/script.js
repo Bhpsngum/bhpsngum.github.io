@@ -123,7 +123,7 @@
 
         getNextShipCodes(101, 1, []);
 
-        console.log(results);
+        console.log(results, internals);
 
         let res_text = `${results.length>0?results.length:"No"} result${results.length!=1?"s":""} found`;
 
