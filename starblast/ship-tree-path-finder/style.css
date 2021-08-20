@@ -1,12 +1,13 @@
 body {
   font-family: Verdana;
-  background: transparent;
+  background-color: rgb(24,26,27);
+  color: rgb(231,229,228);
 }
 
 *:not(b) {
 	margin: 1%;
-  margin-left: 5px;
-  margin-top: 5px;
+  margin-left: 0.5%;
+  margin-top: 0.5%;
 }
 
 table {
@@ -14,6 +15,11 @@ table {
   text-align: center;
 }
 
+table, table>tbody>tr>* {
+  border: 1px solid;
+}
+
 table>tbody>tr>th:nth-child(1) {
   text-align: left;
+  width: 20%;
 }
