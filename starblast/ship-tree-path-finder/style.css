@@ -6,3 +6,8 @@ body {
 *:not(b) {
 	margin: 1%;
 }
+
+table {
+  width: 100%;
+  text-align: center;
+}

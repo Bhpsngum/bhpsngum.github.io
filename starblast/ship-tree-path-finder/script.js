@@ -106,7 +106,7 @@
             for (let type of custom_next) {
               if (ships.indexOf(type) != -1) cnext.push(type);
             }
-            return uAr(cnext).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [ship, i]]));
+            return uAr(cnext).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [level, ship, i]]));
           }
           else {
             let next_ships = internals.ships[nextLevel];
@@ -114,18 +114,20 @@
             let current_ships = internals.ships[level];
             let model = code - level * 100 - 1;
             let alpha = Math.max(0, Math.round(model / Math.max(current_ships.length - 1, 1) * (next_ships.length - 2)));
-            return next_ships.slice(alpha, alpha + 2).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [ship, i]]));
+            return next_ships.slice(alpha, alpha + 2).forEach((ship, i) => getNextShipCodes(ship, nextLevel, [...path, [level, ship, i]]));
           }
           return
         }
 
-        // for (let i of internals.ships[1]) getNextShipCodes(i, 1, []);
+        for (let i of internals.ships[1]) getNextShipCodes(i, 1, [1,i,null]);
 
-        getNextShipCodes(101, 1, [[101,null]]);
+        console.log(results);
 
-        console.log(results, internals);
+        let res_text = `<b>${results.length>0?results.length:"No"} result${results.length!=1?"s":""} found</b>`;
 
-        let res_text = `${results.length>0?results.length:"No"} result${results.length!=1?"s":""} found`;
+        results.map((path, i) => {
+          let text = `<h3>Path ${i+1}</h3><table><tr><th>Tier</th>${path.map(v => "<th>" + v[0] + "</th>")}</tr><tr><th>Ship name</th>${path.map(v => "<tr>"+internals.name.get(v[1])+"</tr>")}</tr><tr><th>Ship code</th>${path.map(v => "<tr>"+v[1]+"</tr>")}</tr><tr><th>Upgrade option</th>${path.map(v => v[2] == null ? "Starting ship" : (v[2] == 0?"0 (Left)":"9 (Right)"))}</tr></table>`;
+        });
 
         showResults(res_text);
       }).catch(function(e){showError("Connection failed.")})
