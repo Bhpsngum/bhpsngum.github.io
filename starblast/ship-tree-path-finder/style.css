@@ -11,3 +11,7 @@ table {
   width: 100%;
   text-align: center;
 }
+
+table>tbody>tr>th:nth-child(1) {
+  text-align: left;
+}
