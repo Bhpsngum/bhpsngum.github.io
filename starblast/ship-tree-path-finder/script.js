@@ -125,7 +125,7 @@
 
         let res_text = `<b>${results.length>0?results.length:"No"} result${results.length!=1?"s":""} found</b>`;
 
-        res_text += results.map((path, i) => `<br></br><h3>Path ${i+1}</h3><table><tr><th>Tier</th>${path.map(v => "<th style='width:" + 85/path.length + "'>" + v[0] + "</th>").join("")}</tr><tr><th>Ship name</th>${path.map(v => "<td>"+internals.names.get(v[1])+"</td>").join("")}</tr><tr><th>Ship code</th>${path.map(v => "<td>"+v[1]+"</td>").join("")}</tr><tr><th>Upgrade option</th>${path.map(v => "<td>"+(v[2] == null ? ("Starting ship" + (starting_ships.length > 1 ? (" " + (starting_ships.indexOf(v[1]) + 1)) : "")) : (v[2] != 0?"0 (Right)":"9 (Left)"))+"</td>").join("")}</tr></table>`).join("");
+        res_text += results.map((path, i) => `<br></br><h3>Path ${i+1}</h3><table><tr><th>Tier</th>${path.map(v => "<th style='width:" + 85/path.length + "%'>" + v[0] + "</th>").join("")}</tr><tr><th>Ship name</th>${path.map(v => "<td>"+internals.names.get(v[1])+"</td>").join("")}</tr><tr><th>Ship code</th>${path.map(v => "<td>"+v[1]+"</td>").join("")}</tr><tr><th>Upgrade option</th>${path.map(v => "<td>"+(v[2] == null ? ("Starting ship" + (starting_ships.length > 1 ? (" " + (starting_ships.indexOf(v[1]) + 1)) : "")) : (v[2] != 0?"0 (Right)":"9 (Left)"))+"</td>").join("")}</tr></table>`).join("");
 
         showResults(res_text);
       }).catch(function(e){showError("Connection failed.")})
