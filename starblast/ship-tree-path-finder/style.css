@@ -5,7 +5,8 @@ body {
 
 *:not(b) {
 	margin: 1%;
-  margin-left: 0;
+  margin-left: 5px;
+  margin-top: 5px;
 }
 
 table {
