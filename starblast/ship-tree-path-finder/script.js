@@ -190,7 +190,7 @@
     e.stopPropagation();
   });
   for (let event of ["propertychange", "input"]) shipInput.on(event, filter);
-  shipSelect.on("keydown", focusControl);
+  $("#ship-choose").on("keydown", focusControl);
   $("#lookup").on("click",findPath);
   $(window).on("keydown", function(event) {
     if (event.ctrlKey && event.keyCode == 13) findPath()
