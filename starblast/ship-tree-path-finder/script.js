@@ -110,7 +110,7 @@
         for (let i in internals.ships) {
           internals.ships[i] = uAr(internals.ships[i]).sort(function (a,b) {return getModel(a) - getModel(b)})
         }
-        shipSelect.html([...internals.names.entries()].sort((a,b)=>a[1]-b[1]).map(name => `<a id="${name[0]}" href="javascript:void 0" onclick="$('#ship-input').val('${name[1]}');$(window).click()">${name[1]}</a>`).join(""));
+        shipSelect.html([...internals.names.entries()].sort((a,b)=>a[0]-b[0]).map(name => `<a id="${name[0]}" href="javascript:void 0" onclick="$('#ship-input').val('${name[1]}');$(window).click()">(${name[0]}) ${name[1]}</a>`).join(""));
 
         filter()
       }).catch(function(e){showError("Failed to get ship tree info")})

@@ -9,7 +9,7 @@ body {
 }
 
 :root {
-  --option-width: 200px;
+  --option-width: 250px;
 }
 
 #ship-choose>* {
@@ -19,10 +19,6 @@ body {
 #ship-choose, #ship-choose>* {
   margin: 0;
 }
-
- /* {
-  width: 100%;
-} */
 
 #ship-input {
   padding: 1%;
