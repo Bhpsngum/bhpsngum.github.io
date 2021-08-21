@@ -24,10 +24,6 @@
   <body>
     <h1 id="title">Ship Tree Path Finder</h1>
     <div>
-      <b>Ship to lookup</b>
-      <input dir="ltr" name="Ship Input" placeholder="Ship name or code" type="text" id="ship-input">
-    </div>
-    <div>
       <b>Ship tree</b>
       <select id="tree-select">
         <option selected disabled>Choose a ship tree</option>
@@ -38,6 +34,13 @@
         <option value="kest">Kleinem's Enhanced Ship Tree (KEST)</option>
         <option value="mcst">Multi-class Ship Tree (MCST)</option>
       </select>
+    </div>
+    <div>
+      <b>Ship to lookup</b>
+      <div id="ship-choose">
+        <input dir="ltr" name="Ship Input" placeholder="Ship name or code" type="text" id="ship-input">
+        <div id="ship-select" style="display:none"></div>
+      </div>
     </div>
     <button id="lookup" style="cursor:pointer">Lookup</button>
     <div id="results"></div>

@@ -4,7 +4,52 @@ body {
   color: #e6e6e6;
 }
 
-*:not(b) {
+#ship-choose {
+  width: var(--option-width);
+}
+
+:root {
+  --option-width: 200px;
+}
+
+#ship-choose>* {
+  width: 100%;
+}
+
+#ship-choose, #ship-choose>* {
+  margin: 0;
+}
+
+ /* {
+  width: 100%;
+} */
+
+#ship-input {
+  padding: 1%;
+}
+
+#ship-select {
+  background-color: #fff;
+  overflow: auto;
+  overflow-y: scroll;
+  height: 20%;
+  position: absolute;
+  max-width: var(--option-width);
+  border: 2px solid #ddd;
+  z-index: 1;
+  padding: 0.15%;
+}
+
+#ship-select>a {
+  text-decoration: none;
+  border-bottom: 2px solid #ddd;
+  width: 100%;
+  display: block;
+  color: #000;
+  font-size: 90%;
+}
+
+* {
 	margin: 1%;
   margin-left: 0.5%;
   margin-top: 0.5%;
