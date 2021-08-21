@@ -189,10 +189,7 @@
   $("#ship-choose, #ship-choose>*").on("click", function(e) {
     e.stopPropagation();
   });
-  shipInput.on("keydown",function(event){
-    filter();
-    focusControl(event)
-  });
+  for (let event of ["propertychange", "input"]) shipInput.on(event, filter);
   shipSelect.on("keydown", focusControl);
   $("#lookup").on("click",findPath);
   $(window).on("keydown", function(event) {
