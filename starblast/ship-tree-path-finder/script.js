@@ -110,7 +110,9 @@
         for (let i in internals.ships) {
           internals.ships[i] = uAr(internals.ships[i]).sort(function (a,b) {return getModel(a) - getModel(b)})
         }
-        shipSelect.html([...internals.names.values()].map(name => `<a href="javascript:void 0" onclick="$('#ship-input').val('${name}');$(window).click()">${name}</a>`).join(""))
+        shipSelect.html([...internals.names.entries()].sort((a,b)=>a[1]-b[1]).map(name => `<a id="${name[0]}" href="javascript:void 0" onclick="$('#ship-input').val('${name[1]}');$(window).click()">${name[1]}</a>`).join(""));
+
+        filter()
       }).catch(function(e){showError("Failed to get ship tree info")})
     }
   }
@@ -118,11 +120,11 @@
   let filter = function() {
     var input, filter, ul, li, a, i;
     input = shipInput;
-    filter = input.val().toUpperCase();
+    filter = input.val().toUpperCase().replace(/[^0-9A-Z]/gi," ");
     a = $("#ship-select>a");
     for (i = 0; i < a.length; i++) {
-      txtValue = a[i].textContent || a[i].innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      txtValue = (a[i].textContent || a[i].innerText).toUpperCase().replace(/[^0-9A-Z]/gi," ");
+      if (a[i].id.indexOf(filter) > -1 || txtValue.indexOf(filter) > -1) {
         a[i].style.display = "";
       } else {
         a[i].style.display = "none";
@@ -162,7 +164,10 @@
 
   if (queries.hidetitle == "true") $("#title").remove();
   $("#tree-select").on("change", loadTree);
-  shipInput.on("click", function(){shipSelect.css("display","")});
+  shipInput.on("click", function(){
+    shipSelect.css("display","");
+    filter()
+  });
   $(window).on("click", function(){shipSelect.css("display","none")});
   $("#ship-choose, #ship-choose>*").on("click", function(e) {
     e.stopPropagation();
