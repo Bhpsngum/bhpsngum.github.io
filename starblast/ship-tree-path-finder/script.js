@@ -189,13 +189,13 @@
   $("#ship-choose, #ship-choose>*").on("click", function(e) {
     e.stopPropagation();
   });
-  shipInput.on("keyup",function(event){
+  shipInput.on("keydown",function(event){
     filter();
     focusControl(event)
   });
-  shipSelect.on("keyup", focusControl);
+  shipSelect.on("keydown", focusControl);
   $("#lookup").on("click",findPath);
-  $(window).on("keyup", function(event) {
+  $(window).on("keydown", function(event) {
     if (event.ctrlKey && event.keyCode == 13) findPath()
   })
 })();
