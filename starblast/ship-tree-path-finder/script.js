@@ -118,18 +118,10 @@
   }
 
   let filter = function() {
-    var input, filter, ul, li, a, i;
-    input = shipInput;
-    filter = input.val().toUpperCase().replace(/[^0-9A-Z]/gi," ");
-    a = $("#ship-select>a");
-    for (i = 0; i < a.length; i++) {
-      txtValue = (a[i].textContent || a[i].innerText).toUpperCase().replace(/[^0-9A-Z]/gi," ");
-      if (a[i].id.indexOf(filter) > -1 || txtValue.indexOf(filter) > -1) {
-        a[i].style.display = "";
-      } else {
-        a[i].style.display = "none";
-      }
-    }
+    let input = shipInput;
+    let filter = input.val().toUpperCase().replace(/[^0-9A-Z]/gi," ");
+    let a = $("#ship-select>a");
+    for (let e of a) $(e).css("display", e.id.indexOf(filter) > -1 || (e.textContent || e.innerText).toUpperCase().replace(/[^0-9A-Z]/gi," ").indexOf(filter) > -1 ? "" : "none")
   }
 
   let findPath = function () {
@@ -157,10 +149,35 @@
     }
   }
 
+  let locate = function(dir) {
+    dir = Math.sign(dir) || 1;
+    let cFocus = $(":focus")[0];
+    let list = Array.prototype.filter.call(shipSelect.children(), e => $(e).css("display") != "none");
+    if (list.length == 0) return;
+    let placeholder = list[dir < 0 ? list.length - 1 : 0];
+    let fIndex = list.indexOf(cFocus);
+    if (fIndex == -1) cFocus = placeholder;
+    else cFocus = list[fIndex + dir] || placeholder;
+    cFocus.focus()
+  }
+
+  let focusControl = function(event) {
+    if ([38,40].indexOf(event.keyCode) == -1) return;
+    event.preventDefault();
+    switch (event.keyCode) {
+      case 38: // up
+        locate(-1);
+        break;
+      case 40: // down
+        locate(1);
+        break;
+    }
+  }
+
   let queries = decodeURIComponent(location.search).slice(1).split("&").filter(i=>i).map(i=>{
     var t = i.split("=");
     return [t[0], t.slice(1, t.length).join("=")]
-  }).reduce((a,b) => (a[b[0]] = b[1],a), {})
+  }).reduce((a,b) => (a[b[0]] = b[1],a), {});
 
   if (queries.hidetitle == "true") $("#title").remove();
   $("#tree-select").on("change", loadTree);
@@ -172,6 +189,13 @@
   $("#ship-choose, #ship-choose>*").on("click", function(e) {
     e.stopPropagation();
   });
-  shipInput.on("keyup",filter);
+  shipInput.on("keyup",function(event){
+    filter();
+    focusControl(event)
+  });
+  shipSelect.on("keyup", focusControl);
   $("#lookup").on("click",findPath);
+  $(window).on("keyup", function(event) {
+    if (event.ctrlKey && event.keyCode == 13) findPath()
+  })
 })();

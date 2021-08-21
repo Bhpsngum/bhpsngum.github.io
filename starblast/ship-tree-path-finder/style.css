@@ -30,7 +30,7 @@ body {
 
 #ship-select {
   background-color: #fff;
-  overflow: auto;
+  overflow-x: hidden;
   overflow-y: scroll;
   height: 20%;
   position: absolute;
@@ -40,6 +40,10 @@ body {
   padding: 0.15%;
 }
 
+#ship-select>a:focus {
+  background-color: lightgray;
+}
+
 #ship-select>a {
   text-decoration: none;
   border-bottom: 2px solid #ddd;
@@ -47,6 +51,7 @@ body {
   display: block;
   color: #000;
   font-size: 90%;
+  margin: 0;
 }
 
 * {
