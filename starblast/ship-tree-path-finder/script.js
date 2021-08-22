@@ -181,14 +181,16 @@
 
   if (queries.hidetitle == "true") $("#title").remove();
   $("#tree-select").on("change", loadTree);
-  shipInput.on("click", function(){
+  shipInput.on("focus", function(){
     shipSelect.css("display","");
     filter()
   });
-  $(window).on("click", function(){shipSelect.css("display","none")});
-  $("#ship-choose, #ship-choose>*").on("click", function(e) {
-    e.stopPropagation();
-  });
+  for (let event of ["focus", "click"]) {
+    $(window).on(event, function(){shipSelect.css("display","none")});
+    $("#ship-choose, #ship-choose>*").on(event, function(e) {
+      e.stopPropagation();
+    })
+  }
   for (let event of ["propertychange", "input"]) shipInput.on(event, filter);
   $("#ship-choose").on("keydown", focusControl);
   $("#lookup").on("click",findPath);
