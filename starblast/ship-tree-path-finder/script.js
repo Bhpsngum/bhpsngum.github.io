@@ -110,7 +110,7 @@
         for (let i in internals.ships) {
           internals.ships[i] = uAr(internals.ships[i]).sort(function (a,b) {return getModel(a) - getModel(b)})
         }
-        shipSelect.html([...internals.names.entries()].sort((a,b)=>a[0]-b[0]).map(name => `<a id="${name[0]}" href="javascript:void 0" onclick="$('#ship-input').val('${name[1]}');$(window).click()">(${name[0]}) ${name[1]}</a>`).join(""));
+        shipSelect.html([...internals.names.entries()].sort((a,b)=>a[0]-b[0]).map(name => `<a id="${name[0]}" href="javascript:void 0" onclick="$('#ship-input').val('${name[1]}')">(${name[0]}) ${name[1]}</a>`).join(""));
 
         filter()
       }).catch(function(e){showError("Failed to get ship tree info")})
@@ -185,14 +185,16 @@
     shipSelect.css("display","");
     filter()
   });
-  for (let event of ["focus", "click"]) {
-    $(window).on(event, function(){shipSelect.css("display","none")});
-    $("#ship-choose, #ship-choose>*").on(event, function(e) {
-      e.stopPropagation();
-    })
-  }
+
+  let shipChoose = $("#ship-choose");
+
+  for (let event of ["click", "focus"]) $(document).on(event, "*", function(e) {
+    e.stopPropagation();
+    let display = ($.contains(shipChoose[0], e.target) && (e.type !== "click" || !$.contains(shipSelect[0], e.target))) ? "" : "none";
+    shipSelect.css("display", display)
+  });
   for (let event of ["propertychange", "input"]) shipInput.on(event, filter);
-  $("#ship-choose").on("keydown", focusControl);
+  shipChoose.on("keydown", focusControl);
   $("#lookup").on("click",findPath);
   $(window).on("keydown", function(event) {
     if (event.ctrlKey && event.keyCode == 13) findPath()

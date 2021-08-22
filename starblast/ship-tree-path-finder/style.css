@@ -44,7 +44,7 @@ body {
   text-decoration: none;
   border-bottom: 2px solid #ddd;
   width: 100%;
-  display: block;
+  display: inline-flex;
   color: #000;
   font-size: 90%;
   margin: 0;
