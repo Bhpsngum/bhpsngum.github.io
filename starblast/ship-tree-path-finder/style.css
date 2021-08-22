@@ -28,9 +28,9 @@ body {
   background-color: #fff;
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 20%;
+  max-height: 20%;
   position: absolute;
-  max-width: var(--option-width);
+  width: var(--option-width);
   border: 2px solid #ddd;
   z-index: 1;
   padding: 0.15%;
