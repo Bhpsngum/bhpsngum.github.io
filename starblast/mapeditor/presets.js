@@ -23,7 +23,7 @@ else (function(){
   $("input, textarea").attr("spellcheck", false);
   $.ajax("/starblast/mapeditor/changelog.txt").then(function(data){
     data.replace(/\d+\.\d+\.\d+/, function(version) {
-      $("#version").html("Version " + version);
+      $("#modules tr").html('<td id="version" style="border:none;width:auto">Version ' + version + '</td>');
       if (localStorage.getItem("lastVer") != version)
       {
         let info = data.split("\n\n")[0].split("\n");
@@ -32,5 +32,8 @@ else (function(){
       }
     });
   }).fail(e => {});
-  addToolPage(null,"1vw","1vh",null,null,null,"td",$("#modules tr")[0])
+  addToolPage(null,"1vw","1vh",null,null,null,"td",$("#modules tr")[0],{
+    position: "inherit",
+    width: "auto"
+  });
 })();
