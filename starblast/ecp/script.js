@@ -191,5 +191,5 @@ window.addEventListener("load", function(){
       clearInterval(it);
     }
   }, 500);
-  addToolPage(null,"1%","1%",null)
+  addToolPage(null,"1%","1%",null,null,null,null,$("#infobox")[0])
 });
