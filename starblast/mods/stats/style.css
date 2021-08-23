@@ -14,8 +14,9 @@ body {
 .modStatBox {
   display: inline-block;
   height: auto;
-  background-color: rgb(47,79,79);
+  background-color: rgb(47,79,79,0.5);
   font-size: 100%;
+  backdrop-filter: blur(1px);
 }
 p, h3 {
   margin: 0;
