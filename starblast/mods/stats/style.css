@@ -46,7 +46,8 @@ table {
   border-collapse: collapse;
 }
 #notif-box {
-  background-color: rgb(24,26,27);
+  background-color: rgb(24,26,27,0.5);
+  backdrop-filter: blur(1px);
   padding: 10pt;
   cursor: pointer;
   text-align: center;
