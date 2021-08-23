@@ -157,4 +157,5 @@
   SSCV.convert(!0);
   $("#convert").on("click",function(){SSCV.convert()});
   $("#copy").on("click",function(){SSCV.copy($("#output").val())});
+  addToolPage("51%",null,"1%",null);
 })();

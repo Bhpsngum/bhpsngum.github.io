@@ -198,5 +198,6 @@
   $("#lookup").on("click",findPath);
   $(window).on("keydown", function(event) {
     if (event.ctrlKey && event.keyCode == 13) findPath()
-  })
+  });
+  addToolPage(null,"1%","1%",null)
 })();

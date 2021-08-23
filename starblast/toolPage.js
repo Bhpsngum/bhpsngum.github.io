@@ -1,5 +1,6 @@
-window.addToolPage = function(l,r,t,b,w,h) {
-  let button = $("<button>Other tools</button>");
+window.addToolPage = function(l,r,t,b,w,h,tag,parent) {
+  tag = tag || "button";
+  let button = $("<" + tag + ">Other tools</" + tag +">");
   let css = {
     position: "fixed",
     cursor: "pointer",
@@ -15,5 +16,5 @@ window.addToolPage = function(l,r,t,b,w,h) {
     window.open("/starblast", "_blank")
   });
   button.css(css);
-  $(document.body).append(button)
+  $(parent||document.body).append(button)
 }
