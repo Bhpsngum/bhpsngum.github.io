@@ -32,5 +32,5 @@ else (function(){
       }
     });
   }).fail(e => {});
-  addToolPage(null,"1vw","1vh",null,"td",$("#modules>tbody>tr")[0])
+  addToolPage(null,"1vw","1vh",null,"td",$("#modules tr")[0])
 })();
