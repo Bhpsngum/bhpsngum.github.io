@@ -2,7 +2,7 @@
   font-size: 1vmax
 }
 *:not([class*=ace]) {
-  font-family: Verdana;
+  font-family: Play, Verdana;
 }
 body {
   user-select:none;
