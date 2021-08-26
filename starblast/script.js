@@ -1,8 +1,8 @@
 (function(){
   let ToolBox = function(prop) {
     return `<div id="${prop.dir.replace(/\//g,"_")}" class="toolBox">
-      <img class="toolPreview" src="${prop.preview}">
-      <img class="toolIcon" src="${prop.icon}">
+      <img src="${prop.preview}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
+      <img class="toolIcon" src="${prop.icon}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
       <h3>${prop.name}</h3>
       <p>${prop.description}</p>
     </div>`
@@ -28,7 +28,8 @@
             description: t.find(meta => "description" == meta.name).content,
             icon: link + "/favicon.ico",
             preview: link + "/" + t.find(meta => "og:image" == meta.property).content
-          })
+          });
+          setTimeout(adjustwidth, 1)
         });
       }
       else insertToolBox(link)
