@@ -45,4 +45,7 @@
     $(".toolIcon").css({right: m+"px", top: m+"px"})
   }
   window.addEventListener("resize", adjustwidth);
+  $(document).on("select", function (e) {
+    e.stopPropagation()
+  })
 })();
