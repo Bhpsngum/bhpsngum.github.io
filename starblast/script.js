@@ -1,12 +1,12 @@
 (function(){
   let ToolBox = function(prop) {
-    let onclick = `onclick="window.open('${prop.dir}', '_blank')"`;
+    let onclick = `onclick="window.open('${prop.dir}')"`;
     return `<div id="${prop.dir.replace(/[^0-9A-Z]/gi,"_")}" class="toolBox">
       <img src="${prop.preview}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)" ${onclick}>
       <img class="toolIcon" src="${prop.icon}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)" ${onclick}>
       <h3 ${onclick}>${prop.name}</h3>
       <p ${onclick}>${prop.description}</p>
-      <a href="javascript:void(0)" ${onclick}>bhpsngum.github.io/${prop.dir.match(/^\.*\//)?"":"starblast/"}${prop.dir.replace(/^\.*\//, "")}</a>
+      <a href="${prop.dir}">bhpsngum.github.io/${prop.dir.match(/^\.*\//)?"":"starblast/"}${prop.dir.replace(/^\.*\//, "")}</a>
     </div>`
   }
   let insertToolBox = function (dir) {
