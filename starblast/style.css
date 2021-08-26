@@ -18,8 +18,28 @@ body {
   margin: 0;
   padding-top: 1%;
   padding-bottom: 1%;
-  background-color: rgb(9,22,28,0.7);
+  margin-bottom: 1%;
+}
+
+.toolBox {
+  display: inline-block;
+  height: auto;
+  background-color: rgb(47,79,79,0.5);
+  font-size: 100%;
   backdrop-filter: blur(1px);
+  cursor: pointer;
+}
+
+.toolIcon {
+  width: 10%;
+  position: absolute;
+  background-color: inherit;
+}
+
+img {
+  width: 100%;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 a {
