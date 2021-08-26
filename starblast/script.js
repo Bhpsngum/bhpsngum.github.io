@@ -1,11 +1,12 @@
 (function(){
   let ToolBox = function(prop) {
-    return `<div id="${prop.dir.replace(/[^0-9A-Z]/gi,"_")}" class="toolBox" onclick="window.open('${prop.dir}', '_blank')">
-      <img src="${prop.preview}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
-      <img class="toolIcon" src="${prop.icon}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
-      <h3>${prop.name}</h3>
-      <p>${prop.description}</p>
-      <a href="javascript:void(0)">bhpsngum.github.io/${prop.dir.match(/^\.*\//)?"":"starblast/"}${prop.dir.replace(/^\.*\//, "")}</a>
+    let onclick = `onclick="window.open('${prop.dir}', '_blank')"`;
+    return `<div id="${prop.dir.replace(/[^0-9A-Z]/gi,"_")}" class="toolBox">
+      <img src="${prop.preview}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)" ${onclick}>
+      <img class="toolIcon" src="${prop.icon}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)" ${onclick}>
+      <h3 ${onclick}>${prop.name}</h3>
+      <p ${onclick}>${prop.description}</p>
+      <a href="javascript:void(0)" ${onclick}>bhpsngum.github.io/${prop.dir.match(/^\.*\//)?"":"starblast/"}${prop.dir.replace(/^\.*\//, "")}</a>
     </div>`
   }
   let insertToolBox = function (dir) {
@@ -44,8 +45,5 @@
     $(".toolBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px"});
     $(".toolIcon").css({right: m+"px", top: m+"px"})
   }
-  window.addEventListener("resize", adjustwidth);
-  $(document).on("select", function (e) {
-    e.stopPropagation()
-  })
+  window.addEventListener("resize", adjustwidth)
 })();
