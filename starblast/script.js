@@ -5,6 +5,7 @@
       <img class="toolIcon" src="${prop.icon}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
       <h3>${prop.name}</h3>
       <p>${prop.description}</p>
+      <a href="javascript:void(0)">bhpsngum.github.io/${prop.dir.match(/^\.*\//)?"":"starblast/"}${prop.dir.replace(/^\.*\//, "")}</a>
     </div>`
   }
   let insertToolBox = function (dir) {
