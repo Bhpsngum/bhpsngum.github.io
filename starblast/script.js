@@ -1,6 +1,6 @@
 (function(){
   let ToolBox = function(prop) {
-    return `<div id="${prop.dir.replace(/\//g,"_")}" class="toolBox">
+    return `<div id="${prop.dir.replace(/[0-9A-Z]/gi,"_")}" class="toolBox" onclick="window.open('${prop.dir}', '_blank')">
       <img src="${prop.preview}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
       <img class="toolIcon" src="${prop.icon}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
       <h3>${prop.name}</h3>
