@@ -41,8 +41,9 @@ img {
   user-select: none;
 }
 
-a {
+a, a:active {
   color: cyan;
+  font-size: 90%;
 }
 a:active {
   color:blue;
