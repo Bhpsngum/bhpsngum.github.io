@@ -202,5 +202,5 @@
   window.addEventListener("resize", adjustwidth);
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
-  setTimeout(checkUpdate,1)
+  setInterval(checkUpdate,1)
 })();
