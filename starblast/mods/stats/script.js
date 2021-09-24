@@ -150,7 +150,7 @@
       queueNextUpdate();
     });
   }, queueNextUpdate = function() {
-    setTimeout(fireEvent, 5000)
+    setTimeout(function(){updated = false}, 5000)
   }, showNotification = function (mod) {
     let title = `New mod ${mod.featured?"featuring":"available"} in Modding Space!`, options = {
       body: mod.title+"\nby "+mod.author,
