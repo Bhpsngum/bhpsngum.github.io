@@ -1,5 +1,5 @@
 (function(){
-  var updatequeue = {}, audioAlert = new Audio('alert.mp3'), notif_box = $("#notif-enabled"), notif_enabled, available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
+  var audioAlert = new Audio('alert.mp3'), notif_box = $("#notif-enabled"), notif_enabled, available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
   removed_time = {
     "prototypes": 1578454316626,
     "racing": 1592486063588
@@ -150,7 +150,7 @@
       queueNextUpdate();
     });
   }, queueNextUpdate = function() {
-    setTimeout(function(){updatequeue.loaded = true}, 5000)
+    setTimeout(fireEvent, 5000)
   }, showNotification = function (mod) {
     let title = `New mod ${mod.featured?"featuring":"available"} in Modding Space!`, options = {
       body: mod.title+"\nby "+mod.author,
@@ -193,12 +193,12 @@
   }, img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, adjustwidth = function(){
     let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
     $(".modStatBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px","border-radius":m+"px"});
+  }, fireEvent = function () {
+    window.dispatchEvent(new Event('update-info'))
   }
   window.addEventListener("resize", adjustwidth);
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
-  Object.defineProperty(updatequeue, 'loaded', {
-    set (val) { update () }
-  })
-  updatequeue.loaded = true
+  window.addEventListener('update-info', update);
+  fireEvent()
 })();
