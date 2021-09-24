@@ -150,7 +150,7 @@
       queueNextUpdate();
     });
   }, queueNextUpdate = function() {
-    setTimeout(function(){updatequeue.loaded = false}, 5000)
+    setTimeout(function(){updatequeue.loaded = true}, 5000)
   }, showNotification = function (mod) {
     let title = `New mod ${mod.featured?"featuring":"available"} in Modding Space!`, options = {
       body: mod.title+"\nby "+mod.author,
@@ -198,10 +198,7 @@
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
   Object.defineProperty(updatequeue, 'loaded', {
-    set (val) {
-      this.loaded = true;
-      update()
-    }
+    set (val) { update () }
   })
-  updatequeue.loaded = false
+  updatequeue.loaded = true
 })();
