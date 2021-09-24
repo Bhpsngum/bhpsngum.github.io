@@ -1,5 +1,5 @@
 (function(){
-  var audioAlert = new Audio('alert.mp3'), notif_box = $("#notif-enabled"), notif_enabled, available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
+  var updatequeue = {}, audioAlert = new Audio('alert.mp3'), notif_box = $("#notif-enabled"), notif_enabled, available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
   removed_time = {
     "prototypes": 1578454316626,
     "racing": 1592486063588
@@ -150,7 +150,7 @@
       queueNextUpdate();
     });
   }, queueNextUpdate = function() {
-    setTimeout(update, 5000)
+    setTimeout(function(){updatequeue.loaded = false}, 5000)
   }, showNotification = function (mod) {
     let title = `New mod ${mod.featured?"featuring":"available"} in Modding Space!`, options = {
       body: mod.title+"\nby "+mod.author,
@@ -197,5 +197,11 @@
   window.addEventListener("resize", adjustwidth);
   checknotifEnabled(!0);
   notif_box.on("change",function(){checknotifEnabled()});
-  update();
+  Object.defineProperty(updatequeue, 'loaded', {
+    set (val) {
+      this.loaded = true;
+      update()
+    }
+  })
+  updatequeue.loaded = false
 })();
