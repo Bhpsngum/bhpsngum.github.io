@@ -312,6 +312,26 @@
     "event": 0
   },
   {
+    "name": "Private Dueling Mod",
+    "abbreviation": "",
+    "version": "",
+    "description": "",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://github.com/apxthyy/mods-ships-public/blob/main/Dueling.js",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Various authors"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
     "name": "Pirate Mod",
     "abbreviation": "",
     "version": "0.0.3",
@@ -455,26 +475,6 @@
         "name": ["Serendibite"],
         "link": ""
       },
-      {
-        "name": ["45rfew","Money"],
-        "link": "https://github.com/45rfew/"
-      }
-    ],
-    "official": 0,
-    "event": 0
-  },
-  {
-    "name": "Money's Dueling Mod",
-    "abbreviation": "",
-    "version": "",
-    "description": "",
-    "modes": "",
-    "img": "",
-    "link": {
-      "url": "https://github.com/45rfew/Starblast-mods-n-objs/blob/master/Mods/Dueling%20mod.js",
-      "state": 2
-    },
-    "author": [
       {
         "name": ["45rfew","Money"],
         "link": "https://github.com/45rfew/"
