@@ -46,7 +46,7 @@ select, input {
   box-sizing: border-box;
 }
 
-input {
+input[type="text"], input[type="number"] {
   cursor: text;
 }
 
