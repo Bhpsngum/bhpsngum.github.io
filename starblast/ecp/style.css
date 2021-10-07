@@ -38,6 +38,10 @@ button {
   border: 0;
 }
 
+input[type="checkbox"], label, select {
+  cursor: pointer;
+}
+
 select, input {
   color: white;
   background: hsl(200,60%,15%);
