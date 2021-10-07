@@ -120,7 +120,7 @@ window.addEventListener("load", function(){
         last_info = {
           id: "custom",
           url: url,
-          name: "Your custom ECP",
+          name: "Your custom icon",
           type: "ecp",
           custom: "true"
         }
