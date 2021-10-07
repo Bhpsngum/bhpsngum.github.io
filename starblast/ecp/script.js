@@ -81,6 +81,7 @@ window.addEventListener("load", function(){
         localStorage.setItem("ecp-finish", finish);
         localStorage.setItem("ecp-laser", laser);
         localStorage.setItem("ecp-res",size);
+        localStorage.setItem("loadBadge", loadBadge);
         $("#finish-choose").val(finish);
         $("#laser-choose").val(laser);
         $("#custom-res").val(size);
