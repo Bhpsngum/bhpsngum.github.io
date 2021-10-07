@@ -1,7 +1,7 @@
-window.initCustomSetup = function(initalizer){
+window.initECPSetup = function(initializer){
   let Badge = function() {
-    function t(t, e) {
-      this.size = null != t ? t : 128, this.custom = null != e ? e : {}, this.icon = this.custom.badge || "pirate", this.laser = this.custom.laser || "simple", this.finish = this.custom.finish || "gold", this.hue = this.custom.hue || 0, this.IOl1I()
+    function t(size, query_info, finish, laser, rid, callback) {
+      this.callback = callback, this.rid = rid, this.size = null != size ? size : 128, this.info = query_info || {}, this.laser = laser || "simple", this.finish = finish || "gold", this.hue = 0, this.IOl1I()
     }
     return t.prototype.toImage = function() {
       return this.image = new Image, this.image.src = this.canvas.toDataURL(), this.image
@@ -9,7 +9,8 @@ window.initCustomSetup = function(initalizer){
       if (null != this.image) return this.image.src = this.canvas.toDataURL()
     }, t.prototype.IOl1I = function() {
       var t, e, i, s, n;
-      if (null == this.canvas && (this.canvas = document.createElement("canvas")), n = this.canvas.width = 2 * this.size, s = this.canvas.height = this.size, e = this.canvas.getContext("2d"), e.clearRect(0, 0, this.canvas.width, this.canvas.height), "blank" !== this.custom.badge) return e.fillStyle = "#000", e.beginPath(), e.arc(n / 2, s / 2, s / 2, 0, 2 * Math.PI, !0), e.fill(), e.beginPath(), e.moveTo(.05 * n, .25 * s), e.lineTo(.05 * n, .75 * s), e.lineTo(n / 2, .9 * s), e.lineTo(.95 * n, .75 * s), e.lineTo(.95 * n, .25 * s), e.lineTo(n / 2, .1 * s), e.closePath(), e.fill(), e.lineWidth = .07 * s, e.globalCompositeOperation = "destination-out", e.strokeStyle = "#000", e.beginPath(), e.arc(n / 2, s / 2, .6 * s, 0, 2 * Math.PI, !0), e.stroke(), this.drawMaterial(e, n, s), this.drawIcon(e, n, s), this.drawLaser(e, n, s), e.globalCompositeOperation = "source-atop", e.save(), e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(0, "rgba(255,255,255,.2)"), i.addColorStop(1, "rgba(0,0,0,.2)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2), e.restore(), e.globalCompositeOperation = "source-over", i = e.createRadialGradient(n / 2 - .25 * s, s / 2 - .25 * s, 0, n / 2, s / 2, .45 * s), i.addColorStop(0, "rgba(0,0,0,0)"), i.addColorStop(.5, "rgba(0,0,0,0)"), i.addColorStop(1, "rgba(0,0,0,.5)"), e.fillStyle = i, e.beginPath(), e.arc(n / 2, s / 2, .45 * s, 0, 2 * Math.PI, !0), e.fill(), e.globalCompositeOperation = "destination-over", e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(.7, "rgba(0,0,0,1)"), i.addColorStop(1, "rgba(0,0,0,0)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2), this.resize ? (t = document.createElement("canvas"), t.width = this.size, t.height = this.size / 2, t.getContext("2d").drawImage(this.canvas, 0, 0, this.size, this.size / 2), this.canvas = t) : void 0
+      if (null == this.canvas && (this.canvas = document.createElement("canvas")), n = this.canvas.width = 2 * this.size, s = this.canvas.height = this.size, e = this.canvas.getContext("2d"), e.clearRect(0, 0, this.canvas.width, this.canvas.height), "blank" !== this.info.id) return e.fillStyle = "#000", e.beginPath(), e.arc(n / 2, s / 2, s / 2, 0, 2 * Math.PI, !0), e.fill(), e.beginPath(), e.moveTo(.05 * n, .25 * s), e.lineTo(.05 * n, .75 * s), e.lineTo(n / 2, .9 * s), e.lineTo(.95 * n, .75 * s), e.lineTo(.95 * n, .25 * s), e.lineTo(n / 2, .1 * s), e.closePath(), e.fill(), e.lineWidth = .07 * s, e.globalCompositeOperation = "destination-out", e.strokeStyle = "#000", e.beginPath(), e.arc(n / 2, s / 2, .6 * s, 0, 2 * Math.PI, !0), e.stroke(), this.drawMaterial(e, n, s), this.drawIcon(e, n, s), this.drawLaser(e, n, s), e.globalCompositeOperation = "source-atop", e.save(), e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(0, "rgba(255,255,255,.2)"), i.addColorStop(1, "rgba(0,0,0,.2)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2), e.restore(), e.globalCompositeOperation = "source-over", i = e.createRadialGradient(n / 2 - .25 * s, s / 2 - .25 * s, 0, n / 2, s / 2, .45 * s), i.addColorStop(0, "rgba(0,0,0,0)"), i.addColorStop(.5, "rgba(0,0,0,0)"), i.addColorStop(1, "rgba(0,0,0,.5)"), e.fillStyle = i, e.beginPath(), e.arc(n / 2, s / 2, .45 * s, 0, 2 * Math.PI, !0), e.fill(), e.globalCompositeOperation = "destination-over", e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(.7, "rgba(0,0,0,1)"), i.addColorStop(1, "rgba(0,0,0,0)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2), this.resize ? (t = document.createElement("canvas"), t.width = this.size, t.height = this.size / 2, t.getContext("2d").drawImage(this.canvas, 0, 0, this.size, this.size / 2), this.canvas = t) : void 0, this.callbackCalled === false && this.callback(this.canvas, this.info, this.rid);
+      else this.callback(this.canvas, this.info, this.rid)
     }, t.prototype.drawMaterial = function(t, e, i) {
       var s, n, l, a, o, r, h, u, d, c;
       switch (this.finish) {
@@ -47,107 +48,29 @@ window.initCustomSetup = function(initalizer){
       return t.restore()
     }, t.prototype.drawIcon = function(t, e, i) {
       var s, n, l, a, o, r, h, u, d, c, p;
-      switch (this.icon) {
-        case "gamepedia":
-          this.icon = "https://starblast.io/ecp/gamepedia.png";
-          break;
-        case "discord":
-          this.icon = "https://starblast.io/ecp/discord.png";
-          break;
-        case "twitch":
-          this.icon = "https://starblast.io/ecp/twitch.png";
-          break;
-        case "medic":
-          this.icon = "https://starblast.io/ecp/medic.jpg";
-          break;
-        case "halo":
-          this.icon = "https://starblast.io/ecp/halo.png";
-          break;
-        case "nwac":
-          this.icon = "https://starblast.io/ecp/nwac.png";
-          break;
-        case "unge":
-          this.icon = "https://starblast.io/ecp/unge.png";
-          break;
-        case "csf":
-          this.icon = "https://starblast.io/ecp/csf.png";
-          break;
-        case "pmf":
-          this.icon = "https://starblast.io/ecp/pmf.png"
-      }
-      if (d = Math.round(i / 2.2), null != this.icon && this.icon.startsWith("http")) {
-        if (this.icon = this.icon.replace("http:", "https:"), null == this.icon_src && (this.icon_src = new Image, this.icon_src.crossOrigin = "Anonymous", this.icon_src.src = this.icon, this.icon_src.onload = function(t) {
+      if (d = Math.round(i / 2.2), this.info.url) {
+        if (null == this.icon_src && (this.icon_src = new Image, this.icon_src.crossOrigin = "Anonymous", this.icon_src.src = this.info.url, this.icon_src.onload = function(t) {
             return function() {
-              return t.IOl1I(), t.updateImage()
+              return t.IOl1I(), t.updateImage(), t.callbackCalled = true, t.callback(t.canvas, t.info, t.rid)
             }
           }(this)), this.icon_src.complete) try {
-          s = document.createElement("canvas"), s.width = i, s.height = i, n = s.getContext("2d"), n.fillStyle = "#FFF", n.beginPath(), n.arc(i / 2, i / 2, .45 * i, 0, 2 * Math.PI, !0), n.fill(), n.globalCompositeOperation = "source-in", n.drawImage(this.icon_src, .05 * i, .05 * i, .9 * i, .9 * i), t.drawImage(s, e / 2 - .5 * i, i / 2 - .5 * i, i, i)
+          s = document.createElement("canvas"), s.width = i, s.height = i, n = s.getContext("2d"), n.fillStyle = "#FFF", n.beginPath(), n.arc(i / 2, i / 2, .45 * i, 0, 2 * Math.PI, !0), n.fill(), n.globalCompositeOperation = "source-in", n.drawImage(this.icon_src, .05 * i, .05 * i, .9 * i, .9 * i), t.drawImage(s, e / 2 - .5 * i, i / 2 - .5 * i, i, i);
         } catch (t) {
           t
         }
       } else {
-        switch (t.font = d + "pt SBGlyphs", t.textBaseline = "middle", t.textAlign = "center", this.icon) {
-          case "reddit":
-            t.fillStyle = "#246";
-            break;
-          case "star":
-            t.fillStyle = "hsl(200,50%,20%)";
-            break;
-          case "youtube":
-            t.fillStyle = "#B11";
-            break;
-          case "paw":
-            t.fillStyle = "#DA5";
-            break;
-          case "pirate":
-          case "invader":
-          case "empire":
-          case "alliance":
-          case "sdf":
-          case "medic":
-            t.fillStyle = "#111";
-            break;
-          default:
-            t.fillStyle = "hsl(200,50%,20%)"
+        let deco = this.info.decoration || {};
+        t.font = d + "pt SBGlyphs", t.textBaseline = "middle", t.textAlign = "center", t.fillStyle = deco.fill;
+        t.beginPath(), t.arc(e / 2, i / 2, .45 * i, 0, 2 * Math.PI, !0), t.fill();
+        t.fillStyle = deco.stroke;
+        if (deco.custom) {
+          for (u = deco.custom, l = .7 * i / 11, a = r = 0; r <= 10; a = r += 1)
+            for (o = h = 0; h <= 7; o = h += 1) c = e / 2 + l * (a - 5), p = i / 2 + l * (o - 4), 1 === u[o][a] && t.fillRect(c - .4 * l, p - .4 * l, .8 * l, .8 * l);
         }
-        switch (t.beginPath(), t.arc(e / 2, i / 2, .45 * i, 0, 2 * Math.PI, !0), t.fill(), this.icon) {
-          case "reddit":
-            t.fillStyle = "#FFF", t.fillText("~", e / 2, i / 2);
-            break;
-          case "youtube":
-            t.fillStyle = "#FFF", t.fillText("Z", e / 2, i / 2);
-            break;
-          case "pirate":
-            t.font = d + "pt SBGlyphs", t.fillStyle = "#FFF", t.fillText("[", e / 2, i / 2);
-            break;
-          case "sdf":
-            t.font = d + "pt SBGlyphs", t.fillStyle = "#FFF", t.fillText("Y", e / 2, i / 2);
-            break;
-          case "paw":
-            t.fillStyle = "#000", t.fillText("V", e / 2, i / 2);
-            break;
-          case "alliance":
-            t.fillStyle = "#F00", t.fillText("X", e / 2, i / 2);
-            break;
-          case "empire":
-            t.fillStyle = "#FFF", t.fillText("R", e / 2, i / 2);
-            break;
-          case "invader":
-            for (u = [
-                [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
-                [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
-                [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-                [0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1],
-                [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1],
-                [0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0]
-              ], t.fillStyle = "hsl(120,100%,50%)", l = .7 * i / 11, a = r = 0; r <= 10; a = r += 1)
-              for (o = h = 0; h <= 7; o = h += 1) c = e / 2 + l * (a - 5), p = i / 2 + l * (o - 4), 1 === u[o][a] && t.fillRect(c - .4 * l, p - .4 * l, .8 * l, .8 * l);
-            break;
-          default:
-            t.fillStyle = "hsl(50,100%,70%)", t.fillText("S", e / 2, i / 2)
+        else {
+          t.fillText(eval('"\\u{'+deco.unicode.toString(16)+'}"'), e / 2, i / 2)
         }
+        this.callbackCalled = false
       }
     }, t.prototype.drawStar = function(t, e, i, s, n) {
       var l, a, o, r;
@@ -191,16 +114,7 @@ window.initCustomSetup = function(initalizer){
       var s;
       if (null == e && (e = .5), null == i && (i = 0), s = t.createRadialGradient(0, 0, 0, 0, 0, 1), s.addColorStop(0, "hsla(10,100%,100%," + e + ")"), s.addColorStop(1, "hsla(10,100%,100%,0)"), t.fillStyle = s, t.fillRect(-1, -1, 2, 2), 1 === i) return t.fillStyle = "#000", t.fillRect(-1, -.025, 2, .05)
     }, t.getShape = function(t) {
-      switch (t) {
-        case 3:
-          return this.shape4();
-        case 1:
-          return this.shape2();
-        case 2:
-          return this.shape3();
-        default:
-          return this.shape1()
-      }
+        return (this['shape'+(+t+1)] || this.shape1)()
     }, t.shape1 = function() {
       var t, e, i, s, n, l;
       for (s = [], e = i = 0; i <= 20; e = i += 1) t = e / 20 * Math.PI * 2, n = Math.cos(t), l = Math.sin(t), n = n < 0 ? -Math.sqrt(-n) : Math.sqrt(n), l = l < 0 ? -Math.sqrt(-l) : Math.sqrt(l), s.push([n, l / 3]);
@@ -292,8 +206,50 @@ window.initCustomSetup = function(initalizer){
       }
       return r
     }, t
-  }(),
-  initalizer.createBadge = function (size, image_url, needCover, laser, finish) {
-
+  }();
+  initializer.loadBadge = function(size, query_info, finish, laser, rid, callback) {
+    new Badge(size, query_info, finish, laser, rid, callback)
   }
+  initializer.loadIcon = function(size, query_info, rid, callback) {
+    callback = "function" == typeof callback ? callback : function(){}
+    let ecp_canvas = document.createElement("canvas");
+    let c2d = ecp_canvas.getContext("2d");
+    if (query_info.url) {
+      let img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.src = query_info.url;
+      img.onload = function() {
+        if (rid == this.id - 1) {
+          osize = img.width;
+          ecp_canvas.width = size;
+          ecp_canvas.height = size;
+          c2d.drawImage(img, 0, 0, ecp_canvas.width, ecp_canvas.height);
+          callback(ecp_canvas, query_info, rid);
+        }
+      }.bind(this)
+    }
+    else {
+      ecp_canvas.width = size;
+      ecp_canvas.height = size;
+      let deco = query_info.decoration;
+      if (deco) {
+        c2d.fillStyle = deco.fill;
+        c2d.fillRect(0,0, ecp_canvas.width, ecp_canvas.height);
+        c2d.textAlign = "center";
+        c2d.textBaseline = "middle";
+        c2d.fillStyle = deco.stroke;
+        if (deco.custom) {
+          for (u = deco.custom, l = .7 * ecp_canvas.height / 11, a = r = 0; r <= 10; a = r += 1)
+          for (o = h = 0; h <= 7; o = h += 1) c = ecp_canvas.width / 2 + l * (a - 5), p = ecp_canvas.height / 2 + l * (o - 4), 1 === u[o][a] && c2d.fillRect(c - .4 * l, p - .4 * l, .8 * l, .8 * l);
+        }
+        else {
+          c2d.font = (ecp_canvas.width/2) + "pt 'SBGlyphs'";
+          c2d.fillText(eval('"\\u{'+deco.unicode.toString(16)+'}"'), ecp_canvas.height/2, ecp_canvas.width/2);
+        }
+        c2d.stroke();
+      }
+      callback(ecp_canvas, query_info, rid);
+    }
+  }
+  return initializer
 }
