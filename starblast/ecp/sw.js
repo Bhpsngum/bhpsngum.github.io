@@ -8,7 +8,8 @@ var imports = [
   "https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js",
   "https://kit.fontawesome.com/ccd821e6cb.js",,
   "https://starblast.data.neuronality.com/fonts/starblast-glyphs.ttf?v=1",
-  "/starblast/ecp/script.js"
+  "/starblast/ecp/script.js",
+  "/starblast/ecp/customization.js"
 ];
 
 const cacheName = "ECPOffline";
@@ -25,7 +26,7 @@ self.addEventListener('fetch', (e) => {
   e.respondWith((async () => {
     const response = await fetch(e.request);
     if (response.ok) {
-      if (e.request == 'GET') try {
+      if (e?.request?.method == 'GET') try {
         const cache = await caches.open(cacheName);
         cache.put(e.request, response.clone());
       }
