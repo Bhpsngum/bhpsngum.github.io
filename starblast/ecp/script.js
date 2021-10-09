@@ -3,7 +3,7 @@ window.addEventListener("load", function(){
   $("#init").css("font-family", "SBGlyphs");
   let it = setInterval(function () {
     if (document.fonts.check("12px 'SBGlyphs'")) {
-      var finishes = ["zinc", "alloy", "titanium", "gold", "carbon"], lasers = ["Single", "Double", "Lightning", "Digital", "Alien", "Healing 1", "Healing 2"], ECP = window.initECPSetup({id: 0}), ecp_data, last_info, query_index, osize, current_id = 0, resolution, size, title = " - Starblast ECP Icon Viewer", name_regex = /^name\=/i, names = {
+      var oSize = 30, finishes = ["zinc", "alloy", "titanium", "gold", "carbon"], lasers = ["Single", "Double", "Lightning", "Digital", "Alien", "Healing 1", "Healing 2"], ECP = window.initECPSetup({id: 0}), ecp_data, last_info, query_index, osize, current_id = 0, resolution, size, title = " - Starblast ECP Icon Viewer", name_regex = /^name\=/i, names = {
         ecp: "Elite Commander Pass (ECP)",
         sucp: "shared Unique Commander Pass (sUCP)",
         ucp: "Unique Commander Pass (UCP)"
@@ -77,7 +77,7 @@ window.addEventListener("load", function(){
         }
         finish = finishes.find(f => f == finish) || "zinc";
         laser = Math.trunc(Math.min(Math.max(0, laser), lasers.length - 1)) || 0;
-        size = Math.max(size, 0) || 200;
+        size = Math.max(size, 0) || oSize;
         localStorage.setItem("ecp-finish", finish);
         localStorage.setItem("ecp-laser", laser);
         localStorage.setItem("ecp-res",size);
