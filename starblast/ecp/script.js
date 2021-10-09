@@ -91,7 +91,7 @@ window.addEventListener("load", function(){
         $("#res-option").val(size_preset.name);
         $("#custom-res").val(size);
         $("#loadBadge").prop("checked", loadBadge);
-        $("#custom-res").attr('disabled', !!size_preset.size);
+        for (let id of ["custom-res", "apply-res"]) $("#"+id).attr('disabled', !!size_preset.size);
         for (let id of ["laser-choose", "finish-choose"]) $("#"+id).attr('disabled', !loadBadge)
         if (loadBadge) ECP.loadBadge(size, query_info, finish, laser, request_id, loadImage);
         else ECP.loadIcon(size, query_info, request_id, loadImage)
