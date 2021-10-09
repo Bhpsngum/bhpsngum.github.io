@@ -3,7 +3,7 @@ window.addEventListener("load", function(){
   $("#init").css("font-family", "SBGlyphs");
   let it = setInterval(function () {
     if (document.fonts.check("12px 'SBGlyphs'")) {
-      var oSize = 30, finishes = ["zinc", "alloy", "titanium", "gold", "carbon"], lasers = ["Single", "Double", "Lightning", "Digital", "Alien", "Healing 1", "Healing 2"], ECP = window.initECPSetup({id: 0}), ecp_data, last_info, query_index, osize, current_id = 0, resolution, size, title = " - Starblast ECP Icon Viewer", name_regex = /^name\=/i, names = {
+      var sizes = [{name: "preview", size: 112}, {name: "leaderboard", size: 30}, {name:"custom"}], finishes = ["zinc", "alloy", "titanium", "gold", "carbon"], lasers = ["Single", "Double", "Lightning", "Digital", "Alien", "Healing 1", "Healing 2"], ECP = window.initECPSetup({id: 0}), ecp_data, last_info, query_index, osize, current_id = 0, resolution, size, title = " - Starblast ECP Icon Viewer", name_regex = /^name\=/i, names = {
         ecp: "Elite Commander Pass (ECP)",
         sucp: "shared Unique Commander Pass (sUCP)",
         ucp: "Unique Commander Pass (UCP)"
@@ -29,6 +29,7 @@ window.addEventListener("load", function(){
         }));
         // load finish and laser options
         $("#finish-choose").append(finishes.map(i => "<option value='"+i+"'>"+i[0].toUpperCase()+i.slice(1)+"</option>").join(""));
+        $("#res-option").append(sizes.map(i => "<option value='"+i.name+"'>"+i.name[0].toUpperCase()+i.name.slice(1)+"</option>").join(""))
         $("#laser-choose").append(lasers.map((i,j) => "<option value='"+j+"'>"+i+"</option>").join(""));
         // find the ecp info of the searching name
         // display the ecp info
@@ -61,31 +62,36 @@ window.addEventListener("load", function(){
       }, applySize = function(init) {
         let request_id = ECP.id++;
         $("#download").attr("disabled", true);
-        $("#custom-res").attr("disabled", true);
-        let query_info = last_info, laser, finish, loadBadge, size;
+        let query_info = last_info, laser, finish, loadBadge, size, size_preset;
         if (init) {
           loadBadge = localStorage.getItem("loadBadge") == "true";
           finish = localStorage.getItem("ecp-finish");
           laser = localStorage.getItem("ecp-laser");
-          size = localStorage.getItem("ecp-res")
+          size = localStorage.getItem("ecp-res");
+          size_preset = localStorage.getItem("ecp-res-option")
         }
         else {
           loadBadge = !!$("#loadBadge").is(":checked");
           finish = $("#finish-choose").val();
           laser = $("#laser-choose").val();
-          size = $("#custom-res").val()
+          size = $("#custom-res").val();
+          size_preset = $("#res-option").val()
         }
         finish = finishes.find(f => f == finish) || "zinc";
         laser = Math.trunc(Math.min(Math.max(0, laser), lasers.length - 1)) || 0;
-        size = Math.max(size, 0) || oSize;
+        size_preset = sizes.find(preset => size_preset == preset.name) || sizes[0];
+        size = size_preset.size || Math.max(size, 0) || 200;
         localStorage.setItem("ecp-finish", finish);
         localStorage.setItem("ecp-laser", laser);
-        localStorage.setItem("ecp-res",size);
+        localStorage.setItem("ecp-res", size);
         localStorage.setItem("loadBadge", loadBadge);
+        localStorage.setItem("ecp-res-option", size_preset.name);
         $("#finish-choose").val(finish);
         $("#laser-choose").val(laser);
+        $("#res-option").val(size_preset.name);
         $("#custom-res").val(size);
         $("#loadBadge").prop("checked", loadBadge);
+        $("#custom-res").attr('disabled', !!size_preset.size);
         for (let id of ["laser-choose", "finish-choose"]) $("#"+id).attr('disabled', !loadBadge)
         if (loadBadge) ECP.loadBadge(size, query_info, finish, laser, request_id, loadImage);
         else ECP.loadIcon(size, query_info, request_id, loadImage)
@@ -113,7 +119,6 @@ window.addEventListener("load", function(){
           });
           $("#badge-showcase").attr('src', link);
           $("#download").attr("disabled", false);
-          $("#custom-res").attr("disabled", false)
         }
       }, loadCustom = function(url) {
         $("#index").html("Unlisted");
@@ -131,7 +136,7 @@ window.addEventListener("load", function(){
       $("#apply-res").on("click", function() {
         applySize()
       });
-      for (let id of ["loadBadge", "finish-choose", "laser-choose"]) $("#"+id).on("change", function() {applySize()});
+      for (let id of ["loadBadge", "finish-choose", "laser-choose", "res-option"]) $("#"+id).on("change", function() {applySize()});
       $("#url-import").on("click", function() {
         let url = prompt("Insert your image URL here:");
         if (url != null) loadCustom(url)
