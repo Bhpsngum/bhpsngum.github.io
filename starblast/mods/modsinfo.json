@@ -838,12 +838,12 @@
   {
     "name": "Barracuda Series",
     "abbreviation": "",
-    "version": "",
+    "version": "1.0",
     "description": "A tree with dash ships only",
     "modes": "Team",
     "img": "",
     "link": {
-      "url": "https://pastebin.com/mfvxSjrT",
+      "url": "https://github.com/USDFOD/USDFOD/blob/main/Barracuda%20Series%201.0",
       "state": 2
     },
     "author": [
