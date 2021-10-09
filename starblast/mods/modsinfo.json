@@ -834,5 +834,45 @@
     ],
     "official": 0,
     "event": 0
-  }
+  },
+  {
+    "name": "Barracuda Series",
+    "abbreviation": "",
+    "version": "",
+    "description": "A tree with dash ships only",
+    "modes": "Team",
+    "img": "",
+    "link": {
+      "url": "https://pastebin.com/mfvxSjrT",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["[USDF] OD"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
+    "name": "JavRedstone's Dueling Mod",
+    "abbreviation": "",
+    "version": "",
+    "description": "",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://github.com/JavRedstone/Starblast.io-Modding/blob/main/utilities/dueling/javredstone_dueling/javredstone_dueling.js",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["JavRedstone"],
+        "link": "https://github.com/JavRedstone"
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
 ]
