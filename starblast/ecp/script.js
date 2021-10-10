@@ -51,7 +51,8 @@ window.addEventListener("load", function(){
         let query_info = ecp_data[index];
         last_info = query_info;
         // load the ecp info to the screen
-        $("#index").html((query_index+1) + "/" + ecp_data.length);
+        $("#index").html("<input id='indexInput' type='number' min='1' max = '" + ecp_data.length + "' class='inline-input' value='" + (query_index+1) + "'>/" + ecp_data.length);
+        $("#indexInput").on("change", function(){ if (!$("#indexInput").is(":focus")) $("#indexInput").val(query_index + 1)});
         window.history.pushState({path: 'url'}, '', window.location.protocol + "//" + window.location.host + window.location.pathname + "?name=" + query_info.name.toLowerCase().replace(/\s/g, "_"));
         updateInfo(query_info, init);
       }, updateInfo = function (query_info, init) {
@@ -137,7 +138,7 @@ window.addEventListener("load", function(){
         last_info = {
           id: "custom",
           url: url,
-          name: '<input type="text" id="custom-name" onchange="$(\'#hidden-name\').val(this.value).change()" placeholder="Custom icon name" value="Your custom icon">',
+          name: '<input type="text" class="inline-input" id="custom-name" onchange="$(\'#hidden-name\').val(this.value).change()" placeholder="Custom icon name" value="Your custom icon">',
           type: "ecp",
           custom: "true"
         }
@@ -171,7 +172,7 @@ window.addEventListener("load", function(){
         alert("Sometimes the execution of scripts on pages using Starblast data in other tabs (main site, modding, shipeditor, standalone, serverlists, etc.) can block the fetching process on this page.\nPlease close those tabs and then hard-reload this page to try again.\nIf the above method doesn't work, restart the browser and retry.")
       });
       $("#hidden-name").on("change", function() {
-        $("title").text(($("#hidden-name").val() || "Your custom name") + title)
+        $("title").text(($("#hidden-name").val() || "Your custom icon") + title)
       })
       var nav_key_actions = {
         prev: {
@@ -207,11 +208,11 @@ window.addEventListener("load", function(){
       $("#download").on("click", function() {
         $("#download-template")[0].click()
       });
-      document.onkeydown = function (event) {
+      $(document).on('keydown', function (event) {
         if ($("input").is(":focus")) switch (event.keyCode) {
           case 13: /* Enter */
             if ($("#custom-res").is(":focus")) applySize();
-            $("input").blur();
+            else if ($("#indexInput").is(":focus")) search(Math.trunc(Math.min(Math.max(parseInt($("#indexInput").val()), 1), ecp_data.length)) - 1 || 0);
             break;
         }
         else switch (event.keyCode) {
@@ -219,7 +220,7 @@ window.addEventListener("load", function(){
             let handler = (Object.values(nav_key_actions).find(action => action.keyCode == event.keyCode)||{}).handler;
             if (typeof handler == "function") handler();
         }
-      }
+      });
       fetch(true);
       $("#init").css("display", "none");
       clearInterval(it);
