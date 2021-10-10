@@ -10,7 +10,7 @@ window.addEventListener("load", function(){
       ], finishes = [
         {value: "zinc"},
         {value: "alloy"},
-        {value: "titanium"}, {
+        {value: "titanium"},
         {value: "gold"},
         {value: "carbon"},
         {value: "fullcolor"},
