@@ -12,28 +12,34 @@ window.initECPSetup = function(initializer){
       if (null == this.canvas && (this.canvas = document.createElement("canvas")), n = this.canvas.width = 2 * this.size, s = this.canvas.height = this.size, e = this.canvas.getContext("2d"), e.clearRect(0, 0, this.canvas.width, this.canvas.height), "blank" !== this.info.id) return e.fillStyle = "#000", e.beginPath(), e.arc(n / 2, s / 2, s / 2, 0, 2 * Math.PI, !0), e.fill(), e.beginPath(), e.moveTo(.05 * n, .25 * s), e.lineTo(.05 * n, .75 * s), e.lineTo(n / 2, .9 * s), e.lineTo(.95 * n, .75 * s), e.lineTo(.95 * n, .25 * s), e.lineTo(n / 2, .1 * s), e.closePath(), e.fill(), e.lineWidth = .07 * s, e.globalCompositeOperation = "destination-out", e.strokeStyle = "#000", e.beginPath(), e.arc(n / 2, s / 2, .6 * s, 0, 2 * Math.PI, !0), e.stroke(), this.drawMaterial(e, n, s), this.drawIcon(e, n, s), this.drawLaser(e, n, s), e.globalCompositeOperation = "source-atop", e.save(), e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(0, "rgba(255,255,255,.2)"), i.addColorStop(1, "rgba(0,0,0,.2)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2), e.restore(), e.globalCompositeOperation = "source-over", i = e.createRadialGradient(n / 2 - .25 * s, s / 2 - .25 * s, 0, n / 2, s / 2, .45 * s), i.addColorStop(0, "rgba(0,0,0,0)"), i.addColorStop(.5, "rgba(0,0,0,0)"), i.addColorStop(1, "rgba(0,0,0,.5)"), e.fillStyle = i, e.beginPath(), e.arc(n / 2, s / 2, .45 * s, 0, 2 * Math.PI, !0), e.fill(), e.globalCompositeOperation = "destination-over", e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(.7, "rgba(0,0,0,1)"), i.addColorStop(1, "rgba(0,0,0,0)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2), this.resize ? (t = document.createElement("canvas"), t.width = this.size, t.height = this.size / 2, t.getContext("2d").drawImage(this.canvas, 0, 0, this.size, this.size / 2), this.canvas = t) : void 0, this.callbackCalled === false && this.callback(this.canvas, this.info, this.rid);
       else this.callback(this.canvas, this.info, this.rid)
     }, t.prototype.drawMaterial = function(t, e, i) {
-      var s, n, l, a, o, r, h, u, d, c;
+      var s, l, n, a, o, r, h, O, u, d, c;
       switch (this.finish) {
+        case "x27":
+          l = t.createLinearGradient(0, 0, 0, i), l.addColorStop(0, "hsla(220,100%,30%)"), l.addColorStop(.5, "hsla(200,100%,70%)"), l.addColorStop(.5, "hsla(220,100%,40%)"), l.addColorStop(1, "hsla(200,100%,70%)");
+          break;
         case "alloy":
-          s = t.createLinearGradient(0, 0, 0, i), s.addColorStop(0, "#68A"), s.addColorStop(.5, "#FFF"), s.addColorStop(.5, "#765"), s.addColorStop(1, "#CCC");
+          l = t.createLinearGradient(0, 0, 0, i), l.addColorStop(0, "#68A"), l.addColorStop(.5, "#FFF"), l.addColorStop(.5, "#765"), l.addColorStop(1, "#CCC");
+          break;
+        case "fullcolor":
+          l = t.createLinearGradient(0, 0, 0, i), l.addColorStop(0, "hsl(" + this.hue + ",90%,50%)"), l.addColorStop(.5, "hsl(" + this.hue + ",90%,70%)"), l.addColorStop(.5, "hsl(" + this.hue + ",90%,30%)"), l.addColorStop(1, "hsl(" + this.hue + ",90%,60%)");
           break;
         case "titanium":
-          s = t.createLinearGradient(0, 0, 0, i), s.addColorStop(0, "#444"), s.addColorStop(.5, "#AAA"), s.addColorStop(.5, "#444"), s.addColorStop(1, "#111");
+          l = t.createLinearGradient(0, 0, 0, i), l.addColorStop(0, "#444"), l.addColorStop(.5, "#AAA"), l.addColorStop(.5, "#444"), l.addColorStop(1, "#111");
           break;
         case "gold":
-          s = t.createLinearGradient(0, 0, 0, i), s.addColorStop(0, "hsl(40,100%,50%)"), s.addColorStop(.5, "hsl(40,100%,80%)"), s.addColorStop(.5, "hsl(20,100%,30%)"), s.addColorStop(1, "hsl(40,100%,50%)");
+          l = t.createLinearGradient(0, 0, 0, i), l.addColorStop(0, "hsl(40,100%,50%)"), l.addColorStop(.5, "hsl(40,100%,80%)"), l.addColorStop(.5, "hsl(20,100%,30%)"), l.addColorStop(1, "hsl(40,100%,50%)");
           break;
         case "carbon":
-          for (s = t.createLinearGradient(0, 0, 0, i), h = Math.min(10, this.size / 10), l = a = 0, u = h - 1; a <= u; l = a += 1) s.addColorStop(l / h, "#000"), s.addColorStop((l + 1) / h, "#888");
-          for (n = t.createLinearGradient(0, 0, 0, i), n.addColorStop(0, "#333"), n.addColorStop(.1, "#888"), l = o = 0, d = h - 1; o <= d; l = o += 1) n.addColorStop((l + .5) / h, "#000"), n.addColorStop(Math.min(1, (l + 1.5) / h), "#888");
+          for (l = t.createLinearGradient(0, 0, 0, i), O = Math.min(10, this.size / 10), a = o = 0, u = O - 1; o <= u; a = o += 1) l.addColorStop(a / O, "#000"), l.addColorStop((a + 1) / O, "#888");
+          for (n = t.createLinearGradient(0, 0, 0, i), n.addColorStop(0, "#333"), n.addColorStop(.1, "#888"), a = r = 0, d = O - 1; r <= d; a = r += 1) n.addColorStop((a + .5) / O, "#000"), n.addColorStop(Math.min(1, (a + 1.5) / O), "#888");
           break;
         default:
-          s = t.createLinearGradient(0, 0, 0, i), s.addColorStop(0, "#EEE"), s.addColorStop(1, "#666")
+          l = t.createLinearGradient(0, 0, 0, i), l.addColorStop(0, "#EEE"), l.addColorStop(1, "#666")
       }
-      if (t.globalCompositeOperation = "source-atop", t.fillStyle = s, "carbon" === this.finish) {
-        for (l = r = 0, c = 4 * h - 1; r <= c; l = r += 1) t.fillStyle = l % 2 == 0 ? s : n, t.fillRect(l * e / (4 * h), 0, e / (4 * h), i);
-        s = t.createLinearGradient(0, 0, 0, i), s.addColorStop(.3, "rgba(0,0,0,.5)"), s.addColorStop(.5, "rgba(0,0,0,0)"), s.addColorStop(.7, "rgba(0,0,0,.5)"), t.fillStyle = s, t.fillRect(0, 0, e, i)
-      } else t.fillStyle = s, t.fillRect(0, 0, e, i);
+      if (t.globalCompositeOperation = "source-atop", t.fillStyle = l, "carbon" === this.finish) {
+        for (a = h = 0, c = 4 * O - 1; h <= c; a = h += 1) t.fillStyle = a % 2 == 0 ? l : n, t.fillRect(a * e / (4 * O), 0, e / (4 * O), i);
+        l = t.createLinearGradient(0, 0, 0, i), l.addColorStop(.3, "rgba(0,0,0,.5)"), l.addColorStop(.5, "rgba(0,0,0,0)"), l.addColorStop(.7, "rgba(0,0,0,.5)"), t.fillStyle = l, t.fillRect(0, 0, e, i)
+      } else t.fillStyle = l, t.fillRect(0, 0, e, i);
       return t.globalCompositeOperation = "source-over"
     }, t.prototype.drawLaser = function(t, e, i) {
       var s, n, l, a, o, r, h, u, d, c, p, I;
