@@ -29,7 +29,6 @@ body {
 }
 
 button {
-  cursor: pointer;
   text-align: center;
   background: radial-gradient(ellipse at center,hsla(200,50%,0%,1) 0,hsla(200,100%,70%,.5) 150%);
   box-shadow: 0 0 6px hsl(200deg 100% 80%);
@@ -38,7 +37,7 @@ button {
   border: 0;
 }
 
-input[type="checkbox"], label, select {
+input[type="checkbox"], label, select, button, i, a {
   cursor: pointer;
 }
 
@@ -87,7 +86,6 @@ input[type="text"], input[type="number"] {
 i {
   vertical-align: middle;
   font-size: 300%;
-  cursor: pointer;
   color: hsla(200,60%,80%,.5);
   text-align: center;
   text-shadow: 0 0 7px hsl(200deg 100% 80%);
