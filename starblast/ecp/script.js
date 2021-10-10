@@ -169,6 +169,9 @@ window.addEventListener("load", function(){
           $("#file-import").val("");
         }
       });
+      $("#warning").on("click", function(){
+        alert("Sometimes the execution of scripts on pages using Starblast data in other tabs (main site, modding, shipeditor, standalone, serverlists, etc.) can block the fetching process on this page.\nPlease close those tabs and then hard-reload this page to try again.\nIf the above method doesn't work, restart the browser and retry.")
+      });
       var nav_key_actions = {
         prev: {
           handler: function() {
