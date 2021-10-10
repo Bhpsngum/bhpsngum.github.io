@@ -15,8 +15,8 @@ window.addEventListener("load", function(){
         {value: "carbon"},
         {value: "fullcolor"},
         {value: "copper"},
-        {value: "diamond"}
-        {name: "Electric Blue", value: "x27"}
+        {value: "diamond"},
+        {value: "x27", name: "Electric Blue"}
       ], lasers = ["Single", "Double", "Lightning", "Digital", "Alien", "Healing 1", "Healing 2"], ECP = window.initECPSetup({id: 0}), ecp_data, last_info, query_index, osize, current_id = 0, resolution, size, title = " - Starblast ECP Icon Viewer", name_regex = /^name\=/i, names = {
         ecp: "Elite Commander Pass (ECP)",
         sucp: "shared Unique Commander Pass (sUCP)",
