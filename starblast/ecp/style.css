@@ -49,7 +49,7 @@ select, input {
   box-sizing: border-box;
 }
 
-input[type="text"], input[type="number"] {
+input[type="text"], input[type="number"], *[contenteditable='true'] {
   cursor: text;
 }
 
@@ -133,6 +133,14 @@ i {
   border: none;
   color: inherit;
   text-shadow: inherit;
+}
+
+.inline-input:focus, *[contenteditable='true']:focus {
+  outline: none;
+}
+
+#info > div > * {
+  display: inline;
 }
 
 #download-template, #hidden-name {

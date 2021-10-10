@@ -51,8 +51,8 @@ window.addEventListener("load", function(){
         let query_info = ecp_data[index];
         last_info = query_info;
         // load the ecp info to the screen
-        $("#index").html("<input id='indexInput' type='number' min='1' max = '" + ecp_data.length + "' class='inline-input' value='" + (query_index+1) + "'>/" + ecp_data.length);
-        $("#indexInput").on("change", function(){ if (!$("#indexInput").is(":focus")) $("#indexInput").val(query_index + 1)});
+        $("#index").html("<p id='indexInput' contenteditable='true'>" + (query_index+1) + "</p><p>/" + ecp_data.length);
+        $("#indexInput").on("blur", function(){ $("#indexInput").text(query_index + 1)});
         window.history.pushState({path: 'url'}, '', window.location.protocol + "//" + window.location.host + window.location.pathname + "?name=" + query_info.name.toLowerCase().replace(/\s/g, "_"));
         updateInfo(query_info, init);
       }, updateInfo = function (query_info, init) {
@@ -152,7 +152,7 @@ window.addEventListener("load", function(){
       for (let id of ["loadBadge", "finish-choose", "laser-choose", "res-option"]) $("#"+id).on("change", function() {applySize()});
       $("#url-import").on("click", function() {
         let url = prompt("Insert your image URL here:");
-        if (url != null) loadCustom(url)
+        if (url) loadCustom(url)
       });
       $("#file-import").on("change", function(e){
         if (e.target.files && e.target.files[0]) {
@@ -208,12 +208,18 @@ window.addEventListener("load", function(){
       $("#download").on("click", function() {
         $("#download-template")[0].click()
       });
+      var focusIDs = [
+        {id: 'custom-res', handler: applySize},
+        {id: 'indexInput', handler: function (){ apply(Math.trunc(Math.min(Math.max(parseInt($("#"+this.id).text()), 1), ecp_data.length)) - 1 || 0)}}
+      ];
       $(document).on('keydown', function (event) {
-        if ($("input").is(":focus")) switch (event.keyCode) {
-          case 13: /* Enter */
-            if ($("#custom-res").is(":focus")) applySize();
-            else if ($("#indexInput").is(":focus")) search(Math.trunc(Math.min(Math.max(parseInt($("#indexInput").val()), 1), ecp_data.length)) - 1 || 0);
-            break;
+        let focusID = focusIDs.find(id => $("#"+id.id).is(":focus"));
+        if (focusID) {
+          switch (event.keyCode) {
+            case 13: // Enter
+              focusID.handler();
+              break;
+          }
         }
         else switch (event.keyCode) {
           default:
