@@ -91,7 +91,7 @@ window.addEventListener("load", function(){
           size = $("#custom-res").val();
           size_preset = $("#res-option").val()
         }
-        finish = finishes.find(f => f == finish) || "zinc";
+        finish = finishes.find(f => f.value == finish) || "zinc";
         laser = Math.trunc(Math.min(Math.max(0, laser), lasers.length - 1)) || 0;
         size_preset = sizes.find(preset => size_preset == preset.name) || sizes[0];
         size = size_preset.size || Math.max(size, 0) || 200;
