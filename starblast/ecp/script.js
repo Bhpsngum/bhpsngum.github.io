@@ -59,7 +59,7 @@ window.addEventListener("load", function(){
         $("#date").html("");
         $("#badge-showcase").attr('src', "loading.gif");
         $("link[rel='icon']").attr("href","icon.png");
-        $("title")[0].innerHTML = query_info.name + title;
+        $("title").html(($("#custom-name").val() || $("#name").html() || "Your custom icon") + title);
         let ecp_type = names[query_info.type];
         $("#type").html("<a style='text-decoration: none;cursor: pointer' href='"+(ecp_type?("https://starblastio.fandom.com/wiki/"+query_info.type.toUpperCase()+"' target='_blank'>"+ecp_type):"javascript:void(0);'>Unknown")+"</a>");
         // load the ecp image
@@ -137,7 +137,7 @@ window.addEventListener("load", function(){
         last_info = {
           id: "custom",
           url: url,
-          name: '<input type="text" id="custom-name" placeholder="Custom icon name" value="Your custom icon">',
+          name: '<input type="text" id="custom-name" onchange="$(\'title\').html((this.value || \'Your custom icon\') + ' + title + ')" placeholder="Custom icon name" value="Your custom icon">',
           type: "ecp",
           custom: "true"
         }
