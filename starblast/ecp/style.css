@@ -126,3 +126,11 @@ i {
   right: 0.1%;
   z-index: 1;
 }
+
+#custom-name {
+  text-align: center;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  text-shadow: inherit;
+}

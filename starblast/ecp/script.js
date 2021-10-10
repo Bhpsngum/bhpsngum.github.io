@@ -137,7 +137,7 @@ window.addEventListener("load", function(){
         last_info = {
           id: "custom",
           url: url,
-          name: "Your custom icon",
+          name: '<input type="text" id="custom-name" placeholder="Custom icon name" value="Your custom icon">',
           type: "ecp",
           custom: "true"
         }
