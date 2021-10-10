@@ -24,18 +24,21 @@ self.addEventListener('install', (e) => {
 });
 self.addEventListener('fetch', (e) => {
   e.respondWith((async () => {
-    const response = await fetch(e.request);
-    if (response.ok) {
-      if ((e.request||{}).method == 'GET') try {
-        const cache = await caches.open(cacheName);
-        cache.put(e.request, response.clone());
+    try {
+      const response = await fetch(e.request);
+      if (response.ok) {
+        if ((e.request||{}).method == 'GET') try {
+          const cache = await caches.open(cacheName);
+          cache.put(e.request, response.clone());
+        }
+        catch(e){}
       }
-      catch(e){}
+      else {
+        const r = await caches.match(e.request);
+        if (r) return r;
+      }
+      return response
     }
-    else {
-      const r = await caches.match(e.request);
-      if (r) return r;
-    }
-    return response
+    catch (e) { return e }
   })());
 });
