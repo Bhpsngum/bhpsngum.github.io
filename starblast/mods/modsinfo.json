@@ -352,6 +352,26 @@
     "event": 0
   },
   {
+    "name": "JavRedstone's Dueling Mod",
+    "abbreviation": "",
+    "version": "",
+    "description": "",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://github.com/JavRedstone/Starblast.io-Modding/blob/main/utilities/dueling/javredstone_dueling/javredstone_dueling.js",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["JavRedstone"],
+        "link": "https://github.com/JavRedstone"
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
     "name": "Money's Mod",
     "abbreviation": "",
     "version": "7.0",
@@ -478,26 +498,6 @@
       {
         "name": ["45rfew","Money"],
         "link": "https://github.com/45rfew/"
-      }
-    ],
-    "official": 0,
-    "event": 0
-  },
-  {
-    "name": "Malefor's Dueling Mod",
-    "abbreviation": "",
-    "version": "2.1",
-    "description": "",
-    "modes": "",
-    "img": "",
-    "link": {
-      "url": "https://github.com/MALEFOR27/Starblast-Dueling",
-      "state": 2
-    },
-    "author": [
-      {
-        "name": ["Malefor","MaleficArtist"],
-        "link": "https://github.com/MALEFOR27/"
       }
     ],
     "official": 0,
@@ -850,26 +850,6 @@
       {
         "name": ["[USDF] OD"],
         "link": ""
-      }
-    ],
-    "official": 0,
-    "event": 0
-  },
-  {
-    "name": "JavRedstone's Dueling Mod",
-    "abbreviation": "",
-    "version": "",
-    "description": "",
-    "modes": "",
-    "img": "",
-    "link": {
-      "url": "https://github.com/JavRedstone/Starblast.io-Modding/blob/main/utilities/dueling/javredstone_dueling/javredstone_dueling.js",
-      "state": 2
-    },
-    "author": [
-      {
-        "name": ["JavRedstone"],
-        "link": "https://github.com/JavRedstone"
       }
     ],
     "official": 0,
