@@ -19,6 +19,20 @@ window.addEventListener("load", function(){
         ecp: "Elite Commander Pass (ECP)",
         sucp: "shared Unique Commander Pass (sUCP)",
         ucp: "Unique Commander Pass (UCP)"
+      }, updateURL = function(query) {
+        window.history.pushState({path: 'url'}, '', window.location.protocol + "//" + window.location.host + window.location.pathname + (query || ""))
+      }, updateIcon = function(canvas) {
+        let imgURL;
+        if (!canvas) imgURL = 'icon.png';
+        else {
+          let iconCanvas = document.createElement("canvas"), height = canvas.height, width = canvas.width, dif = (width - height) / 2, size = Math.max(width, height), x = 0, y = 0;
+          iconCanvas.width = iconCanvas.height = size;
+          if (dif < 0) x = -dif;
+          else y = dif;
+          iconCanvas.getContext('2d').drawImage(x, y, x + width, y + height);
+          imgURL = iconCanvas.toDataURL()
+        }
+        $("link[rel='icon']").attr("href", imgURL);
       }, fetch = function(init) {
         $.getJSON("ecp.json").then(function(data) {
           refresh(data, init)
@@ -53,13 +67,13 @@ window.addEventListener("load", function(){
         // load the ecp info to the screen
         $("#index").html("<p id='indexInput' contenteditable='true'>" + (query_index+1) + "</p><p>/" + ecp_data.length);
         $("#indexInput").on("blur", function(){ $("#indexInput").text(query_index + 1)});
-        window.history.pushState({path: 'url'}, '', window.location.protocol + "//" + window.location.host + window.location.pathname + "?name=" + query_info.name.toLowerCase().replace(/\s/g, "_"));
+        updateURL("?name=" + query_info.name.toLowerCase().replace(/[^0-9a-z]/gi, ""));
         updateInfo(query_info, init);
       }, updateInfo = function (query_info, init) {
         $("#name").html(query_info.name);
         $("#date").html("");
         $("#badge-showcase").attr('src', "loading.gif");
-        $("link[rel='icon']").attr("href","icon.png");
+        updateIcon();
         $("#hidden-name").val($("#custom-name").val() || $("#name").html()).change();
         let ecp_type = names[query_info.type];
         $("#type").html("<a style='text-decoration: none;cursor: pointer' href='"+(ecp_type?("https://starblastio.fandom.com/wiki/"+query_info.type.toUpperCase()+"' target='_blank'>"+ecp_type):"javascript:void(0);'>Unknown")+"</a>");
@@ -124,8 +138,8 @@ window.addEventListener("load", function(){
               }
             })
           }
+          updateIcon(canvas);
           let link = canvas.toDataURL();
-          $("link[rel='icon']").attr("href", link);
           $("#download-template").attr({
             href: link,
             download: info.id
@@ -143,7 +157,7 @@ window.addEventListener("load", function(){
           custom: "true"
         }
         query_index = null;
-        window.history.pushState({path: 'url'}, '', window.location.protocol + "//" + window.location.host + window.location.pathname);
+        updateURL();
         updateInfo(last_info);
       }
       $("#apply-res").on("click", function() {
