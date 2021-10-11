@@ -29,7 +29,7 @@ window.addEventListener("load", function(){
           iconCanvas.width = iconCanvas.height = size;
           if (dif < 0) x = -dif;
           else y = dif;
-          iconCanvas.getContext('2d').drawImage(x, y, width, height);
+          iconCanvas.getContext('2d').drawImage(canvas, x, y, width, height);
           imgURL = iconCanvas.toDataURL()
         }
         $("link[rel='icon']").attr("href", imgURL);
