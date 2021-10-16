@@ -73,7 +73,7 @@
     for (let i=0;i<elist.length-1;i++)
       for (let j=i+1;j<elist.length;j++) {
         let cur = $(elist[i]), next = $(elist[j]), index = Number(elist[i].getAttribute("index"));
-        if (cur.attr("class").split(" ").indexOf("modStatBox") == -1 && mods.map((i,j) => j).indexOf(index) == -1) cur.remove();
+        if ((cur.attr("class")||"").split(" ").indexOf("modStatBox") == -1 && mods.map((i,j) => j).indexOf(index) == -1) cur.remove();
         else if (index > Number(next.attr("index"))) next.insertBefore(cur);
         elist = $("#modstats>*");
       }
