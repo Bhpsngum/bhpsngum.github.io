@@ -103,7 +103,8 @@
   }, update = function() {
     $.getJSON("https://starblast.io/modsinfo.json").then(function(modss) {
       $.getJSON("https://starblast.io/simstatus.json").then(function(players) {
-        mods = modss[0];
+        mods = (modss||{})[0];
+        mods = Array.isArray(mods) ? mods : [];
         for (let mod of mods) {
           if (mod.mod_id == "none") switch (mod.title) {
             case "Starblast Prototypes":
