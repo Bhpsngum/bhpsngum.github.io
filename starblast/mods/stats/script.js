@@ -10,7 +10,10 @@
     "battleroyale": 1511530440000
   }, formatDate = function(date) {
     return new Date(date).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})
-  }, sw, modStatBox = function(stat, count, index, time) {
+  }, sw, showText = function (text) {
+    text = text || "";
+    $("#welcome-text").css("display", text?"":"none").html(text)
+  }, modStatBox = function(stat, count, index, time) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id}.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">`,
     statinfo = `<h3 style="text-align:center"><a style="text-decoration:none" href="https://starblast.fandom.com/wiki/${stat.title.replace(/\s/g,"_")}" target="_blank">${stat.title}</a> <sup>${stat.version}</sup></h3>${stat.new&&stat.active?'<b style="color:yellow;float:right">NEW!</b>':""}${!stat.active?'<b style="color:red;float:right">Removed</b>':""}`;
     if (stat.featured || stat.open) {
@@ -68,11 +71,14 @@
     mods.forEach((mod, i) => modStatBox(mod, player_count[mod.mod_id]||0, i, timer.get(mod.mod_id)));
     let elist = $("#modstats>*");
     for (let i=0;i<elist.length-1;i++)
-      for (let j=i+1;j<elist.length;j++)
-        if (Number(elist[i].getAttribute("index")) > Number(elist[j].getAttribute("index"))) {
-          $(elist[j]).insertBefore($(elist[i]));
-          elist = $("#modstats>*");
-        }
+      for (let j=i+1;j<elist.length;j++) {
+        let cur = $(elist[i]), next = $(elist[j]), index = Number(elist[i].getAttribute("index"));
+        if (cur.attr("class").split(" ").indexOf("modStatBox") == -1 && mods.map((i,j) => j).indexOf(index) == -1) cur.remove();
+        else if (index > Number(next.attr("index"))) next.insertBefore(cur);
+        elist = $("#modstats>*");
+      }
+    if ($("#modstats>.modStatBox").length == 0) showText("No mods shown");
+    else showText()
   }, count = function() {
     setCountdown();
     checknewAvailableMods();
@@ -134,7 +140,6 @@
         setStatus(0);
         if (!init) {
           count();
-          $("#welcome-text").remove();
           adjustwidth();
           setTimeout(adjustwidth, 1);
           setInterval(count, 1000);
