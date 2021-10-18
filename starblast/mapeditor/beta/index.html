@@ -52,7 +52,10 @@
           <button id="exportImage"><i class="fas fa-fw fa-images"></i></button>
           <button id="copyImage"><i class="fas fa-fw fa-clipboard"></i></button>
           <button id="permalink"><i class="fas fa-fw fa-link"></i></button>
-          <select id="coordtype"></select>
+          <fieldset id="coordtype-select">
+            <legend>Coordinate View</legend>
+            <select id="coordtype"></select>
+          </fieldset>
         </div>
         <div id="container1" class="container">
           <fieldset id="map_size-input">
@@ -60,8 +63,8 @@
             <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200"></input>
           </fieldset>
           <table id="asChoose"></table>
-          <div id="RandomOptions">
-            <b style="margin-left:0.5vmax;font-size:1.2vmax;">Randomizer Options:</b>
+          <legend id="RandomOptions">
+            <legend>Randomizer Options</legend>
             <input id="minASSize" type="number" placeholder="Minimum Asteroid Size" value="0" min="0" max="9"></input>
             <input id="maxASSize" type="number" placeholder="Maximum Asteroid Size" value="0" min="0" max="9"></input>
             <input type="checkbox" id="randomCheck">
@@ -75,9 +78,11 @@
                 </tr>
               </table>
             </label>
-          </div>
+          </legend>
           <br>
-          <div id="MirrorOptions"></div>
+          <fieldset id="MirrorOptions">
+            <legend>Mirrot Options</legend>
+          </fieldset>
           <button id="undo"><i class="fas fa-fw fa-undo"></i></button>
           <button id="redo"><i class="fas fa-fw fa-redo"></i></button>
           <button id="clearMap"><i class="fas fa-fw fa-trash"></i></button>
@@ -122,14 +127,14 @@
           </fieldset>
         </div>
         <div id="container3" class="container">
-        <fieldset id="as-color-input">
-          <legend>Asteroid</legend>
-          <input id="as-color" type="color"</input>
-        <fieldset>
-          <legend>Background</legend>
+          <fieldset id="as-color-input">
+            <legend>Asteroid</legend>
+            <input id="as-color" type="color"</input>
           </fieldset>
+          <fieldset>
+            <legend>Background</legend>
             <fieldset id="background-color-input">
-              <legend>color</legend>
+              <legend>Color</legend>
               <input id="background-color" type="color"></input>
             </fieldset>
             <fieldset>
