@@ -786,39 +786,25 @@ window.t = (function(){
             }
           else css=localStorage[param];
         }
-        else css=inp;
-        let elem="",rp;
-        switch (param)
-        {
-          case "background-color":
-            elem='body';
-            rp = param;
-            break;
-          case "border-color":
-          case "as-color":
-            rp = "color";
-            elem = "#color-test"+["as-color","border-color"].indexOf(param);
-            break;
-        }
-        let prcss = window.getComputedStyle($(elem)[0])[rp];
-        $(elem).css(rp,css);
-        css=window.getComputedStyle($(elem)[0])[rp];
+        else css= inp;
+        let color = new w3color(css);
+        css = color.toHexString();
         switch (param)
         {
           case "as-color":
-            if (window.getComputedStyle($('body')[0])["background-color"] == css)
+            if (new w3color(window.getComputedStyle($('body')[0])["background-color"]).toHexString() == css)
             {
               css = (prcss == css)?"rgb(102,102,102)":prcss;
-              $(elem).css(rp,css);
+              $('body').css('color',css);
             }
             StarblastMap.Asteroids.color = css;
             for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
             for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
             break;
           case "background-color":
-            let color = css.replace(/\d+/g, function(v){return 255-Number(v)});
-            $('body').css("color",color);
-            $('.chosen').css("border-bottom-color",color);
+            let baseColor = '#' + ['red', 'green', 'blue'].map(k => (255 - color[k]).toString(16).padStart(2, 0));
+            $('body').css("color",baseColor);
+            $('.chosen').css("border-bottom-color",baseColor);
             $("#BrushCode").css("background-color",css);
             StarblastMap.background.color = css;
             StarblastMap.Engine.menu.set();
@@ -1042,13 +1028,13 @@ window.t = (function(){
           ["mr-v",null,"Toggle vertical Mirror"],
           ["almr",null,"All-Corners mirror is enabled"],
           ["rCheckIcon",'Random Asteroid Size in Brush','Random Asteroids Size in a single Brush'],
-          ["as-color",null,'Toggle asteroid color'],
-          ["background-color",null,'Toggle background color'],
+          ["as-color-input",null,'Toggle asteroid color'],
+          ["background-color-input",null,'Toggle background color'],
           ["bgI-input1",null,"Upload your own background image from file (accept all image formats)"],
           ["bgI-url",null,"Upload your own background image from url"],
           ["bgI-alpha",null,"Toggle background image opacity (0% to 100% - Only available in Map Only Selection)"],
           ["bgI-clear",null,"Clear current custom background image"],
-          ["border-color",null,'Toggle line color'],
+          ["border-color-input",null,'Toggle line color'],
           ["undo","Undo","Undo previous actions in the map","Ctrl(Cmd) + Z"],
           ["redo","Redo","Redo undid actions in the map","Ctrl(Cmd) + Y"],
           ["clearMap",'Clear Map','Clear all asteroids in the current map'],

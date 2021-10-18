@@ -146,3 +146,9 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
+
+fieldset {
+  width: min-content;
+  display: inline;
+  padding: 0;
+}
