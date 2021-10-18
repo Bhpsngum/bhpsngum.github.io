@@ -802,7 +802,7 @@ window.t = (function(){
             for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
             break;
           case "background-color":
-            let baseColor = '#' + ['red', 'green', 'blue'].map(k => (255 - color[k]).toString(16).padStart(2, 0));
+            let baseColor = '#' + ['red', 'green', 'blue'].map(k => (255 - color[k]).toString(16).padStart(2, 0)).join("");
             $('body').css({"color": baseColor, "background-color": css});
             $('.chosen').css("border-bottom-color",baseColor);
             $("#BrushCode").css("background-color",css);
@@ -1016,12 +1016,12 @@ window.t = (function(){
         list: [
           ["show-menu",null,"Show the Map menu"],
           ["hide-menu",null,"Hide the Map menu"],
-          ["map_size",null,'Toggle map size (from 20 to 200 and must be even)'],
+          ["map_size-input",null,'Toggle map size (from 20 to 200 and must be even)'],
           ["dragMode","Drag Mode","Move freely around the map without modifying any asteroids"],
           ["asc0",null,'Remove asteroids in the map',"0"],
           ...new Array(9).fill(0).map((j,i) => [`asc${i+1}`,null,`Asteroid size ${i+1}`,`${i+1}`]),
           ["randomSize",'Random Asteroid Size','Draw random asteroids in a specific size range',"R"],
-          ["brush_size",null,'Toggle brush radius (0 to current map size)'],
+          ["brush_size-input",null,'Toggle brush radius (0 to current map size)'],
           ["minASSize",null,'Toggle minimum Asteroid size (0 to Maximum Asteroid Size)'],
           ["maxASSize",null,'Toggle maximum Asteroid size (Minimum Asteroid Size to 9)'],
           ["mr-h",null,"Toggle horizontal Mirror"],
@@ -1053,8 +1053,8 @@ window.t = (function(){
           ["removeBrush",null,"Remove the selected custom brush"],
           ["editBrush",null,"Edit the selected custom brush"],
           ["coordtype",null,"Toggle Coordinates' perspective"],
-          ["map_id",null, "(IDMapper) Map ID"],
-          ["game_mode",null,"(IDMapper) Applied Game Mode"],
+          ["map_id-input",null, "(IDMapper) Map ID"],
+          ["game_mode-select",null,"(IDMapper) Applied Game Mode"],
           ["IDMapperApply",null,"(IDMapper) Apply changes and create map"]
         ],
         view: function (title,text,HotKey) {

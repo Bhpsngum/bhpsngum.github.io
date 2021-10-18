@@ -55,7 +55,10 @@
           <select id="coordtype"></select>
         </div>
         <div id="container1" class="container">
-          <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200"></input>
+          <fieldset id="map_size-input">
+            <legend>Map size</legend>
+            <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200"></input>
+          </fieldset>
           <table id="asChoose"></table>
           <div id="RandomOptions">
             <b style="margin-left:0.5vmax;font-size:1.2vmax;">Randomizer Options:</b>
@@ -79,8 +82,14 @@
           <button id="redo"><i class="fas fa-fw fa-redo"></i></button>
           <button id="clearMap"><i class="fas fa-fw fa-trash"></i></button>
           <button id="random"><i class="fas fa-fw fa-random"></i></button>
-          <input type="number" min="1" max="9999" placeholder="Map ID" id="map_id">
-          <select id="game_mode"></select>
+          <fieldset id="map_id-input">
+            <legend>Map Pattern ID</legend>
+            <input type="number" min="1" max="9999" placeholder="Map ID" id="map_id">
+          </fieldset>
+          <fieldset id="game_mode-select">
+            <legend>Game Mode</legend>
+            <select id="game_mode"></select>
+          </fieldset>
           <button id="IDMapperApply"><i class="fas fa-fw fa-check"></i></button>
         </div>
         <div id="container2" class="container">
