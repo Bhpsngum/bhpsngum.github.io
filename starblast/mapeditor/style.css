@@ -82,7 +82,7 @@ td {
   border-color:inherit;
   cursor: pointer;
 }
-button:disabled, textarea:read-only, input:read-only {
+button:disabled, textarea:read-only, input:not(input[type="color"]):read-only {
   cursor: not-allowed;
 }
 
@@ -145,4 +145,10 @@ select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+}
+
+fieldset {
+  width: max-content;
+  display: inline;
+  padding: 0;
 }
