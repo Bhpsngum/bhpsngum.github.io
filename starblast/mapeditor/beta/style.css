@@ -82,7 +82,7 @@ td {
   border-color:inherit;
   cursor: pointer;
 }
-button:disabled, textarea:read-only, input:read-only {
+button:disabled, textarea:read-only, input:not(input[type="color"]):read-only {
   cursor: not-allowed;
 }
 

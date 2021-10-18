@@ -82,15 +82,18 @@
           <button id="redo"><i class="fas fa-fw fa-redo"></i></button>
           <button id="clearMap"><i class="fas fa-fw fa-trash"></i></button>
           <button id="random"><i class="fas fa-fw fa-random"></i></button>
-          <fieldset id="map_id-input">
-            <legend>Map Pattern ID</legend>
-            <input type="number" min="1" max="9999" placeholder="Map ID" id="map_id">
+          <fieldset>
+            <legend>IDMapper</legend>
+            <fieldset id="map_id-input">
+              <legend>Map Pattern ID</legend>
+              <input type="number" min="1" max="9999" placeholder="Map ID" id="map_id">
+            </fieldset>
+            <fieldset id="game_mode-select">
+              <legend>Game Mode</legend>
+              <select id="game_mode"></select>
+            </fieldset>
+            <button id="IDMapperApply"><i class="fas fa-fw fa-check"></i></button>
           </fieldset>
-          <fieldset id="game_mode-select">
-            <legend>Game Mode</legend>
-            <select id="game_mode"></select>
-          </fieldset>
-          <button id="IDMapperApply"><i class="fas fa-fw fa-check"></i></button>
         </div>
         <div id="container2" class="container">
           <table id="brushContainer"><tbody><tr id="brushes"></tr></tbody></table>
@@ -113,48 +116,57 @@
             <button id="save" style="width:auto">Save</button>
             <button id="cancel" style="width:auto">Cancel</button>
           </div>
-          <input id="brush_size" placeholder="Brush radius" type="number" min="0" max="200" value="0"></input>
+          <fieldset id="brush_size-input">
+            <legend>Brush Radius</legend>
+            <input id="brush_size" placeholder="Brush radius" type="number" min="0" max="200" value="0"></input>
+          </fieldset>
         </div>
         <div id="container3" class="container">
-          <fieldset id="as-color-input">
-            <legend>Asteroid</legend>
-            <input id="as-color" type="color"</input>
+        <fieldset id="as-color-input">
+          <legend>Asteroid</legend>
+          <input id="as-color" type="color"</input>
+        <fieldset>
+          <legend>Background</legend>
           </fieldset>
-          <fieldset id="background-color-input">
-            <legend>Background</legend>
-            <input id="background-color" type="color"></input>
+            <fieldset id="background-color-input">
+              <legend>color</legend>
+              <input id="background-color" type="color"></input>
+            </fieldset>
+            <fieldset>
+              <legend>Image</legend>
+              <input id="bgI-input" type="file" accept="image/*">
+              <button><label id="bgI-input1" for="bgI-input" style="cursor:pointer"><i class="fas fa-fw fa-upload"></i></label></button>
+              <button id="bgI-url"><i class="fas fa-fw fa-link"></i></button>
+              <div id="bgI-menu">
+                <input type="checkbox" id="bgI-global">
+                <label for="bgI-global">
+                  <table>
+                    <tr>
+                      <td id="bgI-global1">
+                        <i class="fas fa-fw fa-expand"></i>
+                        <i class="fas fa-fw fa-times" id="bgI-global-ind"></i>
+                      </td>
+                    </tr>
+                  </table>
+                </label>
+                <div id="bgI-MapOnlyOptions">
+                  <input type="checkbox" id="bgI-allowExport">
+                  <label for="bgI-allowExport">
+                    <table>
+                      <tr>
+                        <td id="bgI-allowExport1">
+                          <i class="fas fa-fw fa-download"></i>
+                          <i class="fas fa-fw fa-times" id="bgI-allowExport-ind"></i>
+                        </td>
+                      </tr>
+                    </table>
+                  </label>
+                  <input id="bgI-alpha" type="number" min="0" max="1">
+                </div>
+                <button id="bgI-clear"><i class="fas fa-fw fa-times"></i></button>
+              </div>
+            </fieldset>
           </fieldset>
-          <input id="bgI-input" type="file" accept="image/*">
-          <button><label id="bgI-input1" for="bgI-input" style="cursor:pointer"><i class="fas fa-fw fa-upload"></i></label></button>
-          <button id="bgI-url"><i class="fas fa-fw fa-link"></i></button>
-          <div id="bgI-menu">
-            <input type="checkbox" id="bgI-global">
-            <label for="bgI-global">
-              <table>
-                <tr>
-                  <td id="bgI-global1">
-                    <i class="fas fa-fw fa-expand"></i>
-                    <i class="fas fa-fw fa-times" id="bgI-global-ind"></i>
-                  </td>
-                </tr>
-              </table>
-            </label>
-            <div id="bgI-MapOnlyOptions">
-              <input type="checkbox" id="bgI-allowExport">
-              <label for="bgI-allowExport">
-                <table>
-                  <tr>
-                    <td id="bgI-allowExport1">
-                      <i class="fas fa-fw fa-download"></i>
-                      <i class="fas fa-fw fa-times" id="bgI-allowExport-ind"></i>
-                    </td>
-                  </tr>
-                </table>
-              </label>
-              <input id="bgI-alpha" type="number" min="0" max="1">
-            </div>
-            <button id="bgI-clear"><i class="fas fa-fw fa-times"></i></button>
-          </div>
           <fieldset id="border-color-input">
             <legend>Line and Border</legend>
             <input id="border-color" type="color"></input>

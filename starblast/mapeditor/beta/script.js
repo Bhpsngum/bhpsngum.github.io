@@ -820,8 +820,7 @@ window.t = (function(){
               this.addBorder(c2d,gridIndex,(i*10+1)*gridIndex,(size*10+1)*gridIndex,(i*10+1)*gridIndex);
             }
             c2d.stroke();
-            $('td').css(param,css);
-            $('.container').css("border-color",css);
+            $('*').css("border-color",css);
             StarblastMap.border.color = css;
             StarblastMap.Engine.menu.set();
             break;
