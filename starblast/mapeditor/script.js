@@ -802,7 +802,7 @@ window.t = (function(){
             for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
             break;
           case "background-color":
-            let baseColor = '#' + ['red', 'green', 'blue'].map(k => (255 - color[k]).toString(16).padStart(2, 0)).join("");
+            let baseColor = '#' + Array(6).fill(color.isDark()?'f':'0').join("");
             $('body').css({"color": baseColor, "background-color": css});
             $('.chosen').css("border-bottom-color",baseColor);
             $("#BrushCode").css("background-color",css);
