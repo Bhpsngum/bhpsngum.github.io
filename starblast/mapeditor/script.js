@@ -1163,7 +1163,7 @@ window.t = (function(){
   StarblastMap.Asteroids.applyKey("min",localStorage.ASSize_min);
   StarblastMap.Asteroids.applyKey("max",localStorage.ASSize_max);
   StarblastMap.map.addEventListener("mousemove", function(e){
-    this.view(this.get(e.offsetX),this.get(e.offsetY));
+    this.view(this.get(e.offsetX),this.get(e.offsetY), true);
   }.bind(StarblastMap.Coordinates));
   StarblastMap.map.addEventListener("touchmove", function(e){
     if (!StarblastMap.Engine.touchHover) {
