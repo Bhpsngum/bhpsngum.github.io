@@ -148,7 +148,7 @@ select {
 }
 
 fieldset {
-  width: min-content;
+  width: max-content;
   display: inline;
   padding: 0;
 }

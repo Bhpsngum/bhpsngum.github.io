@@ -803,7 +803,7 @@ window.t = (function(){
             break;
           case "background-color":
             let baseColor = '#' + ['red', 'green', 'blue'].map(k => (255 - color[k]).toString(16).padStart(2, 0));
-            $('body').css("color",baseColor);
+            $('body').css({"color": baseColor, "background-color": css});
             $('.chosen').css("border-bottom-color",baseColor);
             $("#BrushCode").css("background-color",css);
             StarblastMap.background.color = css;
