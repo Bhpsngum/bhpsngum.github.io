@@ -63,7 +63,7 @@
             <input id="map_size" class="SmallInput" type="number" placeholder="Map size" value="20" min="20" max="200"></input>
           </fieldset>
           <table id="asChoose"></table>
-          <legend id="RandomOptions">
+          <fieldset id="RandomOptions">
             <legend>Randomizer Options</legend>
             <input id="minASSize" type="number" placeholder="Minimum Asteroid Size" value="0" min="0" max="9"></input>
             <input id="maxASSize" type="number" placeholder="Maximum Asteroid Size" value="0" min="0" max="9"></input>
@@ -78,10 +78,10 @@
                 </tr>
               </table>
             </label>
-          </legend>
+          </fieldset>
           <br>
           <fieldset id="MirrorOptions">
-            <legend>Mirrot Options</legend>
+            <legend>Mirror Options</legend>
           </fieldset>
           <button id="undo"><i class="fas fa-fw fa-undo"></i></button>
           <button id="redo"><i class="fas fa-fw fa-redo"></i></button>
@@ -166,26 +166,32 @@
                       </tr>
                     </table>
                   </label>
-                  <input id="bgI-alpha" type="number" min="0" max="1">
+                  <fieldset id="bgI-alpha-input">
+                    <legend>Opacity</legend>
+                    <input id="bgI-alpha" type="number" min="0" max="1">
+                  </fieldset>
                 </div>
                 <button id="bgI-clear"><i class="fas fa-fw fa-times"></i></button>
               </div>
             </fieldset>
           </fieldset>
-          <fieldset id="border-color-input">
+          <fieldset>
             <legend>Line and Border</legend>
-            <input id="border-color" type="color"></input>
+            <fieldset id="border-color-input">
+              <legend>Color</legend>
+              <input id="border-color" type="color"></input>
+            </fieldset>
+            <input type="checkbox" id="border-show">
+            <label for="border-show">
+              <table>
+                <tr>
+                  <td id="border-show1">
+                    <i class="fas fa-fw fa-border-none" id="border-show-ind"></i>
+                  </td>
+                </tr>
+              </table>
+            </label>
           </fieldset>
-          <input type="checkbox" id="border-show">
-          <label for="border-show">
-            <table>
-              <tr>
-                <td id="border-show1">
-                  <i class="fas fa-fw fa-border-none" id="border-show-ind"></i>
-                </td>
-              </tr>
-            </table>
-          </label>
         </div>
         <div id="container4" class="container">
           <button id="feedback"><i class="fas fa-fw fa-inbox"></i></button>

@@ -1031,7 +1031,7 @@ window.t = (function(){
           ["background-color-input",null,'Toggle background color'],
           ["bgI-input1",null,"Upload your own background image from file (accept all image formats)"],
           ["bgI-url",null,"Upload your own background image from url"],
-          ["bgI-alpha",null,"Toggle background image opacity (0% to 100% - Only available in Map Only Selection)"],
+          ["bgI-alpha-input",null,"Toggle background image opacity (0% to 100% - Only available in Map Only Selection)"],
           ["bgI-clear",null,"Clear current custom background image"],
           ["border-color-input",null,'Toggle line color'],
           ["undo","Undo","Undo previous actions in the map","Ctrl(Cmd) + Z"],
