@@ -1070,7 +1070,7 @@ This is NOT a snippet script designed for Modding, therefore it won't work in Mo
   __proto__.constructor = SM;
   SM.prototype = __proto__;
   this.StationModel = SM;
-  let y = TeamBoard.prototype, key = Object.keys(y).find(v => y[v] && String(y[v]).includes("STATION_MODULES"));
+  let y = TeamBoard.prototype, key = Object.keys(y).find(v => y[v] && String(y[v]).includes("STATION_MODULES")), t = function(t, e) { return this.module.exports.translate(t, e) }.bind(this);
   y[key] = eval("("+String(y[key])+")");
   this.CustomStationModules = {
     list: STATION_MODULES,
