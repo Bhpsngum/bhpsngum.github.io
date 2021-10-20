@@ -1069,7 +1069,7 @@ This is NOT a snippet script designed for Modding, therefore it won't work in Mo
     let res = "("+String(func).replace(new RegExp('(['+(exc?"^":"")+ind+']\\s*)((\\w+)\\.dir)', flags || ""), "$1(!!STATION_MODULES.types_by_id[$3.type].revertDirection*2+$2)")+")";
     return noEval ? res : eval(res)
   };
-  SM = eval(repl(SM, "*", true).replace(/((\w+)\.dir\s*=\s*(\w+).dir)/, "$1,$2.revertDirection=$3.revertDirection"));
+  SM = eval(repl(SM, "*", true).replace(/((\w+)\.dir\s*=\s*(\w+)\.dir)/, "$1,$2.revertDirection=STATION_MODULES.types_by_id[$3.type].revertDirection"));
   __proto__.constructor = SM;
   SM.prototype = __proto__;
   this.StationModel = SM;
