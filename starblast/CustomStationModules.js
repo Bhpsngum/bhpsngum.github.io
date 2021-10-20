@@ -1065,13 +1065,18 @@ This is NOT a snippet script designed for Modding, therefore it won't work in Mo
           }
         }
       });
-  let SM = this.StationModel, __proto__ =  SM.prototype, repl = function(func, ind, exc, flags){ return eval("("+String(func).replace(new RegExp('(['+(exc?"^":"")+ind+']\\s*)((\\w+)\\.dir)', flags || ""), "$1(!!STATION_MODULES.types_by_id[$3.type].revertDirection*2+$2)")+")") };
-  SM = repl(SM, "*");
+  let SM = this.StationModel, __proto__ =  SM.prototype, repl = function(func, ind, noEval, exc, flags){
+    let res = "("+String(func).replace(new RegExp('(['+(exc?"^":"")+ind+']\\s*)((\\w+)\\.dir)', flags || ""), "$1(!!STATION_MODULES.types_by_id[$3.type].revertDirection*2+$2)")+")";
+    return noEval ? res : eval(res)
+  };
+  SM = eval(repl(SM, "*", true).replace(/((\w+)\.dir\s*=\s*(\w+).dir)/, "$1,$2.revertDirection=$3.revertDirection"));
   __proto__.constructor = SM;
   SM.prototype = __proto__;
   this.StationModel = SM;
   let y = TeamBoard.prototype, key = Object.keys(y).find(v => y[v] && String(y[v]).includes("STATION_MODULES")), t = function(t, e) { return this.module.exports.translate(t, e) }.bind(this);
-  y[key] = repl(y[key], '=')
+  y[key] = repl(y[key], '=');
+  let carpet = StationModuleModel.prototype.updateCarpet;
+  StationModuleModel.prototype.updateCarpet = eval("("+String(carpet).replace(/(\.rotation.x\s*=\s*)-/, "$1((this.revertDirection)?1:-1)*")+")");
   this.CustomStationModules = {
     list: STATION_MODULES,
     update: function () {
