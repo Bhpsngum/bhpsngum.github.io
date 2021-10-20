@@ -1065,13 +1065,13 @@ This is NOT a snippet script designed for Modding, therefore it won't work in Mo
           }
         }
       });
-  let SM = this.StationModel, __proto__ =  SM.prototype, repl = function(func){ return eval("("+String(func).replace(/([^,]\s*)((\w+)\.dir)/g, "$1(!!STATION_MODULES.types_by_id[$3.type].revertDirection*2+$2)")+")") };
-  SM = repl(SM);
+  let SM = this.StationModel, __proto__ =  SM.prototype, repl = function(func, ind, exc, flags){ return eval("("+String(func).replace(new RegExp('(['+(exc?"^":"")+ind+']\s*)((\w+)\.dir)', flags || ""), "$1(!!STATION_MODULES.types_by_id[$3.type].revertDirection*2+$2)")+")") };
+  SM = repl(SM, "*");
   __proto__.constructor = SM;
   SM.prototype = __proto__;
   this.StationModel = SM;
   let y = TeamBoard.prototype, key = Object.keys(y).find(v => y[v] && String(y[v]).includes("STATION_MODULES")), t = function(t, e) { return this.module.exports.translate(t, e) }.bind(this);
-  y[key] = eval("("+String(y[key])+")");
+  y[key] = repl(y[key], '=')
   this.CustomStationModules = {
     list: STATION_MODULES,
     update: function () {
