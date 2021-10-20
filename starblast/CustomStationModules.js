@@ -1076,7 +1076,7 @@ This is NOT a snippet script designed for Modding, therefore it won't work in Mo
   let y = TeamBoard.prototype, key = Object.keys(y).find(v => y[v] && String(y[v]).includes("STATION_MODULES")), t = function(t, e) { return this.module.exports.translate(t, e) }.bind(this);
   y[key] = repl(y[key], '=');
   let carpet = StationModuleModel.prototype.updateCarpet;
-  StationModuleModel.prototype.updateCarpet = eval("("+String(carpet).replace(/((\w+\.rotation\.)x.+)}$/, "$1,this.carpet.$2z=!!this.revertDirection*Math.PI+this.$2z}")+")");
+  StationModuleModel.prototype.updateCarpet = eval("("+String(carpet).replace(/((\w+\.rotation\.)x.+)}$/, "$1,this.carpet.$2z=!!this.revertDirection*Math.PI}")+")");
   this.CustomStationModules = {
     list: STATION_MODULES,
     update: function () {
