@@ -1065,7 +1065,7 @@ This is NOT a snippet script designed for Modding, therefore it won't work in Mo
           }
         }
       });
-  let SM = this.StationModel, __proto__ =  SM.prototype, repl = function(func, ind, exc, flags){ return eval("("+String(func).replace(new RegExp('(['+(exc?"^":"")+ind+']\s*)((\w+)\.dir)', flags || ""), "$1(!!STATION_MODULES.types_by_id[$3.type].revertDirection*2+$2)")+")") };
+  let SM = this.StationModel, __proto__ =  SM.prototype, repl = function(func, ind, exc, flags){ return eval("("+String(func).replace(new RegExp('(['+(exc?"^":"")+ind+']\\s*)((\\w+)\\.dir)', flags || ""), "$1(!!STATION_MODULES.types_by_id[$3.type].revertDirection*2+$2)")+")") };
   SM = repl(SM, "*");
   __proto__.constructor = SM;
   SM.prototype = __proto__;
