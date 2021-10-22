@@ -119,7 +119,7 @@ button:disabled, textarea:read-only, input:not(input[type="color"]):read-only {
   border-bottom-color: var(--background-color);
 }
 
-#asChoose td[choosen='true'] {
+.container td[choosen='true'] {
   border-width: 0.3vmax;
 }
 

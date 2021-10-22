@@ -879,8 +879,8 @@ window.t = (function(){
             this.editIndex = i;
             this.chosenIndex = i;
             localStorage.setItem("brushIndex",i);
-            for (let j=0;j<this.list.length;j++) $("#brush"+j).css("border-width","0.1vmax");
-            $("#brush"+i).css("border-width","0.3vmax");
+            for (let j=0;j<this.list.length;j++) $("#brush"+j).attr('choosen', 'false');
+            $("#brush"+i).attr('choosen', 'true');
             $("#removeBrush").prop("disabled",this.chosenIndex<=this.defaultIndex);
             let t = this.getById(i);
             this.current = (t.error)?0:t.drawer;
@@ -1232,6 +1232,7 @@ window.t = (function(){
   StarblastMap.Buttons.redo.on("click",StarblastMap.redo.bind(StarblastMap));
   $("#randomCheck").on("change",function(){StarblastMap.Engine.Brush.applyRandom()});
   for (let i=0;i<StarblastMap.Engine.menu.modules.length;i++) $("#menu"+i).on("click",function(){StarblastMap.Engine.menu.set(i)});
+  StarblastMap.Engine.menu.set(1);
   StarblastMap.Buttons.export.text.on("click",function() {
     StarblastMap.download("plain");
   });
