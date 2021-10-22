@@ -1239,13 +1239,6 @@ window.t = (function(){
   StarblastMap.Buttons.undo.on("click",StarblastMap.undo.bind(StarblastMap));
   StarblastMap.Buttons.redo.on("click",StarblastMap.redo.bind(StarblastMap));
   $("#randomCheck").on("change",function(){StarblastMap.Engine.Brush.applyRandom()});
-  for (let i of ["border","background","as"])
-  {
-    StarblastMap.Engine.applyColor(i+"-color");
-    $("#"+i+"-color").on("change", function(){
-      StarblastMap.Engine.applyColor(i+"-color",$("#"+i+"-color").val());
-    });
-  }
   for (let i=0;i<StarblastMap.Engine.menu.modules.length;i++) $("#menu"+i).on("click",function(){StarblastMap.Engine.menu.set(i)});
   StarblastMap.Buttons.export.text.on("click",function() {
     StarblastMap.download("plain");
@@ -1424,4 +1417,11 @@ window.t = (function(){
   for (let i of StarblastMap.Engine.info.list) $("#"+i[0]).on("mouseover",function(){
     StarblastMap.Engine.info.view(i[1],i[2],i[3]);
   });
+  for (let i of ["border","background","as"])
+  {
+    StarblastMap.Engine.applyColor(i+"-color");
+    $("#"+i+"-color").on("change", function(){
+      StarblastMap.Engine.applyColor(i+"-color",$("#"+i+"-color").val());
+    });
+  }
 }());
