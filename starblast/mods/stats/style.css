@@ -1,3 +1,10 @@
+:root {
+  --width: 360px;
+  --padding: 15px;
+  --margin: 15px;
+  --border-radius: 50%;
+}
+
 body {
   font-family: Play, Verdana, Arial;
   background-color: rgb(24,26,27);
@@ -17,6 +24,10 @@ body {
   background-color: rgba(47,79,79,0.7);
   font-size: 100%;
   backdrop-filter: blur(1px);
+  width: var(--width);
+  padding: var(--padding);
+  margin: var(--margin);
+  border-radius: var(--border-radius);
 }
 p, h3 {
   margin: 0;
