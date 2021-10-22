@@ -24,6 +24,7 @@ else (function(){
   $.ajax("/starblast/mapeditor/changelog.txt").then(function(data){
     data.replace(/\d+\.\d+\.\d+/, function(version) {
       $("#modules tr").append('<td id="version" style="border:none;width:auto">Version ' + version + '</td>');
+      $("#version").on('click',function(){ $('#changelog').click() });
       if (localStorage.getItem("lastVer") != version)
       {
         let info = data.split("\n\n")[0].split("\n");
