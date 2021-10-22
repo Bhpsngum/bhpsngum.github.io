@@ -1372,6 +1372,13 @@ window.t = (function(){
     StarblastMap.Coordinates.names.forEach(function(t){StarblastMap.Coordinates.typeChooser.append("<option>"+t+"</option>")});
     StarblastMap.Coordinates.typeChooser.on("click",function(){chooser()});
     chooser(!0);
+    for (let i of ["border","background","as"])
+    {
+      StarblastMap.Engine.applyColor(i+"-color");
+      $("#"+i+"-color").on("change", function(){
+        StarblastMap.Engine.applyColor(i+"-color",$("#"+i+"-color").val());
+      });
+    }
   }
   catch(e){}
   $("#save").on("click", function(){
@@ -1417,11 +1424,4 @@ window.t = (function(){
   for (let i of StarblastMap.Engine.info.list) $("#"+i[0]).on("mouseover",function(){
     StarblastMap.Engine.info.view(i[1],i[2],i[3]);
   });
-  for (let i of ["border","background","as"])
-  {
-    StarblastMap.Engine.applyColor(i+"-color");
-    $("#"+i+"-color").on("change", function(){
-      StarblastMap.Engine.applyColor(i+"-color",$("#"+i+"-color").val());
-    });
-  }
 }());

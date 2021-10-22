@@ -1,5 +1,12 @@
+:root {
+  --background-color: rgb(24,26,27);
+  --border-color: rgb(102,102,102);
+  --color: #000;
+}
+
 * {
-  font-size: 1vmax
+  font-size: 1vmax;
+  border-color: var(--border-color);
 }
 *:not([class*=ace]) {
   font-family: Play, Verdana;
@@ -7,7 +14,14 @@
 body {
   user-select:none;
   background-size: 100% 100%;
+  color: var(--color);
+  background-color: var(--background-color);
 }
+
+select > option {
+  background-color: var(--background-color);
+}
+
 #menu {
   width:100%;
   background-color:inherit;
@@ -91,9 +105,14 @@ button:disabled, textarea:read-only, input:not(input[type="color"]):read-only {
   z-index: 1;
 }
 
-#modules>tbody>tr>td, #short-main>table>tbody>tr>td {
+#modules td, #short-main td {
   padding: 0.5vmax;
   height: 0.15vmax;
+}
+
+#modules td[choosen='true'] {
+  border-width: 0.2vmax;
+  border-bottom-color: var(--background-color);
 }
 
 .container {
@@ -120,6 +139,7 @@ table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOpti
   z-index: 2;
   padding: 1%;
   overflow: scroll;
+  background-color: var(--background-color);
 }
 
 textarea,#code {

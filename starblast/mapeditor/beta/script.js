@@ -789,23 +789,18 @@ window.t = (function(){
         else css= inp;
         let color = new w3color(css);
         css = color.toHexString();
+        let root = document.querySelector(':root').style;
         switch (param)
         {
           case "as-color":
-            if (new w3color(window.getComputedStyle($('body')[0])["background-color"]).toHexString() == css)
-            {
-              css = (prcss == css)?"rgb(102,102,102)":prcss;
-              $('body').css('color',css);
-            }
             StarblastMap.Asteroids.color = css;
             for (let i of [...StarblastMap.pattern]) StarblastMap.Asteroids.modify(...i[0].split("-"),i[1],1);
             for (let i=1;i<10;i++) StarblastMap.Asteroids.drawSelection(i);
             break;
           case "background-color":
             let baseColor = '#' + (!!color.isDark()*(16**6-1)).toString(16).padStart(0, 6);
-            $('body, select>option').css({"color": baseColor, "background-color": css});
-            $('.chosen').css("border-bottom-color",baseColor);
-            $("#BrushCode").css("background-color",css);
+            root.setProperty('--background-color', css);
+            root.setProperty('--color', baseColor);
             StarblastMap.background.color = css;
             StarblastMap.Engine.menu.set();
             break;
@@ -820,7 +815,7 @@ window.t = (function(){
               this.addBorder(c2d,gridIndex,(i*10+1)*gridIndex,(size*10+1)*gridIndex,(i*10+1)*gridIndex);
             }
             c2d.stroke();
-            $('*').css("border-color",css);
+            root.setProperty('--border-color', css);
             StarblastMap.border.color = css;
             StarblastMap.Engine.menu.set();
             break;
@@ -991,13 +986,13 @@ window.t = (function(){
         set: function(index) {
           for (let i=0;i<this.modules.length;i++) {
             if (i!==index) {
-              $("#menu"+i).css({border:"","border-color":StarblastMap.border.color});
-              $("#container"+i).css("display","none");
+              $("#menu"+i).attr('choosen', 'false');
+              $("#container"+i).css("display","none")
             }
           }
           index = Math.max(Math.min(this.modules.length-1,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
           this.chosenIndex = index;
-          $("#menu"+index).css({"border-width":"0.2vmax","border-bottom-color":StarblastMap.background.color});
+          $("#menu"+index).attr('choosen', 'true');
           $("#container"+index).css("display","");
         }
       },
