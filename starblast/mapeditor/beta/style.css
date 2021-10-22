@@ -96,7 +96,8 @@ td {
   height:3vmax;
   width:3vmax;
   text-align:center;
-  border: 0.1vmax solid;
+  border-width: 0.1vmax;
+  border-style: solid;
   padding: 0.1vmax;
   cursor: pointer;
 }
