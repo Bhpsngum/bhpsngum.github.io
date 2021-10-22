@@ -51,7 +51,7 @@ button {
   height: 3vmax;
 }
 
-button, input[type='color'] {
+button, input[type=color] {
   cursor: pointer;
 }
 
@@ -82,16 +82,25 @@ input {
 input[type=file], input[type=checkbox] {
   display: none;
 }
-#mapBox {
-  overflow:hidden;
-}
-#map {
-  overflow:hidden;
-}
+
 input[type=number] {
   width: 4vmax;
   -moz-appearance: textfield;
 }
+
+input[type=color] {
+  border: none;
+  padding: 0;
+}
+
+#mapBox {
+  overflow:hidden;
+}
+
+#map {
+  overflow:hidden;
+}
+
 td {
   height:3vmax;
   width:3vmax;
@@ -101,7 +110,7 @@ td {
   padding: 0.1vmax;
   cursor: pointer;
 }
-button:disabled, textarea:read-only, input:not(input[type="color"]):read-only {
+button:disabled, textarea:read-only, input:not(input[type=color]):read-only {
   cursor: not-allowed !important;
 }
 
@@ -115,12 +124,12 @@ button:disabled, textarea:read-only, input:not(input[type="color"]):read-only {
   height: 0.15vmax;
 }
 
-#modules td[choosen='true'] {
+#modules td[choosen=true] {
   border-width: 0.2vmax;
   border-bottom-color: var(--background-color);
 }
 
-.container td[choosen='true'] {
+.container td[choosen=true] {
   border-width: 0.3vmax;
 }
 
@@ -130,7 +139,7 @@ button:disabled, textarea:read-only, input:not(input[type="color"]):read-only {
   border-style: solid;
 }
 
-.container[shown='false'] {
+.container[shown=false] {
   display: none;
 }
 
