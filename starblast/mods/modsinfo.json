@@ -332,6 +332,26 @@
     "event": 0
   },
   {
+    "name": "Escalation",
+    "abbreviation": "",
+    "version": "1.0.0",
+    "description": "",
+    "modes": "",
+    "img": "",
+    "link": {
+      "url": "https://github.com/45rfew/Pufferfish/tree/master/Escalation",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["45rfew","Money"],
+        "link": "https://github.com/45rfew/"
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
     "name": "Pirate Mod",
     "abbreviation": "",
     "version": "0.0.3",
