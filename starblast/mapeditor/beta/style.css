@@ -45,11 +45,16 @@ button,input {
   border-color: #575757;
   background-color:inherit;
 }
+
 button {
   width: 3vmax;
   height: 3vmax;
+}
+
+button, input[type='color'] {
   cursor: pointer;
 }
+
 table {
   border-spacing: 0.2vmax;
 }
@@ -93,11 +98,10 @@ td {
   text-align:center;
   border: 0.1vmax solid;
   padding: 0.1vmax;
-  border-color:inherit;
   cursor: pointer;
 }
 button:disabled, textarea:read-only, input:not(input[type="color"]):read-only {
-  cursor: not-allowed;
+  cursor: not-allowed !important;
 }
 
 #modules {
@@ -115,10 +119,18 @@ button:disabled, textarea:read-only, input:not(input[type="color"]):read-only {
   border-bottom-color: var(--background-color);
 }
 
+#asChoose td[choosen='true'] {
+  border-width: 0.3vmax;
+}
+
 .container {
   margin-top: -0.2vmax;
   border-width: 0.1vmax;
   border-style: solid;
+}
+
+.container[shown='false'] {
+  display: none;
 }
 
 table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOptions {

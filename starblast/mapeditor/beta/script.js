@@ -640,7 +640,7 @@ window.t = (function(){
         this.RandomOptions.css("display","none");
       },
       clearSelection: function () {
-        for (let i of Array(10).fill(0).map((i,j)=>"asc"+j).concat("randomSize", "dragMode")) $("#"+i).css({"border":"0.1vmax solid"});
+        for (let i of Array(10).fill(0).map((i,j)=>"asc"+j).concat("randomSize", "dragMode")) $("#"+i).attr('choosen', 'false')
       },
       input: {
         max: $("#maxASSize"),
@@ -648,8 +648,7 @@ window.t = (function(){
       },
       highlightButton: function (id) {
         this.clearSelection();
-        $("#"+id).css({"border":"0.3vmax solid"});
-        StarblastMap.Engine.applyColor("border-color");
+        $("#"+id).attr('choosen', 'true');
       },
       toggleDragMode: function () {
         this.dragMode = true;
@@ -802,7 +801,6 @@ window.t = (function(){
             root.setProperty('--background-color', css);
             root.setProperty('--color', baseColor);
             StarblastMap.background.color = css;
-            StarblastMap.Engine.menu.set();
             break;
           case "border-color":
             let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size, gridIndex = StarblastMap.gridIndex;
@@ -817,7 +815,6 @@ window.t = (function(){
             c2d.stroke();
             root.setProperty('--border-color', css);
             StarblastMap.border.color = css;
-            StarblastMap.Engine.menu.set();
             break;
         }
         $("#"+param).val(css);
@@ -987,13 +984,13 @@ window.t = (function(){
           for (let i=0;i<this.modules.length;i++) {
             if (i!==index) {
               $("#menu"+i).attr('choosen', 'false');
-              $("#container"+i).css("display","none")
+              $("#container"+i).attr('shown', 'false')
             }
           }
           index = Math.max(Math.min(this.modules.length-1,Math.round((typeof index != "number")?this.chosenIndex:index)),0);
           this.chosenIndex = index;
           $("#menu"+index).attr('choosen', 'true');
-          $("#container"+index).css("display","");
+          $("#container"+index).attr('shown', 'true')
         }
       },
       random: function(num) {
