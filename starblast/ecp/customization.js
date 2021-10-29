@@ -120,7 +120,7 @@ window.initECPSetup = function(initializer){
       var s;
       if (null == e && (e = .5), null == i && (i = 0), s = t.createRadialGradient(0, 0, 0, 0, 0, 1), s.addColorStop(0, "hsla(10,100%,100%," + e + ")"), s.addColorStop(1, "hsla(10,100%,100%,0)"), t.fillStyle = s, t.fillRect(-1, -1, 2, 2), 1 === i) return t.fillStyle = "#000", t.fillRect(-1, -.025, 2, .05)
     }, t.getShape = function(t) {
-        return (this['shape'+(+t+1)] || this.shape1)()
+        return (this['shape' + ++t] || this.shape1).call(this)
     }, t.shape1 = function() {
       var t, e, i, s, n, l;
       for (s = [], e = i = 0; i <= 20; e = i += 1) t = e / 20 * Math.PI * 2, n = Math.cos(t), l = Math.sin(t), n = n < 0 ? -Math.sqrt(-n) : Math.sqrt(n), l = l < 0 ? -Math.sqrt(-l) : Math.sqrt(l), s.push([n, l / 3]);
