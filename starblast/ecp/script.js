@@ -24,6 +24,7 @@ window.addEventListener("load", function(){
       }, updateIcon = function(canvas) {
         let imgURL;
         if (!canvas) imgURL = 'icon.png';
+        else if (canvas.width === canvas.height) imgURL = canvas.toDataURL();
         else {
           let iconCanvas = document.createElement("canvas"), height = canvas.height, width = canvas.width, dif = (width - height) / 2, size = Math.max(width, height), x = 0, y = 0;
           iconCanvas.width = iconCanvas.height = size;
