@@ -26,10 +26,10 @@
           });
           insertToolBox({
             dir: link,
-            name: t.find(meta => "og:title" == meta.property).content,
+            name: t.find(meta => "og:title" == meta.name).content,
             description: t.find(meta => "description" == meta.name).content,
             icon: link + "/favicon.ico",
-            preview: link + "/" + t.find(meta => "og:image" == meta.property).content
+            preview: link + "/" + t.find(meta => "og:image" == meta.name).content
           });
           setTimeout(adjustwidth, 1)
         });
