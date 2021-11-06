@@ -29,7 +29,7 @@
             name: t.find(meta => "og:title" == meta.name).content,
             description: t.find(meta => "description" == meta.name).content,
             icon: link + "/favicon.ico",
-            preview: link + "/" + t.find(meta => "og:image" == meta.name).content
+            preview: t.find(meta => "og:image" == meta.name).content
           });
           setTimeout(adjustwidth, 1)
         });
