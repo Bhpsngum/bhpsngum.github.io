@@ -20,7 +20,7 @@
       statinfo+="<a href='https://starblast.io/' style='text-decoration: none'><b style='color:#69ff69'>"
       if (stat.featured) statinfo+="Featuring";
       else {
-        mods[index].open = !0;
+        stat.open = !0;
         statinfo+="Available";
       }
       statinfo+=" in Modding Space</b></a>";
@@ -31,7 +31,7 @@
       ${stat.date_removed?("<p><b>Date removed:</b> "+formatDate(stat.date_removed)+"</p>"):""}
       <p><b>Times played:</b> ${getNum(stat.timesplayed)} (${Math.round(stat.timesplayed/(((stat.date_removed||Date.now())-stat.date_created)/1000/3600/24))} daily)</p>`;
     let parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id), player_stat = $("#players-"+stat.mod_id);
-    if (parent.length == 0) $('#modstats').append(`<div index = "${index}" class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
+    if (parent.length == 0) $('#modstats').append(`<div class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
     else {
       if (imgelement.length == 0) parent.prepend(img);
       if (statelement.length == 0) $(`<div id="stat-${stat.mod_id}"${statinfo}</div>`).insertAfter("#img-"+stat.mod_id);
