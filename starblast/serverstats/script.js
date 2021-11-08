@@ -4,8 +4,11 @@
   }, showText = function (text) {
     text = text || "";
     $("#welcome-text").css("display", text?"":"none").html(text)
+  }, getID = function(server) {
+    return String(server.address).replace(/\./g, "-").replace(/\:/g, "_")
   }, serverStatBox = function(server, index) {
-    // ...
+    let html = `<img src='servericon.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
+    <h3 style="text-align:center">Server ${index}</h3>`;
   }, getNum = function(num) {
     num = num.toString();
     let str = [];
@@ -17,14 +20,12 @@
     return [t,u,Math.trunc(ms-t*3600-u*60)].map(i => Math.max(i,0)).map(i => i<10?"0"+i.toString():i).join(":")
   }, loadInfos = function() {
     servers.forEach(serverStatBox);
-    for (let i=0;i<elist.length-1;i++)
-      for (let j=i+1;j<elist.length;j++) {
-        let cur = $(elist[i]), next = $(elist[j]), index = Number(elist[i].getAttribute("index"));
-        if ((cur.attr("class")||"").split(" ").indexOf("serverStatBox") == -1 && servers.findIndex() == -1) cur.remove();
-        else if (index > Number(next.attr("index"))) next.insertBefore(cur);
-        elist = $("#serverstats>*");
-      }
-    if ($("#serverstats>.serverStatBox").length == 0) showText("No servers are active right now.");
+    let serverStats = $("#serverstats");
+    serverStats.append($("#serverstats>#welcome-text")[0] || '<p style="text-align:center;font-size:15pt" id="welcome-text">Loading data...</p>');
+    servers.forEach(server => serverStats.append($("#serverstats>.serverStatBox#"+getID(server))));
+    let elist = $("#serverstats>*");
+    while (elist.length > servers.length + 1) $(Array.prototype.shift.call(list)).remove();
+    if (servers.length == 0) showText("No servers are active right now.");
     else showText()
   }, setStatus = function(n) {
     n = Number(n);
