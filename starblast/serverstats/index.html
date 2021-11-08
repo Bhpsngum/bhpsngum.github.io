@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Starblast Modding Space Mods - Live Statistics</title>
+    <meta name="description" content="Live statistics of Modding Space mods in Starblast.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="og:site_name" content="Starblast Tools and Utilities">
+    <meta name="og:title" content="Starblast Modding Space Mods - Live Statistics">
+    <meta name="twitter:title" content="Starblast Modding Space Mods - Live Statistics">
+    <meta name="og:description" content="Live statistics of Modding Space mods in Starblast.">
+    <meta name="og:image" content="/starblast/mods/stats/preview.png">
+    <meta name="twitter:description" content="Live statistics of Modding Space mods in Starblast.">
+    <meta name="twitter:image" content="/starblast/mods/stats/preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://kit.fontawesome.com/ccd821e6cb.js" crossorigin="anonymous"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZQRTRBNZS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-9ZQRTRBNZS');
+    </script>
+  </head>
+  <body>
+    <h1 id="title">Starblast Modding Space Mods - Live Statistics</h1>
+    <p id="status"></p>
+    <div id="notification">
+      <input type="checkbox" id="notif-enabled" style="display:none">
+      <label for="notif-enabled">
+        <table><tr><td id="notif-box"><i id="notif-indicator" style="font-size:20pt"></i></td></tr></table>
+      </label>
+    </div>
+    <a href="../" style="margin:2%;user-select:none">&lt; Back to archive page</a>
+    <div id="modstats">
+      <p style="text-align:center;font-size:15pt" id="welcome-text">Loading data...</p>
+    </div>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>

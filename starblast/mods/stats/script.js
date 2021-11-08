@@ -13,7 +13,7 @@
   }, sw, showText = function (text) {
     text = text || "";
     $("#welcome-text").css("display", text?"":"none").html(text)
-  }, modStatBox = function(stat, count, index, time) {
+  }, modStatBox = function(stat, count, time) {
     let img = `<img id="img-${stat.mod_id}"src='https://starblast.data.neuronality.com/modding/img/${stat.mod_id}.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">`,
     statinfo = `<h3 style="text-align:center"><a style="text-decoration:none" href="https://starblast.fandom.com/wiki/${stat.title.replace(/\s/g,"_")}" target="_blank">${stat.title}</a> <sup>${stat.version}</sup></h3>${stat.new&&stat.active?'<b style="color:yellow;float:right">NEW!</b>':""}${!stat.active?'<b style="color:red;float:right">Removed</b>':""}`;
     if (stat.featured || stat.open) {
@@ -33,7 +33,6 @@
     let parent = $("#"+stat.mod_id), imgelement = $("#img-"+stat.mod_id), statelement = $("#stat-"+stat.mod_id), player_stat = $("#players-"+stat.mod_id);
     if (parent.length == 0) $('#modstats').append(`<div index = "${index}" class="modStatBox" id='${stat.mod_id}'>${img}<div id="stat-${stat.mod_id}">${statinfo}</div></div>`);
     else {
-      parent.attr("index",index);
       if (imgelement.length == 0) parent.prepend(img);
       if (statelement.length == 0) $(`<div id="stat-${stat.mod_id}"${statinfo}</div>`).insertAfter("#img-"+stat.mod_id);
       else statelement.html(statinfo);
@@ -68,16 +67,12 @@
       if (a.open || b.open) return Number(!!b.open) - Number(!!a.open);
       return (timer.get(a.mod_id)||0) - (timer.get(b.mod_id)||0);
     });
-    mods.forEach((mod, i) => modStatBox(mod, player_count[mod.mod_id]||0, i, timer.get(mod.mod_id)));
+    mods.forEach(mod => modStatBox(mod, player_count[mod.mod_id]||0, timer.get(mod.mod_id)));
+    let modStats = $("#modstats");
+    mods.forEach(mod => modStats.append($("#modstats>.modStatBox#"+mod.mod_id)));
     let elist = $("#modstats>*");
-    for (let i=0;i<elist.length-1;i++)
-      for (let j=i+1;j<elist.length;j++) {
-        let cur = $(elist[i]), next = $(elist[j]), index = Number(elist[i].getAttribute("index"));
-        if ((cur.attr("class")||"").split(" ").indexOf("modStatBox") == -1 && mods.map((i,j) => j).indexOf(index) == -1) cur.remove();
-        else if (index > Number(next.attr("index"))) next.insertBefore(cur);
-        elist = $("#modstats>*");
-      }
-    if ($("#modstats>.modStatBox").length == 0) showText("No mods shown");
+    while (elist.length > mods.length) $(elist.shift()).remove();
+    if (mods.length == 0) showText("No mods shown");
     else showText()
   }, count = function() {
     setCountdown();

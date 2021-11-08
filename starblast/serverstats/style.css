@@ -1,0 +1,88 @@
+:root {
+  --width: 360px;
+  --padding: 15px;
+  --margin: 15px;
+  --border-radius: 50%;
+}
+
+body {
+  font-family: Play, Verdana, Arial;
+  background-color: rgb(24,26,27);
+  color: rgb(231,229,228);
+  margin: 0;
+  font-size: 10pt;
+  background-image: url(/Starblastio_background18.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  cursor: default;
+}
+.modStatBox {
+  display: inline-block;
+  height: auto;
+  background-color: rgba(47,79,79,0.7);
+  font-size: 100%;
+  backdrop-filter: blur(1px);
+  width: var(--width);
+  padding: var(--padding);
+  margin: var(--margin);
+  border-radius: var(--border-radius);
+}
+p, h3 {
+  margin: 0;
+}
+img {
+  width: 100%;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+a, a:active, a:hover {
+  color: #33A1DE;
+  -webkit-user-drag: none;
+}
+#status {
+  user-select:none;
+  text-align:center;
+  font-size:15pt;
+}
+#notification {
+  position: fixed;
+  top: 10pt;
+  right: 10pt;
+  z-index: 1;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+#notif-box {
+  background-color: rgb(24,26,27,0.9);
+  backdrop-filter: blur(1px);
+  padding: 10pt;
+  cursor: pointer;
+  text-align: center;
+  width: 25pt;
+  height: 25pt;
+  border-radius: 10pt;
+}
+.playerstat {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+.numbers {
+  text-align:right;
+}
+.playerstat>tbody>tr>td {
+  padding: 0;
+}
+#status, #title {
+  margin-right: 55pt;
+  margin-left: 55pt;
+}
+#title {
+  text-align:center;
+  user-select:none;
+  margin-bottom:0
+}
