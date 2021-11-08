@@ -69,9 +69,10 @@
     });
     mods.forEach(mod => modStatBox(mod, player_count[mod.mod_id]||0, timer.get(mod.mod_id)));
     let modStats = $("#modstats");
+    modStats.append($("#modstats>#welcome-text")[0] || '<p style="text-align:center;font-size:15pt" id="welcome-text">Loading data...</p>');
     mods.forEach(mod => modStats.append($("#modstats>.modStatBox#"+mod.mod_id)));
     let elist = $("#modstats>*");
-    while (elist.length > mods.length) $(elist.shift()).remove();
+    while (elist.length > mods.length + 1) $(Array.prototype.shift.call(list)).remove();
     if (mods.length == 0) showText("No mods shown");
     else showText()
   }, count = function() {
