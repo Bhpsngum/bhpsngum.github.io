@@ -31,9 +31,16 @@
     <div id="adblocker" style="display: none">Thank you for using this tool! If you have any adblockers, please turn it off so we could fetch and cache servers info!</div>
     <h1 id="title">Starblast Servers - Live Statistics</h1>
     <p id="status"></p>
-    <div id="filter"></div>
+    <div id="filter">
+      <fieldset class = "chooser" id="regions">
+        <legend>Server Region</legend>
+      </fieldset>
+      <fieldset class = "chooser" id="servertypes">
+        <legend>Server Type</legend>
+      </fieldset>
+    </div>
     <div id="serverstats">
-      <p style="text-align:center;font-size:15pt" id="welcome-text">Loading data...</p>
+      <p id="welcome-text">Loading data...</p>
     </div>
     <script type="text/javascript" src="script.js"></script>
   </body>

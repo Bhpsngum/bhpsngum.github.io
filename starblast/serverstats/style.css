@@ -34,7 +34,7 @@ p, h3 {
   margin: 0;
 }
 
-.location {
+.location, .chooser>label, .chooser>input {
   cursor: pointer;
 }
 
@@ -100,8 +100,19 @@ table {
   margin-bottom:0
 }
 
-#adblocker {
+#adblocker, #filter {
   padding: 1%;
   border: 1px solid;
   background-color: rgba(9,22,28,0.7);
+}
+
+.chooser {
+    display: inline-block;
+}
+
+#welcome-text {
+  text-align:center;
+  font-size:15pt;
+  color: black;
+  font-weight: bold;
 }

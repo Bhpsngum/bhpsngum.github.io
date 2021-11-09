@@ -1,10 +1,15 @@
 (function(){
-  var ips_timeout = 2 * 24 * 3600, updated = false, init, servers = [], IPs = {}, getTime = function(ms) {
+  var ips_timeout = 2 * 24 * 3600, regions = ["Asia", "America", "Australia", "Brazil", "Europe"], servertypes = ["Public", "Modding"], updated = false, init, servers = [], IPs = {}, getTime = function(ms) {
     let days = Math.trunc(ms / 1000 / 60 / 60 / 24), text;
     if (days < 1) text = "<1 day";
     else if (days == 1) text = "1 day";
     else text = days + " days";
     return text
+  }, saveLocal = function (name, value) {
+    return localStorage.setItem(name, JSON.stringify(value))
+  }, loadLocal = function (name, value) {
+    let item = localStorage.getItem(name);
+    try { return JSON.parse(item) } catch (e) { return item }
   }, showText = function (text) {
     text = text || "";
     $("#welcome-text").css("display", text?"":"none").html(text)
@@ -13,30 +18,30 @@
   }, fetchLocation = function(ip, action) {
     $.get("https://ipapi.co/"+ip+"/country_name/").then(function (data) {
       IPs[ip] = data;
-      localStorage.setItem("server-ips", JSON.stringify(IPs));
+      saveLocal("server-ips", IPs);
       setAdblocker(false);
       if ("function" == typeof action) action();
     }).catch(function(error) {
       if (error.status == 0) setAdblocker(true);
-      else setAdblocker(false);
-      console.log(error);
+      else setAdblocker(false)
     })
   }, assignLocation = function(ID, ip) {
-    $("#serverstats #location-"+ID).html("<p class='location' title='Server IP: "+ip+"'><b>Location:</b> "+ (IPs[ip] || "Unknown")+"</p>");
+    $("#serverstats #location-"+ID).html("<b>Location:</b> "+ (IPs[ip] || "Unknown")).attr("title", "Server IP: "+ip);
   }, getLocation = function (server) {
     let serverID = getID(server), ip = String(server.address).split(":")[0], setLocation = function() { assignLocation(serverID, ip) }
     setLocation();
     if (!IPs[ip]) fetchLocation(ip, setLocation)
   }, getID = function(server) {
     return String(server.address).replace(/\./g, "-").replace(/\:/g, "_")
-  }, serverStatBox = function(server, index) {
+  }, serverStatBox = function(server) {
+    server = server || {}
     let serverID = getID(server), html = `<img src='servericon.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
-    <h3 style="text-align:center">Server ${index + 1} ${server.modding?'<img src="favicon.ico" class="modding-thumnail" title="This is a Modding server" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">':""}</h3>
+    <h3 style="text-align:center">Server ${(server.usage||{}).pid||0}-${(server.usage||{}).ppid||0} ${server.modding?'<img src="favicon.ico" class="modding-thumnail" title="This is a Modding server" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">':""}</h3>
     <p><b>Region:</b> ${server.location}</p>
-    <p id="location-${serverID}"></p>
+    <p class="location" id="location-${serverID}"></p>
     <p><b>Uptime:</b> ${getTime((server.usage||{}).elapsed || 0)}</p>
-    <p><b>Players:</b> ${server.current_players}</p>
-    <p><b>Systems:</b> ${server.systems.length}</p>`, el = $("#serverstats>.serverStatBox#"+serverID);
+    <p><b>Players:</b> ${getNum(server.current_players)}</p>
+    <p><b>Systems:</b> ${getNum(server.systems.length)}</p>`, el = $("#serverstats>.serverStatBox#"+serverID);
     if (!el[0]) {
       el = $(`<div id=${serverID} class="serverStatBox">${html}</div>`);
       $("#serverstats").append(el);
@@ -48,25 +53,23 @@
     let str = [];
     for (let i=num.length-1;i>=0;i-=3) str.push(num.slice(Math.max(i-2,0),i+1));
     return str.reverse().join(" ");
-  }, formatTime = function (ms) {
-    ms = ms/1000;
-    let t = Math.trunc(ms/3600), u = Math.trunc((ms-t*3600)/60);
-    return [t,u,Math.trunc(ms-t*3600-u*60)].map(i => Math.max(i,0)).map(i => i<10?"0"+i.toString():i).join(":")
   }, loadInfos = function() {
     servers.forEach(serverStatBox);
-    $("#serverstats").append($("#serverstats>#welcome-text")[0] || '<p style="text-align:center;font-size:15pt" id="welcome-text">Loading data...</p>');
-    let serverclone = servers.map(getID).concat("welcome-text"), elist = $("#serverstats>*");
+    $("#serverstats").prepend($("#serverstats>#welcome-text")[0] || '<p style="text-align:center;font-size:15pt" id="welcome-text">Loading data...</p>');
+    let serverclone = servers.map(server => (server.id = getID(server), server)).concat({id: "welcome-text"}), elist = $("#serverstats>*");
     for (let el of elist) {
-      if (String(el.class).split(" ").indexOf("serverStatBox") == -1) {
-        $(el).remove();
-        continue
+      let EL = $(el), index = serverclone.findIndex(server => server.id === EL.attr('id'));
+      if (index == -1) EL.remove();
+      else {
+        let s = serverclone.splice(index, 1)[0];
+        if (s.id != "welcome-text") EL.attr('class', 'serverStatBox').css("display", `var(--${s.location}-${servertypes[+!!s.modding]})`)
       }
-      let index = serverclone.indexOf(String(el.id));
-      if (index == -1) $(el).remove();
-      else serverclone.splice(index, 1);
     }
-    if (servers.length == 0) showText("No servers are active right now.");
-    else showText()
+    checkEmpty()
+  }, checkEmpty = function () {
+    if (Array.prototype.filter.call($("#serverstats>*"), el => (el||{}).id != "welcome-text" && $(el).css("display") != "none").length == 0) showText("No servers.");
+    else showText();
+    adjustwidth()
   }, setStatus = function(n) {
     n = Number(n);
     let name = ["Online","Offline"], color = ["green","red"], desc = ["latest data fetched from Starblast's database", "offline data stored from latest successful fetch"], status = $("#status");
@@ -83,8 +86,7 @@
       setStatus(0);
       loadInfos();
       if (!init) {
-        adjustwidth();
-        setTimeout(adjustwidth, 1);
+        setInterval(adjustwidth, 1000);
         init = !0;
       }
       queueNextUpdate();
@@ -93,7 +95,7 @@
       queueNextUpdate();
     });
   }, queueNextUpdate = function() {
-    setTimeout(function(){updated = false}, 10000)
+    setTimeout(function(){updated = false}, 5000)
   }, img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, adjustwidth = function(){
     let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
     $(":root").css({
@@ -107,13 +109,57 @@
       updated = true;
       update()
     }
+  }, checkSelections = function (init) {
+    let selectedRegions = {}, selectedServerTypes = {};
+    if (init) {
+      selectedRegions = loadLocal('selected-regions') || {}
+      selectedServerTypes = loadLocal('selected-server-types') || {}
+    }
+    let verify = init ? True : checked;
+    for (let region of regions) {
+      let res = verify(region, selectedRegions);
+      selectedRegions[region] = res;
+      $("#show"+region).prop("checked", res)
+    }
+    for (let servertype of servertypes) {
+      let res = verify(servertype, selectedServerTypes);
+      selectedServerTypes[servertype] = res;
+      $("#show"+servertype).prop("checked", res)
+    }
+    let root = $(":root");
+    for (let region of regions) {
+      for (let servertype of servertypes) {
+        let confirmed = selectedRegions[region] && selectedServerTypes[servertype];
+        root.css("--"+region+"-"+servertype, confirmed?"inline-block":"none")
+      }
+    }
+    if (!init) checkEmpty();
+    saveLocal('selected-regions', selectedRegions);
+    saveLocal('selected-server-types', selectedServerTypes)
+  }, checked = function(name) {
+    let el = $("#show"+name);
+    return el.length == 0 || el.is(":checked")
+  }, True = function (name, obj) {
+    let val = obj[name];
+    return val == null || !!val
   }
   try {
-    IPs = JSON.parse(localStorage.getItem("server-ips")) || {}
+    IPs = loadLocal("server-ips") || {}
     let timestamp = Number(IPs.timestamp);
-    if (!timestamp || Date.now() - timestamp > timeout) IPs = {}
-    localStorage.setItem("server-ips", JSON.stringify(IPs))
+    if (!timestamp || Date.now() - timestamp > timeout) IPs = {timestamp: Date.now()}
+    saveLocal("server-ips", IPs)
   } catch (e) {}
+  for (let region of regions) {
+    let id = "show" + region;
+    $("#regions").append(`<input type='checkbox' id='${id}'><label for='${id}'>${region}</label>`);
+    $("#"+id).on("click", function(){checkSelections()})
+  }
+  for (let servertype of servertypes) {
+    let id = "show" + servertype;
+    $("#servertypes").append(`<input type='checkbox' id='${id}'><label for='${id}'>${servertype}</label>`);
+    $("#"+id).on("click", function(){checkSelections()})
+  }
+  checkSelections(true);
   window.addEventListener("resize", adjustwidth);
   setInterval(checkUpdate,1)
 })();
