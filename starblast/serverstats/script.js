@@ -37,9 +37,11 @@
     <p><b>Uptime:</b> ${getTime((server.usage||{}).elapsed || 0)}</p>
     <p><b>Players:</b> ${server.current_players}</p>
     <p><b>Systems:</b> ${server.systems.length}</p>`, el = $("#serverstats>.serverStatBox#"+serverID);
-    if (!el[0]) el = $(`<div id=${serverID} class="serverStatBox">${html}</div>`);
+    if (!el[0]) {
+      el = $(`<div id=${serverID} class="serverStatBox">${html}</div>`);
+      $("#serverstats").append(el);
+    }
     else el.html(html);
-    $("#serverstats").append(el);
     getLocation(server)
   }, getNum = function(num) {
     num = num.toString();
@@ -51,11 +53,18 @@
     let t = Math.trunc(ms/3600), u = Math.trunc((ms-t*3600)/60);
     return [t,u,Math.trunc(ms-t*3600-u*60)].map(i => Math.max(i,0)).map(i => i<10?"0"+i.toString():i).join(":")
   }, loadInfos = function() {
-    let serverStats = $("#serverstats");
-    serverStats.append($("#serverstats>#welcome-text")[0] || '<p style="text-align:center;font-size:15pt" id="welcome-text">Loading data...</p>');
     servers.forEach(serverStatBox);
-    let elist = $("#serverstats>*");
-    while (elist.length > servers.length + 1) $(Array.prototype.shift.call(elist)).remove();
+    $("#serverstats").append($("#serverstats>#welcome-text")[0] || '<p style="text-align:center;font-size:15pt" id="welcome-text">Loading data...</p>');
+    let serverclone = servers.map(getID).concat("welcome-text"), elist = $("#serverstats>*");
+    for (let el of elist) {
+      if ((el.class||"").includes("serverStatBox")) {
+        $(el).remove();
+        continue
+      }
+      let index = serverclone.indexOf(el.id||"");
+      if (index == -1) $(el).remove();
+      else serverclone.splice(index, 1);
+    }
     if (servers.length == 0) showText("No servers are active right now.");
     else showText()
   }, setStatus = function(n) {
