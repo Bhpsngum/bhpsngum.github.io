@@ -26,7 +26,7 @@
   }, getLocation = function (server) {
     let serverID = getID(server), ip = String(server.address).split(":")[0], setLocation = function() { assignLocation(serverID, ip) }
     setLocation();
-    fetchLocation(ip, setLocation)
+    if (!IPs[ip]) fetchLocation(ip, setLocation)
   }, getID = function(server) {
     return String(server.address).replace(/\./g, "-").replace(/\:/g, "_")
   }, serverStatBox = function(server, index) {
