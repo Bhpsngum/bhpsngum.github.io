@@ -1,5 +1,5 @@
 (function(){
-  var ips_timeout = 2 * 24 * 3600, regions = ["Asia", "America", "Australia", "Brazil", "Europe"], servertypes = ["Public", "Modding"], updated = false, init, servers = [], IPs = {}, getTime = function(ms) {
+  var ips_timeout = 2 * 3600, regions = ["Asia", "America", "Australia", "Brazil", "Europe"], servertypes = ["Public", "Modding"], updated = false, init, servers = [], IPs = {}, getTime = function(ms) {
     let days = Math.trunc(ms / 1000 / 60 / 60 / 24), text;
     if (days < 1) text = "<1 day";
     else if (days == 1) text = "1 day";
@@ -16,8 +16,8 @@
   }, setAdblocker = function (bool) {
     $("#adblocker").css("display", bool?"":"none")
   }, fetchLocation = function(ip, action) {
-    $.get("https://ipapi.co/"+ip+"/country_name/").then(function (data) {
-      IPs[ip] = data;
+    $.get("https://ipwhois.app/json/"+ip+"?objects=country,country_flag,region").then(function (data) {
+      IPs[ip] = `<img onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)" src="${data.country_flag}"> ${data.region}, ${data.country}`;
       saveLocal("server-ips", IPs);
       setAdblocker(false);
       if ("function" == typeof action) action();
