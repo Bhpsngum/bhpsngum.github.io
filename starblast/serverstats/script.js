@@ -57,11 +57,11 @@
     $("#serverstats").append($("#serverstats>#welcome-text")[0] || '<p style="text-align:center;font-size:15pt" id="welcome-text">Loading data...</p>');
     let serverclone = servers.map(getID).concat("welcome-text"), elist = $("#serverstats>*");
     for (let el of elist) {
-      if ((el.class||"").includes("serverStatBox")) {
+      if (String(el.class).split(" ").indexOf("serverStatBox") == -1) {
         $(el).remove();
         continue
       }
-      let index = serverclone.indexOf(el.id||"");
+      let index = serverclone.indexOf(String(el.id));
       if (index == -1) $(el).remove();
       else serverclone.splice(index, 1);
     }
