@@ -1,5 +1,5 @@
 (function(){
-  var updated = false, init, servers = [], IPs = {}, getTime = function(ms) {
+  var ips_timeout = 2 * 24 * 3600, updated = false, init, servers = [], IPs = {}, getTime = function(ms) {
     let days = Math.trunc(ms / 1000 / 60 / 60 / 24), text;
     if (days < 1) text = "<1 day";
     else if (days == 1) text = "1 day";
@@ -99,7 +99,12 @@
       update()
     }
   }
-  try {IPs = JSON.parse(localStorage.getItem("server-ips")) || {}} catch (e) {}
+  try {
+    IPs = JSON.parse(localStorage.getItem("server-ips")) || {}
+    let timestamp = Number(IPs.timestamp);
+    if (!timestamp || Date.now() - timestamp > timeout) IPs = {}
+    localStorage.setItem("server-ips", JSON.stringify(IPs))
+  } catch (e) {}
   window.addEventListener("resize", adjustwidth);
   setInterval(checkUpdate,1)
 })();
