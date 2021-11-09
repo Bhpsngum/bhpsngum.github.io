@@ -22,7 +22,7 @@
       console.log(error);
     })
   }, assignLocation = function(ID, ip) {
-    $("#serverstats #location-"+ID).html("<b>Location:</b> "+ (IPs[ip] || "Unknown"));
+    $("#serverstats #location-"+ID).html("<p class='location' title='Server IP: "+ip+"'><b>Location:</b> "+ (IPs[ip] || "Unknown")+"</p>");
   }, getLocation = function (server) {
     let serverID = getID(server), ip = String(server.address).split(":")[0], setLocation = function() { assignLocation(serverID, ip) }
     setLocation();

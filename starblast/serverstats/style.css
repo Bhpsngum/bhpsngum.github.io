@@ -29,8 +29,13 @@ body {
   margin: var(--margin);
   border-radius: var(--border-radius);
 }
+
 p, h3 {
   margin: 0;
+}
+
+.location {
+  cursor: pointer;
 }
 
 img.modding-thumnail {
