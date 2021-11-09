@@ -35,7 +35,7 @@
     return String(server.address).replace(/\./g, "-").replace(/\:/g, "_")
   }, serverStatBox = function(server) {
     server = server || {}
-    let serverID = getID(server), html = `<img src='servericon.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
+    let serverID = getID(server), html = `<img src='servericon.jpg' class='flag' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
     <h3 style="text-align:center">Server ${(server.usage||{}).pid||0}-${(server.usage||{}).ppid||0} ${server.modding?'<img src="favicon.ico" class="modding-thumnail" title="This is a Modding server" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">':""}</h3>
     <p><b>Region:</b> ${server.location}</p>
     <p class="location" id="location-${serverID}"></p>
