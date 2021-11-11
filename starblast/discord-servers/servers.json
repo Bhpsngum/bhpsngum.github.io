@@ -6,8 +6,8 @@
     "tag": "AR",
     "active_regions": ["Europe"],
     "description": "",
-    "invite_open": true,
-    "invite_link": ""
+    "public_invite": true,
+    "how_to_join": ""
   },
   {
     "icon": "",
@@ -16,8 +16,8 @@
     "tag": "TA",
     "active_regions": ["Asia"],
     "description": "",
-    "invite_open": true,
-    "invite_link": "https://discord.gg/tHRxeQS"
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/tHRxeQS"
   },
   {
     "icon": "",
@@ -26,8 +26,8 @@
     "tag": "BORG",
     "active_regions": ["Europe"],
     "description": "",
-    "invite_open": true,
-    "invite_link": ""
+    "public_invite": true,
+    "how_to_join": ""
   },
   {
     "icon": "",
@@ -36,8 +36,8 @@
     "tag": "EOT",
     "active_regions": ["Europe"],
     "description": "",
-    "invite_open": true,
-    "invite_link": "https://discord.com/invite/YuMp9mDrwf"
+    "public_invite": true,
+    "how_to_join": "https://discord.com/invite/YuMp9mDrwf"
   },
   {
     "icon": "",
@@ -46,8 +46,8 @@
     "tag": "LAF",
     "active_regions": ["Europe"],
     "description": "",
-    "invite_open": true,
-    "invite_link": "https://discord.gg/HSTwqwgBPq"
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/HSTwqwgBPq"
   },
   {
     "icon": "",
@@ -56,8 +56,8 @@
     "tag": "IS",
     "active_regions": ["Europe"],
     "description": "",
-    "invite_open": true,
-    "invite_link": ""
+    "public_invite": true,
+    "how_to_join": ""
   },
   {
     "icon": "",
@@ -66,7 +66,7 @@
     "tag": "✯F℣➛ ___",
     "active_regions": ["Asia"],
     "description": "",
-    "invite_open": true,
-    "invite_link": ""
+    "public_invite": true,
+    "how_to_join": ""
   }
 ]
