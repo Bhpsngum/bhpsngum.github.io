@@ -1,0 +1,29 @@
+[
+  {
+    "icon": "",
+    "name": "Armanda",
+    "tag": "AR",
+    "active_regions": ["Europe"],
+    "description": "",
+    "invite_open": true,
+    "invite_link": "...."
+  },
+  {
+    "icon": "",
+    "name": "Team Asia",
+    "tag": "TA",
+    "active_regions": ["Asia"],
+    "description": "",
+    "invite_open": true,
+    "invite_link": "...."
+  },
+  {
+    "icon": "",
+    "name": "BORG",
+    "tag": "BORG",
+    "active_regions": ["Europe"],
+    "description": "",
+    "invite_open": true,
+    "invite_link": "...."
+  }
+]
