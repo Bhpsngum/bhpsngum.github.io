@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "icon": "",
     "type": ["clan"],
@@ -7,7 +7,7 @@
     "active_regions": ["Europe"],
     "description": "",
     "public_invite": true,
-    "how_to_join": ""
+    "how_to_join": "https://discord.gg/ZJuWbVDuDy"
   },
   {
     "icon": "",
@@ -57,6 +57,6 @@
     "active_regions": ["Asia-Australia"],
     "description": "",
     "public_invite": true,
-    "how_to_join": ""
+    "how_to_join": "https://discord.gg/GehT6q99pM"
   }
 ]
