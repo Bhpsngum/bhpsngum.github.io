@@ -1,6 +1,7 @@
 [
   {
     "icon": "",
+    "type": "clan",
     "name": "Armanda",
     "tag": "AR",
     "active_regions": ["Europe"],
@@ -10,6 +11,7 @@
   },
   {
     "icon": "",
+    "type": "clan",
     "name": "Team Asia",
     "tag": "TA",
     "active_regions": ["Asia"],
@@ -19,6 +21,7 @@
   },
   {
     "icon": "",
+    "type": "clan",
     "name": "BORG",
     "tag": "BORG",
     "active_regions": ["Europe"],
@@ -28,6 +31,7 @@
   },
   {
     "icon": "",
+    "type": "clan",
     "name": "End Of Terror",
     "tag": "EOT",
     "active_regions": ["Europe"],
@@ -37,6 +41,7 @@
   },
   {
     "icon": "",
+    "type": "clan",
     "name": "Legion of Assassin Fighters",
     "tag": "LAF",
     "active_regions": ["Europe"],
@@ -46,6 +51,7 @@
   },
   {
     "icon": "",
+    "type": "clan",
     "name": "Inferno Squadron",
     "tag": "IS",
     "active_regions": ["Europe"],
@@ -55,6 +61,7 @@
   },
   {
     "icon": "",
+    "type": "clan",
     "name": "Flammable Violets",
     "tag": "✯F℣➛ ___",
     "active_regions": ["Asia"],
