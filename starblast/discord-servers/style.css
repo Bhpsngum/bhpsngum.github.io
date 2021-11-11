@@ -2,12 +2,7 @@ body {
   font-family: Verdana;
   background-color: #1b2a32;
   color: #e6e6e6;
-}
-
-* {
-	margin: 1%;
-  margin-left: 0.5%;
-  margin-top: 0.5%;
+  background-image: url(https://starblast.io/static/img/bg.webp);
 }
 
 table {
@@ -42,4 +37,19 @@ table td:nth-child(2), table td:nth-child(5), table td:nth-child(8) {
 
 table th:nth-child(1), table td:nth-child(1) {
   width: 5%;
+}
+
+#filter {
+  padding: 1%;
+  border: 1px solid;
+  background-color: rgba(9,22,28,0.7);
+}
+
+#filter > * {
+  margin: 0;
+  font-size: 90%;
+}
+
+.chooser {
+    display: inline-block;
 }

@@ -152,12 +152,12 @@
   for (let region of regions) {
     let id = "show" + region;
     $("#regions").append(`<input type='checkbox' id='${id}'><label for='${id}'>${region}</label>`);
-    $("#"+id).on("click", function(){checkSelections()})
+    $("#"+id).on("change", function(){checkSelections()})
   }
   for (let servertype of servertypes) {
     let id = "show" + servertype;
     $("#servertypes").append(`<input type='checkbox' id='${id}'><label for='${id}'>${servertype}</label>`);
-    $("#"+id).on("click", function(){checkSelections()})
+    $("#"+id).on("change", function(){checkSelections()})
   }
   checkSelections(true);
   window.addEventListener("resize", adjustwidth);

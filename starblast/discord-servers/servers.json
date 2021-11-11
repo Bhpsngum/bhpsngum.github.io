@@ -1,7 +1,7 @@
 [
   {
     "icon": "",
-    "type": "clan",
+    "type": ["clan"],
     "name": "Armanda",
     "tag": "AR",
     "active_regions": ["Europe"],
@@ -11,37 +11,27 @@
   },
   {
     "icon": "",
-    "type": "clan",
+    "type": ["clan"],
     "name": "Team Asia",
     "tag": "TA",
-    "active_regions": ["Asia"],
+    "active_regions": ["Asia-Australia"],
     "description": "",
     "public_invite": true,
     "how_to_join": "https://discord.gg/tHRxeQS"
   },
   {
     "icon": "",
-    "type": "clan",
-    "name": "BORG",
-    "tag": "BORG",
-    "active_regions": ["Europe"],
-    "description": "",
-    "public_invite": true,
-    "how_to_join": ""
-  },
-  {
-    "icon": "",
-    "type": "clan",
+    "type": ["clan"],
     "name": "End Of Terror",
     "tag": "EOT",
     "active_regions": ["Europe"],
     "description": "",
     "public_invite": true,
-    "how_to_join": "https://discord.com/invite/YuMp9mDrwf"
+    "how_to_join": "https://discord.gg/YuMp9mDrwf"
   },
   {
     "icon": "",
-    "type": "clan",
+    "type": ["clan"],
     "name": "Legion of Assassin Fighters",
     "tag": "LAF",
     "active_regions": ["Europe"],
@@ -51,7 +41,7 @@
   },
   {
     "icon": "",
-    "type": "clan",
+    "type": ["clan"],
     "name": "Inferno Squadron",
     "tag": "IS",
     "active_regions": ["Europe"],
@@ -61,10 +51,10 @@
   },
   {
     "icon": "",
-    "type": "clan",
+    "type": ["clan"],
     "name": "Flammable Violets",
     "tag": "✯F℣➛ ___",
-    "active_regions": ["Asia"],
+    "active_regions": ["Asia-Australia"],
     "description": "",
     "public_invite": true,
     "how_to_join": ""
