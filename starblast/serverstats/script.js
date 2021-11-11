@@ -161,5 +161,6 @@
   }
   checkSelections(true);
   window.addEventListener("resize", adjustwidth);
-  setInterval(checkUpdate,1)
+  setInterval(checkUpdate,1);
+  addToolPage(null,"1%","1%",null)
 })();

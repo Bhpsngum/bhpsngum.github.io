@@ -3,6 +3,10 @@ body {
   background-color: #1b2a32;
   color: #e6e6e6;
   background-image: url(https://starblast.io/static/img/bg.webp);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
 }
 
 table {

@@ -63,5 +63,6 @@
     $("#servertypes").append(`<input type='checkbox' id='${id}'><label for='${id}'>${firstCap(servertype)}</label>`);
     $("#"+id).on("change", function(){checkSelections()})
   }
-  checkSelections(true)
+  checkSelections(true);
+  addToolPage(null,"1%","1%",null)
 })();
