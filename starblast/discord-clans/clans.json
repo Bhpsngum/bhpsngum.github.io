@@ -6,7 +6,7 @@
     "active_regions": ["Europe"],
     "description": "",
     "invite_open": true,
-    "invite_link": "...."
+    "invite_link": ""
   },
   {
     "icon": "",
@@ -15,7 +15,7 @@
     "active_regions": ["Asia"],
     "description": "",
     "invite_open": true,
-    "invite_link": "...."
+    "invite_link": "https://discord.gg/tHRxeQS"
   },
   {
     "icon": "",
@@ -24,6 +24,33 @@
     "active_regions": ["Europe"],
     "description": "",
     "invite_open": true,
-    "invite_link": "...."
-  }
+    "invite_link": ""
+  },
+  {
+    "icon": "",
+    "name": "End Of Terror",
+    "tag": "EOT",
+    "active_regions": ["Europe"],
+    "description": "",
+    "invite_open": true,
+    "invite_link": "https://discord.com/invite/YuMp9mDrwf"
+  },
+  {
+    "icon": "",
+    "name": "Legion of Assassin Fighters",
+    "tag": "LAF",
+    "active_regions": ["Europe"],
+    "description": "",
+    "invite_open": true,
+    "invite_link": "https://discord.gg/HSTwqwgBPq"
+  },
+  {
+    "icon": "",
+    "name": "Inferno Squadron",
+    "tag": "IS",
+    "active_regions": ["Europe"],
+    "description": "",
+    "invite_open": true,
+    "invite_link": ""
+  },
 ]
