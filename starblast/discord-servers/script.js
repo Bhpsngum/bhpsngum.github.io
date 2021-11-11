@@ -10,7 +10,7 @@
     $("#servers-list").html(headers+data.sort((a,b) => a.name < b.name ? -1 : 1).map(server => {
       let servername = basicrev(server.name + (server.tag ? ` [${server.tag}]` : "")), servertype = basicrev(server.type);
       return joinData([`<img src="${basicrev(server.icon)}">`, servername, servertype.slice(0,1).toUpperCase()+servertype.slice(1), server.active_regions.join(", "), basicrev(server.description || "No description"), server.invite_open ? "yes" : "no", server.invite_open ? `<a target="_blank" href = "${basicrev(server.invite_link)}">${basicrev
-      (server.invite_link)}</a>` : "", server.invite_open ? "" : (basicrev(server.how_to_apply) || "Unknown")]))
-    })
+      (server.invite_link)}</a>` : "", server.invite_open ? "" : (basicrev(server.how_to_apply) || "Unknown")])
+    }))
   }).fail(e => alert("Failed! Please reload the page again!"))
 })();
