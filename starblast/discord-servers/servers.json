@@ -1,5 +1,35 @@
 ﻿[
   {
+    "icon": "https://starblast.io/static/img/icon64.png",
+    "type": ["group"],
+    "name": "Starblast Main Discord",
+    "tag": "",
+    "active_regions": ["Asia-Australia", "America", "Europe", "Brazil"],
+    "description": "Main Starblast Discord Server",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/JwfJSFmXtn"
+  },
+  {
+    "icon": "https://raw.githubusercontent.com/Bhpsngum/SDC-public/master/img/logo.png",
+    "type": ["mod"],
+    "name": "Starblast Dueling Championship",
+    "tag": "SDC",
+    "active_regions": ["Asia-Australia", "America", "Europe", "Brazil"],
+    "description": "Offical Server for Starblast Dueling Championship",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/5aK2WrzmMj"
+  },
+  {
+    "icon": "",
+    "type": ["mod"],
+    "name": "Starblast Racing Championship",
+    "tag": "SRC",
+    "active_regions": ["Asia-Australia", "America", "Europe", "Brazil"],
+    "description": "Offical Server for Starblast Racing Championship",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/TQM7H7T"
+  },
+  {
     "icon": "https://cdn.discordapp.com/icons/803359316521386004/7bce6b2103d6f90ea81578b8a51047b8.png",
     "type": ["clan"],
     "name": "Armada",
@@ -45,7 +75,7 @@
     "name": "Inferno Squadron",
     "tag": "🔥𝐈Ş",
     "active_regions": ["America", "Europe"],
-    "description": "Welcome to the Inferno Squadron!  Our clan was formed when two close friends decided to unite their friends together in order to form closer bonds and become better at StarBlast. Almost one year later, after tons of hard work and determination, we're one of the largest clans in StarBlast. Why are we the best for you? - Constant Renovations: We are always looking for ways to make StarBlast easier and more comfortable for our members. Our High Council is constantly voting on new proposals to make our server better. -Welcoming Environment: Our server is a friendly community. Upon arrival, you will be warmly welcomed, whether you're joining the clan, or joining the server as a guest. We treat our members with respect, and support a non-toxic environment. - Active Staff: Our moderators and admins, when not helping update the server, are socializing and playing StarBlast with our many members -ANTI STACK POLICY: WE DON'T STACK! One of the problems people have with clans is stacking. We don't do this! Our goal is to make game play fun and enjoyable for our members, not to win unfairly.  - Unique Events: Currently, we are hosting TWO ship building events! Ship builders, please come, as here you can show off your skills! We have a community ship tree AND a Galactic Empire vs New Republic CTF/Rumble mod idea! We also need a modder to make these mods, so if anyone could help, please join our server! - Clan Loyalty: Need more proof you should join? Our server is living proof! Of our 160 server members, 90 are in the clan! You won't see this ratio of loyal members in any other public clan server. Our members love the Inferno Squadron! - Unity: The most important of all of these points, unity is why IS is still around, and has helped us weather our harder times. There is no toxicity in this clan because of it. So please, come check us out! There are many more amazing things we would love to tell you about!",
+    "description": "Welcome to the Inferno Squadron!  Our clan was formed when two close friends decided to unite their friends together in order to form closer bonds and become better at StarBlast. Almost one year later, after tons of hard work and determination, we're one of the largest clans in StarBlast. Why are we the best for you?\n - Constant Renovations: We are always looking for ways to make StarBlast easier and more comfortable for our members. Our High Council is constantly voting on new proposals to make our server better.\n - Welcoming Environment: Our server is a friendly community. Upon arrival, you will be warmly welcomed, whether you're joining the clan, or joining the server as a guest. We treat our members with respect, and support a non-toxic environment. - Active Staff: Our moderators and admins, when not helping update the server, are socializing and playing StarBlast with our many members.\n - ANTI STACK POLICY: WE DON'T STACK! One of the problems people have with clans is stacking. We don't do this! Our goal is to make game play fun and enjoyable for our members, not to win unfairly.\n - Unique Events: Currently, we are hosting TWO ship building events! Ship builders, please come, as here you can show off your skills! We have a community ship tree AND a Galactic Empire vs New Republic CTF/Rumble mod idea! We also need a modder to make these mods, so if anyone could help, please join our server!\n - Clan Loyalty: Need more proof you should join? Our server is living proof! Of our 160 server members, 90 are in the clan! You won't see this ratio of loyal members in any other public clan server. Our members love the Inferno Squadron!\n - Unity: The most important of all of these points, unity is why IS is still around, and has helped us weather our harder times. There is no toxicity in this clan because of it.\nSo please, come check us out! There are many more amazing things we would love to tell you about!",
     "public_invite": false,
     "how_to_join": "Invitations links are being posted in the official Starblast Server regularly."
   },
