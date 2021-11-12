@@ -3,7 +3,34 @@
     let tag = isHeader ? "th" : "td"
     return `<tr custom="${attr||""}">`+array.map(v => `<${tag}>${v}</${tag}>`).join("")+"</tr>"
   }, basicrev = function (j) {
-    return String(j).replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;");
+    return j.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;");
+  }, rev = function(k){
+    return k.replace(/<|>|'|"|(\[(.+)\]\((.+)\))/g,function(a,b,c,d){
+      let s = "";
+      if (a.length > 1) {
+        s+=`<a href="${encodeURL(d)}">`;
+        a=c;
+      }
+      return s+basicrev(a)+(s?"</a>":"");
+    });
+  }, encodeURL = function (url) {
+    return url.replace(/"/g,"%22").replace(/'/g,"%27").replace(/</g,"%3C").replace(/>/g,"%3E")
+  }, encodeHTML = function (str, key, flags, replacer) {
+    if (!key) return rev(str);
+    let t = [], f = 0, link = /\[(.+)\]\((.+)\)/g;
+    str.replace(link,function(a,b,c,i){t.push(["none",str.slice(f,i)],["link",a]);f=i+a.length});
+    if (f<str.length) t.push(["none",str.slice(f,str.length)]);
+    t = t.filter(i=>i[1]);
+    for (let i=0;i<t.length;i++) {
+      if (t[i][0] == "none") {
+        let tx = [], fx = 0, st = t[i][1];
+        st.replace(key,flags,function(a,j){tx.push(["none",st.slice(fx,j)],["result",a]);fx=j+a.length});
+        if (fx<st.length) tx.push(["none",st.slice(fx,st.length)]);
+        t[i][1] = tx.map(i=>i[0]=="result"&&typeof replacer=="function"?replacer(rev(i[1])):rev(i[1])).join("");
+      }
+      else t[i][1] = t[i][1].replace(link,function(a,b,c){return `<a href="${encodeURL(b)}">${basicrev(a)}</a>`});
+    }
+    return t.map(i=>i[1]).join("");
   }, firstCap = function(str) {
     return str.slice(0,1).toUpperCase()+str.slice(1)
   }, saveLocal = function (name, value) {
@@ -59,12 +86,12 @@
     let serversList = $("#servers-list");
     serversList.html(headers);
     for (let server of data.sort((a,b) => a.name < b.name ? -1 : 1)) {
-      let servername = basicrev(server.name + (server.tag ? ` [${server.tag}]` : "")),
-      how_to_join = basicrev(server.how_to_join),
+      let servername = encodeHTML(server.name + (server.tag ? ` [${server.tag}]` : "")),
+      how_to_join = encodeHTML(server.how_to_join),
       active_regions = server.active_regions.length == 0 ? ["Unspecified"] : server.active_regions,
-      description = basicrev(server.description || "No description.");
+      description = encodeHTML(server.description || "No description.");
       how_to_join = how_to_join ? (server.public_invite ? `<a target="_blank" href = "${how_to_join}">${how_to_join}</a>` : how_to_join) : "Unknown";
-      serversList.append(joinData([`<img crossorigin="Anonymous" src="${basicrev(server.icon)}">`, servername, server.type.map(i => firstCap(basicrev(i))).join(", "), active_regions.map(basicrev).join(", "), description, how_to_join], false, server.active_regions.join("||")+"&&"+server.type.join("||")));
+      serversList.append(joinData([`<img crossorigin="Anonymous" src="${encodeHTML(server.icon)}">`, servername, server.type.map(i => firstCap(encodeHTML(i))).join(", "), active_regions.map(basicrev).join(", "), description, how_to_join], false, server.active_regions.join("||")+"&&"+server.type.join("||")));
       $("#servers-list> :last-child> :nth-child(5)").on("click", function(){showModal("Description", description)});
       $("#servers-list> :last-child> :nth-child(6)").on("click", function(){showModal("How to join", how_to_join)})
     }

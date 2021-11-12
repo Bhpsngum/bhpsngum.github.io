@@ -127,6 +127,7 @@ a, a:hover {
   width: 95%;
   overflow-y: scroll;
   max-height: 75%;
+  line-height: 1.6;
 }
 
 #servers-list tr > :nth-child(5):not(th), #servers-list tr > :nth-child(6):not(th), #close {

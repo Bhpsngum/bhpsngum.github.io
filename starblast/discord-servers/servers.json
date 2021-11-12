@@ -7,7 +7,7 @@
     "active_regions": ["Asia-Australia", "America", "Europe"],
     "description": "Armada - the clan based on quality over quantity.",
     "public_invite": false,
-    "how_to_join": "<a href='https://discord.gg/JwvC7F3ZY8' target='_blank'>https://discord.gg/JwvC7F3ZY8</a>, a test of skill is required to join the clan."
+    "how_to_join": "[https://discord.gg/JwvC7F3ZY8](https://discord.gg/JwvC7F3ZY8</a>), a test of skill is required to join the clan."
   },
   {
     "icon": "",
@@ -40,7 +40,7 @@
     "how_to_join": "https://discord.gg/nfEMwJ7e"
   },
   {
-    "icon": "https://ibb.co/phD1PNr",
+    "icon": "https://i.ibb.co/Y09NWJT/infernosquadron.png",
     "type": ["clan"],
     "name": "Inferno Squadron",
     "tag": "🔥𝐈Ş",
@@ -60,7 +60,7 @@
     "how_to_join": "https://discord.gg/GehT6q99pM"
   },
   {
-    "icon": "https://cdn.discordapp.com/attachments/807978933429075988/908356768118235186/Cosmic_Conquerors.png",
+    "icon": "icons/Cosmic_Conquerors.png",
     "type": ["group"],
     "name": "Cosmic Conquerors",
     "tag": "𝓒𝓒",
