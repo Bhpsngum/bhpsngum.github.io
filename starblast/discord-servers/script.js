@@ -16,7 +16,7 @@
   }, encodeURL = function (url) {
     return url.replace(/"/g,"%22").replace(/'/g,"%27").replace(/</g,"%3C").replace(/>/g,"%3E")
   }, encodeHTML = function (str, key, flags, replacer) {
-    if (!key) return rev(str);
+    if (!key) return rev(str).replace(/\n/g,"<br>");
     let t = [], f = 0, link = /\[(.+)\]\((.+)\)/g;
     str.replace(link,function(a,b,c,i){t.push(["none",str.slice(f,i)],["link",a]);f=i+a.length});
     if (f<str.length) t.push(["none",str.slice(f,str.length)]);
