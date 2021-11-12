@@ -1,13 +1,13 @@
 ﻿[
   {
-    "icon": "",
+    "icon": "https://cdn.discordapp.com/icons/803359316521386004/7bce6b2103d6f90ea81578b8a51047b8.png",
     "type": ["clan"],
-    "name": "Armanda",
+    "name": "Armada",
     "tag": "AR",
-    "active_regions": ["Europe"],
-    "description": "",
-    "public_invite": true,
-    "how_to_join": "https://discord.gg/ZJuWbVDuDy"
+    "active_regions": ["Asia-Australia", "America", "Europe"],
+    "description": "Armada - the clan based on quality over quantity.",
+    "public_invite": false,
+    "how_to_join": "<a href='https://discord.gg/JwvC7F3ZY8' target='_blank'>https://discord.gg/JwvC7F3ZY8</a>, a test of skill is required to join the clan."
   },
   {
     "icon": "",
@@ -32,22 +32,22 @@
   {
     "icon": "",
     "type": ["clan"],
-    "name": "Legion of Assassin Fighters",
-    "tag": "LAF",
+    "name": "⚡Ⱡ₳₣➛𝔸𝕤𝕤𝕒𝕤𝕚𝕟𝕤💀😜",
+    "tag": "⚡Ⱡ₳₣➛",
     "active_regions": ["Europe"],
-    "description": "",
+    "description": "A fun place to play with friends, share your highlights, participate in events. Improve your skills, level up, and host your own events!",
     "public_invite": true,
-    "how_to_join": "https://discord.gg/HSTwqwgBPq"
+    "how_to_join": "https://discord.gg/nfEMwJ7e"
   },
   {
-    "icon": "",
+    "icon": "https://ibb.co/phD1PNr",
     "type": ["clan"],
     "name": "Inferno Squadron",
-    "tag": "IS",
-    "active_regions": ["Europe"],
-    "description": "",
-    "public_invite": true,
-    "how_to_join": ""
+    "tag": "🔥𝐈Ş",
+    "active_regions": ["America", "Europe"],
+    "description": "Welcome to the Inferno Squadron!  Our clan was formed when two close friends decided to unite their friends together in order to form closer bonds and become better at StarBlast. Almost one year later, after tons of hard work and determination, we're one of the largest clans in StarBlast. Why are we the best for you? - Constant Renovations: We are always looking for ways to make StarBlast easier and more comfortable for our members. Our High Council is constantly voting on new proposals to make our server better. -Welcoming Environment: Our server is a friendly community. Upon arrival, you will be warmly welcomed, whether you're joining the clan, or joining the server as a guest. We treat our members with respect, and support a non-toxic environment. - Active Staff: Our moderators and admins, when not helping update the server, are socializing and playing StarBlast with our many members -ANTI STACK POLICY: WE DON'T STACK! One of the problems people have with clans is stacking. We don't do this! Our goal is to make game play fun and enjoyable for our members, not to win unfairly.  - Unique Events: Currently, we are hosting TWO ship building events! Ship builders, please come, as here you can show off your skills! We have a community ship tree AND a Galactic Empire vs New Republic CTF/Rumble mod idea! We also need a modder to make these mods, so if anyone could help, please join our server! - Clan Loyalty: Need more proof you should join? Our server is living proof! Of our 160 server members, 90 are in the clan! You won't see this ratio of loyal members in any other public clan server. Our members love the Inferno Squadron! - Unity: The most important of all of these points, unity is why IS is still around, and has helped us weather our harder times. There is no toxicity in this clan because of it. So please, come check us out! There are many more amazing things we would love to tell you about!",
+    "public_invite": false,
+    "how_to_join": "Invitations links are being posted in the official Starblast Server regularly."
   },
   {
     "icon": "",
@@ -58,5 +58,35 @@
     "description": "",
     "public_invite": true,
     "how_to_join": "https://discord.gg/GehT6q99pM"
+  },
+  {
+    "icon": "https://cdn.discordapp.com/attachments/807978933429075988/908356768118235186/Cosmic_Conquerors.png",
+    "type": ["group"],
+    "name": "Cosmic Conquerors",
+    "tag": "𝓒𝓒",
+    "active_regions": ["Asia-Australia"],
+    "description": "Welcome to Cosmic Conquerors! In this group we play games together, while supporting each other very well... We actually do follow rules of SDF so never team in survival mode! And other things you can get to know as you spend some time in the server! Hope you enjoy!",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/PJxwHDGJ63"
+  },
+  {
+    "icon": "https://i.imgur.com/44UZwMy.jpeg",
+    "type": ["group"],
+    "name": "Instinct Nation",
+    "tag": "IN",
+    "active_regions": ["Asia-Australia", "America", "Europe", "Brazil"],
+    "description": "Competitive, Elite, Tested By certified Starblast players for Elite, Main,  or Sub Team.",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/2dmejRjHC5"
+  },
+  {
+    "icon": "",
+    "type": ["others"],
+    "name": "Breaking Rocks",
+    "tag": "",
+    "active_regions": ["America"],
+    "description": "A gathering place",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/cH8TgD5aXH"
   }
 ]

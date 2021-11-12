@@ -11,6 +11,14 @@
   }, loadLocal = function (name, value) {
     let item = localStorage.getItem(name);
     try { return JSON.parse(item) } catch (e) { return item }
+  }, showModal = function(title, text) {
+    $("#modaltitle").html(title);
+    $("#modalcontent").html(text);
+    $("#blocker").css("display", "")
+  }, hideModal = function() {
+    $("#modaltitle").html("");
+    $("#modalcontent").html("");
+    $("#blocker").css("display", "none")
   }, checkSelections = function (init) {
     let selectedRegions = {}, selectedServerTypes = {};
     if (init) {
@@ -48,10 +56,18 @@
   }, servertypes = ["clan", "event", "mod", "group", "others"], regions = ["Asia-Australia", "America", "Brazil", "Europe", "Unspecified"];
   let headers = joinData(["Icon", "Server Name", "Server Type(s)", "Active Region(s)", "Description", "How to join"], true, "headers");
   $.getJSON("servers.json").then(function (data){
-    $("#servers-list").html(headers+data.sort((a,b) => a.name < b.name ? -1 : 1).map(server => {
-      let servername = basicrev(server.name + (server.tag ? ` [${server.tag}]` : "")), how_to_join = basicrev(server.how_to_join), active_regions = server.active_regions.length == 0 ? ["Unspecified"] : server.active_regions;
-      return joinData([`<img src="${basicrev(server.icon)}">`, servername, server.type.map(i => firstCap(basicrev(i))).join(", "), active_regions.join(", "), basicrev(server.description || "No description"), how_to_join ? (server.public_invite ? `<a target="_blank" href = "${how_to_join}">${how_to_join}</a>` : how_to_join) : "Unknown"], false, server.active_regions.join("||")+"&&"+server.type.join("||"))
-    }).join(""))
+    let serversList = $("#servers-list");
+    serversList.html(headers);
+    for (let server of data.sort((a,b) => a.name < b.name ? -1 : 1)) {
+      let servername = basicrev(server.name + (server.tag ? ` [${server.tag}]` : "")),
+      how_to_join = basicrev(server.how_to_join),
+      active_regions = server.active_regions.length == 0 ? ["Unspecified"] : server.active_regions,
+      description = basicrev(server.description || "No description.");
+      how_to_join = how_to_join ? (server.public_invite ? `<a target="_blank" href = "${how_to_join}">${how_to_join}</a>` : how_to_join) : "Unknown";
+      serversList.append(joinData([`<img crossorigin="Anonymous" src="${basicrev(server.icon)}">`, servername, server.type.map(i => firstCap(basicrev(i))).join(", "), active_regions.map(basicrev).join(", "), description, how_to_join], false, server.active_regions.join("||")+"&&"+server.type.join("||")));
+      $("#servers-list> :last-child> :nth-child(5)").on("click", function(){showModal("Description", description)});
+      $("#servers-list> :last-child> :nth-child(6)").on("click", function(){showModal("How to join", how_to_join)})
+    }
   }).fail(e => alert("Failed! Please reload the page again!"));
   for (let region of regions) {
     let id = "show" + region;
@@ -63,6 +79,9 @@
     $("#servertypes").append(`<input type='checkbox' id='${id}'><label for='${id}'>${firstCap(servertype)}</label>`);
     $("#"+id).on("change", function(){checkSelections()})
   }
+  for (let id of ["blocker", "close"]) $("#"+id).on("click", function(e) {
+    if (e.target === e.currentTarget) hideModal()
+  });
   checkSelections(true);
   addToolPage(null,"1%","1%",null)
 })();
