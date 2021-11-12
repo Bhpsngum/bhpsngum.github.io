@@ -30,7 +30,7 @@
       }
       else t[i][1] = t[i][1].replace(link,function(a,b,c){return `<a href="${encodeURL(b)}">${basicrev(a)}</a>`});
     }
-    return t.map(i=>i[1]).join("");
+    return t.map(i=>i[1]).join("").replace(/\n/g,"<br>")
   }, firstCap = function(str) {
     return str.slice(0,1).toUpperCase()+str.slice(1)
   }, saveLocal = function (name, value) {
