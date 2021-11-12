@@ -15,7 +15,7 @@
     });
   }, encodeURL = function (url) {
     return url.replace(/"/g,"%22").replace(/'/g,"%27").replace(/</g,"%3C").replace(/>/g,"%3E")
-  }, encodeHTML = function (str, key, flags, replacer, isSummary) {
+  }, encodeHTML = function (str, key, flags, replacer, isDescriptive) {
     let result;
     if (!key) result = rev(str);
     else {
@@ -34,7 +34,7 @@
       }
       result = t.map(i=>i[1]).join("");
     }
-    return isSummary ? result : result.replace(/\n/g,"<br>")
+    return isDescriptive ? result.replace(/\n/g,"<br>") : result
   }, firstCap = function(str) {
     return str.slice(0,1).toUpperCase()+str.slice(1)
   }, saveLocal = function (name, value) {
@@ -93,10 +93,10 @@
       let servername = encodeHTML(server.name + (server.tag ? ` [${server.tag}]` : "")),
       how_to_join = encodeHTML(server.how_to_join),
       active_regions = server.active_regions.length == 0 ? ["Unspecified"] : server.active_regions,
-      description = encodeHTML(server.description || "No description.");
+      description = server.description || "No description.";
       how_to_join = how_to_join ? (server.public_invite ? `<a target="_blank" href = "${how_to_join}">${how_to_join}</a>` : how_to_join) : "Unknown";
-      serversList.append(joinData([`<img crossorigin="Anonymous" src="${encodeHTML(server.icon)}">`, servername, server.type.map(i => firstCap(encodeHTML(i))).join(", "), active_regions.map(basicrev).join(", "), description, how_to_join], false, server.active_regions.join("||")+"&&"+server.type.join("||")));
-      $("#servers-list> :last-child> :nth-child(5)").on("click", function(){showModal("Description", description)});
+      serversList.append(joinData([`<img crossorigin="Anonymous" src="${encodeHTML(server.icon)}">`, servername, server.type.map(i => firstCap(encodeHTML(i))).join(", "), active_regions.map(basicrev).join(", "), encodeHTML(description), how_to_join], false, server.active_regions.join("||")+"&&"+server.type.join("||")));
+      $("#servers-list> :last-child> :nth-child(5)").on("click", function(){showModal("Description", encodeHTML(description, true))});
       $("#servers-list> :last-child> :nth-child(6)").on("click", function(){showModal("How to join", how_to_join)})
     }
   }).fail(e => alert("Failed! Please reload the page again!"));
