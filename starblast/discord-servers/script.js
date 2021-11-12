@@ -15,22 +15,26 @@
     });
   }, encodeURL = function (url) {
     return url.replace(/"/g,"%22").replace(/'/g,"%27").replace(/</g,"%3C").replace(/>/g,"%3E")
-  }, encodeHTML = function (str, key, flags, replacer) {
-    if (!key) return rev(str).replace(/\n/g,"<br>");
-    let t = [], f = 0, link = /\[(.+)\]\((.+)\)/g;
-    str.replace(link,function(a,b,c,i){t.push(["none",str.slice(f,i)],["link",a]);f=i+a.length});
-    if (f<str.length) t.push(["none",str.slice(f,str.length)]);
-    t = t.filter(i=>i[1]);
-    for (let i=0;i<t.length;i++) {
-      if (t[i][0] == "none") {
-        let tx = [], fx = 0, st = t[i][1];
-        st.replace(key,flags,function(a,j){tx.push(["none",st.slice(fx,j)],["result",a]);fx=j+a.length});
-        if (fx<st.length) tx.push(["none",st.slice(fx,st.length)]);
-        t[i][1] = tx.map(i=>i[0]=="result"&&typeof replacer=="function"?replacer(rev(i[1])):rev(i[1])).join("");
+  }, encodeHTML = function (str, key, flags, replacer, isSummary) {
+    let result;
+    if (!key) result = rev(str);
+    else {
+      let t = [], f = 0, link = /\[(.+)\]\((.+)\)/g;
+      str.replace(link,function(a,b,c,i){t.push(["none",str.slice(f,i)],["link",a]);f=i+a.length});
+      if (f<str.length) t.push(["none",str.slice(f,str.length)]);
+      t = t.filter(i=>i[1]);
+      for (let i=0;i<t.length;i++) {
+        if (t[i][0] == "none") {
+          let tx = [], fx = 0, st = t[i][1];
+          st.replace(key,flags,function(a,j){tx.push(["none",st.slice(fx,j)],["result",a]);fx=j+a.length});
+          if (fx<st.length) tx.push(["none",st.slice(fx,st.length)]);
+          t[i][1] = tx.map(i=>i[0]=="result"&&typeof replacer=="function"?replacer(rev(i[1])):rev(i[1])).join("");
+        }
+        else t[i][1] = t[i][1].replace(link,function(a,b,c){return `<a href="${encodeURL(b)}">${basicrev(a)}</a>`});
       }
-      else t[i][1] = t[i][1].replace(link,function(a,b,c){return `<a href="${encodeURL(b)}">${basicrev(a)}</a>`});
+      result = t.map(i=>i[1]).join("");
     }
-    return t.map(i=>i[1]).join("").replace(/\n/g,"<br>")
+    return isSummary ? result : result.replace(/\n/g,"<br>")
   }, firstCap = function(str) {
     return str.slice(0,1).toUpperCase()+str.slice(1)
   }, saveLocal = function (name, value) {
