@@ -96,7 +96,7 @@
       description = server.description || "No description.";
       how_to_join = how_to_join ? (server.public_invite ? `<a target="_blank" href = "${how_to_join}">${how_to_join}</a>` : how_to_join) : "Unknown";
       serversList.append(joinData([`<img crossorigin="Anonymous" src="${encodeHTML(server.icon)}">`, servername, server.type.map(i => firstCap(encodeHTML(i))).join(", "), active_regions.map(basicrev).join(", "), encodeHTML(description), how_to_join], false, server.active_regions.join("||")+"&&"+server.type.join("||")));
-      $("#servers-list> :last-child> :nth-child(5)").on("click", function(){showModal("Description", encodeHTML(description, true))});
+      $("#servers-list> :last-child> :nth-child(5)").on("click", function(){showModal("Description", encodeHTML(description, null, null, null, true))});
       $("#servers-list> :last-child> :nth-child(6)").on("click", function(){showModal("How to join", how_to_join)})
     }
   }).fail(e => alert("Failed! Please reload the page again!"));
