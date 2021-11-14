@@ -118,5 +118,15 @@
     "description": "A gathering place",
     "public_invite": true,
     "how_to_join": "https://discord.gg/cH8TgD5aXH"
+  },
+  {
+    "icon": "",
+    "type": ["others"],
+    "name": "Team For Everyone",
+    "tag": "✯",
+    "active_regions": ["America", "Europe"],
+    "description": "A team were every players can join and hang out",
+    "public_invite": true,
+    "how_to_join": "[https://discord.gg/sGfwZ9BDfj](https://discord.gg/sGfwZ9BDfj) ( there a verification test when you join )"
   }
 ]
