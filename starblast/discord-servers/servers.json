@@ -37,7 +37,7 @@
     "active_regions": ["Asia-Australia", "America", "Europe"],
     "description": "Armada - the clan based on quality over quantity.",
     "public_invite": false,
-    "how_to_join": "[https://discord.gg/JwvC7F3ZY8](https://discord.gg/JwvC7F3ZY8</a>), a test of skill is required to join the clan."
+    "how_to_join": "[https://discord.gg/JwvC7F3ZY8](https://discord.gg/JwvC7F3ZY8), a test of skill is required to join the clan."
   },
   {
     "icon": "",
@@ -126,7 +126,7 @@
     "tag": "✯",
     "active_regions": ["America", "Europe"],
     "description": "A team were every players can join and hang out",
-    "public_invite": true,
+    "public_invite": false,
     "how_to_join": "[https://discord.gg/sGfwZ9BDfj](https://discord.gg/sGfwZ9BDfj) (there a verification test when you join)"
   },
   {
