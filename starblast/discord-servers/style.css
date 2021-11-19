@@ -126,7 +126,7 @@ a, a:hover {
   padding: 2%;
   padding-top: 0;
   width: 95%;
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 75%;
   line-height: 1.6;
 }
