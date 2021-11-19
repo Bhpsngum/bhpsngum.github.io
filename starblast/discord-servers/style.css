@@ -141,3 +141,19 @@ a, a:hover {
   overflow: hidden;
   white-space: nowrap;
 }
+
+::-webkit-scrollbar {
+  width: 1vw;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(14,26,27);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(102,102,102);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
