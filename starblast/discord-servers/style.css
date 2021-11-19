@@ -113,6 +113,8 @@ a, a:hover {
   border-radius: 10%;
   float: right;
   color: inherit;
+  font-size: 200%;
+  padding: 0;
 }
 
 #close:hover {
