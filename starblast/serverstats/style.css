@@ -114,3 +114,20 @@ table {
   font-size: 120%;
   font-weight: bold;
 }
+
+
+::-webkit-scrollbar {
+  width: 1vw;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(14,26,27);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(47,79,79);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
