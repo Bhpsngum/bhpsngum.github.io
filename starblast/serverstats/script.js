@@ -11,8 +11,7 @@
     let item = localStorage.getItem(name);
     try { return JSON.parse(item) } catch (e) { return item }
   }, showText = function (text) {
-    text = text || "";
-    $("#welcome-text").css("display", text?"":"none").html(text)
+    $("#results-counter").html(text || "")
   }, setAdblocker = function (bool) {
     $("#adblocker").css("display", bool?"":"none")
   }, fetchLocation = function(ip, action) {
@@ -55,20 +54,19 @@
     return str.reverse().join(" ");
   }, loadInfos = function() {
     servers.forEach(serverStatBox);
-    $("#serverstats").prepend($("#serverstats>#welcome-text")[0] || '<p style="text-align:center;font-size:15pt" id="welcome-text">Loading data...</p>');
-    let serverclone = servers.map(server => (server.id = getID(server), server)).concat({id: "welcome-text"}), elist = $("#serverstats>*");
+    let serverclone = servers.map(server => (server.id = getID(server), server)), elist = $("#serverstats>*");
     for (let el of elist) {
       let EL = $(el), index = serverclone.findIndex(server => server.id === EL.attr('id'));
       if (index == -1) EL.remove();
       else {
         let s = serverclone.splice(index, 1)[0];
-        if (s.id != "welcome-text") EL.attr('class', 'serverStatBox').css("display", `var(--${s.location}-${servertypes[+!!s.modding]})`)
+        EL.attr('class', 'serverStatBox').css("display", `var(--${s.location}-${servertypes[+!!s.modding]})`)
       }
     }
     checkEmpty()
   }, checkEmpty = function () {
-    if (Array.prototype.filter.call($("#serverstats>*"), el => (el||{}).id != "welcome-text" && $(el).css("display") != "none").length == 0) showText("No servers.");
-    else showText();
+    let length = Array.prototype.filter.call($("#serverstats>*"), el => $(el).css("display") != "none").length;
+    showText((length == 0 ? "No" : length) + " server" + (length == 1 ? "" : "s") + " found.");
     adjustwidth()
   }, setStatus = function(n) {
     n = Number(n);

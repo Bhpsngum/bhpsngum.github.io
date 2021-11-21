@@ -110,9 +110,7 @@ table {
     display: inline-block;
 }
 
-#welcome-text {
-  text-align:center;
-  font-size:15pt;
-  color: black;
+#results-counter {
+  font-size: 120%;
   font-weight: bold;
 }
