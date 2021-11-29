@@ -143,10 +143,20 @@
     "icon": "icons/USDF.png",
     "type": ["clan"],
     "name": "𝑈𝑛𝑖𝑡𝑒𝑑 𝑆𝑝𝑎𝑐𝑒 𝐷𝑒𝑓𝑒𝑛𝑠𝑒 𝐹𝑜𝑟𝑐𝑒𝑠",
-    "tag": "",
+    "tag": "{𝑈𝑆𝐷𝐹}",
     "active_regions": ["Asia-Australia", "America"],
     "description": "",
     "public_invite": false,
     "how_to_join": "[https://discord.gg/jdk8qWd4Pz](https://discord.gg/jdk8qWd4Pz),  After accessing the link, send a message to {𝑈𝑆𝐷𝐹} nuked pearl harbor #0253 to ask for a member role via DM."
+  },
+  {
+    "icon": "",
+    "type": ["clan"],
+    "name": "War Empire",
+    "tag": "",
+    "active_regions": ["America"],
+    "description": "This is a rising clan. Couple small problems being worked out expect server to be as have events and stuff in a week or 2",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/yGp9pPMQKv"
   }
 ]
