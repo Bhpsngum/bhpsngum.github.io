@@ -158,5 +158,15 @@
     "description": "This is a rising clan. Couple small problems being worked out expect server to be as have events and stuff in a week or 2",
     "public_invite": true,
     "how_to_join": "https://discord.gg/yGp9pPMQKv"
+  },
+  {
+    "icon": "",
+    "type": ["Elite Squadron"],
+    "name": "War Empire",
+    "tag": "🔹★",
+    "active_regions": ["America", "Brazil"],
+    "description": "This is a rising clan. Couple small problems being worked out expect server to be as have events and stuff in a week or 2",
+    "public_invite": false,
+    "how_to_join": "DM 🔹 ΣLIƬΣ SƬΛⱤ★#2161 for information"
   }
 ]
