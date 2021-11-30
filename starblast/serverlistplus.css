@@ -122,12 +122,19 @@ input[type="number"],
   cursor: help;
 }
 
+#systemsList {
+  padding: 12px;
+}
+
 .btn-close {
   box-shadow: none;
+  width: 1.5em;
+  height: 1.5em;
   background: transparent;
-  overflow: hidden;
   font-size: 1.5em;
-  font-weight: bold;
+  text-align: center;
+  padding: 0 !important;
+  font-weight: 600;
 }
 
 .btn-close::after {
