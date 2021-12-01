@@ -20,11 +20,16 @@ body {
 	text-shadow: 0 0 7px hsl(200deg 100% 80%);
 }
 
-*:not(.CodeMirror *,
-.CodeMirror) {
+*:not(.CodeMirror *):not(.CodeMirror) {
 	font-family: Play, Verdana !important;
 	cursor: default;
 	color: var(--sb-color) !important;
+}
+
+.bi::before,
+[class*=" bi-"]::before,
+[class^=bi-]::before {
+	font-family: bootstrap-icons !important;
 }
 
 .CodeMirror {
@@ -154,4 +159,42 @@ input[type="number"],
 .btn-close:hover {
 	color: #FFF;
 	background-color: rgba(240, 250, 255, .1);
+}
+
+.bi-people-fill::before,
+.bi-person-fill::before,
+.bi-bullseye::before,
+.bi-trophy-fill::before,
+.bi-code-slash::before,
+.bi-border::before,
+.bi-tools::before {
+	font-family: 'SBGlyphs' !important;
+}
+
+.bi-people-fill::before {
+	content: "\00bd";
+}
+
+.bi-person-fill::before {
+	content: "\0079";
+}
+
+.bi-bullseye::before {
+	content: "\00bc";
+}
+
+.bi-trophy-fill::before {
+	content: "\00be";
+}
+
+.bi-code-slash::before {
+	content: "\00c1";
+}
+
+.bi-border::before {
+	content: "\00bf";
+}
+
+.bi-tools::before {
+	content: "\0022";
 }
