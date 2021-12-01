@@ -21,7 +21,7 @@ body {
 }
 
 *:not(.CodeMirror *):not(.CodeMirror) {
-	font-family: Play, Verdana !important;
+	font-family: Play, var(--bs-font-sans-serif) !important;
 	cursor: default;
 	color: var(--sb-color) !important;
 }
