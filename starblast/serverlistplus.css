@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Play');
+
 @font-face {
   font-family: 'SBGlyphs';
   src: url('https://starblast.data.neuronality.com/fonts/starblast-glyphs.ttf?v=1');
@@ -21,7 +23,7 @@ body {
 }
 
 *:not(.CodeMirror *):not(.CodeMirror) {
-  font-family: Play, var(--bs-font-sans-serif) !important;
+  font-family: 'Play', Play, var(--bs-font-sans-serif) !important;
   cursor: default;
   color: var(--sb-color) !important;
 }
@@ -190,6 +192,7 @@ input[type="number"],
 .bi-code-slash::before,
 .bi-border::before,
 .bi-tools::before,
+.bi-wrench::before,
 .navbar-toggler-icon::before {
   font-family: 'SBGlyphs' !important;
 }
@@ -218,7 +221,8 @@ input[type="number"],
   content: "\00bf";
 }
 
-.bi-tools::before {
+.bi-tools::before,
+.bi-wrench::before {
   content: "\0022";
 }
 
