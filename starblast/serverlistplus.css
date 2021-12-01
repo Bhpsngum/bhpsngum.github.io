@@ -74,7 +74,7 @@ input[type="number"] {
 input[type="text"],
 input[type="number"],
 *[contenteditable='true'] {
-	cursor: text;
+	cursor: text !important;
 }
 
 #systemsList div.system-card:hover,
