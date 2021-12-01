@@ -1,53 +1,53 @@
 @font-face {
-	font-family: 'SBGlyphs';
-	src: url('https://starblast.data.neuronality.com/fonts/starblast-glyphs.ttf?v=1');
-	font-weight: normal;
-	font-style: normal
+  font-family: 'SBGlyphs';
+  src: url('https://starblast.data.neuronality.com/fonts/starblast-glyphs.ttf?v=1');
+  font-weight: normal;
+  font-style: normal
 }
 
 :root {
-	--sb-color: hsla(200, 100%, 90%, .8);
+  --sb-color: hsla(200, 100%, 90%, .8);
 }
 
 html {
-	background-color: #000;
+  background-color: #000;
 }
 
 body {
-	margin: 0;
-	background: linear-gradient( 135deg, hsla(200, 30%, 10%, 1) 0, hsla(200, 30%, 30%, 1) 150%);
-	box-shadow: 0 0 6px hsl(200deg 100% 80%);
-	text-shadow: 0 0 7px hsl(200deg 100% 80%);
+  margin: 0;
+  background: linear-gradient( 135deg, hsla(200, 30%, 10%, 1) 0, hsla(200, 30%, 30%, 1) 150%);
+  box-shadow: 0 0 6px hsl(200deg 100% 80%);
+  text-shadow: 0 0 7px hsl(200deg 100% 80%);
 }
 
 *:not(.CodeMirror *):not(.CodeMirror) {
-	font-family: Play, var(--bs-font-sans-serif) !important;
-	cursor: default;
-	color: var(--sb-color) !important;
+  font-family: Play, var(--bs-font-sans-serif) !important;
+  cursor: default;
+  color: var(--sb-color) !important;
 }
 
 .bi::before,
 [class*=" bi-"]::before,
 [class^=bi-]::before {
-	font-family: bootstrap-icons !important;
+  font-family: bootstrap-icons !important;
 }
 
 .CodeMirror {
-	background-color: var(--bs-gray);
-	text-shadow: none;
+  background-color: var(--bs-gray);
+  text-shadow: none;
 }
 
 *:disabled {
-	cursor: not-allowed !important;
+  cursor: not-allowed !important;
 }
 
 .card,
 .btn {
-	background: radial-gradient(ellipse at center, hsla(200, 50%, 0%, 1) 0, hsla(200, 100%, 70%, .5) 150%);
-	box-shadow: 0 0 6px hsl(200deg 100% 80%);
-	text-shadow: 0 0 7px hsl(200deg 100% 80%);
-	color: var(--sb-color);
-	border: 0;
+  background: radial-gradient(ellipse at center, hsla(200, 50%, 0%, 1) 0, hsla(200, 100%, 70%, .5) 150%);
+  box-shadow: 0 0 6px hsl(200deg 100% 80%);
+  text-shadow: 0 0 7px hsl(200deg 100% 80%);
+  color: var(--sb-color);
+  border: 0;
 }
 
 .card,
@@ -59,17 +59,17 @@ select,
 button,
 i,
 a {
-	cursor: pointer !important;
+  cursor: pointer !important;
 }
 
 select,
 input[type="text"],
 input[type="number"] {
-	background-color: hsl(200, 60%, 15%) !important;
-	border: 1px solid hsl(200, 60%, 10%) !important;
-	vertical-align: middle !important;
-	box-sizing: border-box !important;
-	-webkit-appearance: auto;
+  background: hsl(200, 60%, 15%) !important;
+  border: 1px solid hsl(200, 60%, 10%) !important;
+  vertical-align: middle !important;
+  box-sizing: border-box !important;
+  -webkit-appearance: auto;
   -moz-appearance: auto;
   appearance: auto;
   padding: 0.375rem 0.75rem;
@@ -78,100 +78,100 @@ input[type="number"] {
 input[type="text"],
 input[type="number"],
 *[contenteditable='true'] {
-	cursor: text !important;
+  cursor: text !important;
 }
 
 #systemsList div.system-card:hover,
 #systemReportCard:hover {
-	border: inherit !important;
+  border: inherit !important;
 }
 
 #systemsList div.system-card:hover,
 .btn:hover {
-	border: inherit;
-	background: radial-gradient(ellipse at center, hsla(200, 50%, 0%, 1) 0, hsla(200, 100%, 70%, .5) 100%);
-	box-shadow: 0 0 8px hsl(200deg 100% 90%);
-	color: #FFF;
+  border: inherit;
+  background: radial-gradient(ellipse at center, hsla(200, 50%, 0%, 1) 0, hsla(200, 100%, 70%, .5) 100%);
+  box-shadow: 0 0 8px hsl(200deg 100% 90%);
+  color: #FFF;
 }
 
 .btn-outline-danger:hover {
-	background: radial-gradient(ellipse at center, hsla(200, 50%, 0%, 1) 0, var(--bs-danger) 100%);
+  background: radial-gradient(ellipse at center, hsla(200, 50%, 0%, 1) 0, var(--bs-danger) 100%);
 }
 
 .btn-outline-success:hover {
-	background: radial-gradient(ellipse at center, hsla(200, 50%, 0%, 1) 0, var(--bs-success) 100%);
+  background: radial-gradient(ellipse at center, hsla(200, 50%, 0%, 1) 0, var(--bs-success) 100%);
 }
 
 *::-webkit-scrollbar-track {
-	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-	border-radius: 0;
-	background-color: transparent;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  background-color: transparent;
 }
 
 *::-webkit-scrollbar {
-	width: 10px;
+  width: 10px;
 }
 
 *::-webkit-scrollbar-thumb {
-	border-radius: 0;
-	box-shadow: inset 0 0 6px rgba(0, 0, 0, .5);
-	background-color: hsla(200, 50%, 70%, .5);
+  border-radius: 0;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .5);
+  background-color: hsla(200, 50%, 70%, .5);
 }
 
 .modal-content,
 .popover,
 .btn-close {
-	box-shadow: 0 0 6px hsl(200deg 100% 80%);
-	background: linear-gradient( 135deg, hsla(200, 30%, 10%, 1) 0, hsla(200, 30%, 30%, 1) 150%);
-	transition: top .6s ease;
-	overflow: auto;
-	text-shadow: 0 0 6px hsl(200deg 100% 60% / 75%);
+  box-shadow: 0 0 6px hsl(200deg 100% 80%);
+  background: linear-gradient( 135deg, hsla(200, 30%, 10%, 1) 0, hsla(200, 30%, 30%, 1) 150%);
+  transition: top .6s ease;
+  overflow: auto;
+  text-shadow: 0 0 6px hsl(200deg 100% 60% / 75%);
 }
 
 .popover-arrow {
-	display: none;
+  display: none;
 }
 
 .modal-header {
-	background: hsla(200, 70%, 70%, .1);
-	border-bottom: 5px solid hsla(200, 50%, 70%, .5);
+  background: hsla(200, 70%, 70%, .1);
+  border-bottom: 5px solid hsla(200, 50%, 70%, .5);
 }
 
 .badge {
-	cursor: help;
+  cursor: help;
 }
 
 #systemsList {
-	padding: 6px !important;
+  padding: 6px !important;
 }
 
 #systemsList .system-card {
-	margin-top: 1rem !important;
-	margin-bottom: 0 !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0 !important;
 }
 
 #systemsList>.system-card:first-of-type {
-	margin-top: 0 !important;
+  margin-top: 0 !important;
 }
 
 .btn-close {
-	box-shadow: none;
-	width: 1.5em;
-	height: 1.5em;
-	background: transparent;
-	font-size: 1.5em;
-	text-align: center;
-	padding: 0 !important;
-	font-weight: 600;
+  box-shadow: none;
+  width: 1.5em;
+  height: 1.5em;
+  background: transparent;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 0 !important;
+  font-weight: 600;
 }
 
 .btn-close::after {
-	content: "×";
+  content: "×";
 }
 
 .btn-close:hover {
-	color: #FFF;
-	background-color: rgba(240, 250, 255, .1);
+  color: #FFF;
+  background-color: rgba(240, 250, 255, .1);
 }
 
 .bi-people-fill::before,
@@ -181,33 +181,33 @@ input[type="number"],
 .bi-code-slash::before,
 .bi-border::before,
 .bi-tools::before {
-	font-family: 'SBGlyphs' !important;
+  font-family: 'SBGlyphs' !important;
 }
 
 .bi-people-fill::before {
-	content: "\00bd";
+  content: "\00bd";
 }
 
 .bi-person-fill::before {
-	content: "\0079";
+  content: "\0079";
 }
 
 .bi-bullseye::before {
-	content: "\00bc";
+  content: "\00bc";
 }
 
 .bi-trophy-fill::before {
-	content: "\00be";
+  content: "\00be";
 }
 
 .bi-code-slash::before {
-	content: "\00c1";
+  content: "\00c1";
 }
 
 .bi-border::before {
-	content: "\00bf";
+  content: "\00bf";
 }
 
 .bi-tools::before {
-	content: "\0022";
+  content: "\0022";
 }
