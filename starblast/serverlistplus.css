@@ -138,7 +138,16 @@ input[type="number"],
 }
 
 #systemsList {
-	padding: 12px;
+	padding: 6px !important;
+}
+
+#systemsList .system-card {
+	margin-top: 1rem !important;
+	margin-bottom: 0 !important;
+}
+
+#systemsList>.system-card:first-of-type {
+	margin-top: 0 !important;
 }
 
 .btn-close {
