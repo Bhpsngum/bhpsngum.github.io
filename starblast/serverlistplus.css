@@ -147,7 +147,7 @@ input[type="number"],
 }
 
 .badge {
-  cursor: help;
+  cursor: help !important;
 }
 
 #systemsList {
