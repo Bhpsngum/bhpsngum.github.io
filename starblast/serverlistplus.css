@@ -191,7 +191,6 @@ input[type="number"],
 .bi-trophy-fill::before,
 .bi-code-slash::before,
 .bi-border::before,
-.bi-tools::before,
 .bi-wrench::before,
 .navbar-toggler-icon::before {
   font-family: 'SBGlyphs' !important;
@@ -221,7 +220,6 @@ input[type="number"],
   content: "\00bf";
 }
 
-.bi-tools::before,
 .bi-wrench::before {
   content: "\0022";
 }
