@@ -240,7 +240,7 @@ window.addEventListener("load", function(){
               break;
           }
         }
-        else if ($(":focus"))switch (event.keyCode) {
+        else switch (event.keyCode) {
           default:
             let handler = (Object.values(nav_key_actions).find(action => action.keyCode == event.keyCode)||{}).handler;
             if (typeof handler == "function") handler();
