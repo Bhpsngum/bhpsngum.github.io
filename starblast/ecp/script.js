@@ -226,6 +226,10 @@ window.addEventListener("load", function(){
       var focusIDs = [
         {id: 'custom-res', handler: applySize},
         {id: 'indexInput', handler: function (){ apply(Math.trunc(Math.min(Math.max(parseInt($("#"+this.id).text()), 1), ecp_data.length)) - 1 || 0)}}
+        {id: 'custom-name', handler: function () {}},
+        {id: 'custom-res', handler: function () {}},
+        {id: 'finish-choose', handler: function () {}},
+        {id: 'laser-choose', handler: function () {}},
       ];
       $(document).on('keydown', function (event) {
         let focusID = focusIDs.find(id => $("#"+id.id).is(":focus"));
@@ -236,7 +240,7 @@ window.addEventListener("load", function(){
               break;
           }
         }
-        else switch (event.keyCode) {
+        else if ($(":focus"))switch (event.keyCode) {
           default:
             let handler = (Object.values(nav_key_actions).find(action => action.keyCode == event.keyCode)||{}).handler;
             if (typeof handler == "function") handler();
