@@ -82,10 +82,10 @@ window.addEventListener("load", function(){
         applySize(init)
       }, search = function(name) {
         if (!name) {
-          let queries = window.location.search.replace(/_/g, " ").replace(/^\?/,"").split("&");
+          let queries = window.location.search.replace(/[^0-9a-z&]/g, "").replace(/^\?/,"").split("&");
           name = (queries.find(function (query) {return name_regex.test(query)}) || "").replace(name_regex, "").toLowerCase()
         }
-        let i = ecp_data.findIndex(function(ecp) {return ecp.name.toLowerCase() === name});
+        let i = ecp_data.findIndex(function(ecp) {return ecp.name.toLowerCase().replace(/[^0-9a-z&]/g, "") === name || ecp.id == name});
         return i==-1?0:i;
       }, applySize = function(init) {
         let request_id = ECP.id++;
