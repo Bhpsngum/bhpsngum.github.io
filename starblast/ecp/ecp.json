@@ -29,7 +29,9 @@
     {"name": "Discord", "id": "discord", "url": "discord.png"},
     {"name": "Medic", "id": "medic", "url": "medic.jpg"},
     {"name": "Blank", "id": "blank"},
-    {"name": "Halloween", "id": "halloween", "url": "halloween.png"}
+    {"name": "Seasonal - Halloween 2021", "id": "halloween_2021", "url": "archives/halloween_2021.png"},
+    {"name": "Seasonal - Christmas 2021", "id": "christmas_2021", "url": "archives/christmas_2021.png"},
+    {"name": "Seasonal - Current", "id": "seasonal", "url": "seasonal.png"}
   ],
   "sucp": [
     {"name": "Developer", "id": "dev", "url": "dev.png"},
