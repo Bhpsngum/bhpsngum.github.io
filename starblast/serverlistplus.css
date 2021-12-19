@@ -21,6 +21,7 @@ body {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-attachment: fixed;
+  background-color: #000;
 	box-shadow: 0 0 6px hsl(200deg 100% 80%);
 	text-shadow: 0 0 7px hsl(200deg 100% 80%);
 }
