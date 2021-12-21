@@ -52,6 +52,30 @@
     "event": 1
   },
   {
+    "name": "Escalation",
+    "abbreviation": "",
+    "version": "1.1",
+    "description": "",
+    "modes": "",
+    "img": "https://starblast.data.neuronality.com/modding/img/escalation.jpg",
+    "link": {
+      "url": "https://github.com/pmgl/starblast-modding/blob/master/mods/escalation.js",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Bhpsngum"],
+        "link": "https://github.com/Bhpsngum"
+      },
+      {
+        "name": ["Eggsagon","Thulliux"],
+        "link": ""
+      }
+    ],
+    "official": 1,
+    "event": 0
+  },
+  {
     "name": "Starblast Dueling Championship",
     "abbreviation": "SDC",
     "version": "1.1",
@@ -64,12 +88,8 @@
     },
     "author": [
       {
-        "name": ["Bhpsngum"],
-        "link": "https://github.com/Bhpsngum"
-      },
-      {
-        "name": ["Eggsagon","Thulliux"],
-        "link": ""
+        "name": ["45rfew","Money"],
+        "link": "https://github.com/45rfew/"
       }
     ],
     "official": 1,
