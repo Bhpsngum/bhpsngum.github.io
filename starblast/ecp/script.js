@@ -33,7 +33,7 @@ window.addEventListener("load", function(){
           iconCanvas.getContext('2d').drawImage(canvas, x, y, width, height);
           imgURL = iconCanvas.toDataURL()
         }
-        $("link[rel='icon']").attr("href", imgURL);
+        $("link[rel='icon']").attr("href", imgURL)
       }, fetch = function(init) {
         $.getJSON("ecp.json").then(function(data) {
           refresh(data, init)
