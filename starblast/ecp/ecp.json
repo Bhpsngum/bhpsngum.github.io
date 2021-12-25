@@ -31,7 +31,7 @@
     {"name": "Blank", "id": "blank", "active": true},
     {"name": "Seasonal", "id": "seasonal", "active": true, "url": "seasonal.png"},
     {"name": "Seasonal - Halloween 2021", "id": "halloween_2021", "active": true, "url": "halloween.png"},
-    {"name": "Seasonal - Christmas 2021", "id": "christmas_2021", "active": false, "url": "./archives/christmas_2021.png"}
+    {"name": "Seasonal - Christmas 2021", "id": "christmas_2021", "active": false, "url": "christmas_2021.png"}
   ],
   "sucp": [
     {"name": "Developer", "id": "dev", "active": true, "url": "dev.png"},

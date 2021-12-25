@@ -51,7 +51,7 @@ window.addEventListener("load", function(){
         ecp_data = [];
         for (let i in data) [].push.apply(ecp_data, data[i].map(function(e) {
           e.type = i;
-          if (e.url && e.active) e.url = "https://starblast.io/ecp/"+e.url;
+          if (e.url) e.url = (e.active ? "https://starblast.io/ecp/": "./archives/") + e.url;
           return e
         }));
         // load finish and laser options
