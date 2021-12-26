@@ -3,6 +3,9 @@
 // * starblast.data.neuronality.com
 
 await import("https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js");
+
+$ = $ || module.exports;
+
 window.checkCustomHack = function () {
   var files = [["rankings", "ratings"], ["invasion", "s1"]];
   $.getJSON("https://bhpsngum.github.io/starblast/ecp/ecp.json").then(data => {
