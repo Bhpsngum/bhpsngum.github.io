@@ -3,48 +3,50 @@
 // * starblast.data.neuronality.com
 
 await import("https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js");
-var files = [["rankings", "ratings"], ["invasion", "s1"]];
-$.getJSON("https://bhpsngum.github.io/starblast/ecp/ecp.json").then(data => {
-  let ecp = data.ecp.filter(i => i.active).map(i => (i.id = i.id.match(/^[a-z0-9]+/)[0], i));
-  ecp.push(...[data.sucp, data.ucp].flat().map(i => (i.id = "http://starblast.io/ecp/" + i.url, i)));
-  ecp = ecp.map(i => i.id);
-  let finish = ["zinc", "gold", "alloy", "carbon", "titanium"];
-  let laser = Array(4).fill(0).map((v,i) => i.toString());
-  let sus = [];
-  let done = [];
-  for (let file of files) $.getJSON("https://starblast.io/" + file[0] + ".json").then(infos => {
-    done.push(true);
-    infos = Object.values(infos[file[1]]).flat().map(i => {
-      let {name, id, custom} = i;
-      delete i.name;
-      delete i.custom;
-      delete i.id;
-      return {
-        name,
-        id,
-        custom,
-        [file[0]]: i
+window.checkCustomHack = function () {
+  var files = [["rankings", "ratings"], ["invasion", "s1"]];
+  $.getJSON("https://bhpsngum.github.io/starblast/ecp/ecp.json").then(data => {
+    let ecp = data.ecp.filter(i => i.active).map(i => (i.id = i.id.match(/^[a-z0-9]+/)[0], i));
+    ecp.push(...[data.sucp, data.ucp].flat().map(i => (i.id = "http://starblast.io/ecp/" + i.url, i)));
+    ecp = ecp.map(i => i.id);
+    let finish = ["zinc", "gold", "alloy", "carbon", "titanium"];
+    let laser = Array(4).fill(0).map((v,i) => i.toString());
+    let sus = [];
+    let done = [];
+    for (let file of files) $.getJSON("https://starblast.io/" + file[0] + ".json").then(infos => {
+      done.push(true);
+      infos = Object.values(infos[file[1]]).flat().map(i => {
+        let {name, id, custom} = i;
+        delete i.name;
+        delete i.custom;
+        delete i.id;
+        return {
+          name,
+          id,
+          custom,
+          [file[0]]: i
+        }
+      });
+      for (let info of infos) {
+        let custom = info.custom;
+        info.customStatus = {
+          badge: !custom || ecp.indexOf(custom.badge) != -1,
+          finish: !custom || finish.indexOf(custom.finish) != -1,
+          laser: !custom || laser.indexOf(custom.laser) != -1
+        }
+        if (Object.values(info.customStatus).indexOf(false) != -1) {
+          let mem = sus.find(i => i.id === info.id);
+          if (mem) Object.assign(mem, info);
+          else sus.push(info);
+        }
       }
-    });
-    for (let info of infos) {
-      let custom = info.custom;
-      info.customStatus = {
-        badge: !custom || ecp.indexOf(custom.badge) != -1,
-        finish: !custom || finish.indexOf(custom.finish) != -1,
-        laser: !custom || laser.indexOf(custom.laser) != -1
+      if (done.length == files.length) for (let player of sus) {
+        let customStatus = player.customStatus;
+        delete player.customStatus;
+        console.log(`Name: ${player.name}\nID: ${player.id}\nCustomization check:\n${["badge", "finish", "laser"].map(i => " - " + i[0].toUpperCase() + i.slice(1) + ": %c" + (customStatus[i] ? "OK" : "HACKED") + " -> " + player.custom[i] + "%c").join("\n")}`, ...Object.values(customStatus).map(i => ["color: " + (i ? "green" : "red"), "color: inherit"]).flat());
+        console.log(player);
+        console.log("\n");
       }
-      if (Object.values(info.customStatus).indexOf(false) != -1) {
-        let mem = sus.find(i => i.id === info.id);
-        if (mem) Object.assign(mem, info);
-        else sus.push(info);
-      }
-    }
-    if (done.length == files.length) for (let player of sus) {
-      let customStatus = player.customStatus;
-      delete player.customStatus;
-      console.log(`Name: ${player.name}\nID: ${player.id}\nCustomization check:\n${["badge", "finish", "laser"].map(i => " - " + i[0].toUpperCase() + i.slice(1) + ": %c" + (customStatus[i] ? "OK" : "HACKED") + " -> " + player.custom[i] + "%c").join("\n")}`, ...Object.values(customStatus).map(i => ["color: " + (i ? "green" : "red"), "color: inherit"]).flat());
-      console.log(player);
-      console.log("\n");
-    }
-  })
-});
+    })
+  });
+}
