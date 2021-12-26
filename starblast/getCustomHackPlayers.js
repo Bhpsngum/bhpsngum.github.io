@@ -46,7 +46,7 @@ window.checkCustomHack = function () {
       if (done.length == files.length) for (let player of sus) {
         let customStatus = player.customStatus;
         delete player.customStatus;
-        console.log(`Name: ${player.name}\nID: ${player.id}\nCustomization check:\n${["badge", "finish", "laser"].map(i => " - " + i[0].toUpperCase() + i.slice(1) + ": %c" + (customStatus[i] ? "OK" : "HACKED") + " -> " + player.custom[i] + "%c").join("\n")}`, ...Object.values(customStatus).map(i => ["color: " + (i ? "green" : "red"), "color: inherit"]).flat());
+        console.log(`Name: ${player.name}\nID: ${player.id}\nCustomization check:\n${["badge", "finish", "laser"].map(i => "- " + i[0].toUpperCase() + i.slice(1) + ": %c" + (customStatus[i] ? "OK" : "HACKED") + " -> " + player.custom[i] + "%c").join("\n")}`, ...Object.values(customStatus).map(i => ["color: " + (i ? "green" : "red"), "color: inherit"]).flat());
         console.log(player);
         console.log("\n");
       }
