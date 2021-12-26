@@ -4,7 +4,7 @@
 
 await import("https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js");
 
-$ = $ || module.exports;
+window.$ = window.$ || module.exports;
 
 window.checkCustomHack = function () {
   var files = [["rankings", "ratings"], ["invasion", "s1"]];
