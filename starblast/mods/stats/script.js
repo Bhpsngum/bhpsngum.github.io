@@ -56,13 +56,15 @@
     let str = [];
     for (let i=num.length-1;i>=0;i-=3) str.push(num.slice(Math.max(i-2,0),i+1));
     return str.reverse().join(" ");
+  }, calcDayTime = function (date) {
+    return date.getHours() * 36e5 + date.getMinutes() * 6e4 + date.getSeconds() * 1e3 + date.getMilliseconds()
   }, formatTime = function (ms) {
     ms = ms/1000;
     let t = Math.trunc(ms/3600), u = Math.trunc((ms-t*3600)/60);
     let timeLeft = [t,u,Math.trunc(ms-t*3600-u*60)].map(i => Math.max(i,0)).map(i => i<10?"0"+i.toString():i).join(":");
     let curDate = new Date(), destDate = new Date(curDate.getTime() + ms * 1000);
     let distance = Math.trunc(ms / 864e3);
-    if ((destDate.getTime() % 864e5) < (curDate.getTime() % 864e5)) ++distance;
+    if (calcDayTime(destDate) < calcDayTime(curDate)) ++distance;
     let daysNext;
     switch (distance) {
       case 0: daysNext = "Today"; break;
