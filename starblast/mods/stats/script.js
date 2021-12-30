@@ -71,7 +71,7 @@
       case 1: daysNext = "Tomorrow"; break;
       default: daysNext = `${distance} days later`;
     }
-    return `${timeLeft} (${destDate.toLocaleTimeString()} ${daysNext})`
+    return `${timeLeft} (${daysNext} at ${destDate.toLocaleTimeString()})`
   }, loadInfos = function() {
     mods.sort((a,b) => {
       if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
