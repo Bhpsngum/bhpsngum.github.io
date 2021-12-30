@@ -61,7 +61,7 @@
     let t = Math.trunc(ms/3600), u = Math.trunc((ms-t*3600)/60);
     let timeLeft = [t,u,Math.trunc(ms-t*3600-u*60)].map(i => Math.max(i,0)).map(i => i<10?"0"+i.toString():i).join(":");
     let curDate = new Date(), destDate = new Date(curDate + ms * 1000);
-    let distance = Math.trunc(ms * 864e3);
+    let distance = Math.trunc(ms / 864e3);
     if (destDate.getHours() === 0 && curDate.getHours() > 0) ++distance;
     let daysNext;
     switch (distance) {
