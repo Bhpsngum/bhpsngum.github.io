@@ -59,7 +59,17 @@
   }, formatTime = function (ms) {
     ms = ms/1000;
     let t = Math.trunc(ms/3600), u = Math.trunc((ms-t*3600)/60);
-    return [t,u,Math.trunc(ms-t*3600-u*60)].map(i => Math.max(i,0)).map(i => i<10?"0"+i.toString():i).join(":")
+    let timeLeft = [t,u,Math.trunc(ms-t*3600-u*60)].map(i => Math.max(i,0)).map(i => i<10?"0"+i.toString():i).join(":");
+    let curDate = new Date(), destDate = new Date(curDate + ms * 1000);
+    let distance = Math.trunc(ms * 864e3);
+    if (destDate.getHours() === 0 && curDate.getHours() > 0) ++distance;
+    let daysNext;
+    switch (distance) {
+      case 0: daysNext = "Today"; break;
+      case 1: daysNext = "Tomorrow"; break;
+      default: daysNext = `${distance} days later`;
+    }
+    return `${timeLeft} (${destDate.toLocalTimeString()} ${daysNext})`
   }, loadInfos = function() {
     mods.sort((a,b) => {
       if (!a.active || !b.active) return (Number(!a.active)||0) - (Number(!b.active)||0);
