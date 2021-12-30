@@ -62,7 +62,7 @@
     let timeLeft = [t,u,Math.trunc(ms-t*3600-u*60)].map(i => Math.max(i,0)).map(i => i<10?"0"+i.toString():i).join(":");
     let curDate = new Date(), destDate = new Date(curDate.getTime() + ms * 1000);
     let distance = Math.trunc(ms / 864e3);
-    if (destDate.getHours() === 0 && (curDate.getHours() > 0 || curDate.getMinutes() > destDate.getMinutes())) ++distance;
+    if ((destDate.getTime() % 864e5) < (curDate.getTime() % 864e5)) ++distance;
     let daysNext;
     switch (distance) {
       case 0: daysNext = "Today"; break;
