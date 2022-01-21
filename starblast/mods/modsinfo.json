@@ -339,12 +339,28 @@
     "modes": "",
     "img": "",
     "link": {
-      "url": "https://github.com/apxthyy/mods-ships-public/blob/main/Dueling.js",
+      "url": "https://github.com/DoDucMinh1608/mod/blob/master/X7%20-%20finished/main.js",
       "state": 2
     },
     "author": [
       {
-        "name": ["Various authors"],
+        "name": ["45rfew/Money"],
+        "link": "https://github.com/45rfew/"
+      },
+      {
+        "name": ["___"],
+        "link": "https://github.com/DoDucMinh1608"
+      },
+      {
+        "name": ["Apathy/X7"],
+        "link": "https://github.com/apxthyy/"
+      },
+      {
+        "name": ["Bhpsngum"],
+        "link": "https://github.com/bhpsngum/"
+      },
+      {
+        "name": ["Robonuko"],
         "link": ""
       }
     ],
