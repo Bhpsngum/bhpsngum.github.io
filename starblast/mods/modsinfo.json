@@ -78,7 +78,7 @@
   {
     "name": "Starblast Dueling Championship",
     "abbreviation": "SDC",
-    "version": "1.1",
+    "version": "2.0",
     "description": "This is the Starblast Dueling Championship mod, here you fight people in fair, 1 on 1 matches (duels).\nChoose your ship and fight!",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/sdc.jpg",
@@ -98,7 +98,7 @@
   {
     "name": "Multi-Class Ship Tree",
     "abbreviation": "MCST",
-    "version": "1.1 (AOW Version)",
+    "version": "1.4",
     "description": "This is a ship tree with hundreds of different ships to explore. You may select your class of ships between Fighter, Heavy, Speedster and Support. Be the top on the leaderboard and kill teamers!",
     "modes": "Free For All (FFA)",
     "img": "https://starblast.data.neuronality.com/modding/img/mcst.jpg",
@@ -122,7 +122,7 @@
   {
     "name": "Destroy the Mothership",
     "abbreviation": "DTM",
-    "version": "1.2.5",
+    "version": "1.3",
     "description": "",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/dtm.jpg",
@@ -146,7 +146,7 @@
   {
     "name": "Capture The Flag",
     "abbreviation": "CTF",
-    "version": "1.2",
+    "version": "1.4",
     "description": "",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/ctf.jpg",
@@ -170,7 +170,7 @@
   {
     "name": "Rumble",
     "abbreviation": "",
-    "version": "1.2.5",
+    "version": "1.3",
     "description": "",
     "modes": "",
     "img": "https://starblast.data.neuronality.com/modding/img/rumble.jpg",
@@ -361,6 +361,26 @@
       },
       {
         "name": ["Robonuko"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
+    "name": "Strawberry",
+    "abbreviation": "",
+    "version": "1.0",
+    "description": "",
+    "modes": "Varies",
+    "img": "",
+    "link": {
+      "url": "https://github.com/Nova-was-taken/Various-mod-codes/blob/main/Strawberry%20mod",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Nova"],
         "link": ""
       }
     ],
@@ -821,26 +841,6 @@
     "author": [
       {
         "name": ["X-26"],
-        "link": ""
-      }
-    ],
-    "official": 0,
-    "event": 0
-  },
-  {
-    "name": "Team mode test of Vanilla changes",
-    "abbreviation": "",
-    "version": "1.0",
-    "description": "",
-    "modes": "Varies",
-    "img": "",
-    "link": {
-      "url": "https://github.com/Nova-was-taken/Various-mod-codes/blob/main/Strawberry%20mod",
-      "state": 2
-    },
-    "author": [
-      {
-        "name": ["Nova"],
         "link": ""
       }
     ],
