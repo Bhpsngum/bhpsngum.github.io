@@ -58,7 +58,7 @@
   let loadTree = function (){
     mod_name = $("#tree-select").val();
     let link;
-    if (["vanilla", "kest", "mcst_beta"].indexOf(mod_name) != -1) link = "https://raw.githubusercontent.com/Bhpsngum/starblast/master";
+    if ("mcst_beta" == mod_name) link = "https://raw.githubusercontent.com/Bhpsngum/starblast/master";
     else link = "https://starblast.data.neuronality.com";
     link += "/mods/" + mod_name + ".js";
     if (mod_name) {
