@@ -64,12 +64,8 @@
     },
     "author": [
       {
-        "name": ["Bhpsngum"],
-        "link": "https://github.com/Bhpsngum"
-      },
-      {
-        "name": ["Eggsagon","Thulliux"],
-        "link": ""
+        "name": ["45rfew","Money"],
+        "link": "https://github.com/45rfew/"
       }
     ],
     "official": 1,
@@ -88,8 +84,12 @@
     },
     "author": [
       {
-        "name": ["45rfew","Money"],
-        "link": "https://github.com/45rfew/"
+        "name": ["Bhpsngum"],
+        "link": "https://github.com/Bhpsngum"
+      },
+      {
+        "name": ["Eggsagon","Thulliux"],
+        "link": ""
       }
     ],
     "official": 1,
