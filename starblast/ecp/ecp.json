@@ -37,7 +37,7 @@
     {"name": "Developer", "id": "dev", "active": true, "url": "dev.png"},
     {"name": "Translator", "id": "translator", "active": true, "url": "translator.png"},
     {"name": "Shipwright", "id": "shipdesigner", "active": true, "url": "shipdesigner.jpg"},
-    {"name": "SRC Champ", "id": "srcchamp", "active": true, "url": "srcchamp.png"},
+    {"name": "SRC Champion", "id": "srcchamp", "active": true, "url": "srcchamp.png"},
     {"name": "SDC Champion", "id": "sdcchamp", "active": true, "url": "sdcchamp.png"}
   ],
   "ucp": [
