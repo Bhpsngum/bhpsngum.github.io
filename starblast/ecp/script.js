@@ -3,9 +3,23 @@ window.addEventListener("load", function(){
   $("#init").css("font-family", "SBGlyphs");
   let it = setInterval(function () {
     if (document.fonts.check("12px 'SBGlyphs'")) {
-      var sizes = [
+      var updateSizeNeeded, sizes = [
         {name: "preview", size: 112},
-        {name: "leaderboard", size: 30},
+        {name: "leaderboard", size: function () {
+          // take current window resolution
+          let width = window.innerWidth, height = window.innerHeight, mobile_app = Math.max(width, height) < 800 && ("ontouchstart" in window);
+          // calculate game screen resolution
+          let screen_ratio = mobile_app ? 2 : 16 / 9;
+          width = Math.round(Math.min(height * screen_ratio, width));
+          // calculate scoreboard resolution
+          width = width * 0.2; // 20% screen width
+          height = height * 0.52; // 52% screen height
+          // calculate icon ratio
+          let ratio = 10 / 11;
+          let icon_ratio = Math.min(Math.min(width, height) / ratio, Math.max(width, height));
+          // finalize the result
+          return Math.round(0.08 * icon_ratio)
+        }},
         {name: "custom"}
       ], finishes = [
         {value: "zinc"},
@@ -108,7 +122,8 @@ window.addEventListener("load", function(){
         finish = (finishes.find(f => f.value == finish) || finishes[0]).value;
         laser = Math.trunc(Math.min(Math.max(0, laser), lasers.length - 1)) || 0;
         size_preset = sizes.find(preset => size_preset == preset.name) || sizes[0];
-        size = size_preset.size || Math.max(size, 0) || 200;
+        updateSizeNeeded = "function" == typeof size_preset.size;
+        size = (updateSizeNeeded ? size_preset.size() : size_preset.size) || Math.max(size, 0) || 200;
         localStorage.setItem("ecp-finish", finish);
         localStorage.setItem("ecp-laser", laser);
         localStorage.setItem("ecp-res", size);
@@ -161,6 +176,9 @@ window.addEventListener("load", function(){
         updateURL();
         updateInfo(last_info);
       }
+      $(window).on("resize", function(){
+        if (updateSizeNeeded) applySize()
+      });
       $("#apply-res").on("click", function() {
         applySize()
       });
