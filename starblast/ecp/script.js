@@ -5,6 +5,7 @@ window.addEventListener("load", function(){
     if (document.fonts.check("12px 'SBGlyphs'")) {
       var updateSizeNeeded, sizes = [
         {name: "preview", size: 112},
+        {name: "event", size: 30},
         {name: "leaderboard", size: function () {
           // take current window resolution
           let width = window.innerWidth, height = window.innerHeight, mobile_app = Math.max(width, height) < 800 && ("ontouchstart" in window);
