@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: utils/ArrayMap.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,59 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: utils/ArrayMap.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * The Map Instance with a few array methods
+ * @extends {Map}
+ */
 
-    <h3> </h3>
+class ArrayMap extends Map {
+  constructor (...args) {
+    super(...args)
+  }
 
+  /**
+   * Get an array from the object
+   * @returns {array}
+   */
 
+  toArray () {
+    return [...this.entries()].map(structure => structure[1])
+  }
 
+  /**
+   * Length of the object, same as `Map.prototype.size`
+   * @type {number}
+   * @readonly
+   */
 
+  get length () {
+    return this.size
+  }
 
+  _UUIDset (value) {
+    return Map.prototype.set.call(this, value?.uuid, value)
+  }
 
+  [Symbol.iterator] () {
+    return this.toArray()[Symbol.iterator]()
+  }
+}
 
-
-
-
-    
-
-
-
-
-
+module.exports = ArrayMap
+</code></pre>
+        </article>
+    </section>
 
 
 
