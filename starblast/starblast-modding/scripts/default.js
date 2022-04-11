@@ -4,12 +4,16 @@
     document.querySelector(".container-overview").remove();
     elem.remove()
   }
+
+  let displayText = {
+    "readonly": "read-only"
+  }
   for (let i of document.querySelectorAll(".type-signature")) {
       if (i.innerText.match(/^\s*:[^]+/) || i.innerText.match(/^\s*→\s*{[^]+}/)) i.remove();
       else {
         let text = (i.innerText.match(/\w+/) || [""])[0];
         i.setAttribute("class", i.getAttribute("class") + " " + text);
-        i.innerText = text.toUpperCase()
+        i.innerText = (displayText[text] || text).toUpperCase()
       }
   }
   document.querySelector(".signature").remove();
