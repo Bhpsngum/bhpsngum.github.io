@@ -11,6 +11,8 @@
     elem.remove()
   }
 
+  for (let el of document.querySelectorAll(".name:not(td, .container-overview > h4)")) el.childNodes[1].nodeValue = "." + el.childNodes[1].nodeValue;
+
   let displayText = {
     "readonly": "read-only"
   }
