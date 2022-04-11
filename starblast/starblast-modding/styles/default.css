@@ -1,3 +1,40 @@
 #main > h1, #main > h3 {
   display: none;
 }
+
+.type-signature {
+  float: right;
+  border-radius: 3pt;
+  padding: 2pt;
+  margin-left: 5pt;
+  font-size: 63%;
+  order: 1000;
+  font-weight: bold;
+}
+
+.type-signature.readonly {
+  background-color: blue;
+  color: #cde;
+}
+
+.type-signature.async {
+  background-color: orange;
+  color: #cde;
+}
+
+table {
+  width: 100%;
+}
+
+.name:not(td) {
+  display: table;
+}
+
+* {
+  font-family: system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji';
+}
+
+div.spacing {
+  border-bottom: 1px solid red;
+  margin-bottom: 20px;
+}
