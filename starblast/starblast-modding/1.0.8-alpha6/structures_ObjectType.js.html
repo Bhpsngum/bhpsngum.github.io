@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Source: structures/ObjectType.js - starblast-modding</title>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="../styles/dark.css">
+    <link type="text/css" rel="stylesheet" href="../styles/default.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <header class="nav-header">
+            <a href="index.html">
+                <img class="nav-logo" src="images/logo.svg" src="image" onerror="this.onerror=null; this.src='images/logo.png'"/>
+                <h1>starblast-modding</h1>
+            </a>
+        </header>
+
+        <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alien.html">Alien</a></li><li><a href="AlienManager.html">AlienManager</a></li><li><a href="ArrayMap.html">ArrayMap</a></li><li><a href="Asteroid.html">Asteroid</a></li><li><a href="AsteroidManager.html">AsteroidManager</a></li><li><a href="Collectible.html">Collectible</a></li><li><a href="CollectibleManager.html">CollectibleManager</a></li><li><a href="Coordinate.html">Coordinate</a></li><li><a href="Entity.html">Entity</a></li><li><a href="EntityManager.html">EntityManager</a></li><li><a href="ModdingClient.html">ModdingClient</a></li><li><a href="Object3D.html">Object3D</a></li><li><a href="ObjectManager.html">ObjectManager</a></li><li><a href="ObjectType.html">ObjectType</a></li><li><a href="ObjectTypeManager.html">ObjectTypeManager</a></li><li><a href="Ship.html">Ship</a></li><li><a href="ShipManager.html">ShipManager</a></li><li><a href="Station.html">Station</a></li><li><a href="StationManager.html">StationManager</a></li><li><a href="StationModule.html">StationModule</a></li><li><a href="StationModuleManager.html">StationModuleManager</a></li><li><a href="Structure.html">Structure</a></li><li><a href="StructureManager.html">StructureManager</a></li><li><a href="Team.html">Team</a></li><li><a href="TeamManager.html">TeamManager</a></li></ul>
+    </nav>
+
+    <div id="main">
+        <h1 class="page-title">Source: structures/ObjectType.js</h1>
+
+        
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+const Structure = require("./Structure.js");
+const getObjectShapeFromURL = require("../utils/getObjectShapeFromURL.js");
+const toString = require("../utils/toString.js");
+const limitedJSON = require("../utils/limitedJSON.js");
+const defineProperties = require("../utils/defineProperties.js");
+
+/**
+ * The ObjectType Instance
+ * @extends {Structure}
+ * @param {ModdingClient} game - The &lt;code>ModdingClient&lt;/code> object
+ * @param {object} options - Instance options
+ * @abstract
+ */
+
+class ObjectType extends Structure {
+  constructor (game, type) {
+    super(game);
+    this.#game = game;
+    let pysics = type?.physics ?? {}
+    let physics = {}
+    defineProperties(physics, {
+      mass: pysics.mass ?? 0,
+      autoShape: !!pysics.autoShape
+    });
+    if (Array.isArray(pysics.shape)) defineProperties(physics, {shape: pysics.shape});
+    else if (!physics.autoShape) defineProperties(physics, {shape: []});
+    /**
+    * ObjectType ID
+    * @name ObjectType.prototype.id
+    * @type {string}
+    * @readonly
+    */
+
+    /**
+    * ObjectType model link (.obj file)
+    * @name ObjectType.prototype.obj
+    * @type {string}
+    * @readonly
+    */
+
+    /**
+    * ObjectType diffuse texture link
+    * @name ObjectType.prototype.diffuse
+    * @type {string}
+    * @readonly
+    */
+
+    /**
+    * ObjectType emissive texture link
+    * @name ObjectType.prototype.emissive
+    * @type {string}
+    * @readonly
+    */
+
+    /**
+    * ObjectType specular texture link
+    * @name ObjectType.prototype.specular
+    * @type {string}
+    * @readonly
+    */
+
+    /**
+    * ObjectType bump texture link
+    * @name ObjectType.prototype.bump
+    * @type {string}
+    * @readonly
+    */
+
+    /**
+    * ObjectType diffuse color
+    * @name ObjectType.prototype.diffuseColor
+    * @type {(string|number)}
+    * @readonly
+    */
+
+    /**
+    * ObjectType emissive color
+    * @name ObjectType.prototype.emissiveColor
+    * @type {(string|number)}
+    * @readonly
+    */
+
+    /**
+    * ObjectType specular color
+    * @name ObjectType.prototype.specularColor
+    * @type {(string|number)}
+    * @readonly
+    */
+
+    /**
+    * ObjectType bump scale
+    * @name ObjectType.prototype.bumpScale
+    * @type {(string|number)}
+    * @readonly
+    */
+
+    /**
+    * ObjectType transparency
+    * @name ObjectType.prototype.transparent
+    * @type {boolean}
+    * @readonly
+    */
+
+    /**
+    * ObjectType shininess
+    * @name ObjectType.prototype.shininess
+    * @type {boolean}
+    * @readonly
+    */
+
+    /**
+    * ObjectType physics with 3 properties: (array) shape, (boolean) fixed and (number) mass
+    * @name ObjectType.prototype.physics
+    * @type {object}
+    * @readonly
+    */
+
+    defineProperties(this, {
+      id: toString(type?.id),
+      obj:  type?.obj ?? null,
+      diffuse: type?.diffuse ?? null,
+      emissive: type?.emissive ?? null,
+      specular: type?.specular ?? null,
+      bump: type?.bump ?? null,
+      diffuseColor: type?.diffuseColor ?? 0x0,
+      emissiveColor: type?.emissiveColor ?? 0x0,
+      specularColor: type?.specularColor ?? 0x0,
+      bumpScale: "number" == typeof type?.bumpScale ? type.bumpScale : 1,
+      transparent: !!type?.transparent,
+      shininess: "number" == typeof type?.shininess ? type.shininess : 0,
+      physics
+    });
+  }
+
+  #game;
+
+  markAsInactive () {
+
+  }
+
+  isActive () {
+    return true
+  }
+
+  async getShape () {
+    return await getObjectShapeFromURL(this.obj)
+  }
+
+  toJSON () {
+    return Object.assign(limitedJSON(this, ["id", "obj", "diffuse", "emissive", "specular", "bump", "diffuseColor", "emissiveColor", "specularColor", "bumpScale", "transparent", "shininess"]), {physics: limitedJSON(this.physics, ["mass", "shape"])})
+  }
+}
+
+defineProperties(ObjectType.prototype, {
+  structure_type: "object_type"
+});
+
+module.exports = ObjectType
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    </div>
+
+    <br class="clear">
+
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
+    </footer>
+    <script type="text/javascript" src="../scripts/default.js"></script>
+</body>
+</html>

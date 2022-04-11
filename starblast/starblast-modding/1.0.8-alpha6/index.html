@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home - starblast-modding</title>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="../styles/dark.css">
+    <link type="text/css" rel="stylesheet" href="../styles/default.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <header class="nav-header">
+            <a href="index.html">
+                <img class="nav-logo" src="images/logo.svg" src="image" onerror="this.onerror=null; this.src='images/logo.png'"/>
+                <h1>starblast-modding</h1>
+            </a>
+        </header>
+
+        <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alien.html">Alien</a></li><li><a href="AlienManager.html">AlienManager</a></li><li><a href="ArrayMap.html">ArrayMap</a></li><li><a href="Asteroid.html">Asteroid</a></li><li><a href="AsteroidManager.html">AsteroidManager</a></li><li><a href="Collectible.html">Collectible</a></li><li><a href="CollectibleManager.html">CollectibleManager</a></li><li><a href="Coordinate.html">Coordinate</a></li><li><a href="Entity.html">Entity</a></li><li><a href="EntityManager.html">EntityManager</a></li><li><a href="ModdingClient.html">ModdingClient</a></li><li><a href="Object3D.html">Object3D</a></li><li><a href="ObjectManager.html">ObjectManager</a></li><li><a href="ObjectType.html">ObjectType</a></li><li><a href="ObjectTypeManager.html">ObjectTypeManager</a></li><li><a href="Ship.html">Ship</a></li><li><a href="ShipManager.html">ShipManager</a></li><li><a href="Station.html">Station</a></li><li><a href="StationManager.html">StationManager</a></li><li><a href="StationModule.html">StationModule</a></li><li><a href="StationModuleManager.html">StationModuleManager</a></li><li><a href="Structure.html">Structure</a></li><li><a href="StructureManager.html">StructureManager</a></li><li><a href="Team.html">Team</a></li><li><a href="TeamManager.html">TeamManager</a></li></ul>
+    </nav>
+
+    <div id="main">
+        <h1 class="page-title">Home</h1>
+
+        
+
+
+
+    
+
+
+    <h3>starblast-modding 1.0.8-alpha6</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>starblast-modding</h1>
+<p>The JavaScript library for hosting modded Starblast games on NodeJS</p>
+<h2>Documentation</h2>
+<p>Please see <a href="https://bhpsngum.github.io/starblast/starblast-modding/">this link</a></p>
+<h2>Example</h2>
+<p>This is an example on how to run a team-mode modded game:</p>
+<pre class="prettyprint source lang-js"><code>const StarblastModding = require(&quot;starblast-modding&quot;);
+
+global.game = new StarblastModding.Client({ cacheConfiguration: true });
+// set cacheConfiguration to `true` if you want to reuse tokens (ECP, etc.) for multiple runs
+
+// You can set some specs separately
+
+game.setRegion(&quot;Asia&quot;);
+
+game.setECPKey(&quot;12345-67890&quot;);
+
+game.setOptions({
+  map_name: &quot;Test&quot;
+});
+
+// Or include them when starting the game like this
+
+game.start({
+  region: &quot;Asia&quot;,
+  ECPKey: &quot;12345-6789&quot;,
+  options: {
+    map_size: 80,
+    custom_map: &quot;&quot;,
+    root_mode: &quot;team&quot;,
+    friendly_colors: 5,
+    radar_zoom: 1,
+    station_size: 1
+  }
+}).then(function (link, options) {
+  console.log(&quot;Promise fulfilled: &quot; + link);
+  game.log(link);
+}).catch(function (error) {
+  console.log(&quot;Promise rejected: &quot; + error.message)
+});
+
+game.on('error', function(error) {
+  console.log(&quot;In-game error: &quot; + error.message);
+  // Invalid laser rate....
+});
+
+game.on('log', function(...args) {
+  console.log(&quot;In-game log:&quot;, ...args);
+  // Custom game log goes here
+});
+
+game.aliens.add();
+
+game.on('start', function(link, options) {
+  console.log(&quot;Mod started with link: &quot;+ link);
+  console.log(options);
+  var cube2 = {
+    id: &quot;cube2&quot;,
+    obj: &quot;https://raw.githubusercontent.com/Bhpsngum/img-src/master/Aries.obj&quot;,
+    diffuse: &quot;https://starblast.data.neuronality.com/mods/objects/cube/diffuse.jpg&quot;,
+    emissive: &quot;https://starblast.data.neuronality.com/mods/objects/cube/emissive.jpg&quot;,
+    bump: &quot;https://starblast.data.neuronality.com/mods/objects/cube/bump.jpg&quot;,
+    emissiveColor: 0x80FFFF,
+    specularColor: 0x805010,
+    diffuseColor:0xFF8080,
+    transparent: false,
+    physics: {
+      mass: 500,
+      autoShape: true
+    }
+  };
+  game.objects.add({
+    id: &quot;test&quot;,
+    type: cube2,
+    position:{x:0,y:0,z:0},
+    scale:{x:5,y:5,z:5},
+    rotation: {x:0,y:0,z:Math.PI}
+  });
+});
+
+game.on('tick', function (step) {
+  if (game.ships.size > 0) {
+    let {x, y} = game.teams.stations.array()[0].modules.array()[0];
+    game.ships.array()[0].set({x, y})
+  }
+  game.collectibles.add()
+  for (let ship of game.ships) {
+    let station = game.teams.stations.findById(ship.team);
+    station != null && ship.setX(station.x).setY(station.y).setCollider(false);
+  }
+  if (game.step % 60 === 0) {
+    for (let ship of game.ships) {
+      if (!ship.custom.init) {
+        ship.setX(0).setY(0);
+        ship.custom.init = true
+      }
+    }
+  }
+});
+
+game.on('shipRespawn', function(ship) {
+  ship.setX(0).setY(0);
+  console.log(&quot;Ship respawn: &quot;+ship.name);
+  console.log(&quot;Event: &quot;+game.step);
+});
+game.on('shipSpawn', function(ship) {
+  ship.setX(0).setY(0);
+  console.log(&quot;Ship spawn: &quot;+ship.name);
+});
+game.on('shipDestroy', function(ship, killer) {
+
+});
+game.on('shipDisconnect', function(ship) {
+
+});
+
+game.on('alienCreate', function(alien) {
+  console.log(&quot;Alien created&quot;)
+});
+game.on('alienDestroy', function(alien, killer) {
+
+});
+
+game.on('asteroidCreate', function(asteroid) {
+
+});
+game.on('asteroidDestroy', function(asteroid, killer) {
+
+});
+
+game.on('collectibleCreate', function(asteroid) {
+
+});
+
+game.on('collectiblePick', function(asteroid, ship) {
+
+});
+
+game.on('stationDestroy', function(station) {
+  console.log(station)
+});
+
+game.on('stationModuleDestroy', function(station_module) {
+  console.log(&quot;Destroyed:&quot;, station_module)
+});
+
+game.on('stationModuleRepair', function(station_module) {
+  console.log(&quot;Repaired:&quot;, station_module)
+});
+
+game.on('UIComponentClick', function (component_id, ship) {
+
+});
+
+game.on('stop', function() {
+  console.log(&quot;Mod stopped&quot;);
+})
+</code></pre></article>
+    </section>
+
+
+
+
+
+
+    </div>
+
+    <br class="clear">
+
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
+    </footer>
+    <script type="text/javascript" src="../scripts/default.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Source: structures/StationModule.js</title>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="../styles/dark.css">
+    <link type="text/css" rel="stylesheet" href="../styles/default.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <header class="nav-header">
+            <a href="index.html">
+                <img class="nav-logo" src="images/logo.svg" src="image" onerror="this.onerror=null; this.src='images/logo.png'" alt="alt text" />
+                <h1>Project Name</h1>
+            </a>
+        </header>
+
+        <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alien.html">Alien</a></li><li><a href="AlienManager.html">AlienManager</a></li><li><a href="ArrayMap.html">ArrayMap</a></li><li><a href="Asteroid.html">Asteroid</a></li><li><a href="AsteroidManager.html">AsteroidManager</a></li><li><a href="Collectible.html">Collectible</a></li><li><a href="CollectibleManager.html">CollectibleManager</a></li><li><a href="Coordinate.html">Coordinate</a></li><li><a href="Entity.html">Entity</a></li><li><a href="EntityManager.html">EntityManager</a></li><li><a href="ModdingClient.html">ModdingClient</a></li><li><a href="Object3D.html">Object3D</a></li><li><a href="ObjectManager.html">ObjectManager</a></li><li><a href="ObjectType.html">ObjectType</a></li><li><a href="ObjectTypeManager.html">ObjectTypeManager</a></li><li><a href="Ship.html">Ship</a></li><li><a href="ShipManager.html">ShipManager</a></li><li><a href="Station.html">Station</a></li><li><a href="StationManager.html">StationManager</a></li><li><a href="StationModule.html">StationModule</a></li><li><a href="StationModuleManager.html">StationModuleManager</a></li><li><a href="Structure.html">Structure</a></li><li><a href="StructureManager.html">StructureManager</a></li><li><a href="Team.html">Team</a></li><li><a href="TeamManager.html">TeamManager</a></li></ul>
+    </nav>
+
+    <div id="main">
+        <h1 class="page-title">Source: structures/StationModule.js</h1>
+
+        
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+const Entity = require("./Entity.js");
+const defineProperties = require("../utils/defineProperties.js");
+const typeMap = new Map([
+  ["st", "structure"],
+  ["d", "deposit"],
+  ["sp", "spawning"]
+]);
+const getAngle = function (_this, step) {
+  return Math.atan2(_this._y, _this._x) - (step / 60 / 3600 % 1 * 2) * 3 * Math.PI
+}
+const getRadius = function (_this) {
+  // originally (level + 4), but since we start from lvl1 and the game itself starts from lvl0, so the result needs to be minus by 1
+  return Math.sqrt(_this._x ** 2 + _this._y ** 2) * (_this.parent.level + 3) * 2.5;
+}
+
+/**
+ * The Station Instance
+ * @extends {Entity}
+ * @param {ModdingClient} game - The &lt;code>ModdingClient&lt;/code> object
+ * @param {object} options - Instance options
+ * @param {Station} parent - The parent station object
+ */
+
+class StationModule extends Entity {
+  constructor(game, options, parent) {
+    super(game);
+    this.#game = game;
+    let _this = this.modding.data;
+    _this.shield = 1;
+    _this.alive = true;
+    _this.finish = "alloy";
+    let type, subtype_id;
+    (options?.type||"").replace(/^(sp|st|d)(\d+)$/, function(v, mType, id) {
+      type = typeMap.get(mType);
+      subtype_id = Number(id)
+    });
+    this.markAsSpawned();
+
+    /**
+    * The parent station of this module
+    * @name StationModule.prototype.parent
+    * @type {Station}
+    * @readonly
+    */
+
+    /**
+    * Module type
+    * @name StationModule.prototype.type
+    * @type {string}
+    * @readonly
+    */
+
+    /**
+    * Module class
+    * @name StationModule.prototype.class
+    * @type {number}
+    * @readonly
+    */
+
+    defineProperties(this, {
+      parent,
+      id: options?.id,
+      type,
+      class: subtype_id,
+      createdStep: 0,
+      _x: "number" == typeof options?.x ? options.x : 0,
+      _y: "number" == typeof options?.y ? options.y : 0,
+      _dir: "number" == typeof options?.dir ? options.dir : 0
+    })
+  }
+
+  #game;
+
+  get alive () {
+    return !!this.modding.data.alive
+  }
+
+  updateShield (shield) {
+    let _this = this.modding.data;
+    let lastAlive = _this.alive;
+    _this.alive = shield > 0;
+    _this.shield = Math.max(0, shield - 1) / 254 * this.#game.options[this.type + "_shield"][this.parent.level - 1];
+    _this.lastUpdatedStep = this.#game.step;
+    if (_this.alive != lastAlive) {
+      if (!_this.alive) _this.lastAliveStep = this.#game.step;
+      this.#game.emit(this.#game.modding.events["STATION_MODULE_" + (_this.alive ? "REPAIRED" : "DESTROYED")], this)
+    }
+  }
+
+  get x () {
+    return this.parent.x + this.offsetX
+  }
+
+  get y () {
+    return this.parent.y + this.offsetY
+  }
+
+  get vx () {
+    return this.parent.vx + this.offsetVx
+  }
+
+  get vy () {
+    return this.parent.vy + this.offsetVy
+  }
+
+  /**
+   * Module X Offset from the parent station's center
+   * @type {number}
+   * @readonly
+   */
+
+  get offsetX () {
+    return getRadius(this) * Math.cos(getAngle(this, this.lastAliveStep))
+  }
+
+  /**
+   * Module Y Offset from the parent station's center
+   * @type {number}
+   * @readonly
+   */
+
+  get offsetY () {
+    return getRadius(this) * Math.sin(getAngle(this, this.lastAliveStep))
+  }
+
+  /**
+   * Module vx Offset from the parent station's Velocity
+   * @type {number}
+   * @readonly
+   */
+
+  get offsetVx () {
+    let step = this.lastAliveStep;
+    return getRadius(this) * (Math.cos(getAngle(this, step + 1)) - Math.cos(getAngle(this, step)))
+  }
+
+  /**
+   * Module vy Offset from the parent station's Velocity
+   * @type {number}
+   * @readonly
+   */
+
+  get offsetVy () {
+    let step = this.lastAliveStep;
+    return getRadius(this) * (Math.sin(getAngle(this, step + 1)) - Math.sin(getAngle(this, step)))
+  }
+
+  /**
+   * Module angle (in degrees)
+   * @type {number}
+   * @readonly
+   */
+
+  get angle () {
+    return ((-(this.lastAliveStep / 60 / 3600 % 1 * 2) * 3 * Math.PI / Math.PI - this._dir / 2) % 2 + 2) % 2 * 180
+  }
+
+  /**
+   * Module shield
+   * @type {number}
+   * @readonly
+   */
+
+  get shield () {
+    return this.modding.data.shield
+  }
+
+  get alive () {
+    return this.modding.data.alive
+  }
+
+  /**
+   * Module finish
+   * @type {string}
+   * @readonly
+   */
+
+  get finish () {
+    return this.modding.data.finish
+  }
+}
+
+defineProperties(StationModule.prototype, {
+  structure_type: "station_module",
+  inactive_field: "vaporized"
+});
+
+module.exports = StationModule
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    </div>
+
+    <br class="clear">
+
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a>
+    </footer>
+
+</body>
+</html>
