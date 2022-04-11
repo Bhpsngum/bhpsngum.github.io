@@ -1,7 +1,3 @@
-#main > h1, #main > h3 {
-  display: none;
-}
-
 .type-signature {
   float: right;
   border-radius: 3pt;
@@ -34,7 +30,7 @@ table {
   font-size: 25px
 }
 
-* {
+*:not(pre *) {
   font-family: system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji';
 }
 

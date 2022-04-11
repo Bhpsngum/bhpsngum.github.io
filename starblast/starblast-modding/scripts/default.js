@@ -1,4 +1,10 @@
 (function(){
+  let main = document.querySelector("#main");
+  for (let i = 0; i < main.children.length; ++i) {
+    let el = main.children[i];
+    if (el.tagName.toLowerCase() != "section" && !el.innerText.startsWith("Source")) el.remove(--i)
+  }
+
   let elem = document.querySelector(".type-signature"), type = String((String((elem || {}).innerText).match(/\w+/)||[""])[0]);
   if ("abstract" == type) {
     document.querySelector(".container-overview").remove();
@@ -16,7 +22,7 @@
         i.innerText = (displayText[text] || text).toUpperCase()
       }
   }
-  document.querySelector(".signature").remove();
+  try { document.querySelector(".signature").remove() } catch (e) {}
 
   let article = document.querySelector("article"), children = article.children, createSpacing = function () {
     let t = document.createElement("div");
