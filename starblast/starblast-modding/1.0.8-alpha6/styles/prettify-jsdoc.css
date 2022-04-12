@@ -5,11 +5,12 @@
   color: #000000;
   font-weight: normal;
   font-style: normal;
+  background-color: transparent;
 }
 
 /* string content */
 .str {
-  color: #006400;
+  color: hsl(104, 100%, 24%);
   font-weight: normal;
   font-style: normal;
 }
@@ -25,6 +26,7 @@
 .com {
   font-weight: normal;
   font-style: italic;
+  background-color: transparent;
 }
 
 /* a type name */
@@ -39,6 +41,7 @@
   color: #006400;
   font-weight: normal;
   font-style: normal;
+  background-color: transparent;
 }
 
 /* punctuation */
@@ -46,6 +49,7 @@
   color: #000000;
   font-weight: bold;
   font-style: normal;
+  background-color: transparent;
 }
 
 /* lisp open bracket */

@@ -1,15 +1,19 @@
 (function(){
-  let main = document.querySelector("#main");
-  for (let i = 0; i < main.children.length; ++i) {
-    let el = main.children[i];
-    if (el.tagName.toLowerCase() != "section" && !el.innerText.startsWith("Source")) el.remove(--i)
-  }
-
-  let elem = document.querySelector(".type-signature"), type = String((String((elem || {}).innerText).match(/\w+/)||[""])[0]);
+  let elem = document.querySelector(".type-signature"), type = String((String((elem || {}).innerText).match(/\w+/)||[""])[0]), docgeneral = document.querySelector(".container-overview");
   if ("abstract" == type) {
-    document.querySelector(".container-overview").remove();
+    docgeneral.remove();
     elem.remove()
   }
+  else try {
+    let e = docgeneral.querySelector(".name"), constructorCaller = Array.prototype.find.call(e.childNodes, e => e.nodeName.toLowerCase() == "#text");
+    if (constructorCaller.textContent == "new ModdingClient") constructorCaller.textContent = "new StarblastModding.Client";
+
+    var d = document.createElement('pre');
+    d.setAttribute("class", "prettyprint");
+    d.innerHTML = "<code>"+e.innerText+"</code>";
+
+    e.parentNode.replaceChild(d, e)
+  } catch (e) {}
 
   for (let el of document.querySelectorAll(".name:not(td, .container-overview > h4)")) el.childNodes[1].nodeValue = "." + el.childNodes[1].nodeValue;
 
@@ -24,7 +28,6 @@
         i.innerText = (displayText[text] || text).toUpperCase()
       }
   }
-  try { document.querySelector(".signature").remove() } catch (e) {}
 
   let article = document.querySelector("article"), children = article.children, createSpacing = function () {
     let t = document.createElement("div");
@@ -33,9 +36,11 @@
   }
 
   for (let i = 0; i < children.length - 1; ++i) {
-    if (children[i].tagName.toLowerCase() == "dl") {
+    if (children[i].nodeName.toLowerCase() == "dl") {
       children[i].style.marginBottom = "20px";
-      if (children[i + 1].tagName.toLowerCase() == "h4" && Array.prototype.includes.call(children[i + 1].classList, "name")) article.insertBefore(createSpacing(), children[++i])
+      if (children[i + 1].nodeName.toLowerCase() == "h4" && Array.prototype.includes.call(children[i + 1].classList, "name")) article.insertBefore(createSpacing(), children[++i])
     }
   }
+
+  prettyPrint()
 })()
