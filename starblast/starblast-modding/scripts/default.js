@@ -35,6 +35,8 @@
     return t
   }
 
+  let done = false;
+
   for (let i = 0; i < children.length - 1; ++i) {
     if (children[i].nodeName.toLowerCase() == "dl") {
       children[i].style.marginBottom = "20px";
