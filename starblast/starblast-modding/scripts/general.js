@@ -1,9 +1,27 @@
 (function(){
-  let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage");
-  $.get("./" + hash).then(function(data, status, xhr) {
-    iframe.src = "./" + (xhr.getResponseHeader("Content-Type").includes("text/html") ? hash : "404.html")
-  })
-  .catch(function(e){ iframe.src = "./404.html" });
+  $.getJSON("./versions.json").then(function (data) {
+    let vSelect = $("#versions");
+    vSelect.append(data.map((i, j) => `<option value="${i}">${i + (j == 0 ? " (latest)" : "")}</option>`).join(""));
+
+    let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage");
+    $.get("./" + hash).then(function(d, status, xhr) {
+      if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
+        if (hash == "") {
+          iframe.src = "./" + data[0];
+          vSelect.val(data[0])
+        }
+        else {
+          iframe.src = "./" + hash;
+          vSelect.val(hash.match(/[^\/]+/)[0])
+        }
+      }
+      else {
+        iframe.src = "./404.html";
+        vSelect.val(data[0])
+      }
+    })
+    .catch(function(e){ iframe.src = "./404.html" });
+  }).catch(console.log);
   window.addEventListener("message", function (event) {
     if (false) return;
     try {
