@@ -56,13 +56,16 @@
     }
   }
 
-  document.querySelectorAll("dl.details:not(.param-type) a, .readme a").forEach(function (e) {
+  document.querySelectorAll(".readme a").forEach(function (e) {
     e.setAttribute("target", "_blank")
   });
 
   document.querySelectorAll("dl.details:not(.param-type) a").forEach(function (e) {
     let href = e.getAttribute("href");
-    if (href.includes(".js")) e.href = "https://github.com/bhpsngum/starblast-modding/blob/" + window.location.pathname.match(/\/(v[^\/]+)(\/|$)/)[1] + "/src/" + href.replace(/_/g, "/").replace(".html", "").replace(/#line(\d+)/, "#L$1")
+    if (href.includes(".js")) {
+      e.href = "https://github.com/bhpsngum/starblast-modding/blob/" + window.location.pathname.match(/\/(v[^\/]+)(\/|$)/)[1] + "/src/" + href.replace(/_/g, "/").replace(".html", "").replace(/#line(\d+)/, "#L$1");
+      e.setAttribute("target", "_blank")
+    }
   });
 
   prettyPrint()
