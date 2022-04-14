@@ -33,8 +33,9 @@
     if (false) return;
     try {
       let data = JSON.parse(event.data);
-      window.location.hash = "#/" + data.path + (data.hash ? ("#" + data.hash) : "");
-      window.history.pushState({path:window.location.href},'',window.location.href)
+      let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
+      window.history.pushState({path:url},'', url);
+      document.head.querySelector("title").innerHTML = hash.title
     }
     catch (e) {}
   });

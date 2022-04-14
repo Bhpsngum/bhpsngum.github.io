@@ -2,7 +2,8 @@
   let sendInfo = function () {
     window.parent.postMessage(JSON.stringify({
       path: ((window.location.pathname.match(/starblast-modding\/(.+)$/) || [])[1] || "").replace(/\.html$/,"").replace(/^\/$/, "index"),
-      hash: window.location.hash.replace(/^#/, "")
+      hash: window.location.hash.replace(/^#/, ""),
+      title: document.head.querySelector("title").innerHTML
     }), "*")
   }
 
