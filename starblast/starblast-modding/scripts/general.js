@@ -1,6 +1,6 @@
 (function(){
+  let vSelect = $("#versions");
   $.getJSON("./versions.json").then(function (data) {
-    let vSelect = $("#versions");
     vSelect.append(data.map((i, j) => `<option value="${i}">${i + (j == 0 ? " (latest)" : "")}</option>`).join(""));
     vSelect.on("change", function () {
       let selectedVal = vSelect.val();
@@ -35,7 +35,7 @@
       let data = JSON.parse(event.data);
       let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
       window.history.pushState({path:url},'', url);
-      document.head.querySelector("title").innerHTML = data.title + ` - starblast-modding Documentation (${vSelect.val()})`
+      $("head > title").html(data.title + ` - starblast-modding Documentation (${vSelect.val()})`);
     }
     catch (e) {}
   });
