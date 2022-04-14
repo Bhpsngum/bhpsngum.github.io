@@ -23,7 +23,7 @@
     padding-left: 2%;
 }
 
-#navbar > * {
+#navbar * {
     background: transparent;
     display: table-cell;
     vertical-align: middle;
