@@ -51,12 +51,6 @@ code:not(.prettyprint code) {
   line-height: inherit;
 }
 
-.prettyprint.linenums li.selected * {
-  background: transparent;
-  -webkit-filter: invert(100%);
-  filter: invert(100%);
-}
-
 h2, h3 {
   font-weight: bold;
 }
