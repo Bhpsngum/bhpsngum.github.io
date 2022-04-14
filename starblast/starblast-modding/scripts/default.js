@@ -55,5 +55,9 @@
     }
   }
 
+  document.querySelectorAll("dl.detals:not(.param-type) a").forEach(function (e) {
+    e.href = "https://github.com/bhpsngum/starblast-modding/blob/" + window.location.pathname.match(/\/(v[^\/]+)(\/|$)/)[1] + "/src/" + e.href.replace(/_/g, "/").replace(".html", ".js").replace(/#line(\d+)/, "#L$1");
+  });
+
   prettyPrint()
 })()

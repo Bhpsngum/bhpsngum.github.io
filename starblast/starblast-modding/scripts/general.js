@@ -2,6 +2,10 @@
   $.getJSON("./versions.json").then(function (data) {
     let vSelect = $("#versions");
     vSelect.append(data.map((i, j) => `<option value="${i}">${i + (j == 0 ? " (latest)" : "")}</option>`).join(""));
+    vSelect.addEventListener("change", function () {
+      let selectedVal = vSelect.val();
+      if (data.includes(selectedVal)) iframe.src = "./" + selectedVal
+    });
 
     let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
     $.get("./" + hash).then(function(d, status, xhr) {
@@ -24,7 +28,7 @@
       iframe.src = "./404.html";
       vSelect.val(data.includes(matches) ? matches : data[0])
     });
-  }).catch(console.log);
+  }).catch(e => window.location.reload());
   window.addEventListener("message", function (event) {
     if (false) return;
     try {
