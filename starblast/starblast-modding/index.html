@@ -1,6 +1,13 @@
 <!DOCTYPE HTML>
 <html dir="ltr">
   <head>
+    <title>Documentation - starblast-modding</title>
+    <link rel="icon" href="../gameicon.ico">
+    <link href="styles/general.css" rel="stylesheet" type="text/css">
+    <link href="styles/jsdoc-default.css" rel="stylesheet" type="text/css">
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://kit.fontawesome.com/ccd821e6cb.js" crossorigin="anonymous"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZQRTRBNZS"></script>
     <script>
@@ -11,9 +18,16 @@
       gtag('config', 'G-9ZQRTRBNZS');
     </script>
   </head>
-  <body oncontextmenu="return false;">
-    <script>
-      window.open("1.0.8-alpha6/", "_self")
-    </script>
+  <body>
+    <div id="navbar">
+      <h1 id="title">starblast-modding</h1>
+      <select id="versions">
+        <option disabled>--Select version--</option>
+      </select>
+      <a class="a_button" target="_blank" href="https://npmjs.com/package/starblast-modding">NPM</a>
+      <a class="a_button" target="_blank" href="https://github.com/bhpsngum/starblast-modding">GitHub</a>
+    </div>
+    <iframe id="docpage" src="v2-alpha6/index.html"></iframe>
+    <script type="text/javascript" src="scripts/general.js"></script>
   </body>
 </html>

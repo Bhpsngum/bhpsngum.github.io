@@ -1,0 +1,12 @@
+body > * {
+  text-align: center;
+}
+
+#notice > h1 {
+  font-weight: bold;
+}
+
+footer {
+  margin: 0;
+  border-top: 1px solid whitesmoke;
+}
