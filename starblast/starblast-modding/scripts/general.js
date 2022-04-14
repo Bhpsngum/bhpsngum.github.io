@@ -3,9 +3,8 @@
     let vSelect = $("#versions");
     vSelect.append(data.map((i, j) => `<option value="${i}">${i + (j == 0 ? " (latest)" : "")}</option>`).join(""));
 
-    let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage");
+    let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
     $.get("./" + hash).then(function(d, status, xhr) {
-      let matches = (hash.match(/[^\/]+/) || [])[0] || "";
       if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
         if (hash == "") {
           iframe.src = "./" + data[0];
