@@ -30,7 +30,7 @@
     e.parentNode.replaceChild(d, e)
   } catch (e) {}
 
-  for (let el of document.querySelectorAll(".name:not(td, .container-overview > h4)")) el.childNodes[1].nodeValue = "." + el.childNodes[1].nodeValue;
+  for (let el of document.querySelectorAll(".name:not(td, .container-overview > h4)")) try { el.childNodes[1].nodeValue = "." + el.childNodes[1].nodeValue } catch (e) {}
 
   let displayText = {
     "readonly": "read-only"
