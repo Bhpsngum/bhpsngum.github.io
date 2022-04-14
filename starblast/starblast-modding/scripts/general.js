@@ -2,7 +2,7 @@
   $.getJSON("./versions.json").then(function (data) {
     let vSelect = $("#versions");
     vSelect.append(data.map((i, j) => `<option value="${i}">${i + (j == 0 ? " (latest)" : "")}</option>`).join(""));
-    vSelect.addEventListener("change", function () {
+    vSelect.on("change", function () {
       let selectedVal = vSelect.val();
       if (data.includes(selectedVal)) iframe.src = "./" + selectedVal
     });
