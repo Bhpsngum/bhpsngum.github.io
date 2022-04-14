@@ -30,12 +30,12 @@
     });
   }).catch(e => window.location.reload());
   window.addEventListener("message", function (event) {
-    if (false) return;
+    if (event.origin != "https://bhpsngum.github.io") return;
     try {
       let data = JSON.parse(event.data);
       let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
       window.history.pushState({path:url},'', url);
-      document.head.querySelector("title").innerHTML = hash.title
+      document.head.querySelector("title").innerHTML = data.title + ` - starblast-modding Documentation (${vSelect.val()})`
     }
     catch (e) {}
   });
