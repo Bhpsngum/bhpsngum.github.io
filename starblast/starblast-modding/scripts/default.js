@@ -3,7 +3,7 @@
     window.parent.postMessage(JSON.stringify({
       name: "info",
       data: {
-        path: ((window.location.pathname.match(/starblast-modding\/(.+)$/) || [])[1] || "").replace(/\.html$/,"").replace(/^\/$/, "index"),
+        path: ((window.location.pathname.match(/starblast-modding\/(.+)$/) || [])[1] || "").replace(/\/$/, "index").replace(/\.html$/,""),
         hash: window.location.hash.replace(/^#/, ""),
         title: document.head.querySelector("title").innerHTML
       }
