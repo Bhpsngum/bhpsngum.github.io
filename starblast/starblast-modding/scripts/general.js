@@ -21,7 +21,10 @@
         vSelect.val(data.includes(matches) ? matches : data[0])
       }
     })
-    .catch(function(e){ iframe.src = "./404.html" });
+    .catch(function(e){
+      iframe.src = "./404.html";
+      vSelect.val(data.includes(matches) ? matches : data[0])
+    });
   }).catch(console.log);
   window.addEventListener("message", function (event) {
     if (false) return;
