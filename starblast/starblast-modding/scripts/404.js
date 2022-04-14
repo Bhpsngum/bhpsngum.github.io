@@ -8,4 +8,4 @@
   document.querySelector("#backtohome").addEventListener("click", function () {
     sendMessage("backtohome")
   })
-})
+})()
