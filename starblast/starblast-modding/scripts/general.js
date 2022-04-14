@@ -32,10 +32,20 @@
   window.addEventListener("message", function (event) {
     if (event.origin != "https://bhpsngum.github.io") return;
     try {
-      let data = JSON.parse(event.data);
-      let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
-      window.history.pushState({path:url},'', url);
-      $("head > title").html(data.title + ` - starblast-modding Documentation (${vSelect.val()})`);
+      let evt = JSON.parse(event.data), data = evt.data;
+      switch (evt.name) {
+        case "info":
+          let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
+          window.history.pushState({path:url},'', url);
+          $("head > title").html(data.title + ` - starblast-modding Documentation (${vSelect.val()})`);
+          break;
+        case "error":
+          $("head > title").html(`Page not found - starblast-modding Documentation (${vSelect.val()})`);
+          break;
+        case "backtohome":
+          window.location.hash = "";
+          window.location.reload();
+      }
     }
     catch (e) {}
   });

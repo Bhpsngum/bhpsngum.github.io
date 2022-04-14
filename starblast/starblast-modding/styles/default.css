@@ -62,3 +62,7 @@ h2, h3 {
 dl.param-type {
   border: none;
 }
+
+footer {
+  border-top: 1px solid whitesmoke;
+}
