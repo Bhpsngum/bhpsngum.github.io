@@ -1,5 +1,6 @@
 (function(){
-  let vSelect = $("#versions"), loadPage = function () {
+  let hashAutoChange = false, vSelect = $("#versions"), loadPage = function (e) {
+    hashAutoChange = !!e;
     let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
     $.get("./" + hash).then(function(d, status, xhr) {
       if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
@@ -37,9 +38,13 @@
       let evt = JSON.parse(event.data), data = evt.data;
       switch (evt.name) {
         case "info":
-          let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
-          window.history.pushState({path:url},'', url);
-          $("head > title").html(data.title + ` - starblast-modding Documentation (${vSelect.val()})`);
+          if (hashAutoChange) {
+            hashAutoChange = false;
+            break;
+          }
+          window.location.hash = `#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
+          hashAutoChange = true;
+          $("head > title").html(`${data.title}${data.hash ? ("#" + data.hash) : ""} - starblast-modding Documentation (${vSelect.val()})`);
           break;
         case "error":
           $("head > title").html(`Page not found - starblast-modding Documentation (${vSelect.val()})`);
