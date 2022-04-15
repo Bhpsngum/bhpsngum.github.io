@@ -1,6 +1,5 @@
 (function(){
-  let hashAutoChange = false, vSelect = $("#versions"), loadPage = function (e) {
-    hashAutoChange = !!e;
+  let vSelect = $("#versions"), loadPage = function () {
     let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
     $.get("./" + hash).then(function(d, status, xhr) {
       if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
@@ -38,10 +37,11 @@
       let evt = JSON.parse(event.data), data = evt.data;
       switch (evt.name) {
         case "info":
-          let hash = data.hash ? ("#" + data.hash) : "";
-          if (hashAutoChange) hashAutoChange = false;
-          else window.location.hash = `#/${data.path}${hash}`;
-          $("head > title").html(`${data.title}${hash} - starblast-modding Documentation (${vSelect.val()})`);
+          let newHash = `#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
+          let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}${newHash}`;
+          if (newHash != window.location.hash) window.history.pushState({path: url}, '', url);
+          let component = data.hash.match(/^([^:]+:)*([^]+)$/) || [], namespace = component[1] || "", method = component[2];
+          $("head > title").html(`${namespace[0].toUpperCase()}${namespace.slice(1)}${data.title}#${method} - starblast-modding Documentation (${vSelect.val()})`);
           break;
         case "error":
           $("head > title").html(`Page not found - starblast-modding Documentation (${vSelect.val()})`);
