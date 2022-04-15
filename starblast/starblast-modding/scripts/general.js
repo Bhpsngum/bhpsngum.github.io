@@ -1,6 +1,6 @@
 (function(){
-  let data = [], vSelect = $("#versions"), loadPage = function () {
-    let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
+  let domain = `${window.location.protocol}//${window.location.host}`, data = [], vSelect = $("#versions"), loadPage = function () {
+    let hash = window.location.hash.replace(/^#\/*/, "").replace(/(#|$)/, ".html$1"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
     $.get("./" + hash).then(function(d, status, xhr) {
       if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
         if (hash == "") {
@@ -33,23 +33,24 @@
     window.addEventListener("popstate", loadPage);
   }).catch(e => window.location.reload());
   window.addEventListener("message", function (event) {
-    if (event.origin != "https://bhpsngum.github.io") return;
+    let version = vSelect.val();
+    if (event.origin != domain) return;
     try {
       let evt = JSON.parse(event.data), data = evt.data;
       switch (evt.name) {
         case "info":
           let newHash = `#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
-          let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}${newHash}`;
+          let url = `${domain}${window.location.pathname}${newHash}`;
           if (newHash != window.location.hash) window.history.pushState({path: url}, '', url);
           let component = data.hash.match(/^([^:]+:)*([^]*)$/), namespace = component[1] || "", method = component[2];
           if (!namespace && data.title != "Home") {
             if (method) namespace = "method:";
             else namespace = "class:"
           }
-          $("head > title").html(`${namespace.charAt(0).toUpperCase()}${namespace.slice(1)} ${data.title}${method ? ("#" + method) : ""} - starblast-modding Documentation (${vSelect.val()})`);
+          $("head > title").html(`${namespace.charAt(0).toUpperCase()}${namespace.slice(1)} ${data.title}${method ? ("#" + method) : ""} - starblast-modding Documentation (${version})`);
           break;
         case "error":
-          $("head > title").html(`Page not found - starblast-modding Documentation (${vSelect.val()})`);
+          $("head > title").html(`Page not found - starblast-modding Documentation (${version}})`);
           break;
         case "backtohome":
           window.location.hash = "";
