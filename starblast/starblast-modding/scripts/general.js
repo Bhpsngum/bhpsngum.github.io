@@ -1,5 +1,5 @@
 (function(){
-  let versionData = [], vSelect = $("#versions"), loadPage = function () {
+  let data = [], vSelect = $("#versions"), loadPage = function () {
     let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
     $.get("./" + hash).then(function(d, status, xhr) {
       if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
@@ -22,8 +22,8 @@
       vSelect.val(data.includes(matches) ? matches : data[0])
     })
   }
-  $.getJSON("./versions.json").then(function (data) {
-    versionData = data;
+  $.getJSON("./versions.json").then(function (versionData) {
+    data = versionData;
     vSelect.append(data.map((i, j) => `<option value="${i}">${i + (j == 0 ? " (latest)" : "")}</option>`).join(""));
     vSelect.on("change", function () {
       let selectedVal = vSelect.val();
