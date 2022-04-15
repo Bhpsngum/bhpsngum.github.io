@@ -1,5 +1,5 @@
 (function(){
-  let hashChanged = false, data = [], vSelect = $("#versions"), loadPage = function () {
+  let data = [], vSelect = $("#versions"), loadPage = function () {
     let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
     $.get("./" + hash).then(function(d, status, xhr) {
       if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
@@ -29,10 +29,8 @@
       let selectedVal = vSelect.val();
       if (data.includes(selectedVal)) iframe.src = "./" + selectedVal
     });
-    window.addEventListener("hashchange", function () {
-      if (hashChanged) hashChanged = false;
-      else loadPage()
-    })
+    loadPage();
+    window.addEventListener("popstate", loadPage);
   }).catch(e => window.location.reload());
   window.addEventListener("message", function (event) {
     if (event.origin != "https://bhpsngum.github.io") return;
@@ -41,11 +39,8 @@
       switch (evt.name) {
         case "info":
           let newHash = `#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
-          if (newHash != window.location.hash) {
-            hashChanged = true;
-            window.location.hash = newHash
-          }
-          else hashChanged = false;
+          let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}${newHash}`;
+          if (newHash != window.location.hash) window.history.pushState({path: url}, '', url);
           let component = data.hash.match(/^([^:]+:)*([^]*)$/), namespace = component[1] || "", method = component[2];
           if (!namespace && data.title != "Home") {
             if (method) namespace = "method:";
