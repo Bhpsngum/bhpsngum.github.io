@@ -41,7 +41,7 @@
           let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}${newHash}`;
           if (newHash != window.location.hash) window.history.pushState({path: url}, '', url);
           let component = data.hash.match(/^([^:]+:)*([^]*)$/), namespace = component[1] || "", method = component[2];
-          $("head > title").html(`${(namespace.charAt(0).toUpperCase()}${namespace.slice(1)}${data.title}${method ? ("#" + method) : ""} - starblast-modding Documentation (${vSelect.val()})`);
+          $("head > title").html(`${namespace.charAt(0).toUpperCase()}${namespace.slice(1)}${data.title}${method ? ("#" + method) : ""} - starblast-modding Documentation (${vSelect.val()})`);
           break;
         case "error":
           $("head > title").html(`Page not found - starblast-modding Documentation (${vSelect.val()})`);
