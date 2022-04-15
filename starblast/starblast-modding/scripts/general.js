@@ -40,11 +40,11 @@
         case "info":
           if (hashAutoChange) {
             hashAutoChange = false;
-            break;
+            break
           }
-          window.location.hash = `#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
-          hashAutoChange = true;
-          $("head > title").html(`${data.title}${data.hash ? ("#" + data.hash) : ""} - starblast-modding Documentation (${vSelect.val()})`);
+          let hash = data.hash ? ("#" + data.hash) : "";
+          window.location.hash = `#/${data.path}${hash}`;
+          $("head > title").html(`${data.title}${hash} - starblast-modding Documentation (${vSelect.val()})`);
           break;
         case "error":
           $("head > title").html(`Page not found - starblast-modding Documentation (${vSelect.val()})`);
