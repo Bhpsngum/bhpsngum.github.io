@@ -1,5 +1,5 @@
 (function(){
-  let hashAutoChange = false, vSelect = $("#versions"), loadPage = function () {
+  let vSelect = $("#versions"), loadPage = function () {
     let hash = window.location.hash.replace(/^#\/*/, "").replace("#", ".html#"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
     $.get("./" + hash).then(function(d, status, xhr) {
       if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
@@ -29,10 +29,7 @@
       if (data.includes(selectedVal)) iframe.src = "./" + selectedVal
     });
     loadPage();
-    window.addEventListener("hashchange", function () {
-      if (hashAutoChange) hashAutoChange = false;
-      else loadPage()
-    });
+    window.addEventListener("hashchange", loadPage);
   }).catch(e => window.location.reload());
   window.addEventListener("message", function (event) {
     if (event.origin != "https://bhpsngum.github.io") return;
@@ -40,8 +37,8 @@
       let evt = JSON.parse(event.data), data = evt.data;
       switch (evt.name) {
         case "info":
-          window.location.hash = `#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
-          hashAutoChange = true;
+          let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
+          window.history.pushState({path:url},'', url);
           $("head > title").html(data.title + ` - starblast-modding Documentation (${vSelect.val()})`);
           break;
         case "error":
