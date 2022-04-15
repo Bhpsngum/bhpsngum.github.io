@@ -1,6 +1,6 @@
 (function(){
   let domain = `${window.location.protocol}//${window.location.host}`, data = [], vSelect = $("#versions"), loadPage = function () {
-    let hash = window.location.hash.replace(/^#\/*/, "").replace(/(#|$)/, ".html$1"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
+    let hash = window.location.hash.replace(/^#\/*/, "").replace(/#/, ".html#"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
     $.get("./" + hash).then(function(d, status, xhr) {
       if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
         if (hash == "") {
