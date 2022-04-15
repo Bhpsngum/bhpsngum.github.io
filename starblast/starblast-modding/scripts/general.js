@@ -29,7 +29,6 @@
       let selectedVal = vSelect.val();
       if (data.includes(selectedVal)) iframe.src = "./" + selectedVal
     });
-    loadPage();
     window.addEventListener("hashchange", function () {
       if (hashChanged) hashChanged = false;
       else loadPage()
