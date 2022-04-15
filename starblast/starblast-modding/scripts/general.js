@@ -37,8 +37,7 @@
       let evt = JSON.parse(event.data), data = evt.data;
       switch (evt.name) {
         case "info":
-          let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
-          window.history.pushState({path:url},'', url);
+          window.location.hash = `#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
           $("head > title").html(data.title + ` - starblast-modding Documentation (${vSelect.val()})`);
           break;
         case "error":
