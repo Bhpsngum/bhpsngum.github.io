@@ -38,12 +38,9 @@
       let evt = JSON.parse(event.data), data = evt.data;
       switch (evt.name) {
         case "info":
-          if (hashAutoChange) {
-            hashAutoChange = false;
-            break
-          }
           let hash = data.hash ? ("#" + data.hash) : "";
-          window.location.hash = `#/${data.path}${hash}`;
+          if (hashAutoChange) hashAutoChange = false;
+          else window.location.hash = `#/${data.path}${hash}`;
           $("head > title").html(`${data.title}${hash} - starblast-modding Documentation (${vSelect.val()})`);
           break;
         case "error":
