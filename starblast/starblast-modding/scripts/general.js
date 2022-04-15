@@ -41,7 +41,8 @@
           let newHash = `#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
           let url = `${window.location.protocol}//${window.location.host}${window.location.pathname}${newHash}`;
           if (newHash != window.location.hash) window.history.pushState({path: url}, '', url);
-          let component = data.hash.match(/^([^:]+:)*([^]*)$/), namespace = component[1] || "Class:", method = component[2];
+          let component = data.hash.match(/^([^:]+:)*([^]*)$/), namespace = component[1] || "", method = component[2];
+          if (!namespace && data.title != "Home") namespace = "class:";
           $("head > title").html(`${namespace.charAt(0).toUpperCase()}${namespace.slice(1)} ${data.title}${method ? ("#" + method) : ""} - starblast-modding Documentation (${vSelect.val()})`);
           break;
         case "error":
