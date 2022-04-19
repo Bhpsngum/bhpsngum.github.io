@@ -890,5 +890,25 @@
     ],
     "official": 0,
     "event": 0
+  },
+  {
+    "name": "Starblast Team Fights",
+    "abbreviation": "STF",
+    "version": "",
+    "description": "",
+    "modes": "Team",
+    "img": "",
+    "link": {
+      "url": "https://github.com/W0lfan/Starblast-Team-Fights",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Wolfan"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
   }
 ]
