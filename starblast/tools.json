@@ -5,7 +5,7 @@
   "ship-tree-path-finder",
   "sscv",
   "ecp",
-  "serverstats",
+  "serverstatus",
   {
     "dir": "/redirect?id=SETExtension-chrome",
     "name": "Starblast Enhancements Tools (SET)",

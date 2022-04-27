@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Starblast Servers - Live Status</title>
+    <meta name="description" content="Live status of Starblast servers.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="og:site_name" content="Starblast Tools and Utilities">
+    <meta name="og:title" content="Starblast Servers - Live Status">
+    <meta name="twitter:title" content="Starblast Servers - Live Status">
+    <meta name="og:description" content="Live status of Starblast servers.">
+    <meta name="og:image" content="/starblast/serverstats/preview.png">
+    <meta name="twitter:description" content="Live status of Starblast servers.">
+    <meta name="twitter:image" content="/starblast/serverstats/preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://kit.fontawesome.com/ccd821e6cb.js" crossorigin="anonymous"></script>
+    <script src="/starblast/toolPage.js" type="text/javascript"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZQRTRBNZS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-9ZQRTRBNZS');
+    </script>
+  </head>
+  <body>
+    <div id="adblocker" style="display: none">Thank you for using this tool! If you have any adblockers, please turn it off so we could fetch and cache servers info!</div>
+    <h1 id="title">Starblast Servers - Live Status</h1>
+    <p id="status"></p>
+    <div id="filter">
+      <fieldset class = "chooser" id="regions">
+        <legend>Server Region</legend>
+      </fieldset>
+      <fieldset class = "chooser" id="servertypes">
+        <legend>Server Type</legend>
+      </fieldset>
+      <p id="results-counter">Loading data...</p>
+    </div>
+    <div id="serverstats"></div>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
