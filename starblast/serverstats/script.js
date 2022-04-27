@@ -15,7 +15,7 @@
   }, setAdblocker = function (bool) {
     $("#adblocker").css("display", bool?"":"none")
   }, fetchLocation = function(ip, action) {
-    $.get("https://ipwhois.app/json/"+ip+"?objects=country,country_flag,region").then(function (data) {
+    $.get("https://ipwhois.app/json/"+ip+"?objects=country,country_flag,region,isp,city").then(function (data) {
       IPs[ip] = data;
       saveLocal("server-ips", IPs);
       setAdblocker(false);
@@ -25,9 +25,10 @@
       else setAdblocker(false)
     })
   }, assignLocation = function(ID, ip) {
-    let ldata = IPs[ip] || {}, place = (ldata.region || "") + ", " + (ldata.country || "");
-    $("#serverstats #title-" + ID).html(place != ", " ? place : "Unknown");
+    let ldata = IPs[ip] || {}, place = (ldata.city || "") + ", " + (ldata.region || "") + ", " + (ldata.country || "");
+    $("#serverstats #title-" + ID).html(place != ", , " ? place : "Unknown");
     $("#serverstats #ip-" + ID).html("<b>IP Address:</b> " + ip);
+    $("#serverstats #host-" + ID).html("<b>Host:</b> " + (ldata.isp || "Unknown"));
     $("#serverstats #img-" + ID).attr("src", ldata.country_flag || "servericon.jpg")
   }, getLocation = function (server) {
     let serverID = getID(server), ip = String(server.address).split(":")[0], setLocation = function() { assignLocation(serverID, ip) }
@@ -43,6 +44,7 @@
     <p><b>Region:</b> ${server.location}</p>
     <p id="ip-${serverID}"></p>
     <p><b>Port:</b> ${serverID.split("_")[1]}</p>
+    <p id="host-${serverID}"></p>
     <p><b>PID</b>: ${(server.usage||{}).pid || "Not detected"}</p>
     <p><b>PPID</b>: ${(server.usage||{}).ppid || "Not detected"}</p>
     <p><b>Uptime:</b> ${getTime((server.usage||{}).elapsed || 0)}</p>
