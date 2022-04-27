@@ -16,7 +16,7 @@
     $("#adblocker").css("display", bool?"":"none")
   }, fetchLocation = function(ip, action) {
     $.get("https://ipwhois.app/json/"+ip+"?objects=country,country_flag,region").then(function (data) {
-      IPs[ip] = `<img class="flag" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)" src="${data.country_flag}"> ${data.region}, ${data.country}`;
+      IPs[ip] = data;
       saveLocal("server-ips", IPs);
       setAdblocker(false);
       if ("function" == typeof action) action();
@@ -25,7 +25,10 @@
       else setAdblocker(false)
     })
   }, assignLocation = function(ID, ip) {
-    $("#serverstats #" + ID + " p").html(IPs[ip] || "Unknown")
+    let ldata = IPs[ip] || {}, place = (ldata.region || "") + ", " + (ldata.country || "");
+    $("#serverstats #title-" + ID).html(place != ", " ? place : "Unknown");
+    $("#serverstats #ip-" + ID).html("<b>IP Address:</b> " + ip);
+    $("#serverstats #img-" + ID).attr("src", ldata.country_flag || "servericon.jpg")
   }, getLocation = function (server) {
     let serverID = getID(server), ip = String(server.address).split(":")[0], setLocation = function() { assignLocation(serverID, ip) }
     setLocation();
@@ -34,12 +37,14 @@
     return String(server.address).replace(/\./g, "-").replace(/\:/g, "_")
   }, serverStatBox = function(server) {
     server = server || {}
-    let serverID = getID(server), html = `<img src='servericon.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
-    <h3 id="${serverID}" style="text-align:center"><p></p>${server.modding?'<img src="favicon.ico" class="modding-thumnail" title="This is a Modding server" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">':""}</h3>
+    let serverID = getID(server), html = `<img id="img-${serverID}" src='servericon.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
+    ${server.modding ? '<img class="modding-thumbnail" src="favicon.ico" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)" title="This is a Modding server" style="right: 12px; top: 12px;">' : ""}
+    <h3 id="title-${serverID}" style="text-align:center"></h3>
     <p><b>Region:</b> ${server.location}</p>
-    <p><b>IP Address:</b> ${serverID}</p>
+    <p id="ip-${serverID}"></p>
+    <p><b>Port:</b> ${serverID.split("_")[1]}</p>
     <p><b>PID</b>: ${(server.usage||{}).pid || "Not detected"}</p>
-    <p><b>PID</b>: ${(server.usage||{}).ppid || "Not detected"}</p>
+    <p><b>PPID</b>: ${(server.usage||{}).ppid || "Not detected"}</p>
     <p><b>Uptime:</b> ${getTime((server.usage||{}).elapsed || 0)}</p>
     <p><b>Players:</b> ${getNum(server.current_players)}</p>
     <p><b>Systems:</b> ${getNum(server.systems.length)}</p>`, el = $("#serverstats>.serverStatBox#"+serverID);
@@ -96,7 +101,7 @@
     });
   }, queueNextUpdate = function() {
     setTimeout(function(){updated = false}, 5000)
-  }, img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, adjustwidth = function(){
+  }, img_size = 300, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, adjustwidth = function(){
     let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
     $(":root").css({
       '--width': Math.trunc(t)+"px",

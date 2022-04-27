@@ -38,8 +38,9 @@ p, h3 {
   cursor: pointer;
 }
 
-img.modding-thumnail, img.flag {
-  width: 3%;
+img.modding-thumbnail {
+  width: 10%;
+  position: absolute;
   cursor: pointer;
 }
 
