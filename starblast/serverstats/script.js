@@ -46,8 +46,8 @@
     <p><b>PID</b>: ${(server.usage||{}).pid || "Not detected"}</p>
     <p><b>PPID</b>: ${(server.usage||{}).ppid || "Not detected"}</p>
     <p><b>Uptime:</b> ${getTime((server.usage||{}).elapsed || 0)}</p>
-    <p><b>Players:</b> ${getNum(server.current_players)}</p>
-    <p><b>Systems:</b> ${getNum(server.systems.length)}</p>`, el = $("#serverstats>.serverStatBox#"+serverID);
+    <p><b>Current players:</b> ${getNum(server.current_players)}</p>
+    <p><b>Current public games:</b> ${getNum(server.systems.length)}</p>`, el = $("#serverstats>.serverStatBox#"+serverID);
     if (!el[0]) {
       el = $(`<div id=${serverID} class="serverStatBox">${html}</div>`);
       $("#serverstats").append(el);
