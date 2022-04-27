@@ -25,7 +25,7 @@
       else setAdblocker(false)
     })
   }, assignLocation = function(ID, ip) {
-    $("#serverstats #location-"+ID).html("<b>Location:</b> "+ (IPs[ip] || "Unknown")).attr("title", "Server IP: "+ip);
+    $("#serverstats #" + ID + " p").html(IPs[ip] || "Unknown")
   }, getLocation = function (server) {
     let serverID = getID(server), ip = String(server.address).split(":")[0], setLocation = function() { assignLocation(serverID, ip) }
     setLocation();
@@ -35,9 +35,11 @@
   }, serverStatBox = function(server) {
     server = server || {}
     let serverID = getID(server), html = `<img src='servericon.jpg' onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">
-    <h3 style="text-align:center">${(server.usage||{}).pid||0} - ${(server.usage||{}).ppid||0} ${server.modding?'<img src="favicon.ico" class="modding-thumnail" title="This is a Modding server" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">':""}</h3>
+    <h3 id="${serverID}" style="text-align:center"><p></p>${server.modding?'<img src="favicon.ico" class="modding-thumnail" title="This is a Modding server" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)">':""}</h3>
     <p><b>Region:</b> ${server.location}</p>
-    <p class="location" id="location-${serverID}"></p>
+    <p><b>IP Address:</b> ${serverID}</p>
+    <p><b>PID</b>: ${(server.usage||{}).pid || "Not detected"}</p>
+    <p><b>PID</b>: ${(server.usage||{}).ppid || "Not detected"}</p>
     <p><b>Uptime:</b> ${getTime((server.usage||{}).elapsed || 0)}</p>
     <p><b>Players:</b> ${getNum(server.current_players)}</p>
     <p><b>Systems:</b> ${getNum(server.systems.length)}</p>`, el = $("#serverstats>.serverStatBox#"+serverID);
