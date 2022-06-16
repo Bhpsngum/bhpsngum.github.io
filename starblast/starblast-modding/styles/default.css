@@ -14,6 +14,11 @@
   color: #cde;
 }
 
+.subsection-title {
+  border-top: 1px solid white;
+  padding-top: 10px;
+}
+
 .type-signature.async {
   background-color: orange;
   color: #cde;
@@ -61,6 +66,7 @@ h2, h3 {
 
 dl.param-type {
   border: none;
+  padding-bottom: 0;
 }
 
 footer {

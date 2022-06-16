@@ -35,6 +35,7 @@
   let displayText = {
     "readonly": "read-only"
   }
+
   for (let i of document.querySelectorAll(".type-signature")) {
       if (i.innerText.match(/^\s*:[^]+/) || i.innerText.match(/^\s*→\s*{[^]+}/)) i.remove();
       else {
@@ -44,31 +45,13 @@
       }
   }
 
-  let article = document.querySelector("article"), children = article.children, createSpacing = function () {
-    let t = document.createElement("div");
-    t.setAttribute("class", "spacing");
-    return t
-  }
-
-  let done = false;
-
-  for (let i = 0; i < children.length - 1; ++i) {
-    if (children[i].nodeName.toLowerCase() == "dl") {
-      children[i].style.marginBottom = "20px";
-      if (children[i + 1].nodeName.toLowerCase() == "h4" && Array.prototype.includes.call(children[i + 1].classList, "name")) article.insertBefore(createSpacing(), children[++i])
-    }
-  }
-
   document.querySelectorAll(".readme a").forEach(function (e) {
     e.setAttribute("target", "_blank")
   });
 
-  document.querySelectorAll("dl.details:not(.param-type) a").forEach(function (e) {
+  document.querySelectorAll(".__sourceLinks a").forEach(function (e) {
     let href = e.getAttribute("href");
-    if (href.includes(".js")) {
-      e.href = "https://github.com/bhpsngum/starblast-modding/blob/" + window.location.pathname.match(/\/(v[^\/]+)(\/|$)/)[1] + "/src/" + href.replace(/_/g, "/").replace(".html", "").replace(/#line(\d+)/, "#L$1");
-      e.setAttribute("target", "_blank")
-    }
+    if (href.includes(".js")) e.href = "https://github.com/bhpsngum/starblast-modding/blob/" + window.location.pathname.match(/\/(v[^\/]+)(\/|$)/)[1] + "/src/" + href;
   });
 
   prettyPrint()
