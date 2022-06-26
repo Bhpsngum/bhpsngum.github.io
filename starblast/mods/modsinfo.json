@@ -344,7 +344,7 @@
     },
     "author": [
       {
-        "name": ["45rfew/Money"],
+        "name": ["45rfew", "Money"],
         "link": "https://github.com/45rfew/"
       },
       {
@@ -352,7 +352,7 @@
         "link": "https://github.com/DoDucMinh1608"
       },
       {
-        "name": ["Apathy/X7"],
+        "name": ["Apathy", "X7"],
         "link": "https://github.com/apxthyy/"
       },
       {
@@ -360,8 +360,8 @@
         "link": "https://github.com/bhpsngum/"
       },
       {
-        "name": ["Robonuko"],
-        "link": ""
+        "name": ["Robonuko", "M.K"],
+        "link": "https://github.com/Mike-Kill/"
       }
     ],
     "official": 0,
@@ -848,24 +848,24 @@
     "event": 0
   },
   {
-    "name": "A-Series",
-    "abbreviation": "",
-    "version": "1.0",
-    "description": "",
-    "modes": "Team/Survival",
-    "img": "",
+    "name": "New-Age",
+    "abbreviation": "NAS",
+    "version": "",
+    "description": "sussy mod for sussyblast",
+    "modes": "Team",
+    "img": "img/newage.png",
     "link": {
-      "url": "https://pastebin.com/Q9W8N9JE",
+      "url": "https://github.com/Mike-Kill/New-Age-starblast-Mod",
       "state": 2
     },
     "author": [
       {
-        "name": ["ORION"],
-        "link": ""
+        "name": ["Robonuko", "M.K"],
+        "link": "https://github.com/Mike-Kill/"
       },
       {
-        "name": ["iom"],
-        "link": ""
+        "name": ["___"],
+        "link": "https://github.com/DoDucMinh1608"
       }
     ],
     "official": 0,
