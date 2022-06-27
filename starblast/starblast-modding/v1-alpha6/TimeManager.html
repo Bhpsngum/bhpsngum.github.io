@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>StructureManager</title>
+    <title>TimeManager</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -42,10 +42,10 @@
 <header>
     
         <h2>
-        StructureManager
+        TimeManager
         </h2>
         
-            <div class="class-description">The Station Module Manager Instance.</div>
+            <div class="class-description">The Time Manager (Timer) Instance.</div>
         
     
 </header>
@@ -59,7 +59,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="StructureManager"><span class="type-signature">(abstract) </span>new StructureManager<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="TimeManager"><span class="type-signature">(abstract) </span>new TimeManager<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -106,7 +106,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L13">line 13</a>
+      <a target = "_blank" href = "managers/TimeManager.js">managers/TimeManager.js</a>, <a target = "_blank" href = "managers/TimeManager.js#L8">line 8</a>
     </li></ul></dd>
     
 
@@ -136,17 +136,6 @@
     </div>
 
     
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li><a href="ArrayMap.html">ArrayMap</a></li>
-    </ul>
-
-
-    
 
     
 
@@ -160,83 +149,13 @@
         <h3 class="subsection-title">Members</h3>
 
         
-<h4 class="name" id="all"><span class="type-signature">(readonly) </span>all</h4>
+<h4 class="name" id="step"><span class="type-signature">(readonly) </span>step</h4>
 
 
 
 
 <div class="description">
-    A collection containing all structures in the manager
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><a href="ArrayMap.html">ArrayMap</a></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L18">line 18</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class = "spacing"></div>
-<h4 class="name" id="length"><span class="type-signature">(readonly) </span>length</h4>
-
-
-
-
-<div class="description">
-    Length of this object, same as <code>Map.prototype.size</code>
+    The game step
 </div>
 
 
@@ -264,11 +183,6 @@
     
 
     
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ArrayMap.html#length">ArrayMap#length</a>
-    </li></ul></dd>
-    
 
     
 
@@ -289,67 +203,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "utils/ArrayMap.js">utils/ArrayMap.js</a>, <a target = "_blank" href = "utils/ArrayMap.js#L29">line 29</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class = "spacing"></div>
-<h4 class="name" id="limit"><span class="type-signature">(readonly) </span>limit</h4>
-
-
-
-
-<div class="description">
-    The server limit (maximum number of structures) of this manager
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L102">line 102</a>
+      <a target = "_blank" href = "managers/TimeManager.js">managers/TimeManager.js</a>, <a target = "_blank" href = "managers/TimeManager.js#L27">line 27</a>
     </li></ul></dd>
     
 
@@ -374,14 +228,14 @@
 
     
 
-    <h4 class="name" id="array"><span class="type-signature"></span>array<span class="signature">(includeInactive)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="clear"><span class="type-signature"></span>clear<span class="signature">(id)</span><span class="type-signature"> &rarr; {<a href="TimeManager.html">TimeManager</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    converts the list to array
+    Clear a timer (in general) with specified ID
 </div>
 
 
@@ -406,163 +260,6 @@
 
         
 
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>includeInactive</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">the converted array will contain inactive structures (destroyed, disconnected) or not</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L38">line 38</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-<div class = "spacing"></div>
-
-    
-
-    <h4 class="name" id="findById"><span class="type-signature"></span>findById<span class="signature">(id, includeInactive)</span><span class="type-signature"> &rarr; {<a href="Structure.html">Structure</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Find a structure inside the manager with the given ID
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -589,41 +286,8 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">The Structure ID to be search for</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>includeInactive</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">includeInactive</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">To show whether it needs to search through inactive structures or not</td>
+            <td class="description last">The timer ID to clear, omitting or null/undefined will clear all current timers</td>
         </tr>
 
     
@@ -664,7 +328,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L72">line 72</a>
+      <a target = "_blank" href = "managers/TimeManager.js">managers/TimeManager.js</a>, <a target = "_blank" href = "managers/TimeManager.js#L144">line 144</a>
     </li></ul></dd>
     
 
@@ -690,10 +354,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    The structure, <code>null</code> if not found any
-</div>
-
 
 
 <dl class="param-type">
@@ -702,7 +362,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Structure.html">Structure</a></span>
+<span class="param-type"><a href="TimeManager.html">TimeManager</a></span>
 
 
     </dd>
@@ -715,14 +375,14 @@
 
     
 
-    <h4 class="name" id="isInstance"><span class="type-signature"></span>isInstance<span class="signature">(entity)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="clearImmediate"><span class="type-signature"></span>clearImmediate<span class="signature">(id)</span><span class="type-signature"> &rarr; {<a href="TimeManager.html">TimeManager</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    To check whether the given object has the same instance as the structure's constructor or not
+    Clear an immediate with specified ID
 </div>
 
 
@@ -758,13 +418,13 @@
 
         <tr>
             
-                <td class="name"><code>entity</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">number</span>
 
 
             
@@ -774,7 +434,7 @@
 
             
 
-            <td class="description last">The object needs to be checked</td>
+            <td class="description last">The immediate ID to clear, omitting or null/undefined will clear all current immediates</td>
         </tr>
 
     
@@ -815,7 +475,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L53">line 53</a>
+      <a target = "_blank" href = "managers/TimeManager.js">managers/TimeManager.js</a>, <a target = "_blank" href = "managers/TimeManager.js#L134">line 134</a>
     </li></ul></dd>
     
 
@@ -849,7 +509,7 @@
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
+<span class="param-type"><a href="TimeManager.html">TimeManager</a></span>
 
 
     </dd>
@@ -862,14 +522,14 @@
 
     
 
-    <h4 class="name" id="limitReached"><span class="type-signature"></span>limitReached<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="clearInterval"><span class="type-signature"></span>clearInterval<span class="signature">(id)</span><span class="type-signature"> &rarr; {<a href="TimeManager.html">TimeManager</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Check whether the number of structures inside this manager exceeds the server limit or not
+    Clear an interval with specified ID
 </div>
 
 
@@ -878,6 +538,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The interval ID to clear, omitting or null/undefined will clear all current intervals</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -913,7 +622,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L89">line 89</a>
+      <a target = "_blank" href = "managers/TimeManager.js">managers/TimeManager.js</a>, <a target = "_blank" href = "managers/TimeManager.js#L124">line 124</a>
     </li></ul></dd>
     
 
@@ -947,7 +656,7 @@
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
+<span class="param-type"><a href="TimeManager.html">TimeManager</a></span>
 
 
     </dd>
@@ -960,14 +669,14 @@
 
     
 
-    <h4 class="name" id="toArray"><span class="type-signature"></span>toArray<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id="clearTimeout"><span class="type-signature"></span>clearTimeout<span class="signature">(id)</span><span class="type-signature"> &rarr; {<a href="TimeManager.html">TimeManager</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Get an array from this object
+    Clear a timeout with specified ID
 </div>
 
 
@@ -976,6 +685,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The timeout ID, omitting or null/undefined will clear all current timeouts</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -990,11 +748,6 @@
 
     
 
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ArrayMap.html#toArray">ArrayMap#toArray</a>
-    </li></ul></dd>
     
 
     
@@ -1016,7 +769,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "utils/ArrayMap.js">utils/ArrayMap.js</a>, <a target = "_blank" href = "utils/ArrayMap.js#L19">line 19</a>
+      <a target = "_blank" href = "managers/TimeManager.js">managers/TimeManager.js</a>, <a target = "_blank" href = "managers/TimeManager.js#L114">line 114</a>
     </li></ul></dd>
     
 
@@ -1050,7 +803,660 @@
     </dt>
     <dd>
         
-<span class="param-type">array</span>
+<span class="param-type"><a href="TimeManager.html">TimeManager</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+<div class = "spacing"></div>
+
+    
+
+    <h4 class="name" id="setImmediate"><span class="type-signature"></span>setImmediate<span class="signature">(StringOrFunction, &hellip;args)</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Set immediate in sync with game (set function to call or code to execute next tick)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>StringOrFunction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The function to be executed or a string to be evaluated</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The arguments to passed into the function in case the first argument is a function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
+      <a target = "_blank" href = "managers/TimeManager.js">managers/TimeManager.js</a>, <a target = "_blank" href = "managers/TimeManager.js#L104">line 104</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - The Timer ID
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+<div class = "spacing"></div>
+
+    
+
+    <h4 class="name" id="setInterval"><span class="type-signature"></span>setInterval<span class="signature">(StringOrFunction, interval, &hellip;args)</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Set interval in sync with game
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>StringOrFunction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The function to be executed or a string to be evaluated</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The delay (in game ticks). Defaults to 0 if omitted or null/undefined</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The arguments to passed into the function in case the first argument is a function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
+      <a target = "_blank" href = "managers/TimeManager.js">managers/TimeManager.js</a>, <a target = "_blank" href = "managers/TimeManager.js#L93">line 93</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - The Timer ID
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+<div class = "spacing"></div>
+
+    
+
+    <h4 class="name" id="setTimeout"><span class="type-signature"></span>setTimeout<span class="signature">(StringOrFunction, delay, &hellip;args)</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Set timeout in sync with game
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>StringOrFunction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The function to be executed or a string to be evaluated</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>delay</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The delay (in game ticks). Defaults to 0 if omitted or null/undefined</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The arguments to passed into the function in case the first argument is a function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
+      <a target = "_blank" href = "managers/TimeManager.js">managers/TimeManager.js</a>, <a target = "_blank" href = "managers/TimeManager.js#L81">line 81</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - The Timer ID
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
 
 
     </dd>
