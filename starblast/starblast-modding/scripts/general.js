@@ -46,7 +46,7 @@
           window.location.reload();
       }
     }
-    catch (e) {}
+    catch (e) {console.log(e)}
   }
   $.getJSON("./versions.json").then(function (versionData) {
     data = versionData;
