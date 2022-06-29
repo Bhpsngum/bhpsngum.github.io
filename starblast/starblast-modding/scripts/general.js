@@ -39,7 +39,7 @@
       let evt = JSON.parse(event.data), data = evt.data;
       switch (evt.name) {
         case "info":
-          let newHash = `#/${data.path}${data.hash ? ("#" + data.hash.replace(new RegExp("^\/*" + data[0].replace(/\./g, "\\.") + "\/"), "/latest/")) : ""}`;
+          let newHash = `#/${data.path.replace(new RegExp("(^\/*)" + data[0].replace(/\./g, "\\.") + "\/"), "$1latest/")}${data.hash ? ("#" + data.hash) : ""}`;
           let url = `${domain}${window.location.pathname}${newHash}`;
           if (newHash != window.location.hash) window.history.pushState({path: url}, '', url);
           let component = data.hash.match(/^([^:]+:)*([^]*)$/), namespace = component[1] || "", method = component[2];
