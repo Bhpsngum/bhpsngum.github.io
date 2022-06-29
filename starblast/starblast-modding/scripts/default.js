@@ -22,6 +22,7 @@
   else try {
     let e = docgeneral.querySelector(".name"), constructorCaller = Array.prototype.find.call(e.childNodes, e => e.nodeName.toLowerCase() == "#text");
     if (constructorCaller.textContent == "new ModdingClient") constructorCaller.textContent = "new StarblastModding.Client";
+    else if (constructorCaller.textContent == "new BrowserClient") constructorCaller.textContent = "new StarblastModding.BrowserClient";
 
     var d = document.createElement('pre');
     d.setAttribute("class", "prettyprint");

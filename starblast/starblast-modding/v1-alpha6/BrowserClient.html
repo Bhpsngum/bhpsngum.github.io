@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>StationModuleManager</title>
+    <title>BrowserClient</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -42,10 +42,10 @@
 <header>
     
         <h2>
-        StationModuleManager
+        BrowserClient
         </h2>
         
-            <div class="class-description">The Station Module Manager Instance.</div>
+            <div class="class-description">The Browser Client Instance for supporting mod codes running in Browser Modding.</div>
         
     
 </header>
@@ -59,7 +59,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="StationModuleManager"><span class="type-signature">(abstract) </span>new StationModuleManager<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="BrowserClient"><span class="type-signature"></span>new BrowserClient<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
@@ -71,6 +71,346 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">options for calling the object.<br><b>Note that</b> if both one property and its aliases exist on the object, the value of the main one will be chosen
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cacheECPKey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">set to <code>true</code> if you want to reuse ECP Key for the next run, <code>false</code> otherwise</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sameCodeExecution</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">loading the same code will trigger the execution or not<br>**Note:** This feature only works when you call `loadCodeFromString`, `loadCodeFromLocal` or `loadCodeFromExternal` methods, and not during the auto-update process</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>crashOnException</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">when tick or event function, or mod code execution fails, the mod will crash (true)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>crashOnError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">alias of the property <code>options.crashOnException</code></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>logErrors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">game will log any errors or not</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>logExceptions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">alias of the property <code>options.logErrors</code></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>logMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">game will log any in-game logs or not</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -106,7 +446,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StationModuleManager.js">managers/StationModuleManager.js</a>, <a target = "_blank" href = "managers/StationModuleManager.js#L15">line 15</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L25">line 25</a>
     </li></ul></dd>
     
 
@@ -136,17 +476,6 @@
     </div>
 
     
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li><a href="StructureManager.html">StructureManager</a></li>
-    </ul>
-
-
-    
 
     
 
@@ -157,225 +486,6 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-<h4 class="name" id="all"><span class="type-signature">(readonly) </span>all</h4>
-
-
-
-
-<div class="description">
-    A collection containing all structures in the manager
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><a href="ArrayMap.html">ArrayMap</a></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="StructureManager.html#all">StructureManager#all</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L18">line 18</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class = "spacing"></div>
-<h4 class="name" id="length"><span class="type-signature">(readonly) </span>length</h4>
-
-
-
-
-<div class="description">
-    Length of this object, same as <code>Map.prototype.size</code>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="StructureManager.html#length">StructureManager#length</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "utils/ArrayMap.js">utils/ArrayMap.js</a>, <a target = "_blank" href = "utils/ArrayMap.js#L29">line 29</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class = "spacing"></div>
-<h4 class="name" id="limit"><span class="type-signature">(readonly) </span>limit</h4>
-
-
-
-
-<div class="description">
-    The server limit (maximum number of structures) of this manager
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="StructureManager.html#limit">StructureManager#limit</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L102">line 102</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -384,14 +494,14 @@
 
     
 
-    <h4 class="name" id="array"><span class="type-signature"></span>array<span class="signature">(includeInactive)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="getGame"><span class="type-signature"></span>getGame<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
 
 
 
 <div class="description">
-    converts the list to array
+    Get the game object, which acts the same as the <code>game</code> object in browser
 </div>
 
 
@@ -400,63 +510,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>includeInactive</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">the converted array will contain inactive structures (destroyed, disconnected) or not</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -471,11 +524,6 @@
 
     
 
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="StructureManager.html#array">StructureManager#array</a>
-    </li></ul></dd>
     
 
     
@@ -497,7 +545,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L38">line 38</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L164">line 164</a>
     </li></ul></dd>
     
 
@@ -531,7 +579,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array</span>
+<span class="param-type">object</span>
 
 
     </dd>
@@ -544,14 +592,594 @@
 
     
 
-    <h4 class="name" id="findById"><span class="type-signature"></span>findById<span class="signature">(id, includeInactive)</span><span class="type-signature"> &rarr; {<a href="Structure.html">Structure</a>}</span></h4>
+    <h4 class="name" id="getNode"><span class="type-signature"></span>getNode<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ModdingClient.html">ModdingClient</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Find a structure inside the manager with the given ID
+    Get the ModdingClient object running behind the scene
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L155">line 155</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="ModdingClient.html">ModdingClient</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+<div class = "spacing"></div>
+
+    
+
+    <h4 class="name" id="loadCodeFromExternal"><span class="type-signature">(async) </span>loadCodeFromExternal<span class="signature">(URL, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Load the mod code from an external URL file
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>URL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The URL to the file</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>watchChanges</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Whether to watch for changes on the URL or not</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    5000
+                
+                </td>
+            
+
+            <td class="description last">The interval between watchs (if <code>watchChanges<code> is set to <code>true</code>)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L247">line 247</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="BrowserClient.html">BrowserClient</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+<div class = "spacing"></div>
+
+    
+
+    <h4 class="name" id="loadCodeFromLocal"><span class="type-signature">(async) </span>loadCodeFromLocal<span class="signature">(path, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Load the mod code from a local file (File on your device)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The path to the local file</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>watchChanges</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Whether to watch for changes on the file or not</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    5000
+                
+                </td>
+            
+
+            <td class="description last">The interval between watchs (if <code>watchChanges<code> is set to <code>true</code>)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L228">line 228</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="BrowserClient.html">BrowserClient</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+<div class = "spacing"></div>
+
+    
+
+    <h4 class="name" id="loadCodeFromString"><span class="type-signature">(async) </span>loadCodeFromString<span class="signature">(text)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Load the mod code from a script string
 </div>
 
 
@@ -577,8 +1205,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -589,13 +1215,13 @@
 
         <tr>
             
-                <td class="name"><code>id</code></td>
+                <td class="name"><code>text</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -604,41 +1230,8 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">The Structure ID to be search for</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>includeInactive</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">includeInactive</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">To show whether it needs to search through inactive structures or not</td>
+            <td class="description last">The code string to execute</td>
         </tr>
 
     
@@ -658,11 +1251,6 @@
 
     
 
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="StructureManager.html#findById">StructureManager#findById</a>
-    </li></ul></dd>
     
 
     
@@ -684,7 +1272,399 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L72">line 72</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L209">line 209</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="BrowserClient.html">BrowserClient</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+<div class = "spacing"></div>
+
+    
+
+    <h4 class="name" id="setECPKey"><span class="type-signature"></span>setECPKey<span class="signature">(ECPKey)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Set the ECP key that client will use for requests
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ECPKey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The ECP key</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L145">line 145</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="BrowserClient.html">BrowserClient</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+<div class = "spacing"></div>
+
+    
+
+    <h4 class="name" id="setRegion"><span class="type-signature"></span>setRegion<span class="signature">(regionName)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Set the region of the client.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>regionName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">region name, must be either Asia, America or Europe</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L134">line 134</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="BrowserClient.html">BrowserClient</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+<div class = "spacing"></div>
+
+    
+
+    <h4 class="name" id="start"><span class="type-signature">(async) </span>start<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Starts the game
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L317">line 317</a>
     </li></ul></dd>
     
 
@@ -711,7 +1691,7 @@
 
         
 <div class="param-desc">
-    The structure, <code>null</code> if not found any
+    Link of the game
 </div>
 
 
@@ -722,7 +1702,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Structure.html">Structure</a></span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -735,14 +1715,14 @@
 
     
 
-    <h4 class="name" id="isInstance"><span class="type-signature"></span>isInstance<span class="signature">(entity)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="stop"><span class="type-signature">(async) </span>stop<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    To check whether the given object has the same instance as the structure's constructor or not
+    Stops the game
 </div>
 
 
@@ -751,55 +1731,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>entity</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The object needs to be checked</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -814,11 +1745,6 @@
 
     
 
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="StructureManager.html#isInstance">StructureManager#isInstance</a>
-    </li></ul></dd>
     
 
     
@@ -840,7 +1766,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L53">line 53</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L332">line 332</a>
     </li></ul></dd>
     
 
@@ -874,213 +1800,7 @@
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-<div class = "spacing"></div>
-
-    
-
-    <h4 class="name" id="limitReached"><span class="type-signature"></span>limitReached<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Check whether the number of structures inside this manager exceeds the server limit or not
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="StructureManager.html#limitReached">StructureManager#limitReached</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "managers/StructureManager.js">managers/StructureManager.js</a>, <a target = "_blank" href = "managers/StructureManager.js#L89">line 89</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-<div class = "spacing"></div>
-
-    
-
-    <h4 class="name" id="toArray"><span class="type-signature"></span>toArray<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Get an array from this object
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="StructureManager.html#toArray">StructureManager#toArray</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "utils/ArrayMap.js">utils/ArrayMap.js</a>, <a target = "_blank" href = "utils/ArrayMap.js#L19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">array</span>
+<span class="param-type"><a href="BrowserClient.html">BrowserClient</a></span>
 
 
     </dd>

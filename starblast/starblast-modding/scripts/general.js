@@ -1,6 +1,6 @@
 (function(){
   let domain = `${window.location.protocol}//${window.location.host}`, data = [], vSelect = $("#versions"), loadPage = function () {
-    let hash = window.location.hash.replace(/^#\/*/, "").replace(/#/, ".html#"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";;
+    let hash = window.location.hash.replace(/^#\/*/, "").replace(/#/, ".html#").replace(/^latest\//, data[0] + "/"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";
     $.get("./" + hash).then(function(d, status, xhr) {
       if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
         if (hash == "") {
@@ -39,7 +39,7 @@
       let evt = JSON.parse(event.data), data = evt.data;
       switch (evt.name) {
         case "info":
-          let newHash = `#/${data.path}${data.hash ? ("#" + data.hash) : ""}`;
+          let newHash = `#/${data.path}${data.hash ? ("#" + data.hash.replace(new RegExp("^\/*" + data[0].replace(/\./g, "\\.") + "\/"), "/latest/")) : ""}`;
           let url = `${domain}${window.location.pathname}${newHash}`;
           if (newHash != window.location.hash) window.history.pushState({path: url}, '', url);
           let component = data.hash.match(/^([^:]+:)*([^]*)$/), namespace = component[1] || "", method = component[2];
