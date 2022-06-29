@@ -1,5 +1,5 @@
 (function(){
-  let domain = `${window.location.protocol}//${window.location.host}`, data = [], vSelect = $("#versions"), loadPage = function () {
+  let queue = [], domain = `${window.location.protocol}//${window.location.host}`, data = [], vSelect = $("#versions"), loadPage = function () {
     let hash = window.location.hash.replace(/^#\/*/, "").replace(/#/, ".html#").replace(/^latest\//, data[0] + "/"), iframe = document.querySelector("#docpage"), matches = (hash.match(/[^\/]+/) || [])[0] || "";
     $.get("./" + hash).then(function(d, status, xhr) {
       if (xhr.getResponseHeader("Content-Type").includes("text/html")) {
@@ -21,18 +21,7 @@
       iframe.src = "./404.html";
       vSelect.val(data.includes(matches) ? matches : data[0])
     })
-  }
-  $.getJSON("./versions.json").then(function (versionData) {
-    data = versionData;
-    vSelect.append(data.map((i, j) => `<option value="${i}">${i + (j == 0 ? " (latest)" : "")}</option>`).join(""));
-    vSelect.on("change", function () {
-      let selectedVal = vSelect.val();
-      if (data.includes(selectedVal)) iframe.src = "./" + selectedVal
-    });
-    loadPage();
-    window.addEventListener("popstate", loadPage);
-  }).catch(e => window.location.reload());
-  window.addEventListener("message", function (event) {
+  }, parseEvent = function (event) {
     let version = vSelect.val();
     if (event.origin != domain) return;
     try {
@@ -58,5 +47,20 @@
       }
     }
     catch (e) {}
+  }
+  $.getJSON("./versions.json").then(function (versionData) {
+    data = versionData;
+    vSelect.append(data.map((i, j) => `<option value="${i}">${i + (j == 0 ? " (latest)" : "")}</option>`).join(""));
+    vSelect.on("change", function () {
+      let selectedVal = vSelect.val();
+      if (data.includes(selectedVal)) iframe.src = "./" + selectedVal
+    });
+    while (queue.length > 0) parseEvent(queue.shift());
+    loadPage();
+    window.addEventListener("popstate", loadPage);
+  }).catch(e => window.location.reload());
+  window.addEventListener("message", function (event) {
+    if (!data) queue.push(event);
+    else parseEvent(event)
   });
 })()
