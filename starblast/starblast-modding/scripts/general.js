@@ -22,13 +22,13 @@
       vSelect.val(data.includes(matches) ? matches : data[0])
     })
   }, parseEvent = function (event) {
-    let version = vSelect.val();
+    let version = vSelect.val(), vData = data;
     if (event.origin != domain) return;
     try {
       let evt = JSON.parse(event.data), data = evt.data;
       switch (evt.name) {
         case "info":
-          let newHash = `#/${data.path.replace(new RegExp("(^\/*)" + data[0].replace(/\./g, "\\.") + "\/"), "$1latest/")}${data.hash ? ("#" + data.hash) : ""}`;
+          let newHash = `#/${data.path.replace(new RegExp("(^\/*)" + vData[0].replace(/\./g, "\\.") + "\/"), "$1latest/")}${data.hash ? ("#" + data.hash) : ""}`;
           let url = `${domain}${window.location.pathname}${newHash}`;
           if (newHash != window.location.hash) window.history.pushState({path: url}, '', url);
           let component = data.hash.match(/^([^:]+:)*([^]*)$/), namespace = component[1] || "", method = component[2];
@@ -46,7 +46,7 @@
           window.location.reload();
       }
     }
-    catch (e) {console.log(e)}
+    catch (e) {}
   }
   $.getJSON("./versions.json").then(function (versionData) {
     data = versionData;
