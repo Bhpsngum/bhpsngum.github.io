@@ -159,6 +159,8 @@
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
                 
 
@@ -168,6 +170,8 @@
 
             
                 <td class="default">
+                
+                    false
                 
                 </td>
             
@@ -211,7 +215,7 @@
                 </td>
             
 
-            <td class="description last">loading the same code will trigger the execution or not<br>**Note:** This feature only works when you call `loadCodeFromString`, `loadCodeFromLocal` or `loadCodeFromExternal` methods, and not during the auto-update process</td>
+            <td class="description last">loading the same code will trigger the execution or not<br><b>Note:</b> This feature only works when you call <code>loadCodeFromString</code>, <code>loadCodeFromLocal</code> or <code>loadCodeFromExternal</code> methods, and not during the auto-update process</td>
         </tr>
 
     
@@ -402,6 +406,45 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>compressWSMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">To decide whether to compress messages in WebSocket requests or not. <code>true</code> will use less bandwith but also create potential memory leaks, and <code>false</code> will do the opposite.</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -446,7 +489,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L27">line 27</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L28">line 28</a>
     </li></ul></dd>
     
 
@@ -545,7 +588,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L170">line 170</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L171">line 171</a>
     </li></ul></dd>
     
 
@@ -643,7 +686,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L161">line 161</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L162">line 162</a>
     </li></ul></dd>
     
 
@@ -884,7 +927,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L253">line 253</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L254">line 254</a>
     </li></ul></dd>
     
 
@@ -1125,7 +1168,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L234">line 234</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L235">line 235</a>
     </li></ul></dd>
     
 
@@ -1272,7 +1315,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L215">line 215</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L216">line 216</a>
     </li></ul></dd>
     
 
@@ -1419,7 +1462,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L151">line 151</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L152">line 152</a>
     </li></ul></dd>
     
 
@@ -1566,7 +1609,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L140">line 140</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L141">line 141</a>
     </li></ul></dd>
     
 
@@ -1664,7 +1707,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L300">line 300</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L301">line 301</a>
     </li></ul></dd>
     
 
@@ -1766,7 +1809,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L315">line 315</a>
+      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L316">line 316</a>
     </li></ul></dd>
     
 
@@ -1829,7 +1872,7 @@
 <footer>
     starblast-modding - <a target = "_blank" href = "https://npmjs.com/package/starblast-modding/">NPM</a>  - <a target = "_blank" href = "https://github.com/bhpsngum/starblast-modding/">GitHub</a><br>
     Made by <a target = "_blank" href = "https://github.com/bhpsngum">Bhpsngum</a><br>
-    <a target = "_blank" href = "https://bhpsngum.github.io/redirect?id=starblast-modding_Discord_Support">Discord Support Server</a>
+    <a target = "_blank" href = "https://bhpsngum.github.io/redirect?id=starblast-modding_Discord_Support">Discord Support Server</a> - <a target = "_blank" href = "https://www.buymeacoffee.com/bhpsngum">Buy me a coffee</a>
 </footer>
 
 <script src="scripts/linenumber.js"></script>
