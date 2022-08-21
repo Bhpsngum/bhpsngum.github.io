@@ -6,6 +6,7 @@
   "sscv",
   "ecp",
   "serverstatus",
+  "discord-servers",
   {
     "dir": "/redirect?id=SETExtension-chrome",
     "name": "Starblast Enhancements Tools (SET)",
