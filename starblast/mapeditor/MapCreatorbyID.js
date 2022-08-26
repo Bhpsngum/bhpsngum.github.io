@@ -134,7 +134,7 @@
     for (let i = -edge; i < edge; i++) {
       for (let j = -edge; j < edge; j++) {
         t.get(i,j,f);
-        if (f.on) map[Math.trunc(edge-f.y-0.1)][Math.trunc(f.x+edge)] = Math.max(Math.min(Math.round(f.size*100/6),9),1);
+        if (f.on) map[Math.trunc(edge-f.y-0.1)][Math.trunc(f.x+edge)] = Math.max(Math.min(Math.round(f.size*18),9),1);
       }
     }
     this.StarblastMap.load(map);
