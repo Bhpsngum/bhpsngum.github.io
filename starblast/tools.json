@@ -7,6 +7,7 @@
   "ecp",
   "serverstatus",
   "discord-servers",
+  "starblast-modding",
   {
     "dir": "/redirect?id=SETExtension-chrome",
     "name": "Starblast Enhancements Tools (SET)",
