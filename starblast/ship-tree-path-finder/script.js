@@ -111,7 +111,8 @@
           ships: game.options.reset_tree?[]:Array(8).fill(0).map((i,j) => default_specs.filter(s => Math.trunc(s[0] / 100) === j).map(i => i[0])),
           nexts: new Map(game.options.reset_tree?[]:default_specs.filter(s => s[2]).map(i => [i[0], i[2]])),
           names: new Map(game.options.reset_tree?[]:default_specs.map(i => [i[0], i[1]])),
-          models: new Map()
+          models: new Map(),
+          levels: new Map()
         }
         game.custom.ships = default_options;
         internals = game.custom.ships;
@@ -126,6 +127,7 @@
               if (!Array.isArray(internals.ships[level])) internals.ships[level] = [];
               internals.ships[level].push(code);
               internals.names.set(code, prs.name.replace(/_/g," "));
+              internals.levels.set(code, {level: prs.level, model: prs.model});
               if (prs.typespec.model !== code%100) internals.models.set(code, prs.typespec.model);
               let cnxt = uAr(Array.isArray(next)?next:[]);
               if (cnxt.length > 0) internals.nexts.set(code, cnxt)
@@ -137,9 +139,17 @@
             }
           }
         for (let i in internals.ships) {
-          internals.ships[i] = uAr(internals.ships[i]).sort(function (a,b) {return getModel(a) - getModel(b)})
+          internals.ships[i] = uAr(internals.ships[i]).sort(function (a,b) {
+            let al = internals.levels.get(a) || {}, bl = internals.levels.get(b) || {};
+            let t = getNum(al.level) - getNum(bl.level);
+            if (t != 0) return t;
+            return getNum(al.model) - getNum(bl.model);
+          })
         }
-        shipSelect.html([...internals.names.entries()].sort((a,b)=>a[0]-b[0]).map(name => `<a id="${name[0]}" href="javascript:void 0" onclick="$('#ship-input').val('${name[1]}')">(${name[0]}) ${name[1]}</a>`).join(""));
+        shipSelect.html([...internals.names.entries()].sort((a,b)=>a[0]-b[0]).map(name => {
+          let levels = internals.levels.get(name[0]);
+          return `<a id="${name[0]}" href="javascript:void 0" onclick="$('#ship-input').val('${name[1]}')">(L${getNum(levels.level)} - M${getNum(levels.model)}) ${name[1]}</a>`
+        }).join(""));
 
         filter();
 
