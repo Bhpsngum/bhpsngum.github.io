@@ -145,7 +145,7 @@
           })
         }
         shipSelect.html([...internals.names.entries()].sort(function (a,b) {
-          let al = internals.levels.get(a) || {}, bl = internals.levels.get(b) || {};
+          let al = internals.levels.get(a[0]) || {}, bl = internals.levels.get(b[0]) || {};
           let t = getNum(al.level) - getNum(bl.level);
           if (t != 0) return t;
           return getNum(al.model) - getNum(bl.model);
