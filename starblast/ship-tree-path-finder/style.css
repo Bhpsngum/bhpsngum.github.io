@@ -81,3 +81,11 @@ table>tbody>tr>th:nth-child(1) {
   text-align: left;
   width: 15%;
 }
+
+#pds {
+  font-size: 80%;
+}
+
+#pds > a {
+  color: cyan;
+}
