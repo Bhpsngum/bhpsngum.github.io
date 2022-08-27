@@ -59,7 +59,8 @@
     mod_name = $("#tree-select").val();
     let link;
     switch (mod_name) {
-      case "mcst_beta": link = "https://raw.githubusercontent.com/Bhpsngum/starblast/master"; break;
+      case "mcst_t7_ver":
+      case "mcst_beta": link = "https://raw.githubusercontent.com/Bhpsngum/starblast-snippets/master"; break;
       case "strawberry":
       case "vanilla": link = "https://raw.githubusercontent.com/pmgl/starblast-modding/master"; break;
       default: link = "https://starblast.data.neuronality.com";
