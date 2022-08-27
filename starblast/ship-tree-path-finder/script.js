@@ -141,7 +141,9 @@
         }
         shipSelect.html([...internals.names.entries()].sort((a,b)=>a[0]-b[0]).map(name => `<a id="${name[0]}" href="javascript:void 0" onclick="$('#ship-input').val('${name[1]}')">(${name[0]}) ${name[1]}</a>`).join(""));
 
-        filter()
+        filter();
+
+        showResults("Ship tree successfully loaded.");
       }).catch(function(e){showError("Failed to get ship tree info")})
     }
   }
