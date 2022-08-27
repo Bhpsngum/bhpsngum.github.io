@@ -141,12 +141,15 @@
         for (let i in internals.ships) {
           internals.ships[i] = uAr(internals.ships[i]).sort(function (a,b) {
             let al = internals.levels.get(a) || {}, bl = internals.levels.get(b) || {};
-            let t = getNum(al.level) - getNum(bl.level);
-            if (t != 0) return t;
             return getNum(al.model) - getNum(bl.model);
           })
         }
-        shipSelect.html([...internals.names.entries()].sort((a,b)=>a[0]-b[0]).map(name => {
+        shipSelect.html([...internals.names.entries()].sort(function (a,b) {
+          let al = internals.levels.get(a) || {}, bl = internals.levels.get(b) || {};
+          let t = getNum(al.level) - getNum(bl.level);
+          if (t != 0) return t;
+          return getNum(al.model) - getNum(bl.model);
+        }).map(name => {
           let levels = internals.levels.get(name[0]);
           return `<a id="${name[0]}" href="javascript:void 0" onclick="$('#ship-input').val('${name[1]}')">(L${getNum(levels.level)} - M${getNum(levels.model)}) ${name[1]}</a>`
         }).join(""));
