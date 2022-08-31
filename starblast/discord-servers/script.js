@@ -12,7 +12,7 @@
         a=c;
       }
       return s+basicrev(a)+(s?"</a>":"");
-    }).replace(/\*\*([^\*]+)\*\*, (a, b) => "<b>" + basicrev(b) + "</b>");
+    }).replace(/\*\*([^\*]+)\*\*/g, (a, b) => "<b>" + basicrev(b) + "</b>");
   }, encodeURL = function (url) {
     return url.replace(/"/g,"%22").replace(/'/g,"%27").replace(/</g,"%3C").replace(/>/g,"%3E")
   }, encodeHTML = function (str, key, flags, replacer, isDescriptive) {
