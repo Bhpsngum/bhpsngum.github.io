@@ -12,7 +12,7 @@
         a=c;
       }
       return s+basicrev(a)+(s?"</a>":"");
-    });
+    }).replace(/\*\*([^\*]+)\*\*, (a, b) => "<b>" + basicrev(b) + "</b>");
   }, encodeURL = function (url) {
     return url.replace(/"/g,"%22").replace(/'/g,"%27").replace(/</g,"%3C").replace(/>/g,"%3E")
   }, encodeHTML = function (str, key, flags, replacer, isDescriptive) {
@@ -99,7 +99,7 @@
       $("#servers-list> :last-child> :nth-child(5)").on("click", function(){showModal("Description", encodeHTML(description, null, null, null, true))});
       $("#servers-list> :last-child> :nth-child(6)").on("click", function(){showModal("How to join", how_to_join)})
     }
-  }).fail(e => alert("Failed! Please reload the page again!"));
+  }).fail(e => alert("Failed! Please reload the page!"));
   for (let region of regions) {
     let id = "show" + region;
     $("#regions").append(`<input type='checkbox' id='${id}'><label for='${id}'>${region}</label>`);
