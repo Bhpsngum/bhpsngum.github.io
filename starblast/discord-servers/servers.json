@@ -188,5 +188,35 @@
     "description": "Server related to news, events and discussions based off MCST",
     "public_invite": true,
     "how_to_join": "https://discord.gg/AdrRgvV69s"
+  },
+  {
+    "icon": "https://cdn.discordapp.com/attachments/769345416281325579/1013859713429016717/ezgif-3-bcc9dc4f46.gif",
+    "type": ["group"],
+    "name": "Mega's World",
+    "tag": "",
+    "active_regions": ["America", "Europe"],
+    "description": "A starblast based community, but also mulitgaming",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/KXvCq4N"
+  },
+  {
+    "icon": "https://media.discordapp.net/attachments/769345416281325579/912794933335842866/7d3787e845ed645bc36f2dahsqjdfjhkhjqusdhjklfjkqshldhjfjkhlqshjdjklhf08c7133d4.png",
+    "type": ["clan", "group"],
+    "name": "FR's Team",
+    "tag": "ҒꝚ▸",
+    "active_regions": ["Europe"],
+    "description": "A French Team based on starblast, (specifications: you MUST be fluent in French and have minimal amount of skills to join the server)",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/eS6hK4nQKX"
+  },
+  {
+    "icon": "https://i.ibb.co/XJ9vCcr/2-A13-F949-656-D-4402-86-B8-EE917-D2-A994-D.jpg",
+    "type": ["clan"],
+    "name": "Asian Calm Winners",
+    "tag": "ҒꝚ▸",
+    "active_regions": ["Asia-Australia", "America", "Europe"],
+    "description": "**Welcome to the ACW!**\n - An Asian clan that seeking to revive the Asia,Europe and America region of Starblast.io game, and to grow bigger. we've grateful and welcoming anyone that interested to join our server for supporting the server, it doesnt matter which region you are from!\n - However, please behave in our server and do not be toxic or unfriendly!\n**Some things we offer:**\n - Fun events such as THE NIGHT GAME and many other upgraded mods\n - Active community,non ping or spam. Active in game exspecially on team mode.\n - Non-toxic and cool channels. non bad words. it was forbidden by any Leaders.\n - Leaders would train anyone that needs to improves their skills and aim in (dueling)\n**So please, come check us out! There are many more amazing things we would love to tell you about**\n**Enjoy!**",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/FMWpcKbz7T"
   }
 ]
