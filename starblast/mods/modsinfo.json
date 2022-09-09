@@ -444,26 +444,6 @@
     "event": 0
   },
   {
-    "name": "JavRedstone's Dueling Mod",
-    "abbreviation": "",
-    "version": "",
-    "description": "",
-    "modes": "",
-    "img": "",
-    "link": {
-      "url": "https://github.com/JavRedstone/Starblast.io-Modding/blob/main/utilities/dueling/javredstone_dueling/javredstone_dueling.js",
-      "state": 2
-    },
-    "author": [
-      {
-        "name": ["JavRedstone"],
-        "link": "https://github.com/JavRedstone"
-      }
-    ],
-    "official": 0,
-    "event": 0
-  },
-  {
     "name": "Money's Mod",
     "abbreviation": "",
     "version": "7.0",
