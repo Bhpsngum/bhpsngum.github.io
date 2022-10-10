@@ -188,5 +188,15 @@
     "description": "A French Team based on starblast, (specifications: you MUST be fluent in French and have minimal amount of skills to join the server)",
     "public_invite": true,
     "how_to_join": "https://discord.gg/eS6hK4nQKX"
+  },
+  {
+    "icon": "https://media.discordapp.net/attachments/982914876190122063/1026400796478292019/unknown.png",
+    "type": ["clan", "group"],
+    "name": "𝑴𝒂𝒊𝒅'𝒔 𝑪𝒂𝒇𝒆 ☕",
+    "tag": "❰☕❱",
+    "active_regions": ["America", "Europe"],
+    "description": "Hello Commanders! You are cordially invited to Maid's Cafe to have a good time playing and talking about our different available themes, Starblast, Among Us, Pinturillo, Mc etc. Also if you are interested, you can join our clan of veteran and friendly people, here you will learn great things with us! \"We never leave a single one\" ❰ ☕ ❱, ¡Maid's Cafe is mostly Spanish speaking!",
+    "public_invite": true,
+    "how_to_join": "https://discord.gg/p972H6evdZ"
   }
 ]
