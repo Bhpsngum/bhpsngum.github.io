@@ -41,15 +41,15 @@ window.initECPSetup = function(initializer){
 
         switch (this.shadow_mode) {
           case "arc-cut":
-            // rear shadow (around & behind the badge)
-            e.globalCompositeOperation = "destination-over", e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(.7, "rgba(0,0,0,1)"), i.addColorStop(1, "rgba(0,0,0,0)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2);
+            // restore saved rear shadow (within badge arc cuts only)
+            e.globalCompositeOperation = "destination-over";
+            e.drawImage(tmp_canvas, 0, 0);
             break;
           case "none":
             break;
           default:
-            // restore saved rear shadow (within badge arc cuts only)
-            e.globalCompositeOperation = "destination-over";
-            e.drawImage(tmp_canvas, 0, 0)
+            // rear shadow (around & behind the badge)
+            e.globalCompositeOperation = "destination-over", e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(.7, "rgba(0,0,0,1)"), i.addColorStop(1, "rgba(0,0,0,0)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2);
         }
 
         this.resize ? (t = document.createElement("canvas"), t.width = this.size, t.height = this.size / 2, t.getContext("2d").drawImage(this.canvas, 0, 0, this.size, this.size / 2), this.canvas = t) : void 0;
