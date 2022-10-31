@@ -195,7 +195,7 @@ window.addEventListener("load", function(){
       $("#apply-res").on("click", function() {
         applySize()
       });
-      for (let id of ["loadBadge", "finish-choose", "laser-choose", "res-option"]) $("#"+id).on("change", function() {applySize()});
+      for (let id of ["loadBadge", "finish-choose", "laser-choose", "res-option", "shadow-mode"]) $("#"+id).on("change", function() {applySize()});
       $("#url-import").on("click", function() {
         let url = prompt("Insert your image URL here:");
         if (url) loadCustom(url)
