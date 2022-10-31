@@ -30,6 +30,10 @@ window.addEventListener("load", function(){
         {value: "carbon"},
         {value: "fullcolor"},
         {value: "x27", name: "Electric Blue"}
+      ], shadow_modes = [
+        {value: "original"},
+        {value: "arc-cut"},
+        {value: "none"}
       ], lasers = ["Single", "Double", "Lightning", "Digital", "Alien", "Healing 1", "Healing 2"], ECP = window.initECPSetup({id: 0}), ecp_data, last_info, query_index, osize, current_id = 0, resolution, size, title = " - Starblast ECP Icon Viewer", name_regex = /^name\=/i, names = {
         ecp: "Elite Commander Pass (ECP)",
         sucp: "shared Unique Commander Pass (sUCP)",
@@ -71,6 +75,7 @@ window.addEventListener("load", function(){
         }));
         // load finish and laser options
         $("#finish-choose").append(finishes.map(i => "<option value='"+i.value+"'>"+(i.name || (i.value[0].toUpperCase()+i.value.slice(1)))+"</option>").join(""));
+        $("#shadow-mode").append(finishes.map(i => "<option value='"+i.value+"'>"+(i.name || (i.value[0].toUpperCase()+i.value.slice(1)))+"</option>").join(""));
         $("#res-option").append(sizes.map(i => "<option value='"+i.name+"'>"+i.name[0].toUpperCase()+i.name.slice(1)+"</option>").join(""))
         $("#laser-choose").append(lasers.map((i,j) => "<option value='"+j+"'>"+i+"</option>").join(""));
         // find the ecp info of the searching name
@@ -105,12 +110,13 @@ window.addEventListener("load", function(){
       }, applySize = function(init) {
         let request_id = ECP.id++;
         $("#download").attr("disabled", true);
-        let query_info = last_info, laser, finish, loadBadge, size, size_preset;
+        let query_info = last_info, laser, finish, loadBadge, size, size_preset, shadow_mode;
         if (init) {
           loadBadge = localStorage.getItem("loadBadge") == "true";
           finish = localStorage.getItem("ecp-finish");
           laser = localStorage.getItem("ecp-laser");
           size = localStorage.getItem("ecp-res");
+          shadow_mode = localStorage.getItem("ecp-shadow");
           size_preset = localStorage.getItem("ecp-res-option")
         }
         else {
@@ -118,6 +124,7 @@ window.addEventListener("load", function(){
           finish = $("#finish-choose").val();
           laser = $("#laser-choose").val();
           size = $("#custom-res").val();
+          shadow_mode = $("#shadow-mode").val();
           size_preset = $("#res-option").val()
         }
         finish = (finishes.find(f => f.value == finish) || finishes[0]).value;
@@ -125,19 +132,24 @@ window.addEventListener("load", function(){
         size_preset = sizes.find(preset => size_preset == preset.name) || sizes[0];
         updateSizeNeeded = "function" == typeof size_preset.size;
         size = (updateSizeNeeded ? size_preset.size() : size_preset.size) || Math.max(size, 0) || 200;
+        shadow_mode = (shadow_modes.find(f => f.value == shadow_mode) || shadow_modes[0]).value;
+
         localStorage.setItem("ecp-finish", finish);
         localStorage.setItem("ecp-laser", laser);
         localStorage.setItem("ecp-res", size);
+        localStorage.setItem("ecp-shadow", shadow_mode);
         localStorage.setItem("loadBadge", loadBadge);
         localStorage.setItem("ecp-res-option", size_preset.name);
+
         $("#finish-choose").val(finish);
         $("#laser-choose").val(laser);
         $("#res-option").val(size_preset.name);
         $("#custom-res").val(size);
         $("#loadBadge").prop("checked", loadBadge);
         for (let id of ["custom-res", "apply-res"]) $("#"+id).attr('disabled', !!size_preset.size);
-        for (let id of ["laser-choose", "finish-choose"]) $("#"+id).attr('disabled', !loadBadge)
-        if (loadBadge) ECP.loadBadge(size, query_info, finish, laser, request_id, loadImage);
+        for (let id of ["laser-choose", "finish-choose", "shadow-mode"]) $("#"+id).attr('disabled', !loadBadge);
+
+        if (loadBadge) ECP.loadBadge(size, query_info, finish, laser, shadow_mode, request_id, loadImage);
         else ECP.loadIcon(size, query_info, request_id, loadImage)
       }, loadImage = function (canvas, info, request_id) {
         if (request_id == ECP.id - 1) {
