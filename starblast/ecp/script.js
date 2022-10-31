@@ -75,7 +75,7 @@ window.addEventListener("load", function(){
         }));
         // load finish and laser options
         $("#finish-choose").append(finishes.map(i => "<option value='"+i.value+"'>"+(i.name || (i.value[0].toUpperCase()+i.value.slice(1)))+"</option>").join(""));
-        $("#shadow-mode").append(finishes.map(i => "<option value='"+i.value+"'>"+(i.name || (i.value[0].toUpperCase()+i.value.slice(1)))+"</option>").join(""));
+        $("#shadow-mode").append(shadow_modes.map(i => "<option value='"+i.value+"'>"+(i.name || (i.value[0].toUpperCase()+i.value.slice(1)))+"</option>").join(""));
         $("#res-option").append(sizes.map(i => "<option value='"+i.name+"'>"+i.name[0].toUpperCase()+i.name.slice(1)+"</option>").join(""))
         $("#laser-choose").append(lasers.map((i,j) => "<option value='"+j+"'>"+i+"</option>").join(""));
         // find the ecp info of the searching name
