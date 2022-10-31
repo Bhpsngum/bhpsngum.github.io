@@ -144,7 +144,7 @@ window.addEventListener("load", function(){
         $("#finish-choose").val(finish);
         $("#laser-choose").val(laser);
         $("#res-option").val(size_preset.name);
-        #("#shadow-mode").val(shadow_mode);
+        $("#shadow-mode").val(shadow_mode);
         $("#custom-res").val(size);
         $("#loadBadge").prop("checked", loadBadge);
         for (let id of ["custom-res", "apply-res"]) $("#"+id).attr('disabled', !!size_preset.size);
