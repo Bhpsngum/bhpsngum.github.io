@@ -1,3 +1,10 @@
+3.3.0/Nov 5, 2022
+Introducing new features: Extended importing options
+* You can choose to align the map you want to import in the current map without clearing or changing the old size
+* Try the feature to learn more
+* Fixed the bug that the tool doesn't recognize "Command" (Cmd) Key on MacOS as shortcut
+* Added feature to import map from clipboard
+
 3.2.0/May 18, 2021
 Now introducing IDMapper (BETA)!
 * Now you can create maps with real map ID from the game!

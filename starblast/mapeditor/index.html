@@ -57,6 +57,51 @@
           <button id="exportText"><i class="fas fa-fw fa-download"></i></button>
           <button id="copyText"><i class="fas fa-fw fa-clipboard"></i></button>
           <button><label id="loadMap1" for="loadMap" style="cursor:pointer"><i class="fas fa-fw fa-upload"></i></label></button>
+          <button id="importFromClipboard"><i class="fas fa-fw fa-paste"></i></button>
+          <input type="checkbox" id="allowShift">
+          <label for="allowShift">
+            <table>
+              <tr>
+                <td id="rAllowShift">
+                  <i class="fas fa-fw fa-arrows-alt"></i>
+                  <i class="fas fa-fw fa-times" id="allowShiftInd"></i>
+                </td>
+              </tr>
+            </table>
+          </label>
+          <fieldset id="import-options">
+            <legend>Importing Options</legend>
+            <fieldset id="alignments-preset">
+              <legend>Alignment</legend>
+              <button id="align-left-left"><i class="fas fa-fw fa-align-right fa-rotate-180"></i></button>
+              <button id="align-center-left"><i class="fas fa-fw fa-align-center fa-rotate-180"></i></button>
+              <button id="align-right-left"><i class="fas fa-fw fa-align-left fa-rotate-180"></i></button>
+              <br>
+              <button id="align-left-center"><i class="fas fa-fw fa-outdent"></i></button>
+              <button id="align-center-center"><i class="fas fa-fw fa-align-justify"></i></button>
+              <button id="align-right-center"><i class="fas fa-fw fa-indent"></i></button>
+              <br>
+              <button id="align-left-right"><i class="fas fa-fw fa-align-left"></i></button>
+              <button id="align-center-right"><i class="fas fa-fw fa-align-center"></i></button>
+              <button id="align-right-right"><i class="fas fa-fw fa-align-right"></i></button>
+            </fieldset>
+            <fieldset id="custom-alignments">
+              <legend>Custom Alignment</legend>
+              &nbsp;X:&nbsp;<input id="shiftX" type="number" placeholder="X shift value" value="0"></input><br>
+              &nbsp;Y:&nbsp;<input id="shiftY" type="number" placeholder="Y shift value" value="0"></input>
+            </fieldset>
+            <input type="checkbox" id="allowReplace">
+            <label for="allowReplace">
+              <table>
+                <tr>
+                  <td id="rAllowReplace">
+                    <i class="fas fa-fw fa-clone"></i>
+                    <i class="fas fa-fw fa-times" id="allowReplaceInd"></i>
+                  </td>
+                </tr>
+              </table>
+            </label>
+          </fieldset>
           <input id="loadMap" type="file" accept="text/plain,text/javascript">
           <button id="exportImage"><i class="fas fa-fw fa-images"></i></button>
           <button id="copyImage"><i class="fas fa-fw fa-clipboard"></i></button>

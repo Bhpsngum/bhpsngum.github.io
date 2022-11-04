@@ -137,7 +137,7 @@
         if (f.on) map[Math.trunc(edge-f.y-0.1)][Math.trunc(f.x+edge)] = Math.max(Math.min(Math.round(f.size*18),9),1);
       }
     }
-    this.StarblastMap.load(map);
+    this.StarblastMap.load(map, false, false, true);
   }
   window.bindIDMapper = function(object) {
     Object.assign(object.IDMapper, {

@@ -3,7 +3,7 @@ if (window.t) {
   window.open(t,"_self");
 }
 else (function(){
-  addServiceWorker("sw.js");
+  try { addServiceWorker("sw.js") } catch (e) {}
   var links = [
     ["version",'/starblast/mapeditor/changelog.html','_blank'],
     ["feedback",'/redirect?id=MapEditorFeedback','_blank'],
@@ -33,8 +33,10 @@ else (function(){
       }
     });
   }).fail(e => {});
-  addToolPage(null,"1vw","1vh",null,null,null,"td",$("#modules tr")[0],{
-    position: "inherit",
-    width: "auto"
-  });
+  try {
+    addToolPage(null,"1vw","1vh",null,null,null,"td",$("#modules tr")[0],{
+      position: "inherit",
+      width: "auto"
+    })
+  } catch (e) {}
 })();

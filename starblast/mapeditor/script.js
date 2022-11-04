@@ -24,7 +24,6 @@ window.t = (function(){
       },
       clear: $("#clearMap"),
       randomMaze: $("#random"),
-      import: $("#loadMap"),
       copy: {
         text: $("#copyText"),
         image: $("#copyImage")
@@ -276,12 +275,14 @@ window.t = (function(){
       }
       StarblastMap.Engine.download(null,map);
     },
-    load: function(data,init,dismiss_history) {
+    load: function(data,init,dismiss_history, forceReplace) {
       let prev = this.data,h=data||prev, check=true;
       if (Array.isArray(h))
       {
-        let u=JSON.parse(JSON.stringify(h)).sort(),d=Math.max(h.length,u[u.length-1].length),oldSize = this.size;
-        StarblastMap.applySize(d);
+        let newH = h.length, newW = Math.max(...h.map(u => u.length)), d = Math.max(newW, newH), oldSize = this.size;
+        let Import = this.Import;
+        let allowReplace = forceReplace || Import.isReplaceAllowed();
+        if (!Import.allowShift || init) StarblastMap.applySize(d);
         if (oldSize != this.size || init)
         {
           this.pattern = new Map();
@@ -291,15 +292,17 @@ window.t = (function(){
           this.map.width = (this.size*5+1)*2*this.gridIndex;
           this.map.height = (this.size*5+1)*2*this.gridIndex;
           c2d.beginPath();
-          for (let i=0;i<this.size;i++)
+          for (let i=0;i<this.size;++i)
           {
-            for (let j=0;j<this.size;j++)
+            for (let j=0;j<this.size;++j)
             {
-              let wh=Number((h[i]||[])[j])||0;
-              if (wh!=0)
+              let wh;
+              if (i >= h.length || j >= h[i].length) wh = 0;
+              else wh = Number(h[i][j]) || 0;
+              if (wh != 0)
               {
-                this.pattern.set(`${i}-${j}`,wh);
-                this.data[i][j]=wh;
+                this.pattern.set(`${i}-${j}`, wh);
+                this.data[i][j] = wh;
               }
             }
           }
@@ -314,13 +317,19 @@ window.t = (function(){
         else
         {
           let session = new Map();
-          for (let i=0;i<oldSize;i++)
-            for (let j=0;j<oldSize;j++)
+          let xshift = Import.getShiftValue("x", newW), yshift = Import.getShiftValue("y", newH); // shift parameters
+          for (let i = Math.max(yshift, 0); i<oldSize; ++i) {
+            for (let j = Math.max(xshift, 0); j<oldSize; ++j)
             {
-              let gh=Number((h[i]||[])[j])||0;
-              let data = this.Asteroids.modify(i,j,gh);
-              if (data.changed) session.set(`${i}-${j}`,[data.prev,gh]);
+              let gh, newI = i - yshift, newJ = j - xshift;
+              if (newI >= h.length || newI < 0 || newJ < 0 || newJ >= h[newI].length) gh = 0;
+              else gh = Number(h[newI][newJ]) || 0;
+              if (gh != 0 || allowReplace) {
+                let data = this.Asteroids.modify(i,j,gh);
+                if (data.changed) session.set(`${i}-${j}`,[data.prev,gh]);
+              }
             }
+          }
           (!dismiss_history) && this.pushSession("history",["m",session]);
         }
         this.sync();
@@ -332,7 +341,7 @@ window.t = (function(){
     create: function(dms)
     {
       this.buildData(dms);
-      this.load(null,1,1);
+      this.load(null,1,1, true);
     },
     clear: function() {
       let session = new Map();
@@ -411,54 +420,172 @@ window.t = (function(){
           return clone.toDataURL();
       }
     },
-    import: function (type, data, init, exportData) {
-      let map = [],fail = 0;
-      switch (type)
-      {
-        case "plain":
-          let matchIndex, matchChar;
-          for (let i=0;i<data.length;i++) {
-            if (matchIndex == null) {
-              if (`"'`.indexOf(data[i]) != -1) {
-                matchIndex = i;
-                matchChar = data[i];
+    Import: {
+      allowShift: false,
+      allowReplace: true,
+      fromClipboard: function () {
+        let text = prompt("Paste the text here:");
+        if (text != null) StarblastMap.Import.get("plain", text);
+      },
+      get: function (type, data, init, exportData) {
+        let map = [],fail = 0;
+        switch (type)
+        {
+          case "plain":
+            let matchIndex, matchChar;
+            for (let i=0;i<data.length;i++) {
+              if (matchIndex == null) {
+                if (`"'`.indexOf(data[i]) != -1) {
+                  matchIndex = i;
+                  matchChar = data[i];
+                }
+              }
+              else if (data[i] == matchChar) {
+                map.push(data.slice(matchIndex, i+1));
+                matchChar = null;
+                matchIndex = null;
               }
             }
-            else if (data[i] == matchChar) {
-              map.push(data.slice(matchIndex, i+1));
-              matchChar = null;
-              matchIndex = null;
+            map = map.map(i => Function(`return ${i}`)()).join("").split("\n");
+            break;
+          case "url":
+            data = LZString.decompressFromEncodedURIComponent(data);
+          case "url-old":
+            let smap=data.split('e');
+            for (let i of smap)
+            {
+              let repeat=false,qstr=i.replace(/l(.+)n\d+/,"$1");
+              qstr=qstr.replace(/\dt\d+d/g,function(v){
+                let qd="";
+                for (let j=0;j<Number(v.replace(/\dt(\d+)d/g,"$1"));j++) qd+=v[0];
+                return qd;
+              }).split("").map(i=>Number(i)||0);
+              map.push(qstr);
+              i.replace(/l.+n\d+/,function(v){repeat=true});
+              if (repeat)
+                for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) map.push(qstr);
             }
+            break;
+        }
+        fail = !map.length || (map.length < 20 && map.length > 200);
+        if (!fail && type.includes("url")) {
+          let len = map.map(i => i.length);
+          fail = map.length != Math.max(...len) || map.length != Math.min(...len);
+        }
+        if (exportData) return {map:map,fail:fail}
+        if (!fail) fail = !this.StarblastMap.load(map,init);
+        if (fail) alert("Invalid Map!");
+      },
+      shiftModes: ["left", "center", "right"],
+      shiftMode: {
+        x: "custom",
+        y: "custom"
+      },
+      shiftValue: {
+        x: 0,
+        y: 0
+      },
+      isReplaceAllowed: function () {
+        return !this.allowShift || this.allowReplace;
+      },
+      init: function () {
+        for (let x of this.shiftModes) {
+          for (let y of this.shiftModes) {
+            let button = (this.elements.shiftButtons[x + "-" + y] = $("#align-" + x + "-" + y));
+            button.on("click", function () {
+              this.getValues(x, y, false)
+            }.bind(this))
           }
-          map = map.map(i => Function(`return ${i}`)()).join("").split("\n");
-          break;
-        case "url":
-          data = LZString.decompressFromEncodedURIComponent(data);
-        case "url-old":
-          let smap=data.split('e');
-          for (let i of smap)
-          {
-            let repeat=false,qstr=i.replace(/l(.+)n\d+/,"$1");
-            qstr=qstr.replace(/\dt\d+d/g,function(v){
-              let qd="";
-              for (let j=0;j<Number(v.replace(/\dt(\d+)d/g,"$1"));j++) qd+=v[0];
-              return qd;
-            }).split("").map(i=>Number(i)||0);
-            map.push(qstr);
-            i.replace(/l.+n\d+/,function(v){repeat=true});
-            if (repeat)
-              for (let j=0;j<Number(i.replace(/l.+n(\d+)/,"$1"))-1;j++) map.push(qstr);
+        }
+
+        for (let i of ["x", "y"]) this.elements.customShift[i].on("change", function () {
+            this.getValues("custom", "custom", false)
+        }.bind(this))
+
+        this.elements.allowShift.on("change", function () {
+            this.checkShiftEnabled();
+        }.bind(this));
+
+        this.elements.allowReplace.on("change", function () {
+            this.checkReplaceAllowed();
+        }.bind(this));
+
+        this.checkShiftEnabled(true);
+        this.checkReplaceAllowed(true);
+        this.getValues(null, null, true);
+      },
+      checkShiftEnabled: function (init) {
+        this.allowShift = this.StarblastMap.Engine.setCheckbox(init, "allowShift", "ME-allow-shift", "allowShiftInd");
+        this.elements.options.css("display", this.allowShift ? "" : "none")
+      },
+      checkReplaceAllowed: function (init) {
+        this.allowReplace = this.StarblastMap.Engine.setCheckbox(init, "allowReplace", "ME-allow-replace", "allowReplaceInd", true);
+      },
+      getValues: function (shiftModeX, shiftModeY, init) {
+        if (init) {
+          this.shiftMode.x = localStorage.getItem("ME-shift-mode-x") || "custom";
+          this.shiftMode.y = localStorage.getItem("ME-shift-mode-y") || "custom";
+
+          this.shiftValue.x = Math.trunc(localStorage.getItem("ME-shift-value-x"), 0);
+          this.shiftValue.y = Math.trunc(localStorage.getItem("ME-shift-value-y"), 0);
+        }
+        else {
+          this.shiftMode.x = shiftModeX;
+          this.shiftMode.y = shiftModeY;
+
+          this.shiftValue.x = Math.trunc(+this.elements.customShift.x.val()) || 0;
+          this.shiftValue.y = Math.trunc(+this.elements.customShift.y.val()) || 0;
+        }
+
+        localStorage.setItem("ME-shift-mode-x", this.shiftMode.x);
+        localStorage.setItem("ME-shift-mode-y", this.shiftMode.y);
+
+        localStorage.setItem("ME-shift-value-x", this.shiftValue.x);
+        localStorage.setItem("ME-shift-value-y", this.shiftValue.y);
+
+        for (let E of Object.values(this.elements.shiftButtons)) {
+          E.css("border-width", "1px");
+          E.prop("disabled", false);
+        }
+
+        let newE = this.elements.shiftButtons[this.shiftMode.x + "-" + this.shiftMode.y];
+        if (newE) {
+          newE.css("border-width", "3px");
+          newE.prop("disabled", true);
+        }
+
+        this.elements.customShift.x.val(this.shiftValue.x);
+        this.elements.customShift.y.val(this.shiftValue.y);
+      },
+      getShiftValue: function (name, newSize) {
+        if (!this.allowShift) return 0;
+        switch (this.shiftMode[name]) {
+          case "left":
+            return 0;
+          case "right":
+          case "center": {
+            let val = this.StarblastMap.size - newSize;
+            if (this.shiftMode[name] == "right") return val;
+            return Math.trunc(val / 2);
           }
-          break;
+          default:
+            return this.shiftValue[name];
+        }
+      },
+      elements: {
+        options: $("#import-options"),
+        importButton: $("#loadMap"),
+        importFromClipboard: $("#importFromClipboard"),
+        shiftButtons: {},
+        allowShift: $("#allowShift"),
+        allowReplace: $("#allowReplace"),
+        customAlignment: $("#custom-alignments"),
+        alignments: $("#alignments-preset"),
+        customShift: {
+          x: $("#shiftX"),
+          y: $("#shiftY")
+        }
       }
-      fail = !map.length || (map.length < 20 && map.length > 200);
-      if (!fail && type.includes("url")) {
-        let len = map.map(i => i.length);
-        fail = map.length != Math.max(...len) || map.length != Math.min(...len);
-      }
-      if (exportData) return {map:map,fail:fail}
-      if (!fail) fail = !this.load(map,init);
-      if (fail) alert("Invalid Map!");
     },
     checkActions: function()
     {
@@ -556,7 +683,7 @@ window.t = (function(){
           break;
         case "n":
           this.pushSession("future",["n",this.data]);
-          this.load(lastAction[1],null,1);
+          this.load(lastAction[1],null,1,true);
           break;
       }
       this.sync();
@@ -579,7 +706,7 @@ window.t = (function(){
           break;
         case "n":
           this.pushSession("history",["n",this.data],1);
-          this.load(futureAction[1],null,1);
+          this.load(futureAction[1],null,1, true);
           break;
       }
       this.sync();
@@ -996,8 +1123,9 @@ window.t = (function(){
       random: function(num) {
         return ~~(Math.random()*num);
       },
-      setCheckbox: function (origin, triggerID, storage, IndID) {
-        let u = origin?(localStorage.getItem(storage) == "true"):$("#"+triggerID).is(":checked");
+      setCheckbox: function (origin, triggerID, storage, IndID, defaultvalue = false) {
+        let storageData = localStorage.getItem(storage);
+        let u = origin?(storageData == null ? defaultvalue : (storageData == "true")):$("#"+triggerID).is(":checked");
         origin && $("#"+triggerID).prop("checked",u);
         (IndID) && $("#"+IndID).prop("class","fas fa-fw fa-"+(u?"check":"times"));
         localStorage.setItem(storage, u);
@@ -1035,7 +1163,7 @@ window.t = (function(){
           ["random",'RandomMazeGenerator', 'Generate Random Maze according to the current map size. By [rvan_der](https://github.com/rvan-der)'],
           ["feedback",'Feedback','Give us a feedback'],
           ["permalink",'Permalink','Copy map permalink to clipboard'],
-          ["exportImage",'Export Map as Image','Export map screenshot as a PNG (*.png) file (HotKey Ctrl + I)',"Ctrl(Cmd) + Z"],
+          ["exportImage",'Export Map as Image','Export map screenshot as a PNG (*.png) file',"Ctrl(Cmd) + I"],
           ["copyImage",'Copy Map screenshot','Copy Map screenshot as as a PNG (*.png) file to Clipboard'],
           ["tutorial",'Tutorial','Visit the Map Editor Tutorial Page'],
           ["changelog",'Changelog',"View the update's log of Map Editor from the beginning"],
@@ -1046,7 +1174,21 @@ window.t = (function(){
           ["coordtype",null,"Toggle Coordinates' perspective"],
           ["map_id-input",null, "(IDMapper) Map ID"],
           ["game_mode-select",null,"(IDMapper) Applied Game Mode"],
-          ["IDMapperApply",null,"(IDMapper) Apply changes and create map"]
+          ["IDMapperApply",null,"(IDMapper) Apply changes and create map"],
+          ["rAllowShift", null, "Toggle extended importing options"],
+          ["align-left-left", null, "Top Left"],
+          ["align-center-left", null, "Top, Centered Horizontally"],
+          ["align-right-left", null, "Top Right"],
+          ["align-left-center", null, "Left, Centered Vertically"],
+          ["align-center-center", null, "\"Perfectly balanced, as all things should be...\""],
+          ["align-right-center", null, "Right, Centered Vertically"],
+          ["align-left-right", null, "Bottom Left"],
+          ["align-center-right", null, "Bottom, Centered Horizontally"],
+          ["align-right-right", null, "Bottom Right"],
+          ["shiftX", null, "Set custom X shift value"],
+          ["shiftY", null, "Set custom Y shift value"],
+          ["allowReplace", null, "Toggle new map to be overwritten over old map, otherwise overlapped"],
+          ["importFromClipboard", null, "Import new map from your clipboard", "Ctrl(Cmd) + V"]
         ],
         view: function (title,text,HotKey) {
           $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}${HotKey?(" (HotKey "+HotKey+")"):""}`);
@@ -1057,6 +1199,8 @@ window.t = (function(){
   StarblastMap.Engine.info.list.unshift(...StarblastMap.Engine.menu.modules.map((i,j) => ["menu"+j,null,i+" Tab"]));
   bindIDMapper(StarblastMap);
   StarblastMap.IDMapper.StarblastMap = StarblastMap;
+  StarblastMap.Import.StarblastMap = StarblastMap;
+  StarblastMap.Import.init();
   bindRandomMaze(StarblastMap);
   Object.assign(StarblastMap.Asteroids.changeSize,{
     applySize: function(key)
@@ -1077,9 +1221,9 @@ window.t = (function(){
     {
       case "map":
         let datamap;
-        try{error = StarblastMap.import("url",query[1],0,1).fail}catch(e){error=1};
+        try{error = StarblastMap.Import.get("url",query[1],0,1).fail}catch(e){error=1};
         if (error) {
-          if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) return "?"+StarblastMap.export("url",StarblastMap.import("url-old",query[1],0,1).map);
+          if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) return "?"+StarblastMap.export("url",StarblastMap.Import.get("url-old",query[1],0,1).map);
         }
         else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error);
         break;
@@ -1101,7 +1245,7 @@ window.t = (function(){
       if (fail) StarblastMap.create(1);
       else StarblastMap.load(null,1,1);
     }
-    else StarblastMap.import("url",query[1],1);
+    else StarblastMap.Import.get("url",query[1],1);
     for (let i=0;i<10;i++)
     {
       (i) && StarblastMap.Asteroids.drawSelection(i);
@@ -1240,7 +1384,7 @@ window.t = (function(){
     StarblastMap.download("image");
   });
   StarblastMap.Buttons.randomMaze.on("click", function() {
-    StarblastMap.load(StarblastMap.randomMaze().split("\n"));
+    StarblastMap.load(StarblastMap.randomMaze().split("\n"), false, false, true);
   });
   StarblastMap.Engine.menu.hide();
   $("#show-menu").on("click", function(){StarblastMap.Engine.menu.hide(!1)});
@@ -1248,7 +1392,10 @@ window.t = (function(){
   StarblastMap.background.alphaInput.on("change", function(){StarblastMap.background.checkAlpha(StarblastMap.background.alphaInput.val())});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
   StarblastMap.IDMapper.applyButton.on("click", function(){StarblastMap.IDMapper.check()});
-  StarblastMap.Buttons.import.on("change", function(e) {
+  StarblastMap.Import.elements.importFromClipboard.on("click", function () {
+    StarblastMap.Import.fromClipboard();
+  })
+  StarblastMap.Import.elements.importButton.on("change", function(e) {
     if (e.target.files && e.target.files[0]) {
       let file=e.target.files[0];
       if (file.type.match("plain") || file.type.match("javascript")) {
@@ -1257,13 +1404,13 @@ window.t = (function(){
         {
             return function()
             {
-                StarblastMap.import("plain",reader.result);
+                StarblastMap.Import.get("plain",reader.result);
             }
         })(fr);
         fr.readAsText(file);
       }
       else alert("Unsupported file format!");
-      StarblastMap.Buttons.import.val("");
+      StarblastMap.Import.elements.importButton.val("");
     }
   });
   // Brush code edits
@@ -1274,13 +1421,12 @@ window.t = (function(){
     rSize(1);
     StarblastMap.Asteroids.input.max.on("change",function(){rSize(1,"max")});
     StarblastMap.Asteroids.input.min.on("change",function(){rSize(1,"min")});
-    document.onkeydown = function(e)
-    {
-      let size=["#brush_size","#map_size","#background-color","#border-color","#as-color","#maxASSize","#minASSize","#brushname","#brushdesc","#brushicon","#brushauthor",".ace_text-input","#map_id"],check=[];
+    document.addEventListener("keydown", function(e) {
+      let size=["#brush_size","#map_size","#background-color","#border-color","#as-color","#maxASSize","#minASSize","#brushname","#brushdesc","#brushicon","#brushauthor",".ace_text-input","#map_id","#shiftX","#shiftY"],check=[];
       for (let i of size) check.push($(i).is(":focus"));
       if (!Math.max(...check))
       {
-        if (e.ctrlKey == true) switch(e.which)
+        if (e.ctrlKey || e.metaKey) switch(e.which)
         {
           case 122:
           case 90:
@@ -1306,6 +1452,11 @@ window.t = (function(){
           case 67:
             e.preventDefault();
             StarblastMap.copy("plain");
+            break;
+          case 118:
+          case 86:
+            e.preventDefault();
+            StarblastMap.Import.fromClipboard();
             break;
           case 111:
           case 79:
@@ -1345,7 +1496,7 @@ window.t = (function(){
             if (e.which > 47 && e.which < 58) StarblastMap.Asteroids.changeSize(e.which-48);
         }
       }
-    }
+    })
   }
   catch(e){}
   try {
