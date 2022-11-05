@@ -423,30 +423,27 @@ window.t = (function(){
     Import: {
       allowShift: false,
       allowReplace: true,
-      fromClipboard: function () {
-        let text = prompt("Paste the text here:");
-        if (text != null) StarblastMap.Import.get("plain", text);
+      fromText: function (text) {
+        if (text != null && text != "") this.StarblastMap.Import.get("plain", text);
+      },
+      fromClipboard: function (text) {
+        try {
+          navigator.clipboard.readText().then(this.fromText.bind(this)).catch(this.fromClipboardWithPrompt.bind(this))
+        }
+        catch (e) { this.fromClipboardWithPrompt() }
+      },
+      fromClipboardWithPrompt: function () {
+        this.fromText(prompt("Paste your text here:"));
       },
       get: function (type, data, init, exportData) {
         let map = [],fail = 0;
         switch (type)
         {
           case "plain":
-            let matchIndex, matchChar;
-            for (let i=0;i<data.length;i++) {
-              if (matchIndex == null) {
-                if (`"'`.indexOf(data[i]) != -1) {
-                  matchIndex = i;
-                  matchChar = data[i];
-                }
-              }
-              else if (data[i] == matchChar) {
-                map.push(data.slice(matchIndex, i+1));
-                matchChar = null;
-                matchIndex = null;
-              }
+            try {
+              map = (String(data).match(/("|')(?:(?!\1)(?:\\.|[^\\]))*\1/g) || []).map(e => Function("return " + e)()).join("").split("\n");
             }
-            map = map.map(i => Function(`return ${i}`)()).join("").split("\n");
+            catch (e) { fail = true }
             break;
           case "url":
             data = LZString.decompressFromEncodedURIComponent(data);

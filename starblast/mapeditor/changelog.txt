@@ -4,6 +4,7 @@ Introducing new features: Extended importing options
 * Try the feature to learn more
 * Fixed the bug that the tool doesn't recognize "Command" (Cmd) Key on MacOS as shortcut
 * Added feature to import map from clipboard
+* Fixed map text parser not be able to parse map in some cases
 
 3.2.0/May 18, 2021
 Now introducing IDMapper (BETA)!
