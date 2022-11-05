@@ -1172,7 +1172,7 @@ window.t = (function(){
           ["map_id-input",null, "(IDMapper) Map ID"],
           ["game_mode-select",null,"(IDMapper) Applied Game Mode"],
           ["IDMapperApply",null,"(IDMapper) Apply changes and create map"],
-          ["rAllowShift", null, "Toggle extended importing options"],
+          ["rAllowShift", "Allow resizing maps", "Allow/Forbid the tool to resize the map based on newly imported map"],
           ["align-left-left", null, "Top Left"],
           ["align-center-left", null, "Top, Centered Horizontally"],
           ["align-right-left", null, "Top Right"],
