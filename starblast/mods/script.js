@@ -26,8 +26,8 @@
       oldDate = lastDate;
     }
     else {
-      oldDate = localStorage.getItem("lastDate")||"Unknown";
-      try {oldmodsinfo = JSON.parse(localStorage.getItem("modsinfo"))}
+      oldDate = localData.getItem("lastDate")||"Unknown";
+      try {oldmodsinfo = JSON.parse(localData.getItem("modsinfo"))}
       catch(e){oldmodsinfo = {}}
     }
     processData(oldmodsinfo, null, oldDate);
@@ -102,7 +102,7 @@
             if (typeof mod[i] == "string") mod[i] = mod[i];
         });
         modsinfo = mods;
-        localStorage.setItem("modsinfo",JSON.stringify(mods));
+        localData.setItem("modsinfo",JSON.stringify(mods));
         $("#modsinfo").html("");
         let spc = decodeURI(window.location.search).split("&"), d=spc.shift().substring(1);
         if ($.isEmptyObject(key))
@@ -158,7 +158,7 @@
         });
         try {
           lastDate = new Date(response.getResponseHeader("last-Modified")).toString();
-          localStorage.setItem("lastDate",lastDate);
+          localData.setItem("lastDate",lastDate);
         }
         catch(e){e}
         $("#lastModified").html("<b>Last Updated: </b>"+(lastDate||"Unknown"));

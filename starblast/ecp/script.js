@@ -58,14 +58,14 @@ window.addEventListener("load", function(){
           refresh(data, init)
         }).catch(function(e) {
           let fail = false, offline_data;
-          try {offline_data = JSON.parse(localStorage.getItem("ecp-data"))}
+          try {offline_data = JSON.parse(localData.getItem("ecp-data"))}
           catch (e) {fail = true};
           (fail || !init) && alert("Fetch failed!");
           if (!fail) refresh(offline_data, init);
         })
       }, refresh = function (data, init) {
         // store for offline use
-        localStorage.setItem("ecp-data", JSON.stringify(data));
+        localData.setItem("ecp-data", JSON.stringify(data));
         // parse to a data array with attribute 'type'
         ecp_data = [];
         for (let i in data) [].push.apply(ecp_data, data[i].map(function(e) {
@@ -112,12 +112,12 @@ window.addEventListener("load", function(){
         $("#download").attr("disabled", true);
         let query_info = last_info, laser, finish, loadBadge, size, size_preset, shadow_mode;
         if (init) {
-          loadBadge = localStorage.getItem("loadBadge") == "true";
-          finish = localStorage.getItem("ecp-finish");
-          laser = localStorage.getItem("ecp-laser");
-          size = localStorage.getItem("ecp-res");
-          shadow_mode = localStorage.getItem("ecp-shadow");
-          size_preset = localStorage.getItem("ecp-res-option")
+          loadBadge = localData.getItem("loadBadge") == "true";
+          finish = localData.getItem("ecp-finish");
+          laser = localData.getItem("ecp-laser");
+          size = localData.getItem("ecp-res");
+          shadow_mode = localData.getItem("ecp-shadow");
+          size_preset = localData.getItem("ecp-res-option")
         }
         else {
           loadBadge = !!$("#loadBadge").is(":checked");
@@ -134,12 +134,12 @@ window.addEventListener("load", function(){
         size = (updateSizeNeeded ? size_preset.size() : size_preset.size) || Math.max(size, 0) || 200;
         shadow_mode = (shadow_modes.find(f => f.value == shadow_mode) || shadow_modes[0]).value;
 
-        localStorage.setItem("ecp-finish", finish);
-        localStorage.setItem("ecp-laser", laser);
-        localStorage.setItem("ecp-res", size);
-        localStorage.setItem("ecp-shadow", shadow_mode);
-        localStorage.setItem("loadBadge", loadBadge);
-        localStorage.setItem("ecp-res-option", size_preset.name);
+        localData.setItem("ecp-finish", finish);
+        localData.setItem("ecp-laser", laser);
+        localData.setItem("ecp-res", size);
+        localData.setItem("ecp-shadow", shadow_mode);
+        localData.setItem("loadBadge", loadBadge);
+        localData.setItem("ecp-res-option", size_preset.name);
 
         $("#finish-choose").val(finish);
         $("#laser-choose").val(laser);

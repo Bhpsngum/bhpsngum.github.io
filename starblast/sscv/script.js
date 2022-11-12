@@ -114,17 +114,17 @@
       choose: function() {
         let select = $("#types").prop("selectedIndex");
         if (select < 1 || select > this.list.length) {
-          let t = Number(localStorage.getItem("selected-conversion-type"));
+          let t = Number(localData.getItem("selected-conversion-type"));
           select = (t > 0 && t <= this.list.length && !isNaN(t))?t:1;
         }
         select = Math.trunc(select);
-        localStorage.setItem("selected-conversion-type",select);
+        localData.setItem("selected-conversion-type",select);
         $("#types").prop("selectedIndex",select);
         return select;
       }
     },
     convert: function (forced) {
-      let json = $("#input").val() || localStorage.getItem("json-input"), results;
+      let json = $("#input").val() || localData.getItem("json-input"), results;
       try {results = this.types.list[this.types.choose() - 1].parse(json.trim())}
       catch(e){
         if (forced) {
@@ -136,7 +136,7 @@
           return;
         }
       };
-      localStorage.setItem("json-input",json);
+      localData.setItem("json-input",json);
       $("#output").val(results);
       $("#input").val(json);
     },

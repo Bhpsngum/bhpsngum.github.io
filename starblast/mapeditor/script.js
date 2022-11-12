@@ -29,6 +29,7 @@ window.t = (function(){
         image: $("#copyImage")
       },
       permalink: $("#permalink"),
+      clearData: $("#clear-local-data"),
       undo: $("#undo"),
       redo: $("#redo")
     },
@@ -38,14 +39,17 @@ window.t = (function(){
       else caller = function(){StarblastMap.Engine.info.view(null,`${t?"Touch":"Left-click"} to apply asteroid, ${t?"Swipe":"right-click to remove, drag"} for trails`)}
       return caller;
     },
+    clearData: function () {
+      if (confirm("Warning: Local data contains your map data and saved options for this tool.\nDo you still want to proceed?")) localData.clear();
+    },
     IDMapper: {
       check: function (init) {
-        let id = Math.round(Math.max(Math.min(init?(localStorage.getItem("map_id") || "undefined"):this.idInput.val(), 9999), 1)) || 5000;
-        let game_mode = Math.min(Math.max(init?localStorage.getItem("game_mode"):(this.modeChecker.prop("selectedIndex") - 1), 0), 1) || 0;
-        localStorage.setItem("map_id", id);
+        let id = Math.round(Math.max(Math.min(init?(localData.getItem("map_id") || "undefined"):this.idInput.val(), 9999), 1)) || 5000;
+        let game_mode = Math.min(Math.max(init?localData.getItem("game_mode"):(this.modeChecker.prop("selectedIndex") - 1), 0), 1) || 0;
+        localData.setItem("map_id", id);
         this.idInput.val(id);
         this.map_id = id;
-        localStorage.setItem("game_mode", game_mode);
+        localData.setItem("game_mode", game_mode);
         this.modeChecker.prop("selectedIndex", game_mode + 1);
         this.game_mode = game_mode;
         !init && this.createMapByID();
@@ -132,10 +136,10 @@ window.t = (function(){
         return {success: success, results: results}
       },
       setType: function(init){
-        let t = init?this.types.indexOf(localStorage.getItem("coordinate-type")):(this.typeChooser.prop("selectedIndex")-1);
+        let t = init?this.types.indexOf(localData.getItem("coordinate-type")):(this.typeChooser.prop("selectedIndex")-1);
         t = Math.max(Math.min(t,this.types.length - 1),0) || 0;
         this.chosenType = t;
-        localStorage.setItem("coordinate-type", this.types[t]);
+        localData.setItem("coordinate-type", this.types[t]);
         this.typeChooser.prop("selectedIndex",t+1);
         return t
       },
@@ -178,7 +182,7 @@ window.t = (function(){
     history: [],
     future: [],
     pattern: new Map(),
-    size: Math.min(Math.max(20,Number(localStorage.size)||20),200),
+    size: Math.min(Math.max(20,Number(localData.size)||20),200),
     buildData: function(dms) {
       (!dms) && this.pushSession("history",["n",this.data]);
       this.data = [];
@@ -198,10 +202,10 @@ window.t = (function(){
         StarblastMap.Engine.info.view(null,text);
       },
       checkAlpha: function(alpha) {
-        alpha = Number((alpha != void 0)?alpha:(localStorage.getItem("bgI-alpha")||100));
+        alpha = Number((alpha != void 0)?alpha:(localData.getItem("bgI-alpha")||100));
         this.alpha = Math.min(Math.max((isNaN(alpha)?100:alpha),0),100);
         this.alphaInput.val(this.alpha);
-        localStorage.setItem("bgI-alpha",this.alpha);
+        localData.setItem("bgI-alpha",this.alpha);
         $("#mapBgI").css("opacity",this.alpha+"%");
       },
       apply: function(url,gbl,map) {
@@ -221,13 +225,13 @@ window.t = (function(){
         this.apply(null,u,!u);
       },
       check: function(url, forced, init) {
-        url = (forced)?(url||""):(url || localStorage.getItem("background-image") || "");
+        url = (forced)?(url||""):(url || localData.getItem("background-image") || "");
         if (url) {
           let img = new Image();
           img.onload = function() {
             this.options.css("display","");
             this.image = url;
-            localStorage.setItem("background-image",url);
+            localData.setItem("background-image",url);
             this.apply(url,this.global,!this.global);
           }.bind(this);
           img.onerror = function() {
@@ -237,7 +241,7 @@ window.t = (function(){
         }
         else if (forced || init) {
           this.options.css("display","none");
-          localStorage.setItem("background-image","");
+          localData.setItem("background-image","");
           this.image = "";
           this.apply(null,false,false);
         }
@@ -512,19 +516,19 @@ window.t = (function(){
         this.getValues(null, null, true);
       },
       checkShiftEnabled: function (init) {
-        this.allowShift = this.StarblastMap.Engine.setCheckbox(init, "allowShift", "ME-allow-shift", "allowShiftInd");
+        this.allowShift = this.StarblastMap.Engine.setCheckbox(init, "allowShift", "allow-shift", "allowShiftInd");
         this.elements.options.css("display", this.allowShift ? "" : "none")
       },
       checkReplaceAllowed: function (init) {
-        this.allowReplace = this.StarblastMap.Engine.setCheckbox(init, "allowReplace", "ME-allow-replace", "allowReplaceInd", true);
+        this.allowReplace = this.StarblastMap.Engine.setCheckbox(init, "allowReplace", "allow-replace", "allowReplaceInd", true);
       },
       getValues: function (shiftModeX, shiftModeY, init) {
         if (init) {
-          this.shiftMode.x = localStorage.getItem("ME-shift-mode-x") || "custom";
-          this.shiftMode.y = localStorage.getItem("ME-shift-mode-y") || "custom";
+          this.shiftMode.x = localData.getItem("shift-mode-x") || "custom";
+          this.shiftMode.y = localData.getItem("shift-mode-y") || "custom";
 
-          this.shiftValue.x = Math.trunc(localStorage.getItem("ME-shift-value-x"), 0);
-          this.shiftValue.y = Math.trunc(localStorage.getItem("ME-shift-value-y"), 0);
+          this.shiftValue.x = Math.trunc(localData.getItem("shift-value-x"), 0);
+          this.shiftValue.y = Math.trunc(localData.getItem("shift-value-y"), 0);
         }
         else {
           this.shiftMode.x = shiftModeX;
@@ -534,11 +538,11 @@ window.t = (function(){
           this.shiftValue.y = Math.trunc(+this.elements.customShift.y.val()) || 0;
         }
 
-        localStorage.setItem("ME-shift-mode-x", this.shiftMode.x);
-        localStorage.setItem("ME-shift-mode-y", this.shiftMode.y);
+        localData.setItem("shift-mode-x", this.shiftMode.x);
+        localData.setItem("shift-mode-y", this.shiftMode.y);
 
-        localStorage.setItem("ME-shift-value-x", this.shiftValue.x);
-        localStorage.setItem("ME-shift-value-y", this.shiftValue.y);
+        localData.setItem("shift-value-x", this.shiftValue.x);
+        localData.setItem("shift-value-y", this.shiftValue.y);
 
         for (let E of Object.values(this.elements.shiftButtons)) {
           E.css("border-width", "1px");
@@ -662,7 +666,7 @@ window.t = (function(){
       if (u) try{u.call(window,Cell,SBMap)}catch(e){console.error(`[Custom Brush] ${e.name}: ${e.message}`)}
     },
     sync: function () {
-      localStorage.setItem("map",JSON.stringify(this.data));
+      localData.setItem("map",JSON.stringify(this.data));
     },
     undo: function() {
       if (!this.history.length) return;
@@ -785,7 +789,7 @@ window.t = (function(){
       applyKey: function(key,num){
         let size = Math.min(Math.max(Number(num)||0,0),9);
         this.size[key] = size;
-        localStorage["ASSize_"+key] = size;
+        localData["ASSize_"+key] = size;
         this.input[key].val(size);
       },
       randomSize: function(self_trigger,local)
@@ -819,12 +823,12 @@ window.t = (function(){
         min:20,
         max:200
       }
-      let size=Math.round((num != void 0)?num:(Number(localStorage.size)||dsize.min));
+      let size=Math.round((num != void 0)?num:(Number(localData.size)||dsize.min));
       size=Math.max(Math.min(dsize.max,size),dsize.min);
       size = Math.round(size/2) *2;
       StarblastMap.sizeInput.val(size);
       StarblastMap.size = size;
-      localStorage.size = size;
+      localData.size = size;
       return size;
     },
     Engine: {
@@ -896,7 +900,7 @@ window.t = (function(){
         let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1,param = para.toLowerCase();
         if (inp == void 0 || defl)
         {
-          if ((localStorage[param]||"undefined") == "undefined"  || defl)
+          if ((localData[param]||"undefined") == "undefined"  || defl)
             switch(param)
             {
               case "background-color":
@@ -907,7 +911,7 @@ window.t = (function(){
                 css="rgb(102,102,102)";
                 break;
             }
-          else css=localStorage[param];
+          else css=localData[param];
         }
         else css= inp;
         let color = new w3color(css);
@@ -942,7 +946,7 @@ window.t = (function(){
             break;
         }
         $("#"+param).val(css);
-        localStorage.setItem(param,css);
+        localData.setItem(param,css);
         return css;
       },
       encodeHTML: function(str) {
@@ -1002,7 +1006,7 @@ window.t = (function(){
             i = Math.max(Math.min(i,this.list.length-1),0);
             this.editIndex = i;
             this.chosenIndex = i;
-            localStorage.setItem("brushIndex",i);
+            localData.setItem("brushIndex",i);
             for (let j=0;j<this.list.length;j++) $("#brush"+j).attr('choosen', 'false');
             $("#brush"+i).attr('choosen', 'true');
             $("#removeBrush").prop("disabled",this.chosenIndex<=this.defaultIndex);
@@ -1031,7 +1035,7 @@ window.t = (function(){
             }
           },
           sync: function() {
-            localStorage.setItem("customBrush",JSON.stringify(this.list.slice(this.defaultIndex+1,this.list.length)));
+            localData.setItem("customBrush",JSON.stringify(this.list.slice(this.defaultIndex+1,this.list.length)));
           }
         },
         defaultIndex: 0,
@@ -1039,13 +1043,13 @@ window.t = (function(){
           this.randomized = StarblastMap.Engine.setCheckbox(origin,"randomCheck","randomizedBrush","rInd");
         },
         size: 0,
-        applySize: function (num = (Number(localStorage.brush)||0)) {
+        applySize: function (num = (Number(localData.brush)||0)) {
           let max=StarblastMap.size;
           let size=Math.round(num);
           size=Math.max(Math.min(max,size),0);
           this.input.val(size);
           this.size = size;
-          localStorage.setItem("brush",size);
+          localData.setItem("brush",size);
         },
       },
       Mirror: {
@@ -1090,9 +1094,9 @@ window.t = (function(){
         modules: ["Map","Edit","Decoration","Advanced","Miscellaneous"],
         chosenIndex: 1,
         hide: function(bool) {
-          bool = (bool == void 0)?(localStorage.getItem("hideMenu") == "true"):!!bool;
+          bool = (bool == void 0)?(localData.getItem("hideMenu") == "true"):!!bool;
           this.isHidden = bool;
-          localStorage.setItem("hideMenu", bool);
+          localData.setItem("hideMenu", bool);
           $("#short-main").css("display",bool?"":"none");
           $("#main").css("display",bool?"none":"");
         },
@@ -1121,11 +1125,11 @@ window.t = (function(){
         return ~~(Math.random()*num);
       },
       setCheckbox: function (origin, triggerID, storage, IndID, defaultvalue = false) {
-        let storageData = localStorage.getItem(storage);
+        let storageData = localData.getItem(storage);
         let u = origin?(storageData == null ? defaultvalue : (storageData == "true")):$("#"+triggerID).is(":checked");
         origin && $("#"+triggerID).prop("checked",u);
         (IndID) && $("#"+IndID).prop("class","fas fa-fw fa-"+(u?"check":"times"));
-        localStorage.setItem(storage, u);
+        localData.setItem(storage, u);
         return u;
       },
       info: {
@@ -1184,8 +1188,9 @@ window.t = (function(){
           ["align-right-right", null, "Bottom Right"],
           ["shiftX", null, "Set custom X shift value"],
           ["shiftY", null, "Set custom Y shift value"],
-          ["allowReplace", null, "Toggle new map to be overwritten over old map, otherwise overlapped"],
-          ["importFromClipboard", null, "Import new map from your clipboard", "Ctrl(Cmd) + V"]
+          ["rAllowReplace", null, "Toggle new map to be overwritten over old map, otherwise overlapped"],
+          ["importFromClipboard", null, "Import new map from your clipboard", "Ctrl(Cmd) + V"],
+          ["clear-local-data", "Clear local data", "Clears your local data and sets all to default"]
         ],
         view: function (title,text,HotKey) {
           $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}${HotKey?(" (HotKey "+HotKey+")"):""}`);
@@ -1234,7 +1239,7 @@ window.t = (function(){
     {
       let fail = 0;
       try{
-        let storageMap = JSON.parse(localStorage.map);
+        let storageMap = JSON.parse(localData.map);
         if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
         else throw "Nope";
       }
@@ -1293,8 +1298,8 @@ window.t = (function(){
     }
   }
   catch(e){}
-  StarblastMap.Asteroids.applyKey("min",localStorage.ASSize_min);
-  StarblastMap.Asteroids.applyKey("max",localStorage.ASSize_max);
+  StarblastMap.Asteroids.applyKey("min",localData.ASSize_min);
+  StarblastMap.Asteroids.applyKey("max",localData.ASSize_max);
   StarblastMap.map.addEventListener("mousemove", function(e){
     this.view(this.get(e.offsetX),this.get(e.offsetY), true);
   }.bind(StarblastMap.Coordinates));
@@ -1388,6 +1393,7 @@ window.t = (function(){
   $("#hide-menu").on("click", function(){StarblastMap.Engine.menu.hide(!0)});
   StarblastMap.background.alphaInput.on("change", function(){StarblastMap.background.checkAlpha(StarblastMap.background.alphaInput.val())});
   StarblastMap.Buttons.copy.text.on("click", function(){StarblastMap.copy("plain")});
+  StarblastMap.Buttons.clearData.on("click", StarblastMap.clearData);
   StarblastMap.IDMapper.applyButton.on("click", function(){StarblastMap.IDMapper.check()});
   StarblastMap.Import.elements.importFromClipboard.on("click", function () {
     StarblastMap.Import.fromClipboard();
@@ -1497,7 +1503,7 @@ window.t = (function(){
   }
   catch(e){}
   try {
-    let cbr = JSON.parse(localStorage.getItem("customBrush"));
+    let cbr = JSON.parse(localData.getItem("customBrush"));
     StarblastMap.Engine.Brush.drawers.editIndex = null;
     if (Array.isArray(cbr)) for (let i of cbr)
     {
@@ -1505,7 +1511,7 @@ window.t = (function(){
     }
     StarblastMap.Engine.Brush.drawers.sync();
     StarblastMap.Engine.Brush.drawers.redrawSelection();
-    let cbrid = Number(localStorage.getItem("brushIndex"))||0;
+    let cbrid = Number(localData.getItem("brushIndex"))||0;
     cbrid = Math.max(Math.min(cbrid,StarblastMap.Engine.Brush.drawers.list.length-1),0);
     StarblastMap.Engine.Brush.drawers.select(cbrid);
     let chooser = StarblastMap.Coordinates.setType.bind(StarblastMap.Coordinates);
@@ -1519,7 +1525,7 @@ window.t = (function(){
     let code = StarblastMap.Engine.Brush.drawers.codeEditor.getValue(),p = StarblastMap.Engine.Brush.drawers.get(code||"{");
     if (p.error) alert(p.error);
     else {
-      let proc, test = /((window\.)*(document|localStorage|open|close|location|\$|ResizeSensor|LZString|ace|detectZoom))/g;
+      let proc, test = /((window\.)*(document|localData|open|close|location|\$|ResizeSensor|LZString|ace|detectZoom))/g;
       if (proc = !test.test(code), !proc) proc = confirm("Hold up!\nThis script may contain malicious code that can be used for data-accessing or trolling\nDo you still want to proceed?\nMatched criteria(s):\n"+code.match(test).join(","));
       if (proc) {
         StarblastMap.Engine.Brush.drawers.update(code, $("#brushname").val(), $("#brushdesc").val(), $("#brushicon").val(), $("#brushauthor").val());
@@ -1535,9 +1541,9 @@ window.t = (function(){
   $("#addBrush").on("click", function(){
     StarblastMap.Engine.Brush.drawers.editIndex=null;
     StarblastMap.Engine.Brush.drawers.showCode(1);
-    if (localStorage.getItem("modwarn") != "true") {
+    if (localData.getItem("modwarn") != "true") {
       alert("WARNING!\nWe won't be responsible for any problems caused by your code\nOnly runs code from the source that you trust");
-      localStorage.setItem("modwarn", true);
+      localData.setItem("modwarn", true);
     }
   });
   $("#editBrush").on("click",function(){StarblastMap.Engine.Brush.drawers.showCode(1)});

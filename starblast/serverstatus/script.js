@@ -6,9 +6,9 @@
     else text = days + " days";
     return text
   }, saveLocal = function (name, value) {
-    return localStorage.setItem(name, JSON.stringify(value))
+    return localData.setItem(name, JSON.stringify(value))
   }, loadLocal = function (name, value) {
-    let item = localStorage.getItem(name);
+    let item = localData.getItem(name);
     try { return JSON.parse(item) } catch (e) { return item }
   }, showText = function (text) {
     $("#results-counter").html(text || "")

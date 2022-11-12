@@ -25,10 +25,10 @@ else (function(){
     data.replace(/\d+\.\d+\.\d+/, function(version) {
       $("#modules tr").append('<td id="version" style="border:none;width:auto">Version ' + version + '</td>');
       $("#version").on('click',function(){ $('#changelog').click() });
-      if (localStorage.getItem("lastVer") != version)
+      if (localData.getItem("lastVer") != version)
       {
         let info = data.split("\n\n")[0].split("\n");
-        localStorage.setItem("lastVer",version);
+        localData.setItem("lastVer",version);
         confirm("What's new ("+version+")\n"+info.slice(1,info.length).join("\n").replace(/\\n/g,"")+"\n\nWould you like to see full updates?") && $('#changelog').click();
       }
     });
