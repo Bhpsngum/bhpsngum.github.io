@@ -182,7 +182,7 @@
     (available_mods.length > 0 && notif_enabled) && check_mods.forEach(mod => (available_mods.indexOf(mod.mod_id) == -1) && showNotification(mod));
     available_mods = check_mods.map(i=>i.mod_id);
   }, checknotifEnabled = function(init) {
-    if (init) notif_enabled = localStorage.getItem("mod-notif") == "true";
+    if (init) notif_enabled = localData.getItem("mod-notif") == "true";
     else notif_enabled = notif_box.is(":checked");
     if (notif_enabled) handleNotification(function(res){
       let allow_notif = res=="granted";
@@ -199,7 +199,7 @@
       handler(notif());
     }
   }, applyNotif = function() {
-    localStorage.setItem("mod-notif",notif_enabled);
+    localData.setItem("mod-notif",notif_enabled);
     notif_box.prop("checked",notif_enabled);
     let t = Number(notif_enabled), u = ["-slash",""], a = ["on","off"];
     $("#notif-box").prop("title","Turn "+a[t]+" new available mod notifications"+(Notification.permission == "granted"?"":"\n(Requires Notifications permissions)"));
