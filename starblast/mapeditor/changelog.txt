@@ -1,8 +1,8 @@
 3.3.0.3/Nov 12, 2022
 * Added option to remove all local data in Miscellaneous Tab
 * Removed beta version.
-WARNING:
-We have changed the way we organize your local data, hence all your current local data won't be readable anymore. To remove those chunk data, please visit https://bhpsngum.github.io/?clearalldata
+WARNING:\n
+We have changed the way we organize your local data, hence all your current local data won't be readable anymore. To remove those chunk data, please visit https://bhpsngum.github.io/?clearalldata\n
 This is a follow-up update of a next version (3.3.1), which will be in a few hours.
 
 3.3.0/Nov 5, 2022
