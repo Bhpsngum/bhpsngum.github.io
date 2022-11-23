@@ -205,9 +205,9 @@
     $("#notif-box").prop("title","Turn "+a[t]+" new available mod notifications"+(Notification.permission == "granted"?"":"\n(Requires Notifications permissions)"));
     $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
   }, img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, adjustwidth = function(){
-    let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t * padding_ratio);
+    let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), newImgSize = g/(x||1)/full_ratio, m = Math.trunc(newImgSize * padding_ratio);
     $(":root").css({
-      '--width': Math.trunc(t * (1 + 2 * padding_ratio))+"px",
+      '--width': Math.trunc(newImgSize + 2 * m)+"px",
       '--padding': m+"px",
       '--margin': m+"px",
       '--border-radius':m+"px"
