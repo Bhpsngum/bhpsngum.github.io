@@ -204,7 +204,7 @@
     let t = Number(notif_enabled), u = ["-slash",""], a = ["on","off"];
     $("#notif-box").prop("title","Turn "+a[t]+" new available mod notifications"+(Notification.permission == "granted"?"":"\n(Requires Notifications permissions)"));
     $("#notif-indicator").prop("class","fas fa-bell"+u[t]);
-  }, img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, width_scale = 0.98, adjustwidth = function(){
+  }, img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, width_scale = 0.99, adjustwidth = function(){
     let g = $(window).width() * width_scale, x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
     $(":root").css({
       '--width': Math.trunc(t)+"px",
