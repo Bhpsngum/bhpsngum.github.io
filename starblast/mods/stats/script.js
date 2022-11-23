@@ -207,7 +207,7 @@
   }, img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, adjustwidth = function(){
     let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), newImgSize = g/(x||1)/full_ratio, m = Math.trunc(newImgSize * padding_ratio);
     $(":root").css({
-      '--width': Math.trunc(newImgSize + 2 * m)+"px",
+      '--width': Math.trunc(newImgSize)+"px",
       '--padding': m+"px",
       '--margin': m+"px",
       '--border-radius':m+"px"
