@@ -789,7 +789,7 @@ window.t = (function(){
       applyKey: function(key,num){
         let size = Math.min(Math.max(Number(num)||0,0),9);
         this.size[key] = size;
-        localData["ASSize_"+key] = size;
+        localData.setItem("ASSize_"+key, size);
         this.input[key].val(size);
       },
       randomSize: function(self_trigger,local)
@@ -900,7 +900,7 @@ window.t = (function(){
         let css,defl = ["default","inherit","initial"].indexOf((inp||"").toLowerCase())!=-1,param = para.toLowerCase();
         if (inp == void 0 || defl)
         {
-          if ((localData[param]||"undefined") == "undefined"  || defl)
+          if ((localData.getItem(param)||"undefined") == "undefined"  || defl)
             switch(param)
             {
               case "background-color":
@@ -911,7 +911,7 @@ window.t = (function(){
                 css="rgb(102,102,102)";
                 break;
             }
-          else css=localData[param];
+          else css=localData.getItem(param);
         }
         else css= inp;
         let color = new w3color(css);
