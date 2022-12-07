@@ -182,7 +182,7 @@ window.t = (function(){
     history: [],
     future: [],
     pattern: new Map(),
-    size: Math.min(Math.max(20,Number(localData.size)||20),200),
+    size: Math.min(Math.max(20,Number(localData.getItem("size"))||20),200),
     buildData: function(dms) {
       (!dms) && this.pushSession("history",["n",this.data]);
       this.data = [];
@@ -823,12 +823,12 @@ window.t = (function(){
         min:20,
         max:200
       }
-      let size=Math.round((num != void 0)?num:(Number(localData.size)||dsize.min));
+      let size=Math.round((num != void 0)?num:(Number(localData.getItem("size"))||dsize.min));
       size=Math.max(Math.min(dsize.max,size),dsize.min);
       size = Math.round(size/2) *2;
       StarblastMap.sizeInput.val(size);
       StarblastMap.size = size;
-      localData.size = size;
+      localData.setItem("size", size);
       return size;
     },
     Engine: {
@@ -1043,7 +1043,8 @@ window.t = (function(){
           this.randomized = StarblastMap.Engine.setCheckbox(origin,"randomCheck","randomizedBrush","rInd");
         },
         size: 0,
-        applySize: function (num = (Number(localData.brush)||0)) {
+        applySize: function (num) {
+          num = num || (Number(localData.getItem("brush"))||0)
           let max=StarblastMap.size;
           let size=Math.round(num);
           size=Math.max(Math.min(max,size),0);
@@ -1239,7 +1240,7 @@ window.t = (function(){
     {
       let fail = 0;
       try{
-        let storageMap = JSON.parse(localData.map);
+        let storageMap = JSON.parse(localData.getItem("map"));
         if (Array.isArray(storageMap)) StarblastMap.data = storageMap;
         else throw "Nope";
       }
@@ -1298,8 +1299,8 @@ window.t = (function(){
     }
   }
   catch(e){}
-  StarblastMap.Asteroids.applyKey("min",localData.ASSize_min);
-  StarblastMap.Asteroids.applyKey("max",localData.ASSize_max);
+  StarblastMap.Asteroids.applyKey("min",localData.getItem("ASSize_min"));
+  StarblastMap.Asteroids.applyKey("max",localData.getItem("ASSize_max"));
   StarblastMap.map.addEventListener("mousemove", function(e){
     this.view(this.get(e.offsetX),this.get(e.offsetY), true);
   }.bind(StarblastMap.Coordinates));
