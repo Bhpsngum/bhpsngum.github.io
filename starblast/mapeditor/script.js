@@ -754,7 +754,8 @@ window.t = (function(){
           let c2d = c.getContext('2d');
           c2d.clearRect(0,0,c.width,c.height);
           c2d.beginPath();
-          c2d.drawImage(this.template,(gridIndex*3-i)*3/2,(gridIndex*3-i)*3/2,i*3,i*3);
+          let margin = (9 - i) * gridIndex / 2; 
+          c2d.drawImage(this.template, margin, margin , i * gridIndex, i * gridIndex);
           c2d.fillStyle = this.color;
           c2d.globalCompositeOperation = "source-atop";
           c2d.fillRect(0,0,c.width,c.height);
