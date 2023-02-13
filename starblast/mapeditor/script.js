@@ -894,7 +894,7 @@ window.t = (function(){
       },
       addBorder: function (c2d,x,y,z,t, width)
       {
-        c2d.clearRect(x-width/2,y-width/2,z-x+width,t-y+width);
+        c2d.clearRect(x-width,y-width,z-x+width*2,t-y+width*2);
         if (!StarblastMap.border.hide) {
           c2d.moveTo(x,y);
           c2d.lineTo(z,t);
@@ -938,11 +938,11 @@ window.t = (function(){
             let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size, gridIndex = StarblastMap.gridIndex;
             c2d.beginPath();
             c2d.strokeStyle = css;
-            c2d.lineWidth = 1 * gridIndex;
+            c2d.lineWidth = 1/2 * gridIndex;
             for (let i=0;i<=size;i++)
             {
-              this.addBorder(c2d,(i*10+1/2)*gridIndex,0,(i*10+1/2)*gridIndex,(size*10+1/2)*gridIndex, c2d.lineWidth);
-              this.addBorder(c2d,0,(i*10+1/2)*gridIndex,(size*10+1/2)*gridIndex,(i*10+1/2)*gridIndex, c2d.lineWidth);
+              this.addBorder(c2d,(i*10+1/2)*gridIndex,1/2*gridIndex,(i*10+1/2)*gridIndex,(size*10+1/2)*gridIndex, c2d.lineWidth);
+              this.addBorder(c2d,1/2*gridIndex,(i*10+1/2)*gridIndex,(size*10+1/2)*gridIndex,(i*10+1/2)*gridIndex, c2d.lineWidth);
             }
             c2d.stroke();
             root.setProperty('--border-color', css);
