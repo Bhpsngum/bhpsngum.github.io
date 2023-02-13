@@ -724,12 +724,16 @@ window.t = (function(){
           if (prev != num || init)
           {
             let c2d = StarblastMap.map.getContext('2d'), gridIndex = StarblastMap.gridIndex;
-            c2d.clearRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
+            let drawX = (x*10+1) * gridIndex, drawY = (y*10+1) * gridIndex;
+            let maxSize = 9 * gridIndex;
+            c2d.clearRect(drawY, drawX , maxSize, maxSize);
             c2d.beginPath();
-            c2d.drawImage(this.template,(y*10+6-num/2)*gridIndex+num/4,(x*10+6-num/2)*gridIndex+num/4,num*(gridIndex-1/2),num*(gridIndex-1/2));
+            let asteroidSize = gridIndex * num;
+            let drawMargin = (maxSize - asteroidSize) / 2;
+            c2d.drawImage(this.template, drawY + drawMargin, drawX + drawMargin, asteroidSize, asteroidSize);
             c2d.fillStyle = this.color;
             c2d.globalCompositeOperation = "source-atop";
-            c2d.fillRect((y*10+3/2)*gridIndex,(x*10+3/2)*gridIndex,gridIndex*9,gridIndex*9);
+            c2d.fillRect(drawY, drawX, maxSize, maxSize);
             c2d.globalCompositeOperation = "source-over";
             if (num == 0) StarblastMap.pattern.delete(`${x}-${y}`);
             else StarblastMap.pattern.set(`${x}-${y}`,num);
@@ -888,9 +892,9 @@ window.t = (function(){
           this.stats = -1;
         }
       },
-      addBorder: function (c2d,x,y,z,t)
+      addBorder: function (c2d,x,y,z,t, width)
       {
-        c2d.clearRect(x-1,y-1,z-x+2,t-y+2);
+        c2d.clearRect(x-width/2,y-width/2,z-x+width,t-y+width);
         if (!StarblastMap.border.hide) {
           c2d.moveTo(x,y);
           c2d.lineTo(z,t);
@@ -934,11 +938,11 @@ window.t = (function(){
             let c2d = StarblastMap.map.getContext('2d'), size = StarblastMap.size, gridIndex = StarblastMap.gridIndex;
             c2d.beginPath();
             c2d.strokeStyle = css;
-            c2d.lineWidth = 1;
+            c2d.lineWidth = 1 * gridIndex;
             for (let i=0;i<=size;i++)
             {
-              this.addBorder(c2d,(i*10+1)*gridIndex,gridIndex,(i*10+1)*gridIndex,(size*10+1)*gridIndex);
-              this.addBorder(c2d,gridIndex,(i*10+1)*gridIndex,(size*10+1)*gridIndex,(i*10+1)*gridIndex);
+              this.addBorder(c2d,(i*10+1/2)*gridIndex,0,(i*10+1/2)*gridIndex,(size*10+1/2)*gridIndex, c2d.lineWidth);
+              this.addBorder(c2d,0,(i*10+1/2)*gridIndex,(size*10+1/2)*gridIndex,(i*10+1/2)*gridIndex, c2d.lineWidth);
             }
             c2d.stroke();
             root.setProperty('--border-color', css);

@@ -1,4 +1,5 @@
 3.3.0.3/Nov 12, 2022
+* Fixed precision on map border
 * Added option to remove all local data in Miscellaneous Tab
 * Removed beta version.
 WARNING:\n
