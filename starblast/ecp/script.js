@@ -3,10 +3,10 @@ window.addEventListener("load", function(){
   $("#init").css("font-family", "SBGlyphs");
   let it = setInterval(function () {
     if (document.fonts.check("12px 'SBGlyphs'")) {
-      var updateSizeNeeded, sizes = [
-        {name: "preview", size: 112},
-        {name: "event", size: 30},
-        {name: "leaderboard", size: function () {
+      var updateSizeNeeded, presets = [
+        {value: "preview", size: 112},
+        {value: "event", size: 30},
+        {value: "leaderboard", size: function () {
           // take current window resolution
           let width = window.innerWidth, height = window.innerHeight, mobile_app = Math.max(width, height) < 800 && ("ontouchstart" in window);
           // calculate game screen resolution
@@ -21,7 +21,7 @@ window.addEventListener("load", function(){
           // finalize the result
           return Math.round(0.08 * icon_ratio)
         }},
-        {name: "custom"}
+        {value: "custom"}
       ], finishes = [
         {value: "zinc"},
         {value: "alloy"},
@@ -34,12 +34,133 @@ window.addEventListener("load", function(){
         {value: "original"},
         {value: "arc-cut"},
         {value: "none"}
-      ], lasers = ["Single", "Double", "Lightning", "Digital", "Alien", "Healing 1", "Healing 2"], ECP = window.initECPSetup({id: 0}), ecp_data, last_info, query_index, osize, current_id = 0, resolution, size, title = " - Starblast ECP Icon Viewer", name_regex = /^name\=/i, names = {
+      ], lasers = ["Single", "Double", "Lightning", "Digital", "Alien", "Healing 1", "Healing 2"], ECP = window.initECPSetup({id: 0}), ecp_data, last_info, query_index, osize, current_id = 0, resolution, size, title = " - Starblast ECP Icon Viewer", names = {
         ecp: "Elite Commander Pass (ECP)",
         sucp: "shared Unique Commander Pass (sUCP)",
         ucp: "Unique Commander Pass (UCP)"
-      }, updateURL = function(query) {
-        window.history.pushState({path: 'url'}, '', window.location.protocol + "//" + window.location.host + window.location.pathname + (query || ""))
+      }, URLParser = {
+        params: ["name", "badge", "size", "preset", "laser", "finish", "badge", "shadow"],
+        qualifiers: {
+          size: function (data) { return Math.max(0, data) || 0 },
+          badge: function (data) {return data === "true" || data === "" || data === true},
+          name: function (data) {return String(data).toLowerCase().replace(/[^0-9a-z]/g, "")}
+        },
+        type: {
+          badge: "boolean"
+        },
+        data: {
+          get name () {return ecp_data },
+          preset: presets,
+          finish: finishes,
+          shadow: shadow_modes,
+          laser: lasers.reduce((a,b,i)=>(a.push({name: b, value: i}),a),[])
+        },
+        locals: {
+          finish: 'ecp-finish',
+          laser: 'ecp-laser',
+          size: 'ecp-res',
+          shadow: 'ecp-shadow',
+          badge: 'loadBadge',
+          preset: 'ecp-res-option'
+        },
+        elements: {
+          badge: "loadBadge",
+          finish: "finish-choose",
+          laser: "laser-choose",
+          size: "custom-res",
+          shadow: "shadow-mode",
+          preset: "res-option"
+        },
+        getSingle: function (field, init) {
+          let value = null, def = false;
+          if (init) {
+            if ((value = this.query.get(field)) == null && this.locals[field] != null) value = localData.getItem(this.locals[field])
+          }
+          else {
+            let el = $("#" + this.elements[field]);
+            if (this.type[field] == "boolean") value = el.is(":checked");
+            else value = el.val();
+          }
+
+          if ("function" == typeof this.qualifiers[field]) value = this.qualifiers[field](value);
+          else value = String(value);
+          
+          let found, pool = this.data[field];
+          if (pool != null) {
+            found = Math.max(pool.findIndex(v => value == v.value), 0);            
+            found = {
+              index: found,
+              default: found == 0,
+              data: pool[found]
+            }
+          }
+          else found = {
+            default: false,
+            data: { value }
+          }
+
+          this.current[field] = found;
+        },
+        getQuery: function (init) {
+          this.current = {};
+          this.query = new URLSearchParams(document.location.search);
+          for (let i of this.params) this.getSingle(i, init);
+
+          // size-preset special treatment
+          let def_size = this.current.preset.data.value != "custom";
+          this.current.size = {
+            default: def_size,
+            data: {
+              value: def_size ? ("function" == typeof this.current.preset.data.size ? this.current.preset.data.size() : this.current.preset.data.size) : this.current.size.data.value
+            }
+          }
+
+          // url shortening for badges
+          for (let i of ["laser", "finish"]) this.current[i].default = !this.current.badge.data.value || this.current[i].default;
+
+          // name will be never defaults
+          this.current.name.default = false;
+
+          return this;
+        },
+        value: function (field) {
+          let v = this.current[field];
+          if (v == null) return null;
+          return v.data.value;
+        },
+        save: function () {
+          for (let i of this.params) {
+            let value = this.current[i].data.value;
+            if (this.locals[i] != null) localData.setItem(this.locals[i], value);
+            let el = $("#" + this.elements[i]);
+            if (this.type[i] == "boolean") el.prop("checked", value);
+            else el.val(value);
+          }
+
+          // special treatments for some elements
+          for (let id of ["custom-res", "apply-res"]) $("#"+id).attr('disabled', !!this.current.preset.data.size);
+          for (let id of ["laser-choose", "finish-choose", "shadow-mode"]) $("#"+id).attr('disabled', !this.current.badge.data.value);
+
+          this.export();
+        },
+        export: function () {
+          let params = [];
+          for (let name in this.current) {
+            let val = this.current[name];
+            if (val.default) continue;
+            let pValue = val.data.value;
+            if ("boolean" == typeof pValue) {
+              if (!pValue) continue;
+              else pValue = name;
+            }
+            else pValue = name + '=' + encodeURIComponent(pValue);
+
+            params.push(pValue);
+          }
+
+          params = '?' + params.join('&');
+          if (params != document.location.search) window.history.pushState({path: 'url'}, '', window.location.protocol + "//" + window.location.host + window.location.pathname + (params || ""))
+        }
       }, updateIcon = function(canvas) {
         let imgURL;
         if (!canvas) imgURL = 'icon.png';
@@ -70,17 +191,19 @@ window.addEventListener("load", function(){
         ecp_data = [];
         for (let i in data) [].push.apply(ecp_data, data[i].map(function(e) {
           e.type = i;
+          e.value = e.id;
           if (e.url) e.url = (e.active ? "https://starblast.io/ecp/": "./archives/") + e.url;
           return e
         }));
         // load finish and laser options
         $("#finish-choose").append(finishes.map(i => "<option value='"+i.value+"'>"+(i.name || (i.value[0].toUpperCase()+i.value.slice(1)))+"</option>").join(""));
         $("#shadow-mode").append(shadow_modes.map(i => "<option value='"+i.value+"'>"+(i.name || (i.value[0].toUpperCase()+i.value.slice(1)))+"</option>").join(""));
-        $("#res-option").append(sizes.map(i => "<option value='"+i.name+"'>"+i.name[0].toUpperCase()+i.name.slice(1)+"</option>").join(""))
+        $("#res-option").append(presets.map(i => "<option value='"+i.value+"'>"+i.value[0].toUpperCase()+i.value.slice(1)+"</option>").join(""))
         $("#laser-choose").append(lasers.map((i,j) => "<option value='"+j+"'>"+i+"</option>").join(""));
         // find the ecp info of the searching name
         // display the ecp info
-        apply(search(), init)
+        URLParser.getQuery(init);
+        apply(URLParser.current.name.index, init)
       }, apply = function (index, init) {
         query_index = index;
         let query_info = ecp_data[index];
@@ -88,7 +211,6 @@ window.addEventListener("load", function(){
         // load the ecp info to the screen
         $("#index").html("<p id='indexInput' contenteditable='true'>" + (query_index+1) + "</p><p>/" + ecp_data.length);
         $("#indexInput").on("blur", function(){ $("#indexInput").text(query_index + 1)});
-        updateURL("?name=" + query_info.name.toLowerCase().replace(/[^0-9a-z]/gi, ""));
         updateInfo(query_info, init);
       }, updateInfo = function (query_info, init) {
         $("#name").html(query_info.name);
@@ -100,58 +222,14 @@ window.addEventListener("load", function(){
         $("#type").html("<a style='text-decoration: none;cursor: pointer' href='"+(ecp_type?("https://starblastio.fandom.com/wiki/"+query_info.type.toUpperCase()+"' target='_blank'>"+ecp_type):"javascript:void(0);'>Unknown")+"</a>");
         // load the ecp image
         applySize(init)
-      }, search = function(name) {
-        if (!name) {
-          let queries = window.location.search.replace(/^\?/,"").split("&");
-          name = (queries.find(function (query) {return name_regex.test(query)}) || "").replace(name_regex, "").toLowerCase().replace(/[^0-9a-z]/g, "")
-        }
-        let i = ecp_data.findIndex(function(ecp) {return ecp.name.toLowerCase().replace(/[^0-9a-z]/g, "") === name || ecp.id === name});
-        return i==-1?0:i;
       }, applySize = function(init) {
+        URLParser.getQuery(init).save();
         let request_id = ECP.id++;
         $("#download").attr("disabled", true);
-        let query_info = last_info, laser, finish, loadBadge, size, size_preset, shadow_mode;
-        if (init) {
-          loadBadge = localData.getItem("loadBadge") == "true";
-          finish = localData.getItem("ecp-finish");
-          laser = localData.getItem("ecp-laser");
-          size = localData.getItem("ecp-res");
-          shadow_mode = localData.getItem("ecp-shadow");
-          size_preset = localData.getItem("ecp-res-option")
-        }
-        else {
-          loadBadge = !!$("#loadBadge").is(":checked");
-          finish = $("#finish-choose").val();
-          laser = $("#laser-choose").val();
-          size = $("#custom-res").val();
-          shadow_mode = $("#shadow-mode").val();
-          size_preset = $("#res-option").val()
-        }
-        finish = (finishes.find(f => f.value == finish) || finishes[0]).value;
-        laser = Math.trunc(Math.min(Math.max(0, laser), lasers.length - 1)) || 0;
-        size_preset = sizes.find(preset => size_preset == preset.name) || sizes[0];
-        updateSizeNeeded = "function" == typeof size_preset.size;
-        size = (updateSizeNeeded ? size_preset.size() : size_preset.size) || Math.max(size, 0) || 200;
-        shadow_mode = (shadow_modes.find(f => f.value == shadow_mode) || shadow_modes[0]).value;
+        let query_info = last_info;
 
-        localData.setItem("ecp-finish", finish);
-        localData.setItem("ecp-laser", laser);
-        localData.setItem("ecp-res", size);
-        localData.setItem("ecp-shadow", shadow_mode);
-        localData.setItem("loadBadge", loadBadge);
-        localData.setItem("ecp-res-option", size_preset.name);
-
-        $("#finish-choose").val(finish);
-        $("#laser-choose").val(laser);
-        $("#res-option").val(size_preset.name);
-        $("#shadow-mode").val(shadow_mode);
-        $("#custom-res").val(size);
-        $("#loadBadge").prop("checked", loadBadge);
-        for (let id of ["custom-res", "apply-res"]) $("#"+id).attr('disabled', !!size_preset.size);
-        for (let id of ["laser-choose", "finish-choose", "shadow-mode"]) $("#"+id).attr('disabled', !loadBadge);
-
-        if (loadBadge) ECP.loadBadge(size, query_info, finish, laser, shadow_mode, request_id, loadImage);
-        else ECP.loadIcon(size, query_info, request_id, loadImage)
+        if (URLParser.value('badge')) ECP.loadBadge(URLParser.value('size'), query_info, URLParser.value('finish'), URLParser.value('laser'), URLParser.value('shadow'), request_id, loadImage);
+        else ECP.loadIcon(URLParser.value('size'), query_info, request_id, loadImage)
       }, loadImage = function (canvas, info, request_id) {
         if (request_id == ECP.id - 1) {
           if (!info.url) $("#date").html("Built-in");
@@ -178,6 +256,9 @@ window.addEventListener("load", function(){
           $("#download").attr("disabled", false);
         }
       }, loadCustom = function(url) {
+        URLParser.getQuery();
+        delete URLParser.current.name;
+        URLParser.save();
         $("#index").html("Unlisted");
         last_info = {
           id: "custom",
@@ -187,7 +268,6 @@ window.addEventListener("load", function(){
           custom: "true"
         }
         query_index = null;
-        updateURL();
         updateInfo(last_info);
       }
       $(window).on("resize", function(){
@@ -282,6 +362,7 @@ window.addEventListener("load", function(){
       $("#init").css("display", "none");
       clearInterval(it);
     }
+    window.URLParser = URLParser;
   }, 500);
   addToolPage(null,"1%","1%",null,null,null,null,$("#infobox")[0])
 });
