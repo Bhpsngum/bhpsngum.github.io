@@ -130,6 +130,7 @@ window.addEventListener("load", function(){
         },
         save: function () {
           for (let i of this.params) {
+            if (this.current[i] == null) continue;
             let value = this.current[i].data.value;
             if (this.locals[i] != null) localData.setItem(this.locals[i], value);
             let el = $("#" + this.elements[i]);
@@ -202,16 +203,15 @@ window.addEventListener("load", function(){
         $("#laser-choose").append(lasers.map((i,j) => "<option value='"+j+"'>"+i+"</option>").join(""));
         // find the ecp info of the searching name
         // display the ecp info
-        URLParser.getQuery(init);
+        if (init) URLParser.getQuery(init);
         apply(URLParser.current.name.index, init)
       }, apply = function (index, init) {
         query_index = index;
         let query_info = ecp_data[index];
-        if (URLParser.current.name) {
+        if (URLParser.current.name != null) {
           URLParser.current.name.data = query_info;
           URLParser.current.name.index = index;
         }
-        URLParser.save();
         last_info = query_info;
         // load the ecp info to the screen
         $("#index").html("<p id='indexInput' contenteditable='true'>" + (query_index+1) + "</p><p>/" + ecp_data.length);
@@ -228,7 +228,7 @@ window.addEventListener("load", function(){
         // load the ecp image
         applySize(init)
       }, applySize = function(init) {
-        URLParser.getQuery(init).save();
+        URLParser.save();
         let request_id = ECP.id++;
         $("#download").attr("disabled", true);
         let query_info = last_info;
@@ -261,9 +261,7 @@ window.addEventListener("load", function(){
           $("#download").attr("disabled", false);
         }
       }, loadCustom = function(url) {
-        URLParser.getQuery();
-        URLParser.current.name.default = true;
-        URLParser.save();
+        delete URLParser.current.name;
         $("#index").html("Unlisted");
         last_info = {
           id: "custom",
