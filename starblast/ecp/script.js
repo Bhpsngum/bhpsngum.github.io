@@ -207,6 +207,11 @@ window.addEventListener("load", function(){
       }, apply = function (index, init) {
         query_index = index;
         let query_info = ecp_data[index];
+        if (URLParser.current.name) {
+          URLParser.current.name.data = query_info;
+          URLParser.current.name.index = index;
+        }
+        URLParser.save();
         last_info = query_info;
         // load the ecp info to the screen
         $("#index").html("<p id='indexInput' contenteditable='true'>" + (query_index+1) + "</p><p>/" + ecp_data.length);
