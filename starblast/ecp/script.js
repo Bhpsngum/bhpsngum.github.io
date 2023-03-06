@@ -32,21 +32,24 @@ window.addEventListener("load", function(){
         {value: "x27", name: "Electric Blue"}
       ], shadow_modes = [
         {value: "original"},
-        {value: "arc-cut"},
+        {value: "arcs"},
         {value: "none"}
       ], lasers = ["Single", "Double", "Lightning", "Digital", "Alien", "Healing 1", "Healing 2"], ECP = window.initECPSetup({id: 0}), ecp_data, last_info, query_index, osize, current_id = 0, resolution, size, title = " - Starblast ECP Icon Viewer", names = {
         ecp: "Elite Commander Pass (ECP)",
         sucp: "shared Unique Commander Pass (sUCP)",
         ucp: "Unique Commander Pass (UCP)"
       }, URLParser = {
-        params: ["name", "badge", "size", "preset", "laser", "finish", "badge", "shadow"],
+        current: {},
+        params: ["name", "badge", "size", "preset", "laser", "finish", "badge", "shadow", "forced"],
         qualifiers: {
           size: function (data) { return Math.max(0, data) || 0 },
           badge: function (data) {return data === "true" || data === "" || data === true},
+          forced: function (data) {return data === "" || data === "true"},
           name: function (data) {return String(data).toLowerCase().replace(/[^0-9a-z]/g, "")}
         },
         type: {
-          badge: "boolean"
+          badge: "boolean",
+          forced: "boolean"
         },
         data: {
           get name () {return ecp_data },
@@ -72,11 +75,15 @@ window.addEventListener("load", function(){
           preset: "res-option"
         },
         getSingle: function (field, init) {
-          let value = null, def = false;
+          let value = null, exists = true;
           if (init) {
-            if ((value = this.query.get(field)) == null && this.locals[field] != null) value = localData.getItem(this.locals[field])
+            if ((value = this.query.get(field)) == null) {
+              exists = false;
+              if (this.locals[field] != null) value = localData.getItem(this.locals[field])
+            }
           }
           else {
+            if (this.elements[field] == null) return;
             let el = $("#" + this.elements[field]);
             if (this.type[field] == "boolean") value = el.is(":checked");
             else value = el.val();
@@ -89,12 +96,14 @@ window.addEventListener("load", function(){
           if (pool != null) {
             found = Math.max(pool.findIndex(v => value == v.value), 0);            
             found = {
+              exists,
               index: found,
               default: found == 0,
               data: pool[found]
             }
           }
           else found = {
+            exists,
             default: false,
             data: { value }
           }
@@ -102,13 +111,31 @@ window.addEventListener("load", function(){
           this.current[field] = found;
         },
         getQuery: function (init) {
-          this.current = {};
           this.query = new URLSearchParams(document.location.search);
           for (let i of this.params) this.getSingle(i, init);
 
+          // force-load overwrites local options
+          if (init && this.value('forced')) for (let i of this.params) {
+            let v = this.current[i];
+            if (!v.exists && this.data[i] != null && v.index !== 0) {
+              v.exists = false;
+              v.index = 0;
+              v.default = true;
+              v.data = this.data[i][0];
+            }
+          }
+
           // size-preset special treatment
+          if (init && !this.current.preset.exists && this.current.size.exists) {
+            let bestfit = this.data.preset.findIndex(v => v.size === this.value('size'));
+            if (bestfit < 0) bestfit = this.data.preset.length - 1; // custom
+            this.current.preset.index = bestfit;
+            this.current.preset.data = this.data.preset[bestfit];
+            this.current.preset.default = bestfit === 0;
+          }
           let def_size = this.current.preset.data.value != "custom";
           this.current.size = {
+            exists: this.current.size.exists,
             default: def_size,
             data: {
               value: def_size ? ("function" == typeof this.current.preset.data.size ? this.current.preset.data.size() : this.current.preset.data.size) : this.current.size.data.value
@@ -119,7 +146,7 @@ window.addEventListener("load", function(){
           for (let i of ["laser", "finish"]) this.current[i].default = !this.current.badge.data.value || this.current[i].default;
 
           // name will be never defaults
-          this.current.name.default = false;
+          if (init) this.current.name.default = false;
 
           return this;
         },
@@ -203,15 +230,14 @@ window.addEventListener("load", function(){
         $("#laser-choose").append(lasers.map((i,j) => "<option value='"+j+"'>"+i+"</option>").join(""));
         // find the ecp info of the searching name
         // display the ecp info
-        if (init) URLParser.getQuery(init);
+        URLParser.getQuery(init);
         apply(URLParser.current.name.index, init)
       }, apply = function (index, init) {
         query_index = index;
         let query_info = ecp_data[index];
-        if (URLParser.current.name != null) {
-          URLParser.current.name.data = query_info;
-          URLParser.current.name.index = index;
-        }
+        URLParser.current.name.data = query_info;
+        URLParser.current.name.index = index;
+        URLParser.current.name.default = false;
         last_info = query_info;
         // load the ecp info to the screen
         $("#index").html("<p id='indexInput' contenteditable='true'>" + (query_index+1) + "</p><p>/" + ecp_data.length);
@@ -228,7 +254,7 @@ window.addEventListener("load", function(){
         // load the ecp image
         applySize(init)
       }, applySize = function(init) {
-        URLParser.save();
+        URLParser.getQuery(init).save();
         let request_id = ECP.id++;
         $("#download").attr("disabled", true);
         let query_info = last_info;
@@ -261,7 +287,7 @@ window.addEventListener("load", function(){
           $("#download").attr("disabled", false);
         }
       }, loadCustom = function(url) {
-        delete URLParser.current.name;
+        URLParser.current.name.default = true;
         $("#index").html("Unlisted");
         last_info = {
           id: "custom",
