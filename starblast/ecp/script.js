@@ -148,8 +148,11 @@ window.addEventListener("load", function(){
           // url shortening for badges
           for (let i of ["laser", "finish"]) this.current[i].default = !this.current.badge.data.value || this.current[i].default;
 
-          // name will be never defaults
-          if (init) this.current.name.default = false;
+          // name will be never defaults and forced must be hidden after
+          if (init) {
+            this.current.name.default = false;
+            this.current.forced.default = true;
+          }
 
           return this;
         },
