@@ -262,7 +262,7 @@ window.addEventListener("load", function(){
         }
       }, loadCustom = function(url) {
         URLParser.getQuery();
-        delete URLParser.current.name;
+        URLParser.current.name.default = true;
         URLParser.save();
         $("#index").html("Unlisted");
         last_info = {
