@@ -115,14 +115,17 @@ window.addEventListener("load", function(){
           for (let i of this.params) this.getSingle(i, init);
 
           // force-load overwrites local options
-          if (init && this.value('forced')) for (let i of this.params) {
-            let v = this.current[i];
-            if (!v.exists && this.data[i] != null && v.index !== 0) {
-              v.exists = false;
-              v.index = 0;
-              v.default = true;
-              v.data = this.data[i][0];
+          if (init && this.value('forced')) {
+            for (let i of this.params) {
+              let v = this.current[i];
+              if (!v.exists && this.data[i] != null && v.index !== 0) {
+                v.exists = false;
+                v.index = 0;
+                v.default = true;
+                v.data = this.data[i][0];
+              }
             }
+            this.current.badge.data.value = false;
           }
 
           // size-preset special treatment
