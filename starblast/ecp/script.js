@@ -125,7 +125,7 @@ window.addEventListener("load", function(){
                 v.data = this.data[i][0];
               }
             }
-            this.current.badge.data.value = false;
+            if (!this.current.badge.exists) this.current.badge.data.value = false;
           }
 
           // size-preset special treatment
