@@ -1,13 +1,8 @@
 (function(){
     class MathSet extends Set {
-        constructor(...args) {
-            switch (args.length) {
-                case 0: super([]); break;
-                case 1:
-                    try { super(args[0]) } catch (e) { super([args[0]]) };
-                    break;
-                default: super(args);
-            }
+        constructor(...elements) {
+            if (elements.length < 2 && 'function' === typeof (elements[0] ?? [])[Symbol.iterator]) super(...elements);
+            else super(elements);
         }
 
         insert (...elements) {
