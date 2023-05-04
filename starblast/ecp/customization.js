@@ -13,7 +13,7 @@ window.initECPSetup = function(initializer){
         // badge main shape
         e.fillStyle = "#000", e.beginPath(), e.arc(n / 2, s / 2, s / 2, 0, 2 * Math.PI, !0), e.fill(), e.beginPath(), e.moveTo(.05 * n, .25 * s), e.lineTo(.05 * n, .75 * s), e.lineTo(n / 2, .9 * s), e.lineTo(.95 * n, .75 * s), e.lineTo(.95 * n, .25 * s), e.lineTo(n / 2, .1 * s), e.closePath(), e.fill();
 
-        if (this.shadow_mode === "arc-cut") {
+        if (this.shadow_mode === "arcs") {
           // prepare temp canvas
           tmp_canvas = document.createElement("canvas"), tmp_canvas.width = n, tmp_canvas.height = s, tmp_2d = tmp_canvas.getContext("2d"),
 
@@ -40,7 +40,7 @@ window.initECPSetup = function(initializer){
         e.globalCompositeOperation = "source-over", i = e.createRadialGradient(n / 2 - .25 * s, s / 2 - .25 * s, 0, n / 2, s / 2, .45 * s), i.addColorStop(0, "rgba(0,0,0,0)"), i.addColorStop(.5, "rgba(0,0,0,0)"), i.addColorStop(1, "rgba(0,0,0,.5)"), e.fillStyle = i, e.beginPath(), e.arc(n / 2, s / 2, .45 * s, 0, 2 * Math.PI, !0), e.fill();
 
         switch (this.shadow_mode) {
-          case "arc-cut":
+          case "arcs":
             // restore saved rear shadow (within badge arc cuts only)
             e.globalCompositeOperation = "destination-over";
             e.drawImage(tmp_canvas, 0, 0);
