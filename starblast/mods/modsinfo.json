@@ -332,6 +332,34 @@
     "event": 0
   },
   {
+    "name": "Re:Arena - Arena Mod Remake/Recontinuation",
+    "abbreviation": "Re:Arena",
+    "version": "4.0.0",
+    "description": "",
+    "modes": "",
+    "img": "img/re_arena.png",
+    "link": {
+      "url": "https://github.com/Bhpsngum/Arena-mod-remake",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Bhpsngum"],
+        "link": "https://github.com/bhpsngum/"
+      },
+      {
+        "name": ["Nexagon"],
+        "link": ""
+      },
+      {
+        "name": ["Tost"],
+        "link": ""
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
     "name": "Private Dueling",
     "abbreviation": "PDS",
     "version": "",
