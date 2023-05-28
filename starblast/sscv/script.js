@@ -6,7 +6,12 @@
         {
           name: "Ship Editor code",
           parse: function(data) {
-            data = Function("return "+data.replace(/[^]*?[^\\]'((return)*([^]*?[^\\]))'[^]*/,"'$3'"))();
+            try {
+              data = JSON.parse(data);
+            }
+            catch (e) {
+              data = Function("return "+data.replace(/[^]*?[^\\]'((return)*([^]*?[^\\]))'[^]*/,"'$3'"))();
+            }
             let result;
             try {
               let ship = JSON.parse(data);
