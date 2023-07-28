@@ -2,7 +2,8 @@
   var updated = false, audioAlert = new Audio('alert.mp3'), notif_box = $("#notif-enabled"), notif_enabled, available_mods = [], mods = [], origin_mods = [], player_count = {}, player_count_region = {}, timer = new Map(), init = !1,
   removed_time = {
     "prototypes": 1578454316626,
-    "racing": 1592486063588
+    "racing": 1592486063588,
+    "escalation": 1689778537000
   },
   created_time = {
     "useries": 1528459800000,
