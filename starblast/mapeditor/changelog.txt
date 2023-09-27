@@ -10,7 +10,7 @@ This is a follow-up update of a next version (3.3.1), which will be in a few hou
 Introducing new features: Extended importing options
 * You can choose to align the map you want to import in the current map without clearing or changing the old size
 * Try the feature to learn more
-* Fixed the bug that the tool doesn't recognize "Command" (Cmd) Key on MacOS as shortcut
+* Fixed the bug that the tool doesn't recognize Command (Cmd) Key on MacOS as shortcut
 * Added feature to import map from clipboard
 * Fixed map text parser not be able to parse map in some cases
 
