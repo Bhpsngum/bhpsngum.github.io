@@ -45,7 +45,7 @@ window.addEventListener("load", function(){
           size: function (data) { return Math.max(0, data) || 0 },
           badge: function (data) {return data === "true" || data === "" || data === true},
           forced: function (data) {return data === "" || data === "true"},
-          name: function (data) {return String(data).toLowerCase().replace(/[^0-9a-z]/g, "")}
+          name: function (data) {return String(data).toLowerCase().replace(/[^0-9a-z_\-]/g, "")}
         },
         type: {
           badge: "boolean",
@@ -397,7 +397,7 @@ window.addEventListener("load", function(){
       $("#init").css("display", "none");
       clearInterval(it);
     }
-    window.URLParser = URLParser;
+    // window.URLParser = URLParser;
   }, 500);
   addToolPage(null,"1%","1%",null,null,null,null,$("#infobox")[0])
 });
