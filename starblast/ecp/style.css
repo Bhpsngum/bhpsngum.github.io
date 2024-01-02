@@ -1,148 +1,148 @@
 @font-face {
-  font-family:'SBGlyphs';
-  src:url('https://starblast.data.neuronality.com/fonts/starblast-glyphs.ttf?v=1');
-  font-weight:normal;
-  font-style:normal
+	font-family:'SBGlyphs';
+	src:url('https://starblast.data.neuronality.com/fonts/starblast-glyphs.ttf?v=1');
+	font-weight:normal;
+	font-style:normal
 }
 
 html {
-  background-color: #000;
+	background-color: #000;
 }
 
 body {
-  margin: 0;
-  background: linear-gradient(
+	margin: 0;
+	background: linear-gradient(
 135deg,hsla(200,30%,10%,1) 0,hsla(200,30%,30%,1) 150%);
-  box-shadow: 0 0 6px hsl(200deg 100% 80%);
-  text-shadow: 0 0 7px hsl(200deg 100% 80%);
+	box-shadow: 0 0 6px hsl(200deg 100% 80%);
+	text-shadow: 0 0 7px hsl(200deg 100% 80%);
 }
 
 * {
-  font-family: Verdana;
-  font-size: 100%;
-  cursor: default;
-  color: hsla(200,100%,90%,.8);
+	font-family: Verdana;
+	font-size: 100%;
+	cursor: default;
+	color: hsla(200,100%,90%,.8);
 }
 
 *:disabled {
-  cursor: not-allowed !important;
+	cursor: not-allowed !important;
 }
 
 button {
-  text-align: center;
-  background: radial-gradient(ellipse at center,hsla(200,50%,0%,1) 0,hsla(200,100%,70%,.5) 150%);
-  box-shadow: 0 0 6px hsl(200deg 100% 80%);
-  text-shadow: 0 0 7px hsl(200deg 100% 80%);
-  color: hsla(200,100%,90%,.8);
-  border: 0;
+	text-align: center;
+	background: radial-gradient(ellipse at center,hsla(200,50%,0%,1) 0,hsla(200,100%,70%,.5) 150%);
+	box-shadow: 0 0 6px hsl(200deg 100% 80%);
+	text-shadow: 0 0 7px hsl(200deg 100% 80%);
+	color: hsla(200,100%,90%,.8);
+	border: 0;
 }
 
 input[type="checkbox"], label, select, button, i, a {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 select, input {
-  color: white;
-  background: hsl(200,60%,15%);
-  border: 1px solid hsl(200,60%,10%);
-  vertical-align: middle;
-  box-sizing: border-box;
+	color: white;
+	background: hsl(200,60%,15%);
+	border: 1px solid hsl(200,60%,10%);
+	vertical-align: middle;
+	box-sizing: border-box;
 }
 
 input[type="text"], input[type="number"], *[contenteditable='true'] {
-  cursor: text;
+	cursor: text;
 }
 
 #infobox {
-  position: fixed;
-  top: 0;
-  padding: 1%;
-  width: 100vw;
-  z-index: 1;
-  background: radial-gradient(ellipse at center,hsla(200,50%,0%,1) 20%,hsla(200,50%,60%,.5) 150%);
-  box-shadow: 0 0 6px hsl(200deg 100% 80%);
-  text-shadow: 0 0 7px hsl(200deg 100% 80%);
-  color: hsla(200,100%,90%,.8);
+	position: fixed;
+	top: 0;
+	padding: 1%;
+	width: 100vw;
+	z-index: 1;
+	background: radial-gradient(ellipse at center,hsla(200,50%,0%,1) 20%,hsla(200,50%,60%,.5) 150%);
+	box-shadow: 0 0 6px hsl(200deg 100% 80%);
+	text-shadow: 0 0 7px hsl(200deg 100% 80%);
+	color: hsla(200,100%,90%,.8);
 }
 
 #info {
-  text-align: center;
+	text-align: center;
 }
 
 #ecp-gallery {
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(ellipse at center,hsla(200,50%,0%,1) 20%,hsla(200,50%,60%,.5) 150%);
+	width: 100vw;
+	height: 100vh;
+	background: radial-gradient(ellipse at center,hsla(200,50%,0%,1) 20%,hsla(200,50%,60%,.5) 150%);
 }
 
 #badge-showcase {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 0;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 0;
 }
 
 i {
-  vertical-align: middle;
-  font-size: 300%;
-  color: hsla(200,60%,80%,.5);
-  text-align: center;
-  text-shadow: 0 0 7px hsl(200deg 100% 80%);
+	vertical-align: middle;
+	font-size: 300%;
+	color: hsla(200,60%,80%,.5);
+	text-align: center;
+	text-shadow: 0 0 7px hsl(200deg 100% 80%);
 }
 
 .navigation {
-  position: fixed;
-  text-decoration: none;
-  z-index: 1;
-  top: 50%;
-  transform: translateY(-50%);
+	position: fixed;
+	text-decoration: none;
+	z-index: 1;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 #prev {
-  left: 1%;
+	left: 1%;
 }
 
 #next {
-  right: 1%;
+	right: 1%;
 }
 
 #init {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 }
 
 #hideinfo {
-  position: absolute;
-  bottom: 1%;
-  right: 2%;
+	position: absolute;
+	bottom: 1%;
+	right: 2%;
 }
 
 #showinfo {
-  position: fixed;
-  top: 0.1%;
-  right: 0.1%;
-  z-index: 1;
+	position: fixed;
+	top: 0.1%;
+	right: 0.1%;
+	z-index: 1;
 }
 
 .inline-input {
-  text-align: center;
-  background-color: inherit;
-  border: none;
-  color: inherit;
-  text-shadow: inherit;
+	text-align: center;
+	background-color: inherit;
+	border: none;
+	color: inherit;
+	text-shadow: inherit;
 }
 
 .inline-input:focus, *[contenteditable='true']:focus {
-  outline: none;
+	outline: none;
 }
 
-#info > div > * {
-  display: inline;
+#info > div * {
+	display: inline;
 }
 
 #download-template, #hidden-name {
-  display: none;
+	display: none;
 }

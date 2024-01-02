@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Starblast ECP Icon Viewer</title>
-    <meta name="description" content="Image gallery of all ecp icons in Starblast, also the place to test your custom icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="og:site_name" content="Starblast Tools and Utilities">
-    <meta name="og:title" content="Starblast ECP Icon Viewer">
-    <meta name="twitter:title" content="Starblast ECP Icon Viewer">
-    <meta name="og:description" content="Image gallery of all ecp icons in Starblast, also the place to test your custom icon">
-    <meta name="og:image" content="/starblast/ecp/preview.png">
-    <meta name="twitter:description" content="Image gallery of all ecp icons in Starblast, also the place to test your custom icon">
-    <meta name="twitter:image" content="/starblast/ecp/preview.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="manifest" href="ecp_pwa.json">
-    <script src="/serviceWorker.js"></script>
-    <script src="/localData.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <script src="https://kit.fontawesome.com/ccd821e6cb.js" crossorigin="anonymous"></script>
-    <script src="/starblast/toolPage.js" type="text/javascript"></script>
-    <link rel = "stylesheet" href = "style.css">
-    <link rel = "icon" href = "favicon.ico">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script type="text/javascript" src="customization.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZQRTRBNZS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+	<head>
+		<meta charset="utf-8">
+		<title>Starblast ECP Icon Viewer</title>
+		<meta name="description" content="Image gallery of all ecp icons in Starblast, also the place to test your custom icon">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="og:site_name" content="Starblast Tools and Utilities">
+		<meta name="og:title" content="Starblast ECP Icon Viewer">
+		<meta name="twitter:title" content="Starblast ECP Icon Viewer">
+		<meta name="og:description" content="Image gallery of all ecp icons in Starblast, also the place to test your custom icon">
+		<meta name="og:image" content="/starblast/ecp/preview.png">
+		<meta name="twitter:description" content="Image gallery of all ecp icons in Starblast, also the place to test your custom icon">
+		<meta name="twitter:image" content="/starblast/ecp/preview.png">
+		<meta name="twitter:card" content="summary_large_image">
+		<link rel="manifest" href="ecp_pwa.json">
+		<script src="/serviceWorker.js"></script>
+		<script src="/localData.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js" type="text/javascript"></script>
+		<script src="https://kit.fontawesome.com/ccd821e6cb.js" crossorigin="anonymous"></script>
+		<script src="/starblast/toolPage.js" type="text/javascript"></script>
+		<link rel = "stylesheet" href = "style.css">
+		<link rel = "icon" href = "favicon.ico">
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script type="text/javascript" src="customization.js"></script>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZQRTRBNZS"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
 
-      gtag('config', 'G-9ZQRTRBNZS');
-    </script>
-  </head>
-  <body>
-    <div id="init">Initializating...</div>
-    <i title = "Show the infobar" id = "showinfo" class = "fas fa-fw fa-caret-down" style = "display: none"></i>
-    <div id = "infobox">
-      <div id = "info">
-        <div id = "index"></div>
-        <input id="hidden-name">
-        <div id = "name"></div>
-        <div id = "type"></div>
-        <div id = "date"></div>
-      </div>
-      <div id = "resolution">
-        <div>Choose resolution:</div>
-        <select id="res-option">
-          <option selected disabled>Choose size preset</option>
-        </select>
-        <input type = "number" id = "custom-res" placeholder = "Image resolution">
-        <button id = "apply-res">Apply</button>
-        <input type = "checkbox" id="loadBadge">
-        <label for="loadBadge">Load badge</label>
-        <select id= "finish-choose">
-          <option disabled selected>Choose Skin</option>
-        </select>
-        <select id= "laser-choose">
-          <option disabled selected>Choose Laser</option>
-        </select>
-        <select id= "shadow-mode">
-          <option disabled selected>Choose Shadow Mode</option>
-        </select>
-        <button id = "download">Download</button>
-        <input type="file" accept="image/*" id="file-import" style="display:none">
-        <button><label for="file-import">Import from File</label></button>
-        <button id = "url-import">Import from URL</button>
-        <a id="download-template"></a>
-        <div title = "(Ctrl/Cmd) + Shift + R or (Ctrl/Cmd) + F5">If the images don't load, try hard-reloading the page. <a href="javascript:void(0);" id="warning">See notes</a></div>
-      </div>
-      <i title = "Hide the infobar" id = "hideinfo" class = "fas fa-fw fa-caret-up"></i>
-    </div>
-    <div id="ecp-gallery">
-      <img id = "badge-showcase">
-      <i id = "next" class = "fas fa-fw fa-caret-right navigation" title = "Next"></i>
-      <i id = "prev" class = "fas fa-fw fa-caret-left navigation" title = "Previous"></i>
-    </div>
-  </body>
-  <script type="text/javascript" src="script.js" defer></script>
+			gtag('config', 'G-9ZQRTRBNZS');
+		</script>
+	</head>
+	<body>
+		<div id="init">Initializating...</div>
+		<i title = "Show the infobar" id = "showinfo" class = "fas fa-fw fa-caret-down" style = "display: none"></i>
+		<div id = "infobox">
+			<div id = "info">
+				<div id = "index" style = "display: flex; justify-content: center;">
+					<div id="index-content"></div>
+					<select id="index-selector" style = "font-size: 0;"></select>
+				</div>
+				<input id="hidden-name">
+				<div id = "name"></div>
+				<div id = "type"></div>
+				<div id = "date"></div>
+			</div>
+			<div id = "resolution">
+				<div>Choose resolution:</div>
+				<select id="res-option">
+					<option selected disabled>Choose size preset</option>
+				</select>
+				<input type = "number" id = "custom-res" placeholder = "Image resolution">
+				<button id = "apply-res">Apply</button>
+				<input type = "checkbox" id="loadBadge">
+				<label for="loadBadge">Load badge</label>
+				<select id= "finish-choose">
+					<option disabled selected>Choose Skin</option>
+				</select>
+				<select id= "laser-choose">
+					<option disabled selected>Choose Laser</option>
+				</select>
+				<select id= "shadow-mode">
+					<option disabled selected>Choose Shadow Mode</option>
+				</select>
+				<button id = "download">Download</button>
+				<input type="file" accept="image/*" id="file-import" style="display:none">
+				<button><label for="file-import">Import from File</label></button>
+				<button id = "url-import">Import from URL</button>
+				<a id="download-template"></a>
+				<div title = "(Ctrl/Cmd) + Shift + R or (Ctrl/Cmd) + F5">If the images don't load, try hard-reloading the page. <a href="javascript:void(0);" id="warning">See notes</a></div>
+			</div>
+			<i title = "Hide the infobar" id = "hideinfo" class = "fas fa-fw fa-caret-up"></i>
+		</div>
+		<div id="ecp-gallery">
+			<img id = "badge-showcase">
+			<i id = "next" class = "fas fa-fw fa-caret-right navigation" title = "Next"></i>
+			<i id = "prev" class = "fas fa-fw fa-caret-left navigation" title = "Previous"></i>
+		</div>
+	</body>
+	<script type="text/javascript" src="script.js" defer></script>
 </html>
