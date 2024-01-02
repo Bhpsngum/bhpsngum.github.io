@@ -30,7 +30,7 @@
     {"name": "Medic", "id": "medic", "active": true, "url": "medic.jpg"},
     {"name": "Blank", "id": "blank", "active": true},
     {"name": "Seasonal", "id": "seasonal", "active": true, "url": "seasonal.png"},
-    {"name": "Seasonal - Halloween 2021", "id": "halloween_2021", "active": false, "url": "halloween.png"},
+    {"name": "Seasonal - Halloween 2021", "id": "halloween_2021", "active": false, "url": "halloween_2021.png"},
     {"name": "Seasonal - Winter 2021", "id": "winter_2021", "active": false, "url": "christmas_2021.png"},
     {"name": "Seasonal - Summer 2022", "id": "summer_2022", "active": false, "url": "summer_2022.png"},
     {"name": "Seasonal - Fall 2022", "id": "fall_2022", "active": false, "url": "fall_2022.png"},
