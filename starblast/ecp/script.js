@@ -231,7 +231,7 @@ window.addEventListener("load", function(){
 				}));
                 // load index chooser option
                 let chooser = $("#index > #index-selector");
-                chooser.html(ecp_data.map((e, i) => `<option value="${i}">[${names[e.type].short}] ${e.name}</option>`));
+                chooser.html("<option disabled>Choose badge</option>" + ecp_data.map((e, i) => `<option value="${i}">[${names[e.type].short}] ${e.name}</option>`));
                 chooser.on("change", function () {
                     apply(+chooser.val());
                 });
