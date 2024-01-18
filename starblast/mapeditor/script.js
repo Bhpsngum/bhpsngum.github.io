@@ -1109,7 +1109,7 @@ window.t = (function(){
         checkScale: function() {
           this.scaleExpired = !0;
           $("#mapBox").css({
-            "margin-top": (this.main.height()+10/detectZoom.device())+"px",
+            "padding-top": (this.main.height()+10/detectZoom.device())+"px",
             "margin-bottom": $("#footer").height()+"px"
           });
           try{$("#info").css("width",($("#footer").width()-$("#XY").width()-15/detectZoom.device())+"px")}catch(e){}

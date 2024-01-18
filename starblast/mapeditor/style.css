@@ -95,12 +95,11 @@ input[type=color] {
 
 #mapBox {
   overflow:hidden;
-  padding: 0;
+  margin-top: 0.5em;
 }
 
 #map {
   overflow:hidden;
-  padding-top: .5em;
 }
 
 td {
