@@ -95,6 +95,7 @@ input[type=color] {
 
 #mapBox {
   overflow:hidden;
+  padding: 0;
 }
 
 #map {
