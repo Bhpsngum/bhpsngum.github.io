@@ -85,6 +85,7 @@ input[type=file], input[type=checkbox] {
 
 input[type=number] {
   width: 4vmax;
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
