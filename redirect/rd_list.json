@@ -16,8 +16,12 @@
     "url": "https://docs.google.com/forms/d/e/1FAIpQLSffBeH_dakpXfUgQqJZG6ePiM6hH7AqfeuKEQUKu0jlYirnTQ/viewform"
   },
   {
-    "id": "SETExtension-chrome",
+    "id": "SETExtension-chrome-old",
     "url": "https://chrome.google.com/webstore/detail/bidhmieomigmdphceifkifanapkgmplc"
+  },
+  {
+    "id": "SETExtension-chrome",
+    "url": "https://github.com/Bhpsngum/bin/blob/master/SET_closing_notice.md"
   },
   {
     "id": "clans_project",
