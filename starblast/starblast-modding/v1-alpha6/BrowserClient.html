@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>BrowserClient</title>
+    <title>BrowserClient - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -13,8 +13,6 @@
     <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-    <link type="text/css" rel="stylesheet" href="../styles/dark.css">
-    <link type="text/css" rel="stylesheet" href="../styles/default.css">
 </head>
 <body>
 
@@ -31,6 +29,8 @@
 
 <div id="main">
     
+    <h1 class="page-title">BrowserClient</h1>
+    
 
     
 
@@ -45,7 +45,7 @@
         BrowserClient
         </h2>
         
-            <div class="class-description">The Browser Client Instance for supporting mod codes running in Browser Modding.<br><b>Warning:</b><br><ul><li>This client doesn't support undocumented features like accessing through <code>game.modding</code>, etc.</li><li>Some of the latest features of the new ModdingClient (which may not work in browsers) will be available</li></div>
+            <div class="class-description">The Browser Client Instance for supporting mod codes running in Browser Modding.<br><b>Warning:</b><br><ul><li>This client doesn't support undocumented features like accessing through `game.modding`, etc.</li><li>Some of the latest features of the new ModdingClient (which may not work in browsers) will be available</li></div>
         
     
 </header>
@@ -176,7 +176,7 @@
                 </td>
             
 
-            <td class="description last">set to <code>true</code> if you want to reuse ECP Key for the next run, <code>false</code> otherwise</td>
+            <td class="description last">set to `true` if you want to reuse ECP Key for the next run, `false` otherwise</td>
         </tr>
 
     
@@ -215,7 +215,81 @@
                 </td>
             
 
-            <td class="description last">loading the same code will trigger the execution or not<br><b>Note:</b> This feature only works when you call <code>loadCodeFromString</code>, <code>loadCodeFromLocal</code> or <code>loadCodeFromExternal</code> methods, and not during the auto-update process</td>
+            <td class="description last">loading the same code will trigger the execution or not<br><b>Note:</b> This feature only works when you call `loadCodeFromString`, `loadCodeFromLocal` or `loadCodeFromExternal` methods, and not during the auto-update process</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>asynchronous</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">allow asynchronous execution (using `async`/`await`) in mod code</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>async</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">alias of the property `options.asynchronous`</td>
         </tr>
 
     
@@ -254,7 +328,7 @@
                 </td>
             
 
-            <td class="description last">when tick or event function, or mod code execution fails, the mod will crash (true)</td>
+            <td class="description last">when tick or event function, or mod code execution fails, the mod will crash</td>
         </tr>
 
     
@@ -289,7 +363,7 @@
                 </td>
             
 
-            <td class="description last">alias of the property <code>options.crashOnException</code></td>
+            <td class="description last">alias of the property `options.crashOnException`</td>
         </tr>
 
     
@@ -363,7 +437,7 @@
                 </td>
             
 
-            <td class="description last">alias of the property <code>options.logErrors</code></td>
+            <td class="description last">alias of the property `options.logErrors`</td>
         </tr>
 
     
@@ -441,7 +515,7 @@
                 </td>
             
 
-            <td class="description last">To decide whether to compress messages in WebSocket requests or not. <code>true</code> will use less bandwith but also create potential memory leaks, and <code>false</code> will do the opposite.</td>
+            <td class="description last">To decide whether to compress messages in WebSocket requests or not. `true` will use less bandwith but also create potential memory leaks, and `false` will do the opposite.</td>
         </tr>
 
     
@@ -487,11 +561,6 @@
     
 
     
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L28">line 28</a>
-    </li></ul></dd>
-    
 
     
 
@@ -534,6 +603,7 @@
         <h3 class="subsection-title">Methods</h3>
 
         
+            
 
     
 
@@ -544,7 +614,7 @@
 
 
 <div class="description">
-    Get the game object, which acts the same as the <code>game</code> object in browser
+    Get the game object, which acts the same as the `game` object in browser
 </div>
 
 
@@ -586,11 +656,6 @@
     
 
     
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L171">line 171</a>
-    </li></ul></dd>
-    
 
     
 
@@ -631,7 +696,9 @@
     
 
 
-<div class = "spacing"></div>
+
+        
+            
 
     
 
@@ -684,11 +751,6 @@
     
 
     
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L162">line 162</a>
-    </li></ul></dd>
-    
 
     
 
@@ -729,11 +791,13 @@
     
 
 
-<div class = "spacing"></div>
+
+        
+            
 
     
 
-    <h4 class="name" id="loadCodeFromExternal"><span class="type-signature">(async) </span>loadCodeFromExternal<span class="signature">(URL, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+    <h4 class="name" id="loadCodeFromExternal"><span class="type-signature">(async) </span>loadCodeFromExternal<span class="signature">(URL, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>, asynchronous)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
 
     
 
@@ -886,7 +950,42 @@
                 </td>
             
 
-            <td class="description last">The interval between watchs (if <code>watchChanges<code> is set to <code>true</code>)</td>
+            <td class="description last">The interval between watchs (if `watchChanges` is set to `true`)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>asynchronous</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Whether to apply asynchronous execution (for this loaded code only). Leave blank or set to `null` to use default configuration.</td>
         </tr>
 
     
@@ -924,11 +1023,6 @@
 
     
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L254">line 254</a>
-    </li></ul></dd>
     
 
     
@@ -970,11 +1064,13 @@
     
 
 
-<div class = "spacing"></div>
+
+        
+            
 
     
 
-    <h4 class="name" id="loadCodeFromLocal"><span class="type-signature">(async) </span>loadCodeFromLocal<span class="signature">(path, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+    <h4 class="name" id="loadCodeFromLocal"><span class="type-signature">(async) </span>loadCodeFromLocal<span class="signature">(path, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>, asynchronous)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
 
     
 
@@ -1127,7 +1223,42 @@
                 </td>
             
 
-            <td class="description last">The interval between watchs (if <code>watchChanges<code> is set to <code>true</code>)</td>
+            <td class="description last">The interval between watches (if `watchChanges` is set to `true`)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>asynchronous</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Whether to apply asynchronous execution (for this loaded code only). Leave blank or set to `null` to use default configuration.</td>
         </tr>
 
     
@@ -1165,11 +1296,6 @@
 
     
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L235">line 235</a>
-    </li></ul></dd>
     
 
     
@@ -1211,11 +1337,13 @@
     
 
 
-<div class = "spacing"></div>
+
+        
+            
 
     
 
-    <h4 class="name" id="loadCodeFromString"><span class="type-signature">(async) </span>loadCodeFromString<span class="signature">(text)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+    <h4 class="name" id="loadCodeFromString"><span class="type-signature">(async) </span>loadCodeFromString<span class="signature">(text, asynchronous)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
 
     
 
@@ -1278,6 +1406,29 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>asynchronous</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Whether to apply asynchronous execution (for this loaded code only). Leave blank or set to `null` to use default configuration.</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1312,11 +1463,6 @@
 
     
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L216">line 216</a>
-    </li></ul></dd>
     
 
     
@@ -1358,7 +1504,9 @@
     
 
 
-<div class = "spacing"></div>
+
+        
+            
 
     
 
@@ -1460,11 +1608,6 @@
     
 
     
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L152">line 152</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1505,7 +1648,9 @@
     
 
 
-<div class = "spacing"></div>
+
+        
+            
 
     
 
@@ -1607,11 +1752,6 @@
     
 
     
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L141">line 141</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1652,7 +1792,9 @@
     
 
 
-<div class = "spacing"></div>
+
+        
+            
 
     
 
@@ -1705,11 +1847,6 @@
     
 
     
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L301">line 301</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1754,7 +1891,9 @@
     
 
 
-<div class = "spacing"></div>
+
+        
+            
 
     
 
@@ -1807,11 +1946,6 @@
     
 
     
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy __sourceLinks"><li>
-      <a target = "_blank" href = "clients/BrowserClient.js">clients/BrowserClient.js</a>, <a target = "_blank" href = "clients/BrowserClient.js#L316">line 316</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1853,6 +1987,7 @@
 
 
 
+        
     
 
     
@@ -1870,12 +2005,10 @@
 <br class="clear">
 
 <footer>
-    starblast-modding - <a target = "_blank" href = "https://npmjs.com/package/starblast-modding/">NPM</a>  - <a target = "_blank" href = "https://github.com/bhpsngum/starblast-modding/">GitHub</a><br>
-    Made by <a target = "_blank" href = "https://github.com/bhpsngum">Bhpsngum</a><br>
-    <a target = "_blank" href = "https://bhpsngum.github.io/redirect?id=starblast-modding_Discord_Support">Discord Support Server</a> - <a target = "_blank" href = "https://www.buymeacoffee.com/bhpsngum">Buy me a coffee</a>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> using the Minami theme.
 </footer>
 
+<script>prettyPrint();</script>
 <script src="scripts/linenumber.js"></script>
-<script type="text/javascript" src="../scripts/default.js"></script>
 </body>
 </html>
