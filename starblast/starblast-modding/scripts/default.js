@@ -55,7 +55,7 @@
     if (href.includes(".js")) e.href = "https://github.com/bhpsngum/starblast-modding/blob/" + window.location.pathname.match(/\/(v[^\/]+)(\/|$)/)[1] + "/src/" + href;
   });
 
-  document.querySelectorAll(".description, .param-desc").forEach(function (e) {
+  document.querySelectorAll(".description, .param-desc, .class-description").forEach(function (e) {
     e.innerHTML = e.innerHTML.replace(/\`([^\`]+?)\`/g, "<code>$1</code>")
   });
 
