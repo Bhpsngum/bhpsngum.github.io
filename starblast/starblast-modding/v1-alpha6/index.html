@@ -70,9 +70,10 @@ pnpm add starblast-modding
 <h2>Example</h2>
 <h3>ModdingClient usage</h3>
 <p>This is an example on how to run a team-mode modded game:</p>
+<p>(along with available events to listen on)</p>
 <pre class="prettyprint source lang-js"><code>const StarblastModding = require(&quot;starblast-modding&quot;);
 
-global.game = new StarblastModding.Client({
+const game = new StarblastModding.Client({
   cacheECPKey: true,
   cacheEvents: false,
   cacheOptions: true
@@ -156,11 +157,11 @@ game.on('asteroidDestroy', function(asteroid, killer) {
 
 });
 
-game.on('collectibleCreate', function(asteroid) {
+game.on('collectibleCreate', function(collectible) {
 
 });
 
-game.on('collectiblePick', function(asteroid, ship) {
+game.on('collectiblePick', function(collectible, ship) {
 
 });
 
