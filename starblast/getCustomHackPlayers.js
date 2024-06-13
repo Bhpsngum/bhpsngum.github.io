@@ -15,10 +15,9 @@ window.checkCustomHack = async function () {
   let finish = ["zinc", "gold", "alloy", "carbon", "titanium"];
   let laser = Array(4).fill(0).map((v,i) => i.toString());
   let sus = [];
-  let done = [];
-  for (let file of files) {
+  let tasks = [];
+  for (let file of files) tasks.push((async function () {
     let infos = await getJSON("https://starblast.io/" + file[0] + ".json");
-    done.push(true);
     infos = Object.values(infos[file[1]]).flat().map(i => {
       let {name, id, custom} = i;
       delete i.name;
@@ -44,7 +43,13 @@ window.checkCustomHack = async function () {
         else sus.push(info);
       }
     }
-    if (done.length == files.length) for (let player of sus) {
+  })());
+
+  try {
+    await Promise.allSettled(tasks);
+  }
+  finally {
+    for (let player of sus) {
       let customStatus = player.customStatus;
       delete player.customStatus;
       console.log(`Name: ${player.name}\nID: ${player.id}\nCustomization check:\n${["badge", "finish", "laser"].map(i => "- " + i[0].toUpperCase() + i.slice(1) + ": %c" + (customStatus[i] ? "OK" : "HACKED") + " -> " + player.custom[i] + "%c").join("\n")}`, ...Object.values(customStatus).map(i => ["color: " + (i ? "green" : "red"), "color: inherit"]).flat());
@@ -52,5 +57,4 @@ window.checkCustomHack = async function () {
       console.log("\n");
     }
   }
-  console.log("Finished.");
 }
