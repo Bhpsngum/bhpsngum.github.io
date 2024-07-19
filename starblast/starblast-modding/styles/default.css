@@ -27,7 +27,6 @@
 .name:not(td, .container-overview > h4) {
   display: table;
   font-weight: bold;
-  font-family: inherit;
   font-size: 25px
 }
 
