@@ -852,26 +852,6 @@
     "event": 0
   },
   {
-    "name": "Starblast Arena",
-    "abbreviation": "SA",
-    "version": "1.0",
-    "description": "Starblast Arena is a mod with two teams randomly chosen. Players have to kills ennemies and aliens to gain points. The first team to reach a certain amount of players and aliens kills wins.",
-    "modes": "",
-    "img": "",
-    "link": {
-      "url": "https://github.com/W0lfan/Fitz-Arena",
-      "state": 2
-    },
-    "author": [
-      {
-        "name": ["Wolfan"],
-        "link": ""
-      }
-    ],
-    "official": 0,
-    "event": 0
-  },
-  {
     "name": "Cursed Series",
     "abbreviation": "",
     "version": "1.0",
