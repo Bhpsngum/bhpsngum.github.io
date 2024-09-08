@@ -347,7 +347,7 @@ window.addEventListener("load", function(){
 				updateIcon();
 				$("#hidden-name").val($("#custom-name").val() || $("#name").html()).change();
 				let ecp_type = names[query_info.type];
-				$("#type").html("<a style='text-decoration: none;cursor: pointer' href='"+(ecp_type?("https://starblastio.fandom.com/wiki/"+ecp_type.short+"' target='_blank'>"+ecp_type.long+`(${ecp_type.short})`):"javascript:void(0);'>Unknown")+"</a>");
+				$("#type").html("<a style='text-decoration: none;cursor: pointer' href='" + (ecp_type ? `https://starblastio.fandom.com/wiki/${ecp_type.short}' target='_blank'>${ecp_type.long} (${ecp_type.short})` : "javascript:void(0);'>Unknown")+"</a>");
 				// load the ecp image
 				applySize(init)
 			}, applySize = function(init) {
