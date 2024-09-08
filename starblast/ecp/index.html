@@ -34,6 +34,33 @@
 	</head>
 	<body>
 		<div id="init">Initializating...</div>
+		<div id="customization-modal" style="display:none">
+			<div id="modal-bg"></div>
+			<div id="modal-content">
+				<p>
+					<b>BADGE CUSTOMIZATION</b><br>
+					<input type="checkbox" id="multi-mode">
+					<label for="multi-mode">Gallery Mode</label>
+				</p>
+				<p>
+					<b style="margin-top: 20pt;">Row Variation</b><br>
+					<select id="row-variation">
+						<option value="finish">Finish</option>
+						<option value="laser">Laser</option>
+					</select>
+				</p>
+				<table id="customization-table">
+					<tr>
+						<td>Finishes</td>
+						<td>Lasers</td>
+					</tr>
+					<tr>
+						<td id="finish-choose"></td>
+						<td id="laser-choose"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
 		<i title = "Show the infobar" id = "showinfo" class = "fas fa-fw fa-caret-down" style = "display: none"></i>
 		<div id = "infobox">
 			<div id = "info">
@@ -55,12 +82,7 @@
 				<button id = "apply-res">Apply</button>
 				<input type = "checkbox" id="loadBadge">
 				<label for="loadBadge">Load badge</label>
-				<select id= "finish-choose">
-					<option disabled selected>Choose Skin</option>
-				</select>
-				<select id= "laser-choose">
-					<option disabled selected>Choose Laser</option>
-				</select>
+				<button id="customization">Customization</button>
 				<select id= "shadow-mode">
 					<option disabled selected>Choose Shadow Mode</option>
 				</select>

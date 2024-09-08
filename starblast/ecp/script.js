@@ -40,23 +40,32 @@ window.addEventListener("load", function(){
 				ucp: { long: "Unique Commander Pass", short: "UCP" }
 			}, URLParser = {
 				current: {},
-				params: ["name", "badge", "size", "preset", "laser", "finish", "badge", "shadow", "forced"],
+				params: ["name", "badge", "size", "preset", "multi", "laser", "finish", "badge", "shadow", "forced", "variation"],
 				qualifiers: {
 					size: function (data) { return Math.max(0, data) || 0 },
 					badge: function (data) {return data === "true" || data === "" || data === true},
 					forced: function (data) {return data === "" || data === "true"},
+					multi: function (data) {return data === "" || data === "true" || data === true },
 					name: function (data) {return String(data).toLowerCase().replace(/[^0-9a-z_\-]/g, "")}
 				},
 				type: {
 					badge: "boolean",
-					forced: "boolean"
+					forced: "boolean",
+					multi: "boolean",
+					finish: "multi",
+					laser: "multi"
+				},
+				aliases: {
+					multi: "gallery",
+					variation: "row"
 				},
 				data: {
-					get name () {return ecp_data },
+					get name () { return ecp_data },
 					preset: presets,
 					finish: finishes,
 					shadow: shadow_modes,
-					laser: lasers.reduce((a,b,i)=>(a.push({name: b, value: i}),a),[])
+					variation: [{ name: "Finish", value: "finish" }, { name: "Laser", value: "laser" }],
+					laser: lasers.reduce((a,b,i)=>(a.push({name: b, value: i.toString()}),a),[])
 				},
 				locals: {
 					finish: 'ecp-finish',
@@ -64,7 +73,39 @@ window.addEventListener("load", function(){
 					size: 'ecp-res',
 					shadow: 'ecp-shadow',
 					badge: 'loadBadge',
-					preset: 'ecp-res-option'
+					preset: 'ecp-res-option',
+					multi: 'multi-badges-mode',
+					variation: 'row-variation'
+				},
+				customElements: {
+					finish: function (element, _this) {
+						let res = ((_this.current.finish || {}).data || {}).value || [];
+						for (let finish of _this.data.finish) {
+							let index = res.indexOf(finish.value);
+							if ($(`#finish-choose > #${finish.value}`).is(":checked")) {
+								if (index < 0) res.push(finish.value);
+							}
+							else {
+								if (index >= 0) res.splice(index, 1);
+							}
+						}
+
+						return res;
+					},
+					laser: function (element, _this) {
+						let res = ((_this.current.laser || {}).data || {}).value || [];
+						for (let laser of _this.data.laser) {
+							let index = res.indexOf(laser.value);
+							if ($(`#laser-choose > #${laser.value}`).is(":checked")) {
+								if (index < 0) res.push(laser.value);
+							}
+							else {
+								if (index >= 0) res.splice(index, 1);
+							}
+						}
+
+						return res;
+					}
 				},
 				elements: {
 					badge: "loadBadge",
@@ -72,34 +113,51 @@ window.addEventListener("load", function(){
 					laser: "laser-choose",
 					size: "custom-res",
 					shadow: "shadow-mode",
-					preset: "res-option"
+					preset: "res-option",
+					multi: "multi-mode",
+					variation: "row-variation"
 				},
 				getSingle: function (field, init) {
-					let value = null, exists = true;
+					let value = null, exists = true, type = this.type[field];
 					if (init) {
-						if ((value = this.query.get(field)) == null) {
+						value = this.query.get(this.aliases[field] || field);
+						if (value == null) {
 							exists = false;
 							if (this.locals[field] != null) value = localData.getItem(this.locals[field])
+							if (type === "multi") {
+								try {
+									value = JSON.parse(value);
+								} catch (e) {}
+								if (!Array.isArray(value)) value = [];
+							}
 						}
+						else if (type === "multi") value = [...new Set(value.split(" "))];
 					}
 					else {
 						if (this.elements[field] == null) return;
 						let el = $("#" + this.elements[field]);
-						if (this.type[field] == "boolean") value = el.is(":checked");
+						if ("function" == typeof this.customElements[field]) value = this.customElements[field](el, this);
+						else if (type === "boolean") value = el.is(":checked");
 						else value = el.val();
 					}
 
 					if ("function" == typeof this.qualifiers[field]) value = this.qualifiers[field](value);
-					else value = String(value);
+					else if (type !== "multi") value = String(value);
 					
 					let found, pool = this.data[field];
 					if (pool != null) {
-						found = Math.max(pool.findIndex(v => value == v.value), 0);            
+						if (type === "multi") {
+							value = value.filter(e => pool.find(v => v.value == e));
+							found = value.length > 1 ? -1 : Math.max(pool.findIndex(v => value[0] == v.value), 0);
+						}
+						else {
+							found = Math.max(pool.findIndex(v => value == v.value), 0);
+						}
 						found = {
 							exists,
 							index: found,
-							default: found == 0,
-							data: pool[found]
+							default: found === 0,
+							data: type === "multi" ? { value: (found !== -1 ? [pool[found].value] : value) } : pool[found]
 						}
 					}
 					else found = {
@@ -145,9 +203,6 @@ window.addEventListener("load", function(){
 						}
 					}
 
-					// url shortening for badges
-					for (let i of ["laser", "finish"]) this.current[i].default = !this.current.badge.data.value || this.current[i].default;
-
 					// name will be never defaults and forced must be hidden after
 					if (init) {
 						this.current.name.default = false;
@@ -162,6 +217,24 @@ window.addEventListener("load", function(){
 					return v.data.value;
 				},
 				save: function () {
+					// special treatments for some elements
+					for (let id of ["custom-res", "apply-res"]) $("#"+id).attr('disabled', !!this.current.preset.data.size);
+					for (let id of ["customization", "shadow-mode"]) $("#"+id).attr('disabled', !this.current.badge.data.value);
+					$("#row-variation").attr('disabled', !this.current.multi.data.value);
+
+					// reselect customization table
+					if (!this.current.multi.data.value) {
+						for (let i of ["finish", "laser"]) this.current[i].data.value = this.current[i].data.value.slice(-1);
+					}
+
+					for (let i of ["finish", "laser"]) {
+						for (let j of this.data[i]) $(`#${this.elements[i]} > #${j.value}`).prop("checked", false);
+					}
+
+					for (let i of ["finish", "laser"]) {
+						for (let j of this.current[i].data.value) $(`#${this.elements[i]} > #${j}`).prop("checked", true);
+					}
+
 					for (let i of this.params) {
 						if (this.current[i] == null) continue;
 						let value = this.current[i].data.value;
@@ -171,23 +244,23 @@ window.addEventListener("load", function(){
 						else el.val(value);
 					}
 
-					// special treatments for some elements
-					for (let id of ["custom-res", "apply-res"]) $("#"+id).attr('disabled', !!this.current.preset.data.size);
-					for (let id of ["laser-choose", "finish-choose", "shadow-mode"]) $("#"+id).attr('disabled', !this.current.badge.data.value);
-
 					this.export();
 				},
 				export: function () {
 					let params = [];
 					for (let name in this.current) {
-						let val = this.current[name];
+						let val = this.current[name], type = this.type[name];
+						let fName = this.aliases[name] || name;
 						if (val.default) continue;
 						let pValue = val.data.value;
-						if ("boolean" == typeof pValue) {
+						if ("boolean" === type) {
 							if (!pValue) continue;
-							else pValue = name;
+							else pValue = fName;
 						}
-						else pValue = name + '=' + encodeURIComponent(pValue);
+						else if ("multi" === type) {
+							pValue = fName + '=' + pValue.map(encodeURIComponent).join("+");
+						}
+						else pValue = fName + '=' + encodeURIComponent(pValue);
 
 						params.push(pValue);
 					}
@@ -236,10 +309,20 @@ window.addEventListener("load", function(){
                     apply(+chooser.val());
                 });
 				// load finish and laser options
-				$("#finish-choose").append(finishes.map(i => "<option value='"+i.value+"'>"+(i.name || (i.value[0].toUpperCase()+i.value.slice(1)))+"</option>").join(""));
+				$("#finish-choose").html(finishes.map(i => `<input type="checkbox" id="${i.value}"><label for="${i.value}">${i.name || (i.value[0].toUpperCase() + i.value.slice(1))}</label>`).join("<br>"));
 				$("#shadow-mode").append(shadow_modes.map(i => "<option value='"+i.value+"'>"+(i.name || (i.value[0].toUpperCase()+i.value.slice(1)))+"</option>").join(""));
 				$("#res-option").append(presets.map(i => "<option value='"+i.value+"'>"+i.value[0].toUpperCase()+i.value.slice(1)+"</option>").join(""))
-				$("#laser-choose").append(lasers.map((i,j) => "<option value='"+j+"'>"+i+"</option>").join(""));
+				$("#laser-choose").html(lasers.map((i,j) => `<input type="checkbox" id="${j}"><label for="${j}">${i}</label>`).join("<br>"));
+				// change events
+				for (let id of [
+					"loadBadge",
+					"finish-choose input",
+					"laser-choose input",
+					"row-variation",
+					"res-option",
+					"shadow-mode",
+					"multi-mode"
+				]) $("#"+id).each(function() { $(this).on("change", function() {applySize()}) });
 				// find the ecp info of the searching name
 				// display the ecp info
 				URLParser.getQuery(init);
@@ -273,7 +356,7 @@ window.addEventListener("load", function(){
 				$("#download").attr("disabled", true);
 				let query_info = last_info;
 
-				if (URLParser.value('badge')) ECP.loadBadge(URLParser.value('size'), query_info, URLParser.value('finish'), URLParser.value('laser'), URLParser.value('shadow'), request_id, loadImage);
+				if (URLParser.value('badge')) ECP.loadBadge(URLParser.value('size'), query_info, URLParser.value('finish'), URLParser.value('laser'), URLParser.value('shadow'), URLParser.value('variation'), request_id, loadImage);
 				else ECP.loadIcon(URLParser.value('size'), query_info, request_id, loadImage)
 			}, loadImage = function (canvas, info, request_id) {
 				if (request_id == ECP.id - 1) {
@@ -313,14 +396,15 @@ window.addEventListener("load", function(){
 				}
 				query_index = null;
 				updateInfo(last_info);
-			}
+			}, customModal = $("#customization-modal");
+			$("#customization").on("click", () => customModal.css("display", "block"));
+			$("#customization-modal > #modal-bg").on("click", () => customModal.css("display", "none"));
 			$(window).on("resize", function(){
 				if (updateSizeNeeded) applySize()
 			});
 			$("#apply-res").on("click", function() {
 				applySize()
 			});
-			for (let id of ["loadBadge", "finish-choose", "laser-choose", "res-option", "shadow-mode"]) $("#"+id).on("change", function() {applySize()});
 			$("#url-import").on("click", function() {
 				let url = prompt("Insert your image URL here:");
 				if (url) loadCustom(url)
@@ -406,7 +490,7 @@ window.addEventListener("load", function(){
 			$("#init").css("display", "none");
 			clearInterval(it);
 		}
-		// window.URLParser = URLParser;
+		window.URLParser = URLParser;
 	}, 500);
 	addToolPage(null,"1%","1%",null,null,null,null,$("#infobox")[0])
 });

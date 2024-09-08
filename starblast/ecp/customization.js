@@ -1,15 +1,42 @@
 window.initECPSetup = function(initializer){
   let Badge = function() {
-    function t(size, query_info, finish, laser, shadow_mode, rid, callback) {
-      this.callback = callback, this.shadow_mode = shadow_mode, this.rid = rid, this.size = null != size ? size : 128, this.info = query_info || {}, this.laser = laser || "simple", this.finish = finish || "gold", this.hue = 0, this.IOl1I()
+    function t(size, query_info, finish, laser, shadow_mode, row, rid, callback) {
+      this.row = row || "finish", this.callback = callback, this.shadow_mode = shadow_mode, this.rid = rid, this.size = null != size ? size : 128, this.info = query_info || {}, this.laser = laser || ["simple"], this.finish = finish || ["gold"], this.hue = 0, this.drawMultiple()
     }
-    return t.prototype.toImage = function() {
-      return this.image = new Image, this.image.src = this.canvas.toDataURL(), this.image
-    }, t.prototype.updateImage = function() {
-      if (null != this.image) return this.image.src = this.canvas.toDataURL()
-    }, t.prototype.IOl1I = function() {
-      var t, e, i, s, n, tmp_canvas, tmp_2d;
-      if (null == this.canvas && (this.canvas = document.createElement("canvas")), n = this.canvas.width = 2 * this.size, s = this.canvas.height = this.size, e = this.canvas.getContext("2d"), e.clearRect(0, 0, this.canvas.width, this.canvas.height), "blank" !== this.info.id) {
+    return t.prototype.drawMultiple = function () {
+      if (this.callbackCalled) return;
+      let rowItems = this.laser, columnItems = this.finish;
+      let reversed = this.row === 'laser';
+      if (reversed) ([rowItems, columnItems] = [columnItems, rowItems]);
+      let mainCanvas = document.createElement("canvas");
+      mainCanvas.width = this.size * columnItems.length * 2;
+      mainCanvas.height = this.size * rowItems.length + ((rowItems.length - 1) * this.size / 5);
+      let checker = {
+        elements: 0,
+        _this: this,
+        done: function () {
+          ++this.elements;
+          if (!this._this.callbackCalled && this.elements >= rowItems.length * columnItems.length) {
+            this._this.callbackCalled = true;
+            this._this.callback(mainCanvas, this._this.info, this._this.rid);
+          }
+        }
+      }
+      for (let i = 0; i < rowItems.length; ++i) {
+        for (let j = 0; j < columnItems.length; ++j) {
+          this.laser = reversed ? columnItems[j] : rowItems[i];
+          this.finish = reversed ? rowItems[i] : columnItems[j];
+          this.drawSingleBadge((canvas) => {
+            mainCanvas.getContext('2d').drawImage(canvas, j * this.size * 2, i * this.size * (1 + 1/5));
+            checker.done();
+          });
+        }
+      }
+    }, t.prototype.drawSingleBadge = function(cb) {
+      var e, i, s, n, tmp_canvas, tmp_2d;
+      let canvas = document.createElement("canvas");
+      n = canvas.width = 2 * this.size, s = canvas.height = this.size, e = canvas.getContext("2d"), e.clearRect(0, 0, canvas.width, canvas.height);
+      if ("blank" !== this.info.id) {
         // badge main shape
         e.fillStyle = "#000", e.beginPath(), e.arc(n / 2, s / 2, s / 2, 0, 2 * Math.PI, !0), e.fill(), e.beginPath(), e.moveTo(.05 * n, .25 * s), e.lineTo(.05 * n, .75 * s), e.lineTo(n / 2, .9 * s), e.lineTo(.95 * n, .75 * s), e.lineTo(.95 * n, .25 * s), e.lineTo(n / 2, .1 * s), e.closePath(), e.fill();
 
@@ -18,7 +45,7 @@ window.initECPSetup = function(initializer){
           tmp_canvas = document.createElement("canvas"), tmp_canvas.width = n, tmp_canvas.height = s, tmp_2d = tmp_canvas.getContext("2d"),
 
           // save main shape into temp canvas
-          tmp_2d.drawImage(this.canvas, 0, 0),
+          tmp_2d.drawImage(canvas, 0, 0),
 
           // cut saved shape by badge arc cuts (with a little margin)
           tmp_2d.lineWidth = .073 * s, tmp_2d.globalCompositeOperation = "source-in", tmp_2d.strokeStyle = "#000", tmp_2d.beginPath(), tmp_2d.arc(n / 2, s / 2, .6 * s, 0, 2 * Math.PI, !0), tmp_2d.stroke(),
@@ -31,30 +58,34 @@ window.initECPSetup = function(initializer){
         e.lineWidth = .07 * s, e.globalCompositeOperation = "destination-out", e.strokeStyle = "#000", e.beginPath(), e.arc(n / 2, s / 2, .6 * s, 0, 2 * Math.PI, !0), e.stroke(),
 
         // badge filling - material, icon, laser
-        this.drawMaterial(e, n, s), this.drawIcon(e, n, s), this.drawLaser(e, n, s),
+        this.drawMaterial(e, n, s);
+        let laser = this.laser;
+        this.drawIcon(e, n, s, function () {
+          this.drawLaser(e, n, s, laser);
 
-        // badge material shadow
-        e.globalCompositeOperation = "source-atop", e.save(), e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(0, "rgba(255,255,255,.2)"), i.addColorStop(1, "rgba(0,0,0,.2)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2), e.restore(),
+          // badge material shadow
+          e.globalCompositeOperation = "source-atop", e.save(), e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(0, "rgba(255,255,255,.2)"), i.addColorStop(1, "rgba(0,0,0,.2)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2), e.restore(),
 
-        // badge icon shadow
-        e.globalCompositeOperation = "source-over", i = e.createRadialGradient(n / 2 - .25 * s, s / 2 - .25 * s, 0, n / 2, s / 2, .45 * s), i.addColorStop(0, "rgba(0,0,0,0)"), i.addColorStop(.5, "rgba(0,0,0,0)"), i.addColorStop(1, "rgba(0,0,0,.5)"), e.fillStyle = i, e.beginPath(), e.arc(n / 2, s / 2, .45 * s, 0, 2 * Math.PI, !0), e.fill();
+          // badge icon shadow
+          e.globalCompositeOperation = "source-over", i = e.createRadialGradient(n / 2 - .25 * s, s / 2 - .25 * s, 0, n / 2, s / 2, .45 * s), i.addColorStop(0, "rgba(0,0,0,0)"), i.addColorStop(.5, "rgba(0,0,0,0)"), i.addColorStop(1, "rgba(0,0,0,.5)"), e.fillStyle = i, e.beginPath(), e.arc(n / 2, s / 2, .45 * s, 0, 2 * Math.PI, !0), e.fill();
 
-        switch (this.shadow_mode) {
-          case "arcs":
-            // restore saved rear shadow (within badge arc cuts only)
-            e.globalCompositeOperation = "destination-over";
-            e.drawImage(tmp_canvas, 0, 0);
-            break;
-          case "none":
-            break;
-          default:
-            // rear shadow (around & behind the badge)
-            e.globalCompositeOperation = "destination-over", e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(.7, "rgba(0,0,0,1)"), i.addColorStop(1, "rgba(0,0,0,0)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2);
-        }
+          switch (this.shadow_mode) {
+            case "arcs":
+              // restore saved rear shadow (within badge arc cuts only)
+              e.globalCompositeOperation = "destination-over";
+              e.drawImage(tmp_canvas, 0, 0);
+              break;
+            case "none":
+              break;
+            default:
+              // rear shadow (around & behind the badge)
+              e.globalCompositeOperation = "destination-over", e.translate(n / 2, s / 2), e.scale(n / 2, s / 2), i = e.createRadialGradient(0, 0, 0, 0, 0, 1), i.addColorStop(.7, "rgba(0,0,0,1)"), i.addColorStop(1, "rgba(0,0,0,0)"), e.fillStyle = i, e.fillRect(-1, -1, 2, 2);
+          }
 
-        this.resize ? (t = document.createElement("canvas"), t.width = this.size, t.height = this.size / 2, t.getContext("2d").drawImage(this.canvas, 0, 0, this.size, this.size / 2), this.canvas = t) : void 0;
-        return this.callbackCalled === false && this.callback(this.canvas, this.info, this.rid);
-      } else this.callback(this.canvas, this.info, this.rid)
+          cb(canvas);
+        }.bind(this));
+      }
+      else cb(canvas);
     }, t.prototype.drawMaterial = function(t, e, i) {
       var s, l, n, a, o, r, h, O, u, d, c;
       switch (this.finish) {
@@ -85,26 +116,36 @@ window.initECPSetup = function(initializer){
         l = t.createLinearGradient(0, 0, 0, i), l.addColorStop(.3, "rgba(0,0,0,.5)"), l.addColorStop(.5, "rgba(0,0,0,0)"), l.addColorStop(.7, "rgba(0,0,0,.5)"), t.fillStyle = l, t.fillRect(0, 0, e, i)
       } else t.fillStyle = l, t.fillRect(0, 0, e, i);
       return t.globalCompositeOperation = "source-over"
-    }, t.prototype.drawLaser = function(t, e, i) {
+    }, t.prototype.drawLaser = function(t, e, i, laser) {
       var s, n, l, a, o, r, h, u, d, c, p, I;
-      for (t.save(), t.translate(.12 * e, i / 2), I = l0OlO.getShape(parseInt(this.laser)), n = 0, a = I.length; n < a; n++) {
+      for (t.save(), t.translate(.12 * e, i / 2), I = l0OlO.getShape(parseInt(laser)), n = 0, a = I.length; n < a; n++) {
         for (p = I[n], t.beginPath(), s = t.createRadialGradient(0, 0, 0, 0, 0, i / 6), s.addColorStop(0, "hsl(50,100%,100%)"), s.addColorStop(1, "hsl(50,80%,40%)"), t.fillStyle = s, t.strokeStyle = "rgba(0,0,0,.8)", t.lineWidth = i / 24, l = 0, o = p.length; l < o; l++) c = p[l], t.lineTo(c[1] * i / 10, c[0] * i / 9);
         t.closePath(), t.stroke(), t.fill()
       }
-      for (t.restore(), t.save(), t.translate(.88 * e, i / 2), I = l0OlO.getShape(parseInt(this.laser)), u = 0, r = I.length; u < r; u++) {
+      for (t.restore(), t.save(), t.translate(.88 * e, i / 2), I = l0OlO.getShape(parseInt(laser)), u = 0, r = I.length; u < r; u++) {
         for (p = I[u], t.beginPath(), s = t.createRadialGradient(0, 0, 0, 0, 0, i / 6), s.addColorStop(0, "hsl(50,100%,100%)"), s.addColorStop(1, "hsl(50,80%,40%)"), t.fillStyle = s, t.strokeStyle = "rgba(0,0,0,.8)", t.lineWidth = i / 24, d = 0, h = p.length; d < h; d++) c = p[d], t.lineTo(c[1] * i / 10, c[0] * i / 9);
         t.closePath(), t.stroke(), t.fill()
       }
       return t.restore()
-    }, t.prototype.drawIcon = function(t, e, i) {
-      var s, n, l, a, o, r, h, u, d, c, p;
+    }, t.prototype.drawBadge = function (t, e, i) {
+      let s, n;
+      s = document.createElement("canvas"), s.width = i, s.height = i, n = s.getContext("2d"), n.fillStyle = "#FFF", n.beginPath(), n.arc(i / 2, i / 2, .45 * i, 0, 2 * Math.PI, !0), n.fill(), n.globalCompositeOperation = "source-in", n.drawImage(this.icon_src, .05 * i, .05 * i, .9 * i, .9 * i), t.drawImage(s, e / 2 - .5 * i, i / 2 - .5 * i, i, i);
+    }, t.prototype.drawIcon = function(t, e, i, cb) {
+      var l, a, o, r, h, u, d, c, p;
       if (d = Math.round(i / 2.2), this.info.url) {
-        if (null == this.icon_src && (this.icon_src = new Image, this.icon_src.crossOrigin = "Anonymous", this.icon_src.src = this.info.url, this.icon_src.onload = function(t) {
+        if (null == this.icon_src) {
+          this.icon_src = new Image, this.icon_src.crossOrigin = "Anonymous", this.icon_src.src = this.info.url;
+        }
+        if (!this.icon_src.complete) {
+          this.icon_src.addEventListener("load", function(x) {
             return function() {
-              return t.IOl1I(), t.updateImage(), t.callbackCalled = true, t.callback(t.canvas, t.info, t.rid)
+              return x.drawBadge(t, e, i), cb();
             }
-          }(this)), this.icon_src.complete) try {
-          s = document.createElement("canvas"), s.width = i, s.height = i, n = s.getContext("2d"), n.fillStyle = "#FFF", n.beginPath(), n.arc(i / 2, i / 2, .45 * i, 0, 2 * Math.PI, !0), n.fill(), n.globalCompositeOperation = "source-in", n.drawImage(this.icon_src, .05 * i, .05 * i, .9 * i, .9 * i), t.drawImage(s, e / 2 - .5 * i, i / 2 - .5 * i, i, i);
+          }(this));
+        }
+        else try {
+          this.drawBadge(t, e, i);
+          cb();
         } catch (t) {
           t
         }
@@ -120,39 +161,8 @@ window.initECPSetup = function(initializer){
         else {
           t.fillText(eval('"\\u{'+deco.unicode.toString(16)+'}"'), e / 2, i / 2)
         }
-        this.callbackCalled = false
+        cb();
       }
-    }, t.prototype.drawStar = function(t, e, i, s, n) {
-      var l, a, o, r;
-      for (t.beginPath(), l = -Math.PI / 2, o = 0; o <= 4; o += 1) a = Math.cos(l), r = Math.sin(l), t.lineTo(e + a * n, i + r * n), l += Math.PI / 5, a = Math.cos(l), r = Math.sin(l), t.lineTo(e + a * s, i + r * s), l += Math.PI / 5;
-      return t.closePath(), t.fill()
-    }, t.prototype.drawWing = function(t, e, i, s, n, l) {
-      var a, o, r, h, u, d, c, p, I;
-      for (null == l && (l = "#FFF"), t.save(), t.translate(e / 2, i / 2), t.strokeStyle = "#000", t.fillStyle = l, t.lineWidth = .03 * i, t.lineCap = "round", t.beginPath(), a = o = 0, d = s.length - 1; o <= d; a = o += 1) t.lineTo(s[a], n[a]);
-      for (t.closePath(), t.fill(), a = r = 0, c = s.length - 1; r <= c; a = r += 1) t.beginPath(), t.moveTo(s[a], n[a]), t.lineTo(s[(a + 1) % s.length], n[(a + 1) % s.length]), t.stroke();
-      for (t.beginPath(), a = h = 0, p = s.length - 1; h <= p; a = h += 1) t.lineTo(-s[a], n[a]);
-      for (t.closePath(), t.fill(), a = u = 0, I = s.length - 1; u <= I; a = u += 1) t.beginPath(), t.moveTo(-s[a], n[a]), t.lineTo(-s[(a + 1) % s.length], n[(a + 1) % s.length]), t.stroke();
-      return t.restore()
-    }, t.table = [], t.lO0O0 = function(e, i, s, n, l) {
-      var a, o;
-      return null == l && (l = 0), o = e + i + s + n + l, t.table[o] || (a = new t(n, {
-        badge: e,
-        laser: i,
-        finish: s,
-        hue: l
-      }).toImage(), t.table[o] = a), t.table[o]
-    }, t.getRandomImage = function(e) {
-      var i, s, n;
-      return i = ["star", "paw", "pirate", "reddit", "invader", "youtube"][Math.floor(6 * Math.random())], s = ["zinc", "gold", "alloy", "carbon", "titanium"][Math.floor(5 * Math.random())], n = ["0", "1", "2", "3"][Math.floor(4 * Math.random())], t.lO0O0(i, n, s, e)
-    }, t.test = function() {
-      var e, i, s, n, l, a, o, r, h, u, d, c;
-      for (u = ["zinc", "gold", "alloy", "carbon", "titanium"], s = 0, a = u.length; s < a; s++)
-        for (e = u[s], d = ["star", "paw", "pirate", "reddit", "invader", "youtube"], n = 0, o = d.length; n < o; n++)
-          for (i = d[n], c = ["simple"], h = 0, r = c.length; h < r; h++) l = c[h], document.body.appendChild(new t(128, {
-            badge: i,
-            laser: l,
-            finish: e
-          }).canvas)
     }, t
   }(), l0OlO = function() {
     function t() {}
@@ -257,8 +267,8 @@ window.initECPSetup = function(initializer){
       return r
     }, t
   }();
-  initializer.loadBadge = function(size, query_info, finish, laser, shadow_mode, rid, callback) {
-    new Badge(size, query_info, finish, laser, shadow_mode, rid, callback)
+  initializer.loadBadge = function(size, query_info, finish, laser, shadow_mode, row, rid, callback) {
+    new Badge(size, query_info, finish, laser, shadow_mode, row, rid, callback)
   }
   initializer.loadIcon = function(size, query_info, rid, callback) {
     callback = "function" == typeof callback ? callback : function(){}
