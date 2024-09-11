@@ -1,4 +1,28 @@
 window.t = (function(){
+  const URLParams = class URLParams extends Map {
+    constructor (str) {
+      super();
+      let params = str.replace(/^\?/, "").split("&");
+      for (let x of params) {
+        let [key, ...val] = x.split("=");
+        this.set(decodeURIComponent(key), val.map(decodeURIComponent).join("="));
+      }
+    }
+
+    set (key, val, decode = false) {
+      key = String(key);
+      if (!key) return;
+      val = String(val);
+      super.set(key, decode ? decodeURIComponent(val) : val);
+    }
+
+    toString (includeSearchMark = false) {
+      let query = [...this.entries()].map(([key, val]) => `${encodeURIComponent(key)}${val ? ("=" + encodeURIComponent(val)) : ""}`).join("&");
+      if (!query || includeSearchMark) query = "?" + query;
+
+      return query;
+    }
+  }
   var StarblastMap = {
     map: $("#map")[0],
     sizeInput: $("#map_size"),
@@ -404,7 +428,7 @@ window.t = (function(){
           }
           str = LZString.compressToEncodedURIComponent(str.join("e"));
           let str1 = LZString.compressToEncodedURIComponent(map.map(i=>i.join("")).join("e"));
-          return `map=${(str.length<=str1.length)?str:str1}`;
+          return (str.length<=str1.length)?str:str1;
         case "image":
           let clone = document.createElement('canvas');
           let c2d = clone.getContext('2d');
@@ -1088,7 +1112,10 @@ window.t = (function(){
       },
       permalink: function(newMap = "")
       {
-        return `${window.location.protocol}//${window.location.host}${window.location.pathname}${(newMap)?"?":""}${newMap}`;
+        let path = new URLParams(window.location.search);
+        if (newMap) path.set("map", newMap);
+        else path.delete("map");
+        return `${window.location.protocol}//${window.location.host}${window.location.pathname}${path.toString(true)}`;
       },
       setURL: function (newMap = "")
       {
@@ -1222,22 +1249,23 @@ window.t = (function(){
       return Number(min+this(max-min+1))||min;
     }
   });
-  let query=window.location.search.replace(/^\?/,"").split("="),error,initmap=[];
-  if (error = query[0] === "", !error)
+  let query = new URLParams(window.location.search);
+
+  let mapQuery = query.get("map") || "";
+  query.delete("map");
+
+  let error = !mapQuery;
+
+  if (!error)
   {
-    switch (query[0].toLowerCase())
-    {
-      case "map":
-        let datamap;
-        try{error = StarblastMap.Import.get("url",query[1],0,1).fail}catch(e){error=1};
-        if (error) {
-          if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) return "?"+StarblastMap.export("url",StarblastMap.Import.get("url-old",query[1],0,1).map);
-        }
-        else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error);
-        break;
-      default:
-        if (error = !confirm("You are using the old map permalink\nWould you like to go to the new one?"), !error) return '?map='+query[0];
+    try{
+      error = StarblastMap.Import.get("url",mapQuery,0,1).fail
+    } catch(e) { error = true };
+    if (error) {
+      query.set("map", StarblastMap.export("url",StarblastMap.Import.get("url-old",mapQuery,0,1).map));
+      if (error = !confirm("You are using the old permalink method.\nDo you want to go to the new one?"), !error) return query.toString(true);
     }
+    else (error = !confirm("Map pattern from URL detected!\nLoad map?\n(Note: this action cannot be undone)"), !error);
   }
   StarblastMap.Engine.setURL();
   StarblastMap.Asteroids.template.onload = function() {
@@ -1253,7 +1281,7 @@ window.t = (function(){
       if (fail) StarblastMap.create(1);
       else StarblastMap.load(null,1,1);
     }
-    else StarblastMap.Import.get("url",query[1],1);
+    else StarblastMap.Import.get("url",mapQuery,1);
     for (let i=0;i<10;i++)
     {
       (i) && StarblastMap.Asteroids.drawSelection(i);

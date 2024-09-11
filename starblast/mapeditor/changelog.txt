@@ -1,3 +1,6 @@
+3.3.0.4/Sep 11, 2024
+* Preserve other input parameters in URL instead of clearing them all (after processing maps)
+
 3.3.0.3/Nov 12, 2022
 * Fixed precision on map border
 * Added option to remove all local data in Miscellaneous Tab
