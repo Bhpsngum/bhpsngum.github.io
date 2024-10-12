@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Alien</title>
+    <title>UIPlayerElement</title>
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
@@ -21,7 +21,7 @@
     </nav>
 
     <div id="main">
-        <h1 class="page-title">Alien</h1>
+        <h1 class="page-title">UIPlayerElement</h1>
 
         
 
@@ -33,10 +33,10 @@
 <header>
     
         <h2>
-        Alien
+        UIPlayerElement
         </h2>
         
-            <div class="class-description">The Alien Instance</div>
+            <div class="class-description">The UI Text Element instance</div>
         
     
 </header>
@@ -50,7 +50,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Alien"><span class="type-signature">(abstract) </span>new Alien<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="UIPlayerElement"><span class="type-signature"></span>new UIPlayerElement<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -62,6 +62,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data.id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Ship ID to get info from</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -128,7 +177,7 @@
 
 
     <ul>
-        <li><a href="Entity.html">Entity</a></li>
+        <li><a href="UITextBasedElement.html">UITextBasedElement</a></li>
     </ul>
 
 
@@ -147,13 +196,13 @@
 
         
             
-<h4 class="name" id="alive"><span class="type-signature">(readonly) </span>alive<span class="type-signature"> :boolean</span></h4>
+<h4 class="name" id="align"><span class="type-signature">(readonly) </span>align<span class="type-signature"> :string</span></h4>
 
 
 
 
 <div class="description">
-    Indicates whether the structure is alive or not
+    Alignment of this text element
 </div>
 
 
@@ -162,7 +211,7 @@
     <ul>
         <li>
             
-<span class="param-type">boolean</span>
+<span class="param-type">string</span>
 
 
         </li>
@@ -183,7 +232,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#alive">Entity#alive</a>
+        <a href="UITextBasedElement.html#align">UITextBasedElement#align</a>
     </li></ul></dd>
     
 
@@ -219,13 +268,13 @@
 
         
             
-<h4 class="name" id="code"><span class="type-signature">(readonly) </span>code<span class="type-signature"> :number</span></h4>
+<h4 class="name" id="color"><span class="type-signature">(readonly) </span>color<span class="type-signature"> :string</span></h4>
 
 
 
 
 <div class="description">
-    Alien code
+    CSS Color value of this text element
 </div>
 
 
@@ -234,74 +283,7 @@
     <ul>
         <li>
             
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="createdStep"><span class="type-signature">(readonly) </span>createdStep<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    Structure's creation step
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
         </li>
@@ -322,146 +304,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#createdStep">Entity#createdStep</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="crytal_drop"><span class="type-signature">(readonly) </span>crytal_drop<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    The amount of crystals dropped after the alien is killed
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="custom"><span class="type-signature"></span>custom<span class="type-signature"> :object</span></h4>
-
-
-
-
-<div class="description">
-    Custom object served for assigning data by the user
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#custom">Entity#custom</a>
+        <a href="UITextBasedElement.html#color">UITextBasedElement#color</a>
     </li></ul></dd>
     
 
@@ -503,7 +346,7 @@
 
 
 <div class="description">
-    Structure's ID
+    Ship id of this text element
 </div>
 
 
@@ -531,9 +374,79 @@
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="parent"><span class="type-signature">(readonly) </span>parent<span class="type-signature"> :<a href="UIElementGroup.html">UIElementGroup</a>|null</span></h4>
+
+
+
+
+<div class="description">
+    Parent group of this element
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="UIElementGroup.html">UIElementGroup</a></span>
+|
+
+<span class="param-type">null</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#id">Entity#id</a>
+        <a href="UITextBasedElement.html#parent">UITextBasedElement#parent</a>
     </li></ul></dd>
     
 
@@ -569,13 +482,13 @@
 
         
             
-<h4 class="name" id="lastAliveStep"><span class="type-signature">(readonly) </span>lastAliveStep<span class="type-signature"> :number</span></h4>
+<h4 class="name" id="position"><span class="type-signature">(readonly) </span>position<span class="type-signature"> :Array.&lt;number></span></h4>
 
 
 
 
 <div class="description">
-    The latest alive step of the structure
+    The position array ([x, y, width, height]) of this element
 </div>
 
 
@@ -584,7 +497,7 @@
     <ul>
         <li>
             
-<span class="param-type">number</span>
+<span class="param-type">Array.&lt;number></span>
 
 
         </li>
@@ -605,640 +518,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#lastAliveStep">Entity#lastAliveStep</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="lastUpdatedStep"><span class="type-signature">(readonly) </span>lastUpdatedStep<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    Entity last updated step
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#lastUpdatedStep">Entity#lastUpdatedStep</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="level"><span class="type-signature">(readonly) </span>level<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    Alien level
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="points"><span class="type-signature">(readonly) </span>points<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    Alien points
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="uuid"><span class="type-signature">(readonly) </span>uuid<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    Structure's UUID
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#uuid">Entity#uuid</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="vx"><span class="type-signature">(readonly) </span>vx<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    Entity X Velocity
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#vx">Entity#vx</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="vy"><span class="type-signature">(readonly) </span>vy<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    Entity Y Velocity
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#vy">Entity#vy</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="weapon_drop"><span class="type-signature">(readonly) </span>weapon_drop<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    The collectible drop code after the alien is killed
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="x"><span class="type-signature">(readonly) </span>x<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    Entity X Position
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#x">Entity#x</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="y"><span class="type-signature">(readonly) </span>y<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    Entity Y Position
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#y">Entity#y</a>
+        <a href="UITextBasedElement.html#position">UITextBasedElement#position</a>
     </li></ul></dd>
     
 
@@ -1283,14 +563,14 @@
 
     
 
-    <h4 class="name" id="isActive"><span class="type-signature"></span>isActive<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="clone"><span class="type-signature"></span>clone<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="UIBaseElement.html">UIBaseElement</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Check whether if the structure is still active or not
+    Clone this element
 </div>
 
 
@@ -1316,7 +596,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#isActive">Entity#isActive</a>
+        <a href="UITextBasedElement.html#clone">UITextBasedElement#clone</a>
     </li></ul></dd>
     
 
@@ -1360,6 +640,110 @@
 <h5>Returns:</h5>
 
         
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="UIBaseElement.html">UIBaseElement</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Remove this element from parent element group
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="UITextBasedElement.html#remove">UITextBasedElement#remove</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Indicating if the result is successful or not
+</div>
+
 
 
 <dl class="param-type">
@@ -1383,14 +767,16 @@
 
     
 
-    <h4 class="name" id="isSpawned"><span class="type-signature"></span>isSpawned<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="serialize"><span class="type-signature"></span>serialize<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
 
 
 <div class="description">
-    Check whether if the structure is spawned or not
+    Serialize this element into JSON object.
+Some element type (e.g Group) is not supported by Modding Server, hence calling `toJSON()` method will deconstruct the element.
+Use this method to keep serialization of this element.
 </div>
 
 
@@ -1416,7 +802,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#isSpawned">Entity#isSpawned</a>
+        <a href="UITextBasedElement.html#serialize">UITextBasedElement#serialize</a>
     </li></ul></dd>
     
 
@@ -1460,115 +846,19 @@
 <h5>Returns:</h5>
 
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="kill"><span class="type-signature">(async) </span>kill<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Entity.html">Entity</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Kill the entity
+<div class="param-desc">
+    Serialized result
 </div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#kill">Entity#kill</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
 <dl class="param-type">
     <dt>
         Type
     </dt>
     <dd>
         
-<span class="param-type"><a href="Entity.html">Entity</a></span>
+<span class="param-type">Object</span>
 
 
     </dd>
@@ -1583,14 +873,14 @@
 
     
 
-    <h4 class="name" id="set"><span class="type-signature"></span>set<span class="signature">(data)</span><span class="type-signature"> &rarr; {<a href="Entity.html">Entity</a>}</span></h4>
+    <h4 class="name" id="set"><span class="type-signature"></span>set<span class="signature">(data, strictMode<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="UIBaseElement.html">UIBaseElement</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Set the entity with given data
+    Sets data to this element
 </div>
 
 
@@ -1614,7 +904,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1632,17 +926,68 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">options to set to the entity</td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Options to set to. Absent fields from this object will keep the old value</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>strictMode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Whether strict mode will be enabled (invalid value will be silently replaced with default value) or throw an error instead</td>
         </tr>
 
     
@@ -1665,7 +1010,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#set">Entity#set</a>
+        <a href="UITextBasedElement.html#set">UITextBasedElement#set</a>
     </li></ul></dd>
     
 
@@ -1709,6 +1054,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    The UI Element in question
+</div>
+
 
 
 <dl class="param-type">
@@ -1717,7 +1066,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Entity.html">Entity</a></span>
+<span class="param-type"><a href="UIBaseElement.html">UIBaseElement</a></span>
 
 
     </dd>
@@ -1732,14 +1081,14 @@
 
     
 
-    <h4 class="name" id="setDamage"><span class="type-signature"></span>setDamage<span class="signature">(damage)</span><span class="type-signature"> &rarr; {<a href="Alien.html">Alien</a>}</span></h4>
+    <h4 class="name" id="setAlign"><span class="type-signature"></span>setAlign<span class="signature">(align<span class="signature-attributes">opt</span>, strictMode<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="UITextElement.html">UITextElement</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Set alien's laser damage
+    Sets alignment of this UI Text Element
 </div>
 
 
@@ -1763,7 +1112,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1775,743 +1128,87 @@
 
         <tr>
             
-                <td class="name"><code>damage</code></td>
+                <td class="name"><code>align</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">"center"</span>
+|
+
+<span class="param-type">"left"</span>
+|
+
+<span class="param-type">"right"</span>
+|
+
+<span class="param-type">null</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">The damage to set</td>
+            
+                <td class="default">
+                
+                    "center"
+                
+                </td>
+            
+
+            <td class="description last">Text alignment to set</td>
         </tr>
 
     
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Alien.html">Alien</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="setLaserSpeed"><span class="type-signature"></span>setLaserSpeed<span class="signature">(x)</span><span class="type-signature"> &rarr; {<a href="Alien.html">Alien</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Set alien's laser speed
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
 
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>strictMode</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">boolean</span>
 
 
             
             </td>
 
             
-
-            
-
-            <td class="description last">The X position to set</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Alien.html">Alien</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="setRate"><span class="type-signature"></span>setRate<span class="signature">(rate)</span><span class="type-signature"> &rarr; {<a href="Alien.html">Alien</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Set alien's firing rate
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>rate</code></td>
-            
-
-            <td class="type">
-            
+                <td class="attributes">
                 
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The firing rate to set</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Alien.html">Alien</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="setRegen"><span class="type-signature"></span>setRegen<span class="signature">(regen)</span><span class="type-signature"> &rarr; {<a href="Alien.html">Alien</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Set alien's regeneration rate
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>regen</code></td>
-            
-
-            <td class="type">
-            
+                    &lt;optional><br>
                 
-<span class="param-type">number</span>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The regeneration rate to set</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Alien.html">Alien</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="setShield"><span class="type-signature"></span>setShield<span class="signature">(shield)</span><span class="type-signature"> &rarr; {<a href="Alien.html">Alien</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Set alien shield
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>shield</code></td>
-            
-
-            <td class="type">
-            
                 
-<span class="param-type">number</span>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The shield to set</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Alien.html">Alien</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="setVx"><span class="type-signature"></span>setVx<span class="signature">(vx)</span><span class="type-signature"> &rarr; {<a href="Entity.html">Entity</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Set entity velocity along the x Axis
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>vx</code></td>
-            
-
-            <td class="type">
-            
                 
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
+                </td>
             
 
             
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
 
-            <td class="description last">The velocity scalar value to set along the x Axis, can be negative</td>
+            <td class="description last">Whether strict mode will be enabled (invalid value will be silently replaced with default value) or throw an error instead</td>
         </tr>
 
     
@@ -2534,7 +1231,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#setVx">Entity#setVx</a>
+        <a href="UITextBasedElement.html#setAlign">UITextBasedElement#setAlign</a>
     </li></ul></dd>
     
 
@@ -2578,6 +1275,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    The UI Text Element in question
+</div>
+
 
 
 <dl class="param-type">
@@ -2586,7 +1287,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Entity.html">Entity</a></span>
+<span class="param-type"><a href="UITextElement.html">UITextElement</a></span>
 
 
     </dd>
@@ -2601,14 +1302,14 @@
 
     
 
-    <h4 class="name" id="setVy"><span class="type-signature"></span>setVy<span class="signature">(vy)</span><span class="type-signature"> &rarr; {<a href="Entity.html">Entity</a>}</span></h4>
+    <h4 class="name" id="setColor"><span class="type-signature"></span>setColor<span class="signature">(color, strictMode<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="UITextElement.html">UITextElement</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Set entity velocity along the y Axis
+    Sets text color of this UI Text Element
 </div>
 
 
@@ -2632,7 +1333,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -2644,12 +1349,15 @@
 
         <tr>
             
-                <td class="name"><code>vy</code></td>
+                <td class="name"><code>color</code></td>
             
 
             <td class="type">
             
                 
+<span class="param-type">string</span>
+|
+
 <span class="param-type">number</span>
 
 
@@ -2657,10 +1365,61 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">The velovity scalar value to set along the y Axis, can be negative</td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Color value to set, either an CSS color string or a hex color value (ARGB or RGB format)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>strictMode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Whether strict mode will be enabled (invalid value will be silently replaced with default value) or throw an error instead</td>
         </tr>
 
     
@@ -2683,7 +1442,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#setVy">Entity#setVy</a>
+        <a href="UITextBasedElement.html#setColor">UITextBasedElement#setColor</a>
     </li></ul></dd>
     
 
@@ -2727,6 +1486,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    The UI Text Element in question
+</div>
+
 
 
 <dl class="param-type">
@@ -2735,7 +1498,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Entity.html">Entity</a></span>
+<span class="param-type"><a href="UITextElement.html">UITextElement</a></span>
 
 
     </dd>
@@ -2750,14 +1513,14 @@
 
     
 
-    <h4 class="name" id="setX"><span class="type-signature"></span>setX<span class="signature">(x)</span><span class="type-signature"> &rarr; {<a href="Entity.html">Entity</a>}</span></h4>
+    <h4 class="name" id="setId"><span class="type-signature"></span>setId<span class="signature">(id, strictMode<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="UITextElement.html">UITextElement</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Set entity's X position
+    Sets ship id to get info of for this UI Player Element
 </div>
 
 
@@ -2781,7 +1544,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -2793,7 +1560,7 @@
 
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
@@ -2806,10 +1573,264 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">The X position to set</td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Id to set</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>strictMode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Whether strict mode will be enabled (invalid value will be silently replaced with default value) or throw an error instead</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The UI Text Element in question
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="UITextElement.html">UITextElement</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setPosition"><span class="type-signature"></span>setPosition<span class="signature">(position, strictMode<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="UIBaseElement.html">UIBaseElement</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets position of this UI Element
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>position</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Position array [x, y, width, height] to set</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>strictMode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Whether strict mode will be enabled (invalid value will be silently replaced with default value) or throw an error instead</td>
         </tr>
 
     
@@ -2832,7 +1853,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#setX">Entity#setX</a>
+        <a href="UITextBasedElement.html#setPosition">UITextBasedElement#setPosition</a>
     </li></ul></dd>
     
 
@@ -2876,164 +1897,19 @@
 <h5>Returns:</h5>
 
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Entity.html">Entity</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="setY"><span class="type-signature"></span>setY<span class="signature">(y)</span><span class="type-signature"> &rarr; {<a href="Entity.html">Entity</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Set entity's Y position
+<div class="param-desc">
+    The UI Element in question
 </div>
 
 
 
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The Y position to set</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Entity.html#setY">Entity#setY</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
 <dl class="param-type">
     <dt>
         Type
     </dt>
     <dd>
         
-<span class="param-type"><a href="Entity.html">Entity</a></span>
+<span class="param-type"><a href="UIBaseElement.html">UIBaseElement</a></span>
 
 
     </dd>
