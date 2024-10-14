@@ -48,9 +48,17 @@
   }
 
   document.querySelectorAll("a").forEach(function (e) {
-    let host = "";
-    try { host = new URL(e.href).hostname } catch (e) {}
-    if (host !== window.location.hostname) e.setAttribute("target", "_blank")
+    let pathname = "/", hostname = "";
+    try { ({ pathname, hostname } = new URL(e.href)) } catch (e) {}
+    if (hostname !== window.location.hostname || !pathname.startsWith("/starblast/starblast-modding/")) e.setAttribute("target", "_blank");
+    else if (!pathname.match(/^\/starblast\/starblast\-modding\/.+?\//)) e.href = "javascript:void(0);";
+    else {
+      let test = pathname.match(/^\/starblast\/starblast\-modding\/(.+?)\/CHANGELOG.md/);
+      if (test) {
+        e.href = `https://github.com/Bhpsngum/starblast-modding/blob/${test[1]}/CHANGELOG.md`;
+        e.target = "_blank";
+      }
+    }
   });
 
   document.querySelectorAll(".__sourceLinks a").forEach(function (e) {
