@@ -47,8 +47,10 @@
       }
   }
 
-  document.querySelectorAll(".readme a").forEach(function (e) {
-    e.setAttribute("target", "_blank")
+  document.querySelectorAll("a").forEach(function (e) {
+    let host = "";
+    try { host = new URL(e.href).hostname } catch (e) {}
+    if (host !== window.location.hostname) e.setAttribute("target", "_blank")
   });
 
   document.querySelectorAll(".__sourceLinks a").forEach(function (e) {
