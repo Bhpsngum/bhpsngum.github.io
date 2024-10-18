@@ -36,7 +36,7 @@
         BrowserClient
         </h2>
         
-            <div class="class-description">The Browser Client Instance for supporting mod codes running in Browser Modding. <br><b>Warning: </b><br><ul><li>This client doesn't support undocumented features like accessing through `game.modding`, etc. </li><li>Some of the latest features of the new ModdingClient (which may not work in browsers) will be available</li></div>
+            <div class="class-description">The Browser Client Instance for supporting mod codes running in Browser Modding. <br><b>Warning: </b><br><ul><li>This client doesn't support undocumented features like accessing through `game.modding`, etc. </li><li>Some of the latest features of the new ModdingClient (which may not work in browsers) will be available. </li><li>Using Promise-related functionalities (including async/await) in your mod code is highly DISCOURAGED since NodeJS VM doesn't work well with Promise, and will likely crash or hang the running mod.</li></div>
         
     
 </header>
@@ -246,80 +246,6 @@
             
 
             <td class="description last">loading the same code will trigger the execution or not. <br><b>Note:</b> This feature only works when you call `loadCodeFromString`, `loadCodeFromLocal` or `loadCodeFromExternal` methods, and not during the auto-update process</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>asynchronous</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    true
-                
-                </td>
-            
-
-            <td class="description last">allow asynchronous execution (using `async`/`await`) in mod code</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>async</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">alias of the property `options.asynchronous`</td>
         </tr>
 
     
@@ -1069,7 +995,7 @@
 
     
 
-    <h4 class="name" id="loadCodeFromExternal"><span class="type-signature">(async) </span>loadCodeFromExternal<span class="signature">(URL, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>, asynchronous)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+    <h4 class="name" id="loadCodeFromExternal"><span class="type-signature">(async) </span>loadCodeFromExternal<span class="signature">(URL, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
 
     
 
@@ -1226,41 +1152,6 @@
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>asynchronous</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Whether to apply asynchronous execution (for this loaded code only). Leave blank or set to `null` to use default configuration.</td>
-        </tr>
-
-    
     </tbody>
 </table>
 
@@ -1342,7 +1233,7 @@
 
     
 
-    <h4 class="name" id="loadCodeFromLocal"><span class="type-signature">(async) </span>loadCodeFromLocal<span class="signature">(path, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>, asynchronous)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+    <h4 class="name" id="loadCodeFromLocal"><span class="type-signature">(async) </span>loadCodeFromLocal<span class="signature">(path, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
 
     
 
@@ -1499,41 +1390,6 @@
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>asynchronous</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Whether to apply asynchronous execution (for this loaded code only). Leave blank or set to `null` to use default configuration.</td>
-        </tr>
-
-    
     </tbody>
 </table>
 
@@ -1615,7 +1471,7 @@
 
     
 
-    <h4 class="name" id="loadCodeFromString"><span class="type-signature">(async) </span>loadCodeFromString<span class="signature">(text, asynchronous)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+    <h4 class="name" id="loadCodeFromString"><span class="type-signature">(async) </span>loadCodeFromString<span class="signature">(text)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
 
     
 
@@ -1675,29 +1531,6 @@
             
 
             <td class="description last">The code string to execute</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>asynchronous</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Whether to apply asynchronous execution (for this loaded code only). Leave blank or set to `null` to use default configuration.</td>
         </tr>
 
     
