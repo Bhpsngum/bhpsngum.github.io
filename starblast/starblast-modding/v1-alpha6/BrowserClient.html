@@ -605,7 +605,7 @@
 
     
 
-    <h4 class="name" id="execute"><span class="type-signature">(async) </span>execute<span class="signature">(command, allowEval<span class="signature-attributes">opt</span>, captureOutput<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="execute"><span class="type-signature">(async) </span>execute<span class="signature">(command, options)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
@@ -636,11 +636,7 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -665,24 +661,58 @@
             </td>
 
             
-                <td class="attributes">
-                
 
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
             
 
             <td class="description last">Command to execute</td>
         </tr>
 
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Options for this execution
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
@@ -759,6 +789,54 @@
             
 
             <td class="description last">Whether to capture execution output or pipe it to error/log events instead</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>executionTimeout</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    Infinity
+                
+                </td>
+            
+
+            <td class="description last">Timeout for this execution</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1040,7 +1118,7 @@
 
     
 
-    <h4 class="name" id="loadCodeFromExternal"><span class="type-signature">(async) </span>loadCodeFromExternal<span class="signature">(URL, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+    <h4 class="name" id="loadCodeFromExternal"><span class="type-signature">(async) </span>loadCodeFromExternal<span class="signature">(URL, options)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
 
     
 
@@ -1071,11 +1149,7 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1100,19 +1174,7 @@
             </td>
 
             
-                <td class="attributes">
-                
 
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
             
 
             <td class="description last">The URL to the file</td>
@@ -1122,182 +1184,25 @@
 
         <tr>
             
-                <td class="name"><code>watchChanges</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">Object</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
-                <td class="default">
+
+            <td class="description last">execution options
+                <h6>Properties</h6>
                 
-                    false
-                
-                </td>
-            
-
-            <td class="description last">Whether to watch for changes on the URL or not</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>interval</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    5000
-                
-                </td>
-            
-
-            <td class="description last">The interval between watchs (if `watchChanges` is set to `true`)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="BrowserClient.html">BrowserClient</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="loadCodeFromLocal"><span class="type-signature">(async) </span>loadCodeFromLocal<span class="signature">(path, watchChanges<span class="signature-attributes">opt</span>, interval<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Load the mod code from a local file (File on your device)
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
 
 <table class="params">
     <thead>
@@ -1321,41 +1226,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>path</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">The path to the local file</td>
-        </tr>
-
     
 
         <tr>
@@ -1399,7 +1269,7 @@
 
         <tr>
             
-                <td class="name"><code>interval</code></td>
+                <td class="name"><code>watchInterval</code></td>
             
 
             <td class="type">
@@ -1432,6 +1302,54 @@
             
 
             <td class="description last">The interval between watches (if `watchChanges` is set to `true`)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>executionTimeout</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    Infinity
+                
+                </td>
+            
+
+            <td class="description last">The timeout for executing this code</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1516,7 +1434,323 @@
 
     
 
-    <h4 class="name" id="loadCodeFromString"><span class="type-signature">(async) </span>loadCodeFromString<span class="signature">(text)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+    <h4 class="name" id="loadCodeFromLocal"><span class="type-signature">(async) </span>loadCodeFromLocal<span class="signature">(path, options)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Load the mod code from a local file (File on your device)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The path to the local file</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">execution options
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>watchChanges</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Whether to watch for changes on the file or not</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>watchInterval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    5000
+                
+                </td>
+            
+
+            <td class="description last">The interval between watches (if `watchChanges` is set to `true`)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>executionTimeout</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    Infinity
+                
+                </td>
+            
+
+            <td class="description last">The timeout for executing this code</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="BrowserClient.html">BrowserClient</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="loadCodeFromString"><span class="type-signature">(async) </span>loadCodeFromString<span class="signature">(text, options)</span><span class="type-signature"> &rarr; {<a href="BrowserClient.html">BrowserClient</a>}</span></h4>
 
     
 
@@ -1576,6 +1810,100 @@
             
 
             <td class="description last">The code string to execute</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">execution options
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>executionTimeout</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    Infinity
+                
+                </td>
+            
+
+            <td class="description last">The timeout for executing this code</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
