@@ -188,6 +188,35 @@ game.on('stop', function() {
 })
 </code></pre>
 <h3>BrowserClient usage</h3>
+<h4>From command line</h4>
+<pre class="prettyprint source lang-bash"><code>npx starblast-modding [options] [mod_code]
+</code></pre>
+<p>To view list of options use <code>npx starblast-modding --help</code></p>
+<p>For example:</p>
+<pre class="prettyprint source lang-bash"><code>npx starblast-modding -r Asia -k 12345-67890 'echo(&quot;Hello World!&quot;)'
+</code></pre>
+<p>You can also load from configuration file:</p>
+<pre class="prettyprint source lang-bash"><code>npx starblast-modding -c ./config.json'
+</code></pre>
+<p>Example configuration JSON file:</p>
+<pre class="prettyprint source lang-json"><code>{
+	&quot;key&quot;: &quot;12345-67890&quot;,
+	&quot;region&quot;: &quot;Asia&quot;,
+
+	&quot;sourcemode&quot;: &quot;local&quot;,
+	&quot;sourcepath&quot;: &quot;./modcode.js&quot;,
+
+	&quot;watch&quot;: true,
+	&quot;interval&quot;: 5000,
+	&quot;timeout&quot;: 5000,
+
+	&quot;compression&quot;: false,
+	&quot;strict&quot;: false,
+	&quot;silent&quot;: false,
+	&quot;extended&quot;: false
+}
+</code></pre>
+<h4>Using NodeJS</h4>
 <p>Here is an example for running SDC code pulled from Neuronality's site:</p>
 <pre class="prettyprint source lang-js"><code>const StarblastModding = require(&quot;starblast-modding&quot;);
 
