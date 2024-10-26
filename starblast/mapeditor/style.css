@@ -1,198 +1,247 @@
 :root {
-  --background-color: rgb(24,26,27);
-  --border-color: rgb(102,102,102);
-  --color: #000;
+    --background-color: rgb(24, 26, 27);
+    --border-color: rgb(102, 102, 102);
+    --color: #000;
 }
 
 * {
-  font-size: 1vmax;
-  border-color: var(--border-color);
-}
-*:not([class*=ace]) {
-  font-family: Play, Verdana;
-}
-body {
-  user-select:none;
-  background-size: 100% 100%;
-  color: var(--color);
-  background-color: var(--background-color);
+    scrollbar-width: thin;
+    scrollbar-color: #575757 var(--background-color);
+    font-size: 1vmax;
+    border-color: var(--border-color);
 }
 
-select > option {
-  background-color: var(--background-color);
+*:not([class*=ace]) {
+    font-family: Play, Verdana;
+}
+
+body {
+    -ms-overflow-style: scrollbar;
+    user-select: none;
+    background-size: 100% 100%;
+    color: var(--color);
+    background-color: var(--background-color);
+}
+
+select>option {
+    background-color: var(--background-color);
 }
 
 #menu {
-  width:100%;
-  background-color:inherit;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 0.5vmax;
-}
-button, input, textarea {
-  border-width: 0.1vmax;
-  padding: 0.1vmax;
+    width: 100%;
+    background-color: inherit;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0.5vmax;
 }
 
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+button,
+input,
+textarea {
+    border-width: 0.1vmax;
+    padding: 0.1vmax;
 }
 
-button,input {
-  color: inherit;
-  margin: 0.3vmax;
-  border-color: #575757;
-  background-color:inherit;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+button,
+input {
+    color: inherit;
+    margin: 0.3vmax;
+    border-color: #575757;
+    background-color: inherit;
 }
 
 button {
-  width: 3vmax;
-  height: 3vmax;
+    width: 3vmax;
+    height: 3vmax;
 }
 
-button, input[type=color] {
-  cursor: pointer;
+button,
+input[type=color] {
+    cursor: pointer;
 }
 
 table {
-  border-spacing: 0.2vmax;
+    border-spacing: 0.2vmax;
 }
+
 input {
-  width:6.5vmax;
+    width: 6.5vmax;
 }
+
 #footer {
-  background-color: inherit;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+    background-color: inherit;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
+
 #XY {
-  float: left;
+    float: left;
 }
+
 #info {
-  float: right;
-  text-align: right;
+    float: right;
+    text-align: right;
 }
-#footer, #footer>* {
-  padding: 0.2vmax;
-  margin: 0;
+
+#footer,
+#footer>* {
+    padding: 0.2vmax;
+    margin: 0;
 }
-input[type=file], input[type=checkbox] {
-  display: none;
+
+input[type=file],
+input[type=checkbox] {
+    display: none;
 }
 
 input[type=number] {
-  width: 4vmax;
-  appearance: textfield;
-  -moz-appearance: textfield;
+    width: 4vmax;
+    appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 input[type=color] {
-  border: none;
-  padding: 0;
+    border: none;
+    padding: 0;
 }
 
 #mapBox {
-  overflow:hidden;
-  margin-top: 0.5em;
+    overflow: hidden;
+    margin-top: 0.5em;
 }
 
 #map {
-  overflow:hidden;
+    overflow: hidden;
 }
 
 td {
-  height:3vmax;
-  width:3vmax;
-  text-align:center;
-  border-width: 0.1vmax;
-  border-style: solid;
-  padding: 0.1vmax;
-  cursor: pointer;
+    height: 3vmax;
+    width: 3vmax;
+    text-align: center;
+    border-width: 0.1vmax;
+    border-style: solid;
+    padding: 0.1vmax;
+    cursor: pointer;
 }
-button:disabled, textarea:read-only, input:not(input[type=color]):read-only {
-  cursor: not-allowed !important;
+
+button:disabled,
+textarea:read-only,
+input:not(input[type=color]):read-only {
+    cursor: not-allowed !important;
 }
 
 #modules {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
-#modules td, #short-main td {
-  padding: 0.5vmax;
-  height: 0.15vmax;
+#modules td,
+#short-main td {
+    padding: 0.5vmax;
+    height: 0.15vmax;
 }
 
 #modules td[choosen=true] {
-  border-width: 0.2vmax;
-  border-bottom-color: var(--background-color);
+    border-width: 0.2vmax;
+    border-bottom-color: var(--background-color);
 }
 
 .container td[choosen=true] {
-  border-width: 0.3vmax;
+    border-width: 0.3vmax;
 }
 
 .container {
-  margin-top: -0.2vmax;
-  border-width: 0.1vmax;
-  border-style: solid;
+    margin-top: -0.2vmax;
+    border-width: 0.1vmax;
+    border-style: solid;
 }
 
 .container[shown=false] {
-  display: none;
+    display: none;
 }
 
-table:not(#modules), #MirrorOptions, #RandomOptions, #bgI-menu, #bgI-MapOnlyOptions {
-  display: inline-block;
+table:not(#modules),
+#MirrorOptions,
+#RandomOptions,
+#bgI-menu,
+#bgI-MapOnlyOptions {
+    display: inline-block;
 }
 
 #mapBgI {
-  z-index: -1;
-  position: absolute;
+    z-index: -1;
+    position: absolute;
 }
 
 #BrushCode {
-  position: fixed;
-  left:0;
-  top:0;
-  width:100%;
-  height: 100%;
-  z-index: 2;
-  padding: 1%;
-  overflow: scroll;
-  background-color: var(--background-color);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    padding: 1%;
+    overflow: scroll;
+    background-color: var(--background-color);
 }
 
-textarea,#code {
-  background-color: inherit;
-  color: inherit;
-  resize: vertical;
-  width:98%;
-  height:35%;
+textarea,
+#code {
+    background-color: inherit;
+    color: inherit;
+    resize: vertical;
+    width: 98%;
+    height: 35%;
 }
+
 .fas {
-  font-size: 1.5vmax;
+    font-size: 1.5vmax;
 }
+
 .as {
-  width: 2.5vmax;
+    width: 2.5vmax;
 }
+
 select {
-  background-color: inherit;
-  color: inherit;
-  border: inherit;
-  padding: 0.5vmax;
-  margin: 0;
-  height: 3vmax;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+    background-color: inherit;
+    color: inherit;
+    border: inherit;
+    padding: 0.5vmax;
+    margin: 0;
+    height: 3vmax;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 fieldset {
-  width: max-content;
-  display: inline;
-  padding: 0;
+    width: max-content;
+    display: inline;
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #575757;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #33A1DE;
 }
