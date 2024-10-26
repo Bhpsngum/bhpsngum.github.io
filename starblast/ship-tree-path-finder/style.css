@@ -1,6 +1,7 @@
 body {
     font-family: Verdana;
     background-color: #1b2a32;
+    -ms-overflow-style: scrollbar;
     color: #e6e6e6;
 }
 
@@ -144,4 +145,28 @@ button:focus {
 #tree-select option {
     background-color: #25333b;
     color: #e6e6e6;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #25333b;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e6e6e6;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2c3e50;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #e6e6e6 #25333b;
 }
