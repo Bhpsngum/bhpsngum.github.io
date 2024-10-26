@@ -1,74 +1,100 @@
 * {
-  color: #d1d3cf;
-  font-family: Verdana;
+    color: #d1d3cf;
+    font-family: Verdana;
+    scrollbar-width: thin;
+    scrollbar-color: #d1d3cf #09161c;
 }
 
 body {
-  background-color: #0b1b22;
+    background-color: #0b1b22;
+    -ms-overflow-style: scrollbar;
 }
 
 textarea {
-  font-family: Consolas, monospace;
-  background-color: #09161c;
-  color: #d1d3cf;
-  position:fixed;
-  bottom: 1%;
-  top: 7%;
-  height: 88%;
-  width: 48%;
-  resize: none;
+    font-family: Consolas, monospace;
+    background-color: #09161c;
+    color: #d1d3cf;
+    position: fixed;
+    bottom: 1%;
+    top: 7%;
+    height: 88%;
+    width: 48%;
+    resize: none;
 }
+
 button {
-  background: linear-gradient(135deg,#09161c 0,#0B3649 100%);
-  position: fixed;
-  height: 5%;
-  cursor: pointer;
-  margin: 1pt;
+    background: linear-gradient(135deg, #09161c 0, #0B3649 100%);
+    position: fixed;
+    height: 5%;
+    cursor: pointer;
+    margin: 1pt;
 }
 
 #buttons {
-  right: 50%;
-  position: fixed;
-  height: 5%;
-  width: 50%;
+    right: 50%;
+    position: fixed;
+    height: 5%;
+    width: 50%;
 }
+
 #types {
-  margin-right: 1%;
-  background: hsl(200,60%,15%);
-  border: 1px solid hsl(200,60%,10%);
-  vertical-align: middle;
-  box-sizing: border-box;
+    margin-right: 1%;
+    background: hsl(200, 60%, 15%);
+    border: 1px solid hsl(200, 60%, 10%);
+    vertical-align: middle;
+    box-sizing: border-box;
 }
+
 #buttons>* {
-  float:right;
-  position: relative;
-  height: 100%;
+    float: right;
+    position: relative;
+    height: 100%;
 }
+
 #copy {
-  right: 1%;
+    right: 1%;
 }
+
 #input {
- left: 1%;
+    left: 1%;
 }
 
 #output {
- left: 51%
+    left: 51%
 }
 
 #source {
- height: 4%;
- position: fixed;
- bottom: -3%;
- right: 1%;
+    height: 4%;
+    position: fixed;
+    bottom: -3%;
+    right: 1%;
 }
 
 #title {
-  position: fixed;
-  top: 0;
+    position: fixed;
+    top: 0;
 }
 
 #extension {
-  position: fixed;
-  bottom: -2%;
-  left: 1%;
+    position: fixed;
+    bottom: -2%;
+    left: 1%;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #09161c;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d1d3cf;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #33A1DE;
 }
