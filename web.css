@@ -1,23 +1,93 @@
 body {
-  width: 100%;
-  height: 100%;
-  background-image: url("Starblastio_background18.jpg");
+    width: 100%;
+    height: 100%;
+    background-image: url(Starblastio_background18.jpg);
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    color: rgb(240, 240, 240);
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
+
 div {
-  background-color:#09161c;
-  color:rgb(240,240,240);
+    background-color: #09161ce1;
+    color: rgb(240, 240, 240);
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
-textarea {
-  width:300px;
-  height:100px;
-  background-color:rgb(15,15,15);
-  color: rgb(240,240,240);
-  font-size: 12pt;
+
+h2 {
+    color: cyan;
+    margin-bottom: 15px;
 }
+
+ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
 a {
-  color: cyan;
-  cursor: pointer;
+    color: cyan;
+    text-decoration: none;
+    transition: color 0.2s;
 }
+
+a:hover {
+    color: #00bcd4;
+}
+
 a:active {
-  color:blue;
+    color: blue;
+}
+
+textarea {
+    width: 100%;
+    max-width: 500px;
+    height: 100px;
+    background-color: rgb(15, 15, 15);
+    color: rgb(240, 240, 240);
+    font-size: 12pt;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 8px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #09161c;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #007a8a;
+    border-radius: 10px;
+    background-clip: content-box;
+    transition: all 1s;
+    border: 1px solid #09161c;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #00bcd4;
 }
