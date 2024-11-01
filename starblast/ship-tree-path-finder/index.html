@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Starblast Ship Tree Path Finder</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,19 +25,23 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZQRTRBNZS"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-      gtag('config', 'G-9ZQRTRBNZS');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-9ZQRTRBNZS');
     </script>
-  </head>
-  <body>
+</head>
+
+<body>
     <h1 id="title">Ship Tree Path Finder</h1>
     <p id="pds">Want a live test? Try<a href="https://github.com/Bhpsngum/starblast-snippets/blob/master/mods/pds.js" target='_blank'>PDS</a>(ECP required)</p>
     <div>
-      <b>Ship tree</b>
-      <select id="tree-select">
+        <b>Ship tree</b>
+        <select id="tree-select">
         <option selected disabled>Choose a ship tree</option>
         <option value="vanilla">Vanilla</option>
         <option value="useries">U-Series</option>
@@ -50,14 +55,15 @@
       </select>
     </div>
     <div>
-      <b>Ship to lookup</b>
-      <div id="ship-choose">
-        <input dir="ltr" name="Ship Input" placeholder="Ship name or code" type="text" id="ship-input">
-        <div id="ship-select" style="display:none"></div>
-      </div>
+        <b>Ship to lookup</b>
+        <div id="ship-choose">
+            <input dir="ltr" name="Ship Input" placeholder="Ship name or code" type="text" id="ship-input">
+            <div id="ship-select"></div>
+        </div>
     </div>
     <button id="lookup" style="cursor:pointer">Lookup</button>
     <div id="results"></div>
     <script src="script.js" type="text/javascript"></script>
-  </body>
+</body>
+
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html dir="ltr">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Starblast Mods Archive</title>
@@ -24,57 +25,68 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZQRTRBNZS"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-      gtag('config', 'G-9ZQRTRBNZS');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-9ZQRTRBNZS');
     </script>
-  </head>
-  <body oncontextmenu="return false;">
+</head>
+
+<body oncontextmenu="return false;">
     <div>
-      <h1 id="home" title="Back to the main archive page" style="margin:0px;cursor:pointer">Starblast Mods Archive</h1>
-      <p id="lastModified"></p>
+        <h1 id="home" title="Back to the main archive page" style="margin:0px;cursor:pointer">Starblast Mods Archive</h1>
+        <p id="lastModified"></p>
     </div>
     <a href="stats/" style="display: block;font-size: 10pt;margin: 8pt;">View Stats of Official Mods</a>
-    <div style = "display: inline-block">
-      <h3>Search tools</h3>
-      <div style="float:left">
-        <h4>By name:</h4>
-        <input id="name" type="text" title="Search by name" placeholder="Search here...">
-      </div>
-      <div style="float:left">
-        <h4>By author:</h4>
-        <input id="author" type="text" title="Search by author" placeholder="Search here...">
-      </div>
-      <div style="display: inline-block">
-        <button title="Left-click or Ctrl + Enter to search" id="search" style="width:100pt;height:40pt">
+    <div style="display: inline-block">
+        <h3>Search tools</h3>
+        <div style="float:left">
+            <h4>By name:</h4>
+            <input id="name" type="text" title="Search by name" placeholder="Search here...">
+        </div>
+        <div style="float:left">
+            <h4>By author:</h4>
+            <input id="author" type="text" title="Search by author" placeholder="Search here...">
+        </div>
+        <div style="display: inline-block;margin-top: 35px;">
+            <button title="Left-click or Ctrl + Enter to search" id="search" style="display: inline-flex;width: 100pt;height: 40pt;align-items: center;justify-content: center;">
           <h3>Search</h3>
           <i class="fa fa-fw fa-search"></i>
         </button>
-        <p style="font-size: 7pt">or press Ctrl + Enter to perform</p>
-      </div>
+            <p style="font-size: 7pt">or press Ctrl + Enter to perform</p>
+        </div>
     </div>
     <div>
-      <table>
-        <tr><td>
-          <p style="float:left" id="status"></p>
-          <button style="font-size:8pt;margin:0px" id="refresh">
+        <table>
+            <tr>
+                <td>
+                    <p style="float:left" id="status"></p>
+                    <button style="font-size:8pt;margin:0px" id="refresh">
             <i style="float:left" class="fa fa-fw fa-refresh" id="refresh-ico"></i>
             <p style="float:left;font-size:8pt" id="refresh-text">Refresh</p>
           </button>
-        </td></tr>
-        <tr><td>
-          <h3 id="results" style="float:left"></h3>
-          <div id="mainp"></div>
-        </td></tr>
-        <tr><td>
-          <p>Can't find your mods or wrong mods' info? <a href="/redirect?id=ModsArchiveSuggestion" target="_blank">Add mods or mods' info here</a></p>
-          <p>Or you can check info directly from discord <a href="https://discord.com/oauth2/authorize?client_id=1173694921719414845" target="_blank">using our bot</a>.</p>
-        </td></tr>
-      </table>
-      <div id="modsinfo"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3 id="results" style="float:left"></h3>
+                    <div id="mainp"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Can't find your mods or wrong mods' info? <a href="/redirect?id=ModsArchiveSuggestion" target="_blank">Add mods or mods' info here</a></p>
+                    <p>Or you can check info directly from discord <a href="https://discord.com/oauth2/authorize?client_id=1173694921719414845" target="_blank">using our bot</a>.</p>
+                </td>
+            </tr>
+        </table>
+        <div id="modsinfo"></div>
     </div>
     <script type="text/javascript" src="script.js"></script>
-  </body>
+</body>
+
 </html>

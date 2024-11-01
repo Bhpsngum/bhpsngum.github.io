@@ -1,47 +1,70 @@
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(9, 22, 28, 0.7);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 255, 0.5);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(28, 145, 145, 0.5);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(47, 79, 79, 0.5) rgba(9, 22, 28, 0.7);
+}
+
 body {
-  background-color: #09161c;
-  color: rgb(240,240,240);
-  font-family: Play, Verdana;
-  background-image: url(/Starblastio_background18.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  margin: 0;
+    background-color: #09161c;
+    color: rgb(240, 240, 240);
+    font-family: Play, Verdana;
+    background-image: url(/Starblastio_background18.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    margin: 0;
 }
 
 #title {
-  text-align: center;
-  border-bottom: 1px solid;
-  background-color: rgba(9,22,28,0.7);
-  margin: 0;
-  padding-top: 1%;
-  padding-bottom: 1%;
-  margin-bottom: 1%;
+    text-align: center;
+    border-bottom: 1px solid;
+    background-color: rgba(9, 22, 28, 0.7);
+    margin: 0;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    margin-bottom: 1%;
 }
 
 .toolBox {
-  display: inline-block;
-  height: auto;
-  background-color: rgb(47,79,79,0.5);
-  font-size: 100%;
-  backdrop-filter: blur(1px);
-  cursor: pointer;
+    display: inline-block;
+    height: auto;
+    background-color: rgb(47, 79, 79, 0.5);
+    font-size: 100%;
+    backdrop-filter: blur(1px);
+    cursor: pointer;
 }
 
 .toolIcon {
-  width: 10%;
-  position: absolute;
-  background-color: inherit;
+    width: 10%;
+    position: absolute;
+    background-color: inherit;
 }
 
 img {
-  width: 100%;
-  -webkit-user-drag: none;
-  user-select: none;
+    width: 100%;
+    -webkit-user-drag: none;
+    user-select: none;
 }
 
-a, a:active {
-  color: cyan;
-  font-size: 90%;
+a,
+a:active {
+    color: cyan;
+    font-size: 90%;
 }
