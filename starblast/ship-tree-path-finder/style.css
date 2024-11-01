@@ -170,3 +170,48 @@ button:focus {
     scrollbar-width: thin;
     scrollbar-color: #e6e6e6 #25333b;
 }
+
+#lookup {
+  position: relative;
+  left: 5px;
+}
+
+button {
+  background-color: #25333b;
+  color: #e6e6e6;
+  border: 2px solid #ddd;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 90%;
+  transition: background-color 0.3s, border-color 0.3s;
+  margin: 0;
+  border-radius: 0;
+}
+
+button:hover {
+  background-color: #2c3e50;
+  border-color: #fff;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+#tree-select {
+  background-color: #25333b;
+  color: #e6e6e6;
+  border: 2px solid #ddd;
+  padding: 10px;
+  font-size: 90%;
+  cursor: pointer;
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  border-radius: 0;
+}
+
+#tree-select option {
+  background-color: #25333b;
+  color: #e6e6e6;
+}
