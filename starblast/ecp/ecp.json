@@ -37,7 +37,7 @@
     {"name": "Seasonal - Winter 2022", "id": "winter_2022", "active": false, "url": "winter_2022.png"},
     {"name": "Seasonal - Summer 2023", "id": "summer_2023", "active": false, "url": "summer_2023.png"},
     {"name": "Seasonal - Fall 2023", "id": "fall_2023", "active": false, "url": "fall_2023.png"},
-    {"name": "Seasonal - Summer 2024", "id": "summer_2024", "active": false, "url": "summer_2024.png"}
+    {"name": "Seasonal - Summer 2024", "id": "summer_2024", "active": false, "url": "summer_2024.png"},
     {"name": "Seasonal - Fall 2024", "id": "fall_2024", "active": false, "url": "fall_2024.png"}
   ],
   "sucp": [
