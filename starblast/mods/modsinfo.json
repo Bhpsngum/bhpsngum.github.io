@@ -360,6 +360,26 @@
     "event": 0
   },
   {
+    "name": "Flintlock Dueling",
+    "abbreviation": "",
+    "version": "1.3",
+    "description": "Current fastest performing and most advanced dueling mod",
+    "modes": "",
+    "img": "img/flintlock.png",
+    "link": {
+      "url": "https://github.com/nanoraySB/flintlock-light",
+      "state": 2
+    },
+    "author": [
+      {
+        "name": ["Nanoray"],
+        "link": "https://github.com/nanoraySB"
+      }
+    ],
+    "official": 0,
+    "event": 0
+  },
+  {
     "name": "Private Dueling",
     "abbreviation": "PDS",
     "version": "",
