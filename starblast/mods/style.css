@@ -11,6 +11,11 @@ body {
     scrollbar-color: #33A1DE rgb(47, 79, 79);
 }
 
+td {
+    display: flex;
+    align-items: center;
+}
+
 tr {
     text-align: left;
 }
