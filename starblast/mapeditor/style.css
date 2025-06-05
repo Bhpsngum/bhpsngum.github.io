@@ -1,10 +1,18 @@
 :root {
-    --background-color: rgb(24, 26, 27);
-    --border-color: rgb(102, 102, 102);
-    --color: #000;
+    --background-color: #1a1c1b; 
+    --secondary-background: #282a2e;
+    --text-color: #ffffff;
+    --accent-color: #33A1DE;
+    --border-color: #44475a; 
+    --grid-color: rgba(255, 255, 255, 0.1);
+    --input-bg: #21222c;
+    --button-bg: #282a36;
 }
 
 * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     scrollbar-width: thin;
     scrollbar-color: #575757 var(--background-color);
     font-size: 1vmax;
@@ -12,35 +20,40 @@
 }
 
 *:not([class*=ace]) {
-    font-family: Play, Verdana;
+    font-family: 'Play', Verdana, sans-serif;
 }
 
 body {
     -ms-overflow-style: scrollbar;
     user-select: none;
     background-size: 100% 100%;
-    color: var(--color);
+    color: var(--text-color);
     background-color: var(--background-color);
 }
 
-select>option {
+select > option {
     background-color: var(--background-color);
 }
 
 #menu {
     width: 100%;
-    background-color: inherit;
+    background-color: var(--secondary-background);
     position: fixed;
     top: 0;
     left: 0;
     padding: 0.5vmax;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 button,
 input,
 textarea {
     border-width: 0.1vmax;
-    padding: 0.1vmax;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 0.2vmax;
+    transition: all 0.3s ease;
 }
 
 input::-webkit-outer-spin-button,
@@ -50,15 +63,26 @@ input::-webkit-inner-spin-button {
 
 button,
 input {
-    color: inherit;
+    color: var(--text-color);
     margin: 0.3vmax;
-    border-color: #575757;
-    background-color: inherit;
+    border-color: var(--border-color);
+    background-color: var(--button-bg);
 }
 
 button {
-    width: 3vmax;
-    height: 3vmax;
+    width: 3.5vmax;
+    height: 3.5vmax;
+}
+
+button:hover {
+    background-color: var(--accent-color);
+}
+
+button:disabled,
+textarea:read-only,
+input:not(input[type=color]):read-only {
+    cursor: not-allowed !important;
+    opacity: 0.6;
 }
 
 button,
@@ -72,14 +96,33 @@ table {
 
 input {
     width: 6.5vmax;
+    padding: 0.2vmax;
+    border-radius: 5px;
+}
+
+input[type=number] {
+    width: 3.5vmax;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+input[type=color] {
+    border: none;
+    padding: 0;
+    border-radius: 5px;
 }
 
 #footer {
-    background-color: inherit;
+    background-color: var(--secondary-background);
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+    padding: 0.2vmax;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
 }
 
 #XY {
@@ -102,17 +145,6 @@ input[type=checkbox] {
     display: none;
 }
 
-input[type=number] {
-    width: 4vmax;
-    appearance: textfield;
-    -moz-appearance: textfield;
-}
-
-input[type=color] {
-    border: none;
-    padding: 0;
-}
-
 #mapBox {
     overflow: hidden;
     margin-top: 0.5em;
@@ -123,19 +155,59 @@ input[type=color] {
 }
 
 td {
-    height: 3vmax;
-    width: 3vmax;
+    height: 3.5vmax;
+    width: 3.5vmax;
     text-align: center;
     border-width: 0.1vmax;
     border-style: solid;
+    border-color: var(--grid-color);
     padding: 0.1vmax;
     cursor: pointer;
+    border-radius: 3px;
 }
 
-button:disabled,
-textarea:read-only,
-input:not(input[type=color]):read-only {
-    cursor: not-allowed !important;
+.container td {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#MirrorOptions td {
+    height: 3.5vmax;
+    width: 3.5vmax;
+    flex-direction: column;
+}
+
+#MirrorOptions td i:first-child{
+    margin: 0.5vmax 0.5vmax 0 0.5vmax;
+}
+
+#MirrorOptions td i:last-child{
+      margin: 0 0.5vmax 0.5vmax 0.5vmax;
+}
+
+#MirrorOptions #almr i {
+  margin: 0;
+}
+
+#rAllowShift {
+    flex-direction: column;
+    position: relative;
+    top: 1.5vmax;
+}
+
+#rAllowShift i:first-child{
+    margin: 0.5vmax 0.5vmax 0 0.5vmax;
+}
+
+#rAllowShift i:last-child{
+      margin: 0 0.5vmax 0.5vmax 0.5vmax;
+}
+
+#brushContainer td {
+    flex-direction: column;
+    position: relative;
+    top: 1.5vmax;
 }
 
 #modules {
@@ -147,21 +219,27 @@ input:not(input[type=color]):read-only {
 #short-main td {
     padding: 0.5vmax;
     height: 0.15vmax;
+    border-radius: 5px;
 }
 
 #modules td[choosen=true] {
     border-width: 0.2vmax;
-    border-bottom-color: var(--background-color);
+    border-bottom-color: var(--accent-color);
+    background-color: var(--accent-color);
+    color: var(--background-color);
 }
 
 .container td[choosen=true] {
     border-width: 0.3vmax;
+    border-color: var(--accent-color);
 }
 
 .container {
     margin-top: -0.2vmax;
     border-width: 0.1vmax;
     border-style: solid;
+    border-color: var(--border-color);
+    border-radius: 5px;
 }
 
 .container[shown=false] {
@@ -190,30 +268,41 @@ table:not(#modules),
     z-index: 2;
     padding: 1%;
     overflow: scroll;
-    background-color: var(--background-color);
+    background-color: var(--secondary-background);
+    border-radius: 5px;
 }
 
 textarea,
 #code {
-    background-color: inherit;
-    color: inherit;
+    background-color: var(--input-bg);
+    color: var(--text-color);
     resize: vertical;
     width: 98%;
     height: 35%;
+    border-radius: 5px;
+    padding: 0.5vmax;
 }
 
 .fas {
     font-size: 1.5vmax;
+    color: var(--text-color);
+}
+
+.fas:hover {
+    color: var(--accent-color);
 }
 
 .as {
-    width: 2.5vmax;
+    width: 3vmax;
+    height: 3vmax;
+    border-radius: 50%;
 }
 
 select {
-    background-color: inherit;
-    color: inherit;
-    border: inherit;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
     padding: 0.5vmax;
     margin: 0;
     height: 3vmax;
@@ -225,7 +314,10 @@ select {
 fieldset {
     width: max-content;
     display: inline;
-    padding: 0;
+    padding: 0.5vmax;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    margin: 0.5vmax;
 }
 
 ::-webkit-scrollbar {
@@ -243,5 +335,5 @@ fieldset {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #33A1DE;
+    background: var(--accent-color);
 }
