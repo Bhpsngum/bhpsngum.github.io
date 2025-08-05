@@ -1,3 +1,10 @@
+3.4.0/Aug 4, 2025
+Updated by JavRedstone
+* Complete visual rework with modern sidebar design
+* Added new diagonal mirror options (d1 and d2)
+* Enhanced UI/UX with improved styling and layout
+* Modernized interface elements and color scheme
+
 3.3.0.4/Sep 11, 2024
 * Preserve other input parameters in URL instead of clearing them all (after processing maps)
 
