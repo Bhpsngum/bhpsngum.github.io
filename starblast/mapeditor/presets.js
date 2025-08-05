@@ -22,17 +22,24 @@ else (function(){
   console.log('%cMap Editor, made by Bhpsngum,\n\nfeel free to distribute the code and make sure to credit my name if you intend to do that\n\nGitHub: https://github.com/Bhpsngum', 'font-weight: bold; font-size: 15px;color: Black;');
   $("input, textarea").attr("spellcheck", false);
   $.ajax("/starblast/mapeditor/changelog.txt").then(function(data){
-    data.replace(/^[0-9\.]+/, function(version) {
-      $("#modules tr").append('<td id="version" style="border:none;width:auto">Version ' + version + '</td>');
-      $("#version").on('click',function(){ $('#changelog').click() });
+    let versionMatch = data.match(/([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/);
+    if (versionMatch) {
+      let version = versionMatch[1];
+      $("#version-info").text('Version ' + version);
+      $("#version-info").on('click',function(){ $('#changelog').click() });
+      $("#version-info").css('cursor', 'pointer');
       if (localData.getItem("lastVer") != version)
       {
         let info = data.split("\n\n")[0].split("\n");
         localData.setItem("lastVer",version);
         confirm("What's new ("+version+")\n"+info.slice(1,info.length).join("\n").replace(/\\n/g,"")+"\n\nWould you like to see full updates?") && $('#changelog').click();
       }
-    });
-  }).fail(e => {});
+    } else {
+      $("#version-info").text('Version unavailable');
+    }
+  }).fail(e => {
+    $("#version-info").text('Version unavailable');
+  });
   try {
     addToolPage(null,"1vw","1vh",null,null,null,"td",$("#modules tr")[0],{
       position: "inherit",
