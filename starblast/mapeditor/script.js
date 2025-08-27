@@ -331,18 +331,18 @@ window.t = (function(){
           this.buildData(dismiss_history);
           let c2d = this.map.getContext('2d');
           c2d.clearRect(0,0,this.map.width, this.map.height);
-          
+
           this.gridIndex = StarblastMap.getOptimalGridIndex(this.size);
 
           this.map.width = (this.size*5+1)*2*this.gridIndex;
           this.map.height = (this.size*5+1)*2*this.gridIndex;
-          
+
           // c2d.imageSmoothingEnabled = false;
           // c2d.webkitImageSmoothingEnabled = false;
           // c2d.mozImageSmoothingEnabled = false;
           // c2d.msImageSmoothingEnabled = false;
           // c2d.oImageSmoothingEnabled = false;
-          
+
           c2d.beginPath();
           for (let i=0;i<this.size;++i)
           {
@@ -361,8 +361,6 @@ window.t = (function(){
           c2d.stroke();
           StarblastMap.Engine.applyColor("border-color");
           StarblastMap.Engine.applyColor("as-color");
-          let px = this.map.width.toString()+"px";
-          $("#mapBgI").css({width:px, height:px});
           (!dismiss_history) && this.pushSession("history",["n",prev]);
         }
         else
@@ -668,7 +666,7 @@ window.t = (function(){
             if (results.success) {
               let t = results.results;
               let currentPoints = [t];
-              
+
               // Apply mirrors sequentially
               if (StarblastMap.Engine.Mirror.v) {
                 let newPoints = [];
@@ -677,7 +675,7 @@ window.t = (function(){
                 }
                 currentPoints = currentPoints.concat(newPoints);
               }
-              
+
               if (StarblastMap.Engine.Mirror.h) {
                 let newPoints = [];
                 for (let point of currentPoints) {
@@ -685,7 +683,7 @@ window.t = (function(){
                 }
                 currentPoints = currentPoints.concat(newPoints);
               }
-              
+
               if (StarblastMap.Engine.Mirror.d1) {
                 let newPoints = [];
                 for (let point of currentPoints) {
@@ -693,7 +691,7 @@ window.t = (function(){
                 }
                 currentPoints = currentPoints.concat(newPoints);
               }
-              
+
               if (StarblastMap.Engine.Mirror.d2) {
                 let newPoints = [];
                 for (let point of currentPoints) {
@@ -701,13 +699,13 @@ window.t = (function(){
                 }
                 currentPoints = currentPoints.concat(newPoints);
               }
-              
+
               let uniquePoints = new Map();
               for (let point of currentPoints) {
                 let key = point[0] + "," + point[1];
                 uniquePoints.set(key, point);
               }
-              
+
               for (let k of uniquePoints.values()) {
                 let data = StarblastMap.Asteroids.modify(...k);
                 if (data.changed){
@@ -840,7 +838,7 @@ window.t = (function(){
           c2d.clearRect(0,0,c.width,c.height);
           c2d.beginPath();
           let asteroidSize = i * 10;
-          let margin = (canvasSize - asteroidSize) / 2; 
+          let margin = (canvasSize - asteroidSize) / 2;
           c2d.drawImage(this.template, margin, margin, asteroidSize, asteroidSize);
           c2d.fillStyle = this.color;
           c2d.globalCompositeOperation = "source-atop";
@@ -1239,14 +1237,14 @@ window.t = (function(){
       setCheckbox: function (origin, triggerID, storage, IndID, defaultvalue = false) {
         let storageData = localData.getItem(storage);
         let u;
-        
+
         if (origin) {
           u = storageData == null ? defaultvalue : (storageData == "true");
         } else {
           let currentState = localData.getItem(storage);
           u = !(currentState == "true");
         }
-        
+
         (IndID) && $("#"+IndID).prop("class","fas fa-fw fa-"+(u?"check":"times"));
         localData.setItem(storage, u);
         return u;
@@ -1702,16 +1700,16 @@ window.t = (function(){
       StarblastMap.Engine.applyColor(i+"-color",$("#"+i+"-color").val());
     });
   }
-  
+
   $("#info-popup-container").on("click", function(e) {
     e.stopPropagation();
     $("#info-popup").toggle();
   });
-  
+
   $(document).on("click", function() {
     $("#info-popup").hide();
   });
-  
+
   $("#info-popup").on("click", function(e) {
     e.stopPropagation();
   });
