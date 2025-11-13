@@ -19,9 +19,9 @@
               result = "return "+js2coffee.build("model="+JSON5.stringify(ship)).code;
             }
             catch(e) {
-              result = js2coffee.build(data.replace(/(}\)\.call\(this\);*$)/,";x$1")).code.replace(/^\(\-\>\n*/,"").replace(/\n*\s*x\n*\s*return\n*\s*\)\.call\sthis\n*$/,"").replace(/\n*\s*\w+\s*=\s*undefined/g,"").replace(/(\n\s+)/g,function(v){return v.slice(0,v.length-2)}).replace(/_this\s*=\s*this/,"").trim().replace(/(model$|^model)/,"return $1").replace(/\(\n\s+/g,"(").replace(/\n\s+\)/g,")");
+              result = js2coffee.build(data.replace(/(}\)\.call\(this\);*$)/,";x$1")).code;
             }
-            return result.replace(/\n+\s+(?=[^[\]]*\])/g, ",").replace(/\[,/g, "[").replace(/,\]/g, "]")
+            return result;
           }
         },
         {
