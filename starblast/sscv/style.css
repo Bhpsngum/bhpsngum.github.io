@@ -63,7 +63,7 @@ button {
     left: 51%
 }
 
-#source {
+#source, #extension {
     height: 4%;
     position: fixed;
     bottom: -3%;
@@ -73,12 +73,6 @@ button {
 #title {
     position: fixed;
     top: 0;
-}
-
-#extension {
-    position: fixed;
-    bottom: -2%;
-    left: 1%;
 }
 
 ::-webkit-scrollbar {
