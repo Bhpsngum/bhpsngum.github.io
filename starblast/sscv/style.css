@@ -67,7 +67,14 @@ button {
     height: 4%;
     position: fixed;
     bottom: -3%;
+}
+
+#source {
     right: 1%;
+}
+
+#extension {
+    left: 1%;
 }
 
 #title {
