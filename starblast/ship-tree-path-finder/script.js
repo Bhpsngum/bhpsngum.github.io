@@ -66,6 +66,7 @@
                 break;
             case "strawberry":
             case "vanilla":
+            case "kest":
                 link = "https://raw.githubusercontent.com/pmgl/starblast-modding/master";
                 break;
             default:
@@ -127,7 +128,7 @@
                     nexts: new Map(game.options.reset_tree ? [] : default_specs.filter(s => s[2]).map(i => [i[0], i[2]])),
                     names: new Map(game.options.reset_tree ? [] : default_specs.map(i => [i[0], i[1]])),
                     models: new Map(),
-                    levels: new Map()
+                    levels: new Map(game.options.reset_tree ? [] : default_specs.map(i => [i[0], { level: Math.trunc(i[0] / 100), model: i[0] % 100 }]))
                 }
                 game.custom.ships = default_options;
                 internals = game.custom.ships;
@@ -142,7 +143,7 @@
                             internals.ships[level].push(code);
                             internals.names.set(code, prs.name.replace(/_/g, " "));
                             internals.levels.set(code, { level: prs.level, model: prs.model });
-                            if (prs.typespec.model !== code % 100) internals.models.set(code, prs.typespec.model);
+                            if (prs.typespec.model !== (code % 100)) internals.models.set(code, prs.typespec.model);
                             let cnxt = uAr(Array.isArray(next) ? next : []);
                             if (cnxt.length > 0) internals.nexts.set(code, cnxt)
                         } catch (e) {
