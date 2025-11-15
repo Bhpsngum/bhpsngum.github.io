@@ -53,11 +53,12 @@
     let internals, mod_name, parsed_code, results;
     let shipInput = $("#ship-input");
     let shipSelect = $("#ship-select");
+    let treeSelect = $("#tree-select");
 
     let target = $("#results");
     let loadTree = function(value) {
         return new Promise((res, rej) => {
-            mod_name = value || $("#tree-select").val();
+            mod_name = value || treeSelect.val();
             let link;
             switch (mod_name) {
                 case "mcst_t7_ver":
@@ -180,7 +181,7 @@
         let ship_name = shipInput.val();
         let newURL = new URL(location.href);
         newURL.searchParams.set("query", ship_name || "");
-        newURL.searchParams.set("mod", $("#tree-select").val());
+        newURL.searchParams.set("mod", treeSelect.val());
 
         newURL = newURL.toString();
         window.history.pushState({ path: newURL }, '', newURL);
@@ -239,7 +240,7 @@
     }).reduce((a, b) => (a[b[0]] = b[1], a), {});
 
     if (queries.hidetitle == "true") $("#title").remove();
-    $("#tree-select").on("change", loadTree);
+    treeSelect.on("change", () => loadTree());
 
     shipInput.on("focus", function() {
         if (shipSelect.children().length > 0) {
@@ -276,10 +277,9 @@
 
     if (search.has("mod")) {
         let mod_name = search.get("mod").toLowerCase();
-        let selector = $("#tree-select");
-        let available_values = [...selector[0].options].slice(1).map(e => e.value);
+        let available_values = [...treeSelect[0].options].slice(1).map(e => e.value);
         if (available_values.includes(mod_name)) {
-            selector.val(mod_name);
+            treeSelect.val(mod_name);
             loadTree(mod_name).then(() => {
                 if (!search.has("query")) return;
                 let query = search.get("query");
