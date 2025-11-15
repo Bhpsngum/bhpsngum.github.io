@@ -74,6 +74,7 @@
             }
             link += "/mods/" + mod_name + ".js";
             if (mod_name) {
+                showResults("Loading ship tree...");
                 $.get(link).then(function(mod_code) {
                     let game = { custom: {} }
                     for (let i of ["addAlien", "addAsteroid", "addCollectible", "setObject", "setCustomMap", "setUIComponent", "removeObject"]) game[i] = function() {}
@@ -280,11 +281,10 @@
         let available_values = [...treeSelect[0].options].slice(1).map(e => e.value);
         if (available_values.includes(mod_name)) {
             treeSelect.val(mod_name);
+            let hasQuery = search.has("query");
+            if (hasQuery) shipInput.val(search.get("query"));
             loadTree(mod_name).then(() => {
-                if (!search.has("query")) return;
-                let query = search.get("query");
-                $("#ship-input").val(query);
-                $("#lookup").click();
+                if (hasQuery) $("#lookup").click();
             });
         }
     }
