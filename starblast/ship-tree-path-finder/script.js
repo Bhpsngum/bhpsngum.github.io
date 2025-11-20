@@ -187,18 +187,18 @@
 
     let findPath = function(init = false) {
         let ship_name = shipInput.val();
-        if (!init) {
-            let newURL = new URL(location.href);
-            newURL.searchParams.set("query", ship_name || "");
-            newURL.searchParams.set("mod", treeSelect.val());
-
-            newURL = newURL.toString();
-            window.history.pushState({ path: newURL }, '', newURL);
-        }
         if (!ship_name || !mod_name) {
             if (!mod_name) showError("Please choose a ship tree to lookup");
             else showError("Please enter a ship to lookup")
         } else {
+            if (!init) {
+                let newURL = new URL(location.href);
+                newURL.searchParams.set("query", ship_name || "");
+                newURL.searchParams.set("mod", mod_name || "");
+
+                newURL = newURL.toString();
+                window.history.pushState({ path: newURL }, '', newURL);
+            }
             results = [];
 
             parsed_code = [...internals.names.entries()].find(entry => entry[1].toLowerCase() === ship_name.toLowerCase());
