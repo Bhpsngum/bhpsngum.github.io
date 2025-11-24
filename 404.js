@@ -13,7 +13,7 @@
     let i = random(name.length), ind = random(styles[i].length), body = document.body;
     body.setAttribute("style", "color:"+(styles[i][ind]||"rgb(102,102,102)"));
     document.querySelector("#message").innerHTML= `Here is a picture of ${name[i]} instead.`;
-    let img_link = `https://bhpsngum.github.io/404_img/${name[i].replace(/\s/g,"_").toLowerCase()}/${ind}.`;
+    let img_link = `/404_img/${name[i].replace(/\s/g,"_").toLowerCase()}/${ind}.`;
     function testImage(i)
     {
       if (i<0) return;
