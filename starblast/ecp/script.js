@@ -5,7 +5,7 @@ window.addEventListener("load", function(){
 		if (document.fonts.check("12px 'SBGlyphs'")) {
 			var updateSizeNeeded, presets = [
 				{value: "preview", size: 112},
-				{value: "event", size: 30},
+				{value: "event", size: 34},
 				{value: "leaderboard", size: function () {
 					// take current window resolution
 					let width = window.innerWidth, height = window.innerHeight, mobile_app = Math.max(width, height) < 800 && ("ontouchstart" in window);
@@ -143,7 +143,7 @@ window.addEventListener("load", function(){
 
 					if ("function" == typeof this.qualifiers[field]) value = this.qualifiers[field](value);
 					else if (type !== "multi") value = String(value);
-					
+
 					let found, pool = this.data[field];
 					if (pool != null) {
 						if (type === "multi") {
