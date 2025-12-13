@@ -25,8 +25,8 @@ window.addEventListener("load", function(){
 			], finishes = [
 				{value: "zinc"},
 				{value: "alloy"},
-				{value: "titanium"},
 				{value: "gold"},
+				{value: "titanium"},
 				{value: "carbon"},
 				{value: "fullcolor"},
 				{value: "x27", name: "Electric Blue"}
