@@ -1,49 +1,103 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Starblast Ship Mod Export Code Converters</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A tool to convert Ship Mod Export code to some other text/codes">
-    <meta name="author" content="Bhpsngum, GatoCreador887">
-    <meta name="og:site_name" content="Starblast Tools and Utilities">
-    <meta name="og:title" content="Starblast Ship Mod Export Code Converters">
-    <meta name="twitter:title" content="Starblast Ship Mod Export Code Converters">
-    <meta name="og:description" content="A tool to convert Ship Mod Export code to some other text/codes">
-    <meta name="og:image" content="/starblast/sscv/preview.png">
-    <meta name="twitter:description" content="A tool to convert Ship Mod Export code to some other text/codes">
-    <meta name="twitter:image" content="/starblast/sscv/preview.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="favicon.ico">
-    <link rel="manifest" href="sscv.json">
-    <script src="/serviceWorker.js"></script>
-    <script src="/localData.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/Bhpsngum/js2coffee@master/dist/js2coffee.min.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <script src="https://unpkg.com/json5@2/dist/index.js" type="text/javascript"></script>
-    <script src="/starblast/toolPage.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="style.css">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZQRTRBNZS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<!doctype html>
+<html lang="en">
 
-      gtag('config', 'G-9ZQRTRBNZS');
-    </script>
-  </head>
-  <body>
-    <b id="title">Starblast Ship Mod Export<br>Code Converters</b>
-    <textarea id="input" placeholder="Input"></textarea>
-    <div id="buttons">
-      <button id="convert">Convert</button>
-      <select id="types"></select>
-    </div>
-    <textarea id="output" readonly="true" placeholder="Output"></textarea>
-    <button id="copy">Copy Results</button>
-    <p id="source">Original tool by <a href="https://github.com/GatoCreador887" target="_blank">GatoCreador887</a> and remake by <a href="https://github.com/Bhpsngum" target="_blank">Bhpsngum</a>.</p>
-    <p id="extension">Want a plugin instead? <a href="/redirect?id=SETExtension-chrome" target="_blank">Install the extension</a>.</p>
-    <script src="script.js" type="text/javascript"></script>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <title>Starblast Ship Mod Export Code Converters</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A tool to convert Ship Mod Export code to some other text/codes">
+  <meta name="author" content="Bhpsngum, GatoCreador887">
+  <meta name="og:site_name" content="Starblast Tools and Utilities">
+  <meta name="og:title" content="Starblast Ship Mod Export Code Converters">
+  <meta name="twitter:title" content="Starblast Ship Mod Export Code Converters">
+  <meta name="og:description" content="A tool to convert Ship Mod Export code to some other text/codes">
+  <meta name="og:image" content="/starblast/sscv/preview.png">
+  <meta name="twitter:description" content="A tool to convert Ship Mod Export code to some other text/codes">
+  <meta name="twitter:image" content="/starblast/sscv/preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.ico">
+  <link rel="manifest" href="sscv.json">
+
+  <script src="/serviceWorker.js"></script>
+  <script src="/localData.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.20/theme/material-darker.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js"></script>
+  <script src="https://unpkg.com/json5@2/dist/index.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/gh/Bhpsngum/js2coffee@master/dist/js2coffee.min.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZQRTRBNZS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-9ZQRTRBNZS');
+  </script>
+</head>
+
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="title">Starblast Ship Mod Export Code Converters</div>
+        <div class="subtitle">Convert ship export code to other formats</div>
+      </div>
+
+      <div class="toolbar">
+        <label class="field">
+          <span class="label">Conversion</span>
+          <select id="types"></select>
+        </label>
+
+        <button id="convert" class="btn primary" type="button">Convert</button>
+        <button id="copy" class="btn" type="button">Copy output</button>
+        <button id="clear" class="btn danger" type="button">Clear</button>
+
+        <label class="toggle">
+          <input id="auto" type="checkbox" />
+          <span>Auto</span>
+        </label>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="pane">
+        <div class="pane-head">
+          <div class="pane-title">Input</div>
+          <div class="hint">Paste ship export code or JSON</div>
+        </div>
+        <textarea id="input" spellcheck="false" placeholder="Input"></textarea>
+      </section>
+
+      <section class="pane">
+        <div class="pane-head">
+          <div class="pane-title">Output</div>
+          <div id="status" class="hint"></div>
+        </div>
+        <textarea id="output" spellcheck="false" readonly placeholder="Output"></textarea>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="links">
+        <span>Original tool by <a href="https://github.com/GatoCreador887" target="_blank"
+            rel="noreferrer">GatoCreador887</a> & remake by <a href="https://github.com/Bhpsngum" target="_blank"
+            rel="noreferrer">Bhpsngum</a>.</span>
+      </div>
+      <div class="links">
+        <span>Want a plugin instead? <a href="redirect?id=SETExtension-chrome" target="_blank" rel="noreferrer">Install
+            the extension</a>.</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
 </html>
