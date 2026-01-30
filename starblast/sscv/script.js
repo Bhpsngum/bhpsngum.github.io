@@ -1,166 +1,317 @@
-(function(){
-  addServiceWorker("sw.js");
-  var SSCV = {
-    types: {
-      list: [
-        {
-          name: "Ship Editor code",
-          parse: function(data) {
-            try {
-              data = JSON.stringify(JSON.parse(data));
-            }
-            catch (e) {
-              data = Function("return "+data.replace(/[^]*?[^\\]'((return)*([^]*?[^\\]))'[^]*/,"'$3'"))();
-            }
-            let result;
-            try {
-              let ship = JSON.parse(data);
-              delete ship.typespec;
-              result = "return "+js2coffee.build("model="+JSON5.stringify(ship)).code;
-            }
-            catch(e) {
-              result = js2coffee.build(data.replace(/(}\)\.call\(this\);*$)/,";x$1")).code;
-            }
-            return result;
-          }
-        },
-        {
-          name: "Basic WikiText info",
-          parse: function(data) {
-            let x = JSON.parse(eval("(function(){return "+data.replace(/.+?\=\s*(.+)/g,"$1")+"})();")) || {}, s = x.typespec || {}, t = function(first,...props) {
-              try {
-                let arr = a(first,...props);
-                if (!Array.isArray(arr)) return "N/A";
-                let i=0;
-                while (i<arr.length) {
-                  if (arr.indexOf(arr[i])<i) arr.splice(i,1);
-                  else i++
-                }
-                return arr.join("/")||"N/A";
-              }
-              catch(e){return "N/A"}
-            }, a = function(a,...b){
-              let kx = a;
-              return b.forEach(i=>kx = kx[i]),kx;
-            }, u = function(k,b,...c) {
-              let j;
-              try{j = a(k,...c)}
-              catch(e){j = null}
-              return (j!=null)?j:(b!=null?b:"N/A");
-            }
-            wikitext = `{{Ship-Infobox
-|name=${s.name||""}
-|image=${(s.name||"").replace(/\s/g,"_")}.png
-|shieldc=${t(s,"specs","shield","capacity")}
-|shieldr=${t(s,"specs","shield","reload")}
-|energyc=${t(s,"specs","generator","capacity")}
-|energyr=${t(s,"specs","generator","reload")}
-|turning=${t(s,"specs","ship","rotation")}
-|acceleration=${t(s,"specs","ship","acceleration")}
-|speed=${t(s,"specs","ship","speed")}
-|tier=${u(s,null,"level")}
-|mass=${u(s,null,"specs","ship","mass")}
-|designer=${u(x,"Neuronality","designer")}
-}}\n
-== Cannons ==\n`;
-            let lasers = s.lasers;
-            lasers = (Array.isArray(lasers)?lasers:[]).map(laser => {
-              laser.x = Math.abs(laser.x);
-              laser.y = Math.abs(laser.y);
-              laser.z = Math.abs(laser.z);
-              return laser;
-            }), dups = new Map(), i = 0;
-            while (i<lasers.length) {
-              let laser = lasers[i], p = [laser.x,laser.y,laser.z].join("-"), dupi = dups.get(p);
-              if (!dupi) {
-                dups.set(p,laser);
-                i++;
-              }
-              else {
-                lasers.splice(i,1);
-                dups.get(p).dual = true;
-                dups.delete(p);
-              }
-            };
-            let dash = u(s,0,"specs","ship","dash");
-            if (dash) wikitext+=`{{Cannon
+(() => {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => { });
+  }
+
+  const $input = document.getElementById("input");
+  const $output = document.getElementById("output");
+  const $types = document.getElementById("types");
+  const $convert = document.getElementById("convert");
+  const $copy = document.getElementById("copy");
+  const $clear = document.getElementById("clear");
+  const $auto = document.getElementById("auto");
+  const $status = document.getElementById("status");
+
+  const inputCM = CodeMirror.fromTextArea($input, {
+    lineNumbers: true,
+    theme: "material-darker",
+    mode: { name: "javascript", json: true },
+    lineWrapping: false,
+    tabSize: 2,
+    indentUnit: 2,
+  });
+
+  const outputCM = CodeMirror.fromTextArea($output, {
+    lineNumbers: true,
+    theme: "material-darker",
+    mode: "text/plain",
+    readOnly: true,
+    lineWrapping: true,
+  });
+
+  const store = (window.localData && typeof window.localData.getItem === "function")
+    ? window.localData
+    : {
+      getItem: (k) => localStorage.getItem(k),
+      setItem: (k, v) => localStorage.setItem(k, v),
+      removeItem: (k) => localStorage.removeItem(k),
+    };
+
+  const KEY_INPUT = "json-input";
+  const KEY_TYPE = "selected-conversion-type";
+  const KEY_AUTO = "auto-convert";
+
+  const setStatus = (msg = "") => { if ($status) $status.textContent = msg; };
+
+  const safeParseInput = (raw) => {
+    let text = String(raw ?? "").trim();
+    if (!text) throw new Error("Empty input");
+
+    const decl = text.match(/^\s*(?:let|const|var)\s+[\w$]+\s*=\s*([\s\S]*?)\s*;?\s*$/);
+    if (decl) text = decl[1].trim();
+
+    try { return JSON.parse(text); } catch (_) { }
+
+    if (window.JSON5 && typeof window.JSON5.parse === "function") {
+      try {
+        const v = window.JSON5.parse(text);
+
+        if (typeof v === "string") {
+          const inner = v.trim();
+          try { return JSON.parse(inner); } catch (_) { }
+          return window.JSON5.parse(inner);
+        }
+
+        return v;
+      } catch (_) { }
+    }
+
+    const banned = /\b(document|window|location|fetch|XMLHttpRequest|importScripts|navigator|postMessage|self|Function|eval)\b/;
+    if (banned.test(text)) throw new Error("Blocked tokens found");
+
+    const m = text.match(/\breturn\s+([\s\S]*?);?\s*$/);
+    const expr = (m && m[1]) ? m[1] : text;
+
+    return new Function(`"use strict"; return (${expr});`)();
+  };
+
+  const toShipEditorCode = (obj) => {
+    const ship = (obj && typeof obj === "object") ? obj : {};
+    const cleaned = { ...ship };
+    delete cleaned.typespec;
+
+    if (window.js2coffee && typeof window.js2coffee.build === "function") {
+      const payload = (window.JSON5 ? JSON5.stringify(cleaned) : JSON.stringify(cleaned));
+      return "return " + js2coffee.build("model=" + payload).code;
+    }
+
+    return (window.JSON5 ? JSON5.stringify(cleaned, null, 2) : JSON.stringify(cleaned, null, 2));
+  };
+
+  const uniqLasers = (lasers) => {
+    const norm = (Array.isArray(lasers) ? lasers : []).map(l => ({
+      ...l,
+      x: Math.abs(Number(l.x) || 0),
+      y: Math.abs(Number(l.y) || 0),
+      z: Math.abs(Number(l.z) || 0),
+    }));
+
+    const seen = new Map();
+    const out = [];
+
+    for (const laser of norm) {
+      const key = `${laser.x}|${laser.y}|${laser.z}|${laser.type ?? ""}`;
+      if (!seen.has(key)) {
+        seen.set(key, out.length);
+        out.push({ ...laser, dual: false });
+      } else {
+        const idx = seen.get(key);
+        out[idx].dual = true;
+      }
+    }
+    return out;
+  };
+
+  const get = (o, path, fallback = "N/A") => {
+    try {
+      let cur = o;
+      for (const p of path) cur = cur?.[p];
+      if (cur === undefined || cur === null) return fallback;
+      if (Array.isArray(cur)) return cur.length ? cur.join("/") : fallback;
+      return cur;
+    } catch (_) {
+      return fallback;
+    }
+  };
+
+  const toWikiText = (obj) => {
+    const x = (obj && typeof obj === "object") ? obj : {};
+    const s = x.typespec || x;
+
+    const name = String(s.name || "");
+    const image = name.replace(/\s+/g, "_") + ".png";
+
+    let w = `{{Ship-Infobox
+|name=${name}
+|image=${image}
+|shieldc=${get(s, ["specs", "shield", "capacity"])}
+|shieldr=${get(s, ["specs", "shield", "reload"])}
+|energyc=${get(s, ["specs", "generator", "capacity"])}
+|energyr=${get(s, ["specs", "generator", "reload"])}
+|turning=${get(s, ["specs", "ship", "rotation"])}
+|acceleration=${get(s, ["specs", "ship", "acceleration"])}
+|speed=${get(s, ["specs", "ship", "speed"])}
+|tier=${get(s, ["level"], "")}
+|mass=${get(s, ["specs", "ship", "mass"])}
+|designer=${get(x, ["designer"], "Neuronality")}
+}}
+
+== Cannons ==
+`;
+
+    const dash = get(s, ["specs", "ship", "dash"], null);
+    const lasers = uniqLasers(s.lasers);
+
+    if (dash) {
+      w += `{{Cannon
 |type=Dash
-|energy=${t(dash,"energy")}
-|damage=${t(dash,"energy")}
-|speed=${t(dash,"burst_speed")}
+|energy=${get(dash, ["energy"])}
+|damage=${get(dash, ["energy"])}
+|speed=${get(dash, ["burstSpeed"])}
 |dual=N/A
 |recoil=N/A
 |frequency=1
 |error=N/A
 |angle=N/A
 |spread=N/A
-}}\n`;
-            for (let laser of lasers) wikitext+=`{{Cannon
-|type=${["Stream","Pulse"][(laser.type-1)||0]}
-|energy=${(function(){let gx = u(laser,"N/A","damage");return Array.isArray(gx)?gx.map(lar => ((laser.dual?(lar*2):lar)||0)).join("/"):"N/A"})()}
-|damage=${t(laser,"damage")}
-|speed=${t(laser,"speed")}
-|dual=${!!u(laser,0,"dual")}
-|recoil=${u(laser,0,"recoil")}
-|frequency=${u(laser,1,"rate")}
-|error=${u(laser,0,"error")}
-|angle=${Math.abs(u(laser,0,"angle"))}
-|spread=${Math.abs(u(laser,0,"spread"))}
-}}\n`;
-            if (!(dash || lasers.length)) wikitext+="This ship has no cannons or dashes";
-            return wikitext;
-          }
-        }
-      ],
-      set: function() {
-        $("#types").html("<option selected disabled>Select conversion type</option>"+this.list.map(i => `<option>${i.name}</option>`).join(""));
-        this.choose();
-      },
-      choose: function() {
-        let select = $("#types").prop("selectedIndex");
-        if (select < 1 || select > this.list.length) {
-          let t = Number(localData.getItem("selected-conversion-type"));
-          select = (t > 0 && t <= this.list.length && !isNaN(t))?t:1;
-        }
-        select = Math.trunc(select);
-        localData.setItem("selected-conversion-type",select);
-        $("#types").prop("selectedIndex",select);
-        return select;
-      }
-    },
-    convert: function (forced) {
-      let json = $("#input").val() || localData.getItem("json-input"), results;
-      try {results = this.types.list[this.types.choose() - 1].parse(json.trim())}
-      catch(e){
+}}
+`;
+    }
+
+    for (const laser of lasers) {
+      const typeName = (Number(laser.type) === 10) ? "Pulse" : "Stream";
+      const energy = laser.energy;
+
+      const dmg = laser.damage;
+      const dual = !!laser.dual;
+
+      w += `{{Cannon
+|type=${typeName}
+|energy=${Array.isArray(energy) ? energy.map(v => dual ? (Number(v) || 0) * 2 : (Number(v) || 0)).join("/") : (energy ?? "N/A")}
+|damage=${dmg ?? "N/A"}
+|speed=${laser.speed ?? "N/A"}
+|dual=${dual}
+|recoil=${laser.recoil ?? 0}
+|frequency=${laser.rate ?? 1}
+|error=${laser.error ?? 0}
+|angle=${Math.abs(laser.angle ?? 0)}
+|spread=${Math.abs(laser.spread ?? 0)}
+}}
+`;
+    }
+
+    if (!dash && lasers.length === 0) w += "This ship has no cannons or dashes";
+    return w;
+  };
+
+  const types = [
+    { name: "Ship Editor code", parse: (raw) => toShipEditorCode(safeParseInput(raw)) },
+    { name: "Basic WikiText info", parse: (raw) => toWikiText(safeParseInput(raw)) },
+  ];
+
+  const renderTypes = () => {
+    $types.innerHTML = "";
+    const ph = document.createElement("option");
+    ph.textContent = "Select conversion type";
+    ph.disabled = true;
+    ph.selected = true;
+    $types.appendChild(ph);
+
+    for (const t of types) {
+      const opt = document.createElement("option");
+      opt.textContent = t.name;
+      $types.appendChild(opt);
+    }
+
+    const saved = Number(store.getItem(KEY_TYPE));
+    const idx = (saved >= 1 && saved <= types.length) ? saved : 1;
+    $types.selectedIndex = idx;
+  };
+
+  const selectedType = () => {
+    const i = $types.selectedIndex;
+    const idx = Math.min(Math.max(i, 1), types.length);
+    store.setItem(KEY_TYPE, String(idx));
+    return types[idx - 1];
+  };
+
+  const convert = (forced = false) => {
+    try {
+      const raw = (inputCM.getValue() || store.getItem(KEY_INPUT) || "");
+      if (!raw.trim()) {
         if (forced) {
-          json = ""
-          results = "";
+          $output.value = "";
+          setStatus("");
+        } else {
+          setStatus("No input.");
         }
-        else {
-          this.error(e);
-          return;
-        }
-      };
-      localData.setItem("json-input",json);
-      $("#output").val(results);
-      $("#input").val(json);
-    },
-    error: function(e) {
+        store.setItem(KEY_INPUT, raw);
+        return;
+      }
+
+      const out = selectedType().parse(raw);
+      outputCM.setValue(String(out ?? ""));
+      setStatus("OK");
+      store.setItem(KEY_INPUT, raw);
+    } catch (e) {
+      if (forced) {
+        $output.value = "";
+        setStatus("");
+        return;
+      }
+      setStatus(e?.message ? `Error: ${e.message}` : "Error");
       console.error(e);
-      alert("Cannot parse the requested code!");
-    },
-    copy: function (text) {
-      var dummy = document.createElement("textarea");
+    }
+  };
+
+  const copyOutput = async () => {
+    const text = outputCM.getValue() || "";
+    if (!text) return;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      setStatus("Copied.");
+    } catch (_) {
+      const dummy = document.createElement("textarea");
       document.body.appendChild(dummy);
       dummy.value = text;
       dummy.select();
       document.execCommand("copy");
       document.body.removeChild(dummy);
+      setStatus("Copied.");
     }
-  }
-  SSCV.types.set();
-  SSCV.convert(!0);
-  $("#convert").on("click",function(){SSCV.convert()});
-  $("#copy").on("click",function(){SSCV.copy($("#output").val())});
-  addToolPage("51%",null,"1%",null);
+  };
+
+  const clearAll = () => {
+    inputCM.setValue("");
+    outputCM.setValue("");
+    setStatus("");
+    store.setItem(KEY_INPUT, "");
+  };
+
+  const debounce = (fn, ms) => {
+    let t = 0;
+    return (...args) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), ms);
+    };
+  };
+
+  renderTypes();
+
+  $auto.checked = store.getItem(KEY_AUTO) === "1";
+  inputCM.setValue(store.getItem(KEY_INPUT) || "");
+
+  const onEdit = debounce(() => {
+    store.setItem(KEY_INPUT, inputCM.getValue() || "");
+    if ($auto.checked) convert(false);
+  }, 200);
+
+  inputCM.on("change", onEdit);
+
+  $types.addEventListener("change", () => {
+    store.setItem(KEY_TYPE, String(Math.max(1, $types.selectedIndex)));
+    if ($auto.checked) convert(false);
+  });
+
+  $convert.addEventListener("click", () => convert(false));
+  $copy.addEventListener("click", copyOutput);
+  $clear.addEventListener("click", clearAll);
+
+  $auto.addEventListener("change", () => {
+    store.setItem(KEY_AUTO, $auto.checked ? "1" : "0");
+    if ($auto.checked) convert(false);
+  });
+
+  convert(true);
 })();

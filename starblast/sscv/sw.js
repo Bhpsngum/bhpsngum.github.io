@@ -1,42 +1,62 @@
-var imports = [
-  "/starblast/sscv/",
-  "/starblast/sscv/index.html",
-  "/starblast/sscv/icon.png",
-  "/starblast/sscv/style.css",
-  "/starblast/sscv/sscv.json",
-  "/serviceWorker.js",
+const CACHE_NAME = "SSCVOffline-v3";
+const PRECACHE = [
+  "./",
+  "./index.html",
+  "./style.css",
+  "./script.js",
+  "./sscv.json",
+  "./icon.jpg",
+  "./favicon.jpg",
+
   "https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js",
-  "https://cdn.rawgit.com/js2coffee/js2coffee/v2.1.0/dist/js2coffee.js",
-  "/starblast/sscv/script.js"
+  "https://unpkg.com/json5@2/dist/index.min.js",
+  "https://cdn.jsdelivr.net/gh/Bhpsngum/js2coffee@master/dist/js2coffee.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css",
+  "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.20/theme/material-darker.min.css",
+  "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"
 ];
 
-const cacheName = "SSCVOffline";
-self.addEventListener('install', (e) => {
-  e.waitUntil((async () => {
-    const cache = await caches.open(cacheName);
-    imports.forEach(function (imp) {
-      let res = fetch(imp);
-      res.ok && cache.put(imp,res);
-    });
+const tryPut = async (req, res) => {
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(req, res);
+  } catch (_) {}
+};
+
+self.addEventListener("install", (event) => {
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await Promise.all(PRECACHE.map(async (u) => {
+      try {
+        const res = await fetch(u, { cache: "no-cache" });
+        if (res.ok || res.type === "opaque") await cache.put(u, res);
+      } catch (_) {}
+    }));
+    await self.skipWaiting();
   })());
 });
-self.addEventListener('fetch', (e) => {
-  e.respondWith((async () => {
-    try {
-      const response = await fetch(e.request);
-      if (response.ok) {
-        if ((e.request||{}).method == 'GET') try {
-          const cache = await caches.open(cacheName);
-          cache.put(e.request, response.clone());
-        }
-        catch(e){}
-      }
-      else {
-        const r = await caches.match(e.request);
-        if (r) return r;
-      }
-      return response
-    }
-    catch (e) { return e }
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)));
+    await self.clients.claim();
+  })());
+});
+
+self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
+
+  event.respondWith((async () => {
+    const cached = await caches.match(event.request);
+    const fetchPromise = fetch(event.request)
+      .then((res) => {
+        if (res && (res.ok || res.type === "opaque")) tryPut(event.request, res.clone());
+        return res;
+      })
+      .catch(() => null);
+
+    return cached || (await fetchPromise) || new Response("Offline", { status: 503 });
   })());
 });
