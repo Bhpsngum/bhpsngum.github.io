@@ -40,10 +40,10 @@ else (function(){
   }).fail(e => {
     $("#version-info").text('Version unavailable');
   });
-  try {
-    addToolPage(null,"1vw","1vh",null,null,null,"td",$("#modules tr")[0],{
-      position: "inherit",
-      width: "auto"
-    })
-  } catch (e) {}
+  // try {
+  //   addToolPage(null,"1vw","1vh",null,null,null,"td",$("#modules tr")[0],{
+  //     position: "inherit",
+  //     width: "auto"
+  //   })
+  // } catch (e) {}
 })();

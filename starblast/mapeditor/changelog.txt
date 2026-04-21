@@ -1,3 +1,10 @@
+3.5.1/Apr 20, 2026
+Updated by JavRedstone
+* Added minimap panning and zooming
+* Updated drag mode and included 'H' shortcut to temporarily pan while drawing
+* Updated controls to joysticks, and made panning and zooming more responsive
+* Fixed map boundaries and visibility aids
+
 3.5.0/Apr 18, 2026
 Updated by JavRedstone
 * Added zooming and panning

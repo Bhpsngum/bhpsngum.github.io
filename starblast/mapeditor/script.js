@@ -271,6 +271,24 @@ window.t = (function(){
     minimap: {
       canvas: $("#minimap")[0],
       stats: $("#minimapStats"),
+      selectedX: 0.5,
+      selectedY: 0.5,
+      clampNormalized: function(value) {
+        return Math.max(0, Math.min(1, Number(value) || 0));
+      },
+      getNormalizedPointFromEvent: function(e) {
+        if (!this.canvas) return { x: 0.5, y: 0.5 };
+        let rect = this.canvas.getBoundingClientRect();
+        if (!rect.width || !rect.height) return { x: 0.5, y: 0.5 };
+        let x = this.clampNormalized((e.clientX - rect.left) / rect.width);
+        let y = this.clampNormalized((e.clientY - rect.top) / rect.height);
+        return { x: x, y: y };
+      },
+      setSelectedPoint: function(x, y, noRefresh) {
+        this.selectedX = this.clampNormalized(x);
+        this.selectedY = this.clampNormalized(y);
+        if (!noRefresh) this.refresh();
+      },
       refresh: function() {
         if (!this.canvas || !StarblastMap.map) return;
         let c2d = this.canvas.getContext("2d");
@@ -348,12 +366,12 @@ window.t = (function(){
           c2d.lineTo(w, h / 2);
         }
         if (StarblastMap.Engine.Mirror.d1) {
-          c2d.moveTo(0, h);
-          c2d.lineTo(w, 0);
-        }
-        if (StarblastMap.Engine.Mirror.d2) {
           c2d.moveTo(0, 0);
           c2d.lineTo(w, h);
+        }
+        if (StarblastMap.Engine.Mirror.d2) {
+          c2d.moveTo(0, h);
+          c2d.lineTo(w, 0);
         }
         c2d.stroke();
 
@@ -801,8 +819,15 @@ window.t = (function(){
     modify: function(x,y,num) {
       let custom = num == null, min = StarblastMap.Asteroids.size.min, max = StarblastMap.Asteroids.size.max, init = custom?StarblastMap.Engine.random.range(min,max):num,
       Cell = {
+        // Keep old and new custom-brush APIs working (legacy scripts may read x/y directly).
+        x: x,
+        y: y,
+        pos: {x: x, y: y},
         getPosition: function(type) {
           return StarblastMap.Coordinates.getPosition(x,y,type)
+        },
+        getCoords: function(type) {
+          return this.getPosition(type)
         },
         size:init,
         isRemoved: !custom
@@ -879,11 +904,13 @@ window.t = (function(){
         size: StarblastMap.size,
         Brush: {
           size: StarblastMap.Engine.Brush.size,
-          isRandomized: StarblastMap.Engine.Brush.randomized
+          isRandomized: StarblastMap.Engine.Brush.randomized,
+          randomized: StarblastMap.Engine.Brush.randomized
         },
         Utils: {
           random: StarblastMap.Engine.random,
-          randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
+          randomInRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random),
+          randomRange: StarblastMap.Engine.random.range.bind(StarblastMap.Engine.random)
         }
       }, u;
       if (typeof this.Engine.Brush.drawers.current == "function") u = this.Engine.Brush.drawers.current;
@@ -1108,6 +1135,12 @@ window.t = (function(){
       touchHover: false,
       touches: new Map(),
       touchID: 1,
+      temporaryPan: {
+        hold: false
+      },
+      isPanOverrideActive: function () {
+        return !!(this.temporaryPan.hold || StarblastMap.Asteroids.dragMode);
+      },
       toString: function (item) {
         switch (typeof item) {
           case "undefined":
@@ -1157,7 +1190,7 @@ window.t = (function(){
           this.state = -1;
         },
         stopDrag: function () {
-          this.stats = -1;
+          this.state = -1;
         }
       },
       addBorder: function (c2d,x,y,z,t, width)
@@ -1405,11 +1438,6 @@ window.t = (function(){
         },
         checkScale: function() {
           this.scaleExpired = !0;
-          $("#mapBox").css({
-            "padding-top": "20px",
-            "padding-bottom": "20px",
-            "margin-bottom": $("#footer").height()+"px"
-          });
           try{$("#info").css("width",($("#footer").width()-$("#XY").width()-15/detectZoom.device())+"px")}catch(e){}
         },
         set: function(index) {
@@ -1436,7 +1464,9 @@ window.t = (function(){
         }
       },
       random: function(num) {
-        return ~~(Math.random()*num);
+        let n = Math.floor(Number(num));
+        if (!isFinite(n) || n <= 0) return 0;
+        return ~~(Math.random()*n);
       },
       setCheckbox: function (origin, triggerID, storage, IndID, defaultvalue = false) {
         let storageData = localData.getItem(storage);
@@ -1470,7 +1500,7 @@ window.t = (function(){
           ["mr-d1",null,"Toggle diagonal Mirror (top-left to bottom-right)"],
           ["mr-d2",null,"Toggle diagonal Mirror (top-right to bottom-left)"],
           ["almr",null,"All-Corners mirror is enabled"],
-          ["rCheckIcon",'Random Asteroid Size in Brush','Random Asteroids Size in a single Brush'],
+          ["randomCheck",'Random Asteroid Size in Brush','Random Asteroids Size in a single Brush'],
           ["as-color-input",null,'Toggle asteroid color'],
           ["background-color-input",null,'Toggle background color'],
           ["bgI-input1",null,"Upload your own background image from file (accept all image formats)"],
@@ -1519,7 +1549,7 @@ window.t = (function(){
           ["zoomIn", "Zoom In", "Zoom in to see more detail of the map", "+"],
           ["zoomOut", "Zoom Out", "Zoom out to see more of the map", "-"],
           ["zoomReset", "Reset Zoom", "Reset zoom and pan to default view", "\\"],
-          ["map", "Pan", "Pan map with Arrow keys when zoomed in", "Arrow keys"]
+          ["map", "Pan", "Pan map with Arrow keys or hold H and drag when zoomed in. Scroll to zoom in/out at cursor", "Arrow keys / Hold H + drag / Mouse wheel"]
         ],
         view: function (title,text,HotKey) {
           $("#info").html(`<strong>${StarblastMap.Engine.encodeHTML(title||"")}${(title&&text)?": ":""}</strong>${StarblastMap.Engine.encodeHTML(text||"")}${HotKey?(" (HotKey "+HotKey+")"):""}`);
@@ -1543,7 +1573,28 @@ window.t = (function(){
   Object.assign(StarblastMap.Engine.random, {
     range: function(min,max)
     {
-      return Number(min+this(max-min+1))||min;
+      // Compatibility behavior:
+      // - range(max) => integer in [0, max)
+      // - range(min, max) => integer in [min, max] (inclusive)
+      if (arguments.length <= 1 || max == null) {
+        let upper = Math.floor(Number(min));
+        if (!isFinite(upper) || upper <= 0) return 0;
+        return this(upper);
+      }
+
+      let low = Math.floor(Number(min));
+      let high = Math.floor(Number(max));
+
+      if (!isFinite(low) && !isFinite(high)) return 0;
+      if (!isFinite(low)) low = high;
+      if (!isFinite(high)) high = low;
+      if (high < low) {
+        let tmp = high;
+        high = low;
+        low = tmp;
+      }
+
+      return low + this(high - low + 1);
     }
   });
   let query = new URLParams(window.location.search);
@@ -1623,13 +1674,13 @@ window.t = (function(){
     $("#MirrorOptions").append(mr.map(i => `<input type="checkbox" style="display:none" id="mirror-${i}">`).join("")+"<div class='button-grid' id='mirrorChoose'>"+mr.map((i,j) => {
       let content;
       switch(i) {
-        case "h": content = `<span class='mirror-label'>H</span>`; break;
-        case "v": content = `<span class='mirror-label'>V</span>`; break;
-        case "d1": content = `<span class='mirror-label'>D1</span>`; break;
-        case "d2": content = `<span class='mirror-label'>D2</span>`; break;
+        case "h": content = `<i class='fas fa-fw fa-arrows-alt-h'></i>`; break;
+        case "v": content = `<i class='fas fa-fw fa-arrows-alt-v'></i>`; break;
+        case "d1": content = `<i class='fas fa-fw fa-slash'></i>`; break;
+        case "d2": content = `<i class='fas fa-fw fa-slash' style='transform: scaleX(-1);'></i>`; break;
       }
       return `<button id="mr-${i}" style="position: relative; display: flex; align-items: center; justify-content: center;" title="${mdesc[j]} mirror">${content}<i class="fas fa-fw fa-times" id="mrmark-${i}" style="position: absolute; bottom: 2px; right: 2px; font-size: 0.7em;"></i></button>`;
-    }).join("")+`<button id="almr" title="all mirror modes enabled"><span class='mirror-label'>ALL</span></button></div>`);
+    }).join("")+`<button id="almr" title="all mirror modes enabled"><i class='fas fa-fw fa-globe'></i></button></div>`);
     for (let i of mr)
     {
       StarblastMap.Engine.Mirror.apply(!0,i);
@@ -1638,9 +1689,17 @@ window.t = (function(){
     }
   }
   catch(e){}
-  StarblastMap.Asteroids.applyKey("min",localData.getItem("ASSize_min"));
-  StarblastMap.Asteroids.applyKey("max",localData.getItem("ASSize_max"));
+  let savedMin = localData.getItem("ASSize_min");
+  let savedMax = localData.getItem("ASSize_max");
+  StarblastMap.Asteroids.applyKey("min", savedMin == null ? 0 : savedMin);
+  StarblastMap.Asteroids.applyKey("max", savedMax == null ? 9 : savedMax);
   StarblastMap.map.addEventListener("mousemove", function(e){
+    if (StarblastMap.Engine.isPanOverrideActive()) {
+      if (e.buttons & 1) {
+        StarblastMap.Engine.zoom.updatePanDrag(e.clientX, e.clientY, "mouse");
+      }
+      return;
+    }
     let pos = this.getFromClient(e.clientX, e.clientY);
     this.view(pos.x, pos.y, true);
   }.bind(StarblastMap.Coordinates));
@@ -1649,7 +1708,26 @@ window.t = (function(){
       StarblastMap.info(!0)();
       StarblastMap.Engine.touchHover = true;
     }
-    if (!StarblastMap.Asteroids.dragMode) e.preventDefault();
+    if (StarblastMap.Asteroids.dragMode) {
+      e.preventDefault();
+      let dragPan = StarblastMap.Engine.zoom.dragPan;
+      let activeTouch = null;
+      for (let i of e.touches) {
+        if (i.identifier === dragPan.pointerId) {
+          activeTouch = i;
+          break;
+        }
+      }
+      if (!activeTouch && e.touches.length) {
+        activeTouch = e.touches[0];
+        StarblastMap.Engine.zoom.startPanDrag(activeTouch.clientX, activeTouch.clientY, activeTouch.identifier);
+      }
+      if (activeTouch) {
+        StarblastMap.Engine.zoom.updatePanDrag(activeTouch.clientX, activeTouch.clientY, activeTouch.identifier);
+      }
+      return;
+    }
+    e.preventDefault();
     if (StarblastMap.Engine.menu.scaleExpired) {
       Object.assign(StarblastMap.Engine.menu,$(StarblastMap.map).offset());
       StarblastMap.Engine.menu.scaleExpired = !1;
@@ -1663,12 +1741,23 @@ window.t = (function(){
   }.bind(StarblastMap.Coordinates));
   StarblastMap.map.addEventListener("mouseover",function(){(!StarblastMap.Engine.touchHover) && StarblastMap.info()()});
   StarblastMap.map.addEventListener("mousedown", function(e){
+    if (StarblastMap.Engine.isPanOverrideActive() && e.button === 0) {
+      StarblastMap.Engine.zoom.startPanDrag(e.clientX, e.clientY, "mouse");
+      return;
+    }
     let pos = StarblastMap.Coordinates.getFromClient(e.clientX, e.clientY);
     StarblastMap.Engine.Trail.start(pos.x, pos.y, e);
   });
   StarblastMap.map.addEventListener("touchstart", function(e){
     this.info(!0)();
-    if (!this.Asteroids.dragMode) e.preventDefault();
+    e.preventDefault();
+    if (this.Asteroids.dragMode) {
+      let firstTouch = e.touches[0];
+      if (firstTouch) {
+        this.Engine.zoom.startPanDrag(firstTouch.clientX, firstTouch.clientY, firstTouch.identifier);
+      }
+      return;
+    }
     if (this.Engine.menu.scaleExpired) {
       Object.assign(this.Engine.menu,$(this.map).offset());
       this.Engine.menu.scaleExpired = !1;
@@ -1720,7 +1809,10 @@ window.t = (function(){
   StarblastMap.checkActions();
   StarblastMap.Buttons.undo.on("click",StarblastMap.undo.bind(StarblastMap));
   StarblastMap.Buttons.redo.on("click",StarblastMap.redo.bind(StarblastMap));
-  $("#randomCheck").on("change",function(){StarblastMap.Engine.Brush.applyRandom()});
+  $("#randomCheck").on("click",function(e){
+    e.preventDefault();
+    StarblastMap.Engine.Brush.applyRandom();
+  });
   for (let i=0;i<StarblastMap.Engine.menu.modules.length;i++) $("#menu"+i).on("click",function(){StarblastMap.Engine.menu.set(i)});
   StarblastMap.Engine.menu.set(1);
   StarblastMap.Buttons.export.text.on("click",function() {
@@ -1819,6 +1911,11 @@ window.t = (function(){
         }
         else switch (e.which)
         {
+          case 72:
+            e.preventDefault();
+            StarblastMap.Engine.temporaryPan.hold = true;
+            if (StarblastMap.Engine.Trail.state !== -1) StarblastMap.Engine.Trail.stop();
+            break;
           case 187:
           case 107:
             e.preventDefault();
@@ -1844,19 +1941,19 @@ window.t = (function(){
             break;
           case 37:
             e.preventDefault();
-            StarblastMap.Engine.zoom.panBy(-1, 0);
+            StarblastMap.Engine.joystick && StarblastMap.Engine.joystick.setKeyDirection("left", true);
             break;
           case 38:
             e.preventDefault();
-            StarblastMap.Engine.zoom.panBy(0, -1);
+            StarblastMap.Engine.joystick && StarblastMap.Engine.joystick.setKeyDirection("up", true);
             break;
           case 39:
             e.preventDefault();
-            StarblastMap.Engine.zoom.panBy(1, 0);
+            StarblastMap.Engine.joystick && StarblastMap.Engine.joystick.setKeyDirection("right", true);
             break;
           case 40:
             e.preventDefault();
-            StarblastMap.Engine.zoom.panBy(0, 1);
+            StarblastMap.Engine.joystick && StarblastMap.Engine.joystick.setKeyDirection("down", true);
             break;
           case 119:
           case 87:
@@ -1883,6 +1980,34 @@ window.t = (function(){
         }
       }
     })
+
+    document.addEventListener("keyup", function(e) {
+      if (e.which === 72) {
+        e.preventDefault();
+        StarblastMap.Engine.temporaryPan.hold = false;
+        StarblastMap.Engine.zoom.stopPanDrag("mouse");
+      }
+
+      if (!StarblastMap.Engine.joystick) return;
+      switch (e.which) {
+        case 37:
+          e.preventDefault();
+          StarblastMap.Engine.joystick.setKeyDirection("left", false);
+          break;
+        case 38:
+          e.preventDefault();
+          StarblastMap.Engine.joystick.setKeyDirection("up", false);
+          break;
+        case 39:
+          e.preventDefault();
+          StarblastMap.Engine.joystick.setKeyDirection("right", false);
+          break;
+        case 40:
+          e.preventDefault();
+          StarblastMap.Engine.joystick.setKeyDirection("down", false);
+          break;
+      }
+    });
   }
   catch(e){}
   try {
@@ -1933,8 +2058,13 @@ window.t = (function(){
   for (let eventname of ["mouseup", "blur"]) window.addEventListener(eventname, function (e) {
     this.Trail.stop(e);
     this.touches = new Map();
+    this.temporaryPan.hold = false;
+    this.zoom.stopPanDrag();
   }.bind(StarblastMap.Engine));
   for (let eventname of ["touchend", "touchcancel"]) window.addEventListener(eventname, function (e){
+    for (let i of e.changedTouches || []) {
+      this.zoom.stopPanDrag(i.identifier);
+    }
     for (let i of e.touches) this.touches.delete(i.id);
     if (this.touches.size == 0) this.Trail.stop(e);
   }.bind(StarblastMap.Engine));
@@ -1968,13 +2098,19 @@ window.t = (function(){
     wrapper: $("#mapWrapper"),
     bgImage: $("#mapBgI"),
     persistTimer: null,
+    dragPan: {
+      active: false,
+      pointerId: null,
+      lastX: 0,
+      lastY: 0
+    },
     
     init: function() {
       this.scale = parseFloat(localData.getItem("zoom-scale")) || 1;
       this.panX = parseFloat(localData.getItem("zoom-panX")) || 0;
       this.panY = parseFloat(localData.getItem("zoom-panY")) || 0;
       this.applyTransform();
-      this.setupWheelPan();
+      this.setupWheelZoom();
     },
 
     getZoomBounds: function() {
@@ -2001,7 +2137,19 @@ window.t = (function(){
       
       this.updateGrid();
       StarblastMap.scheduleMinimapRefresh();
+      this.updateControlsState();
       this.persistState();
+    },
+
+    updateControlsState: function() {
+      let bounds = this.getZoomBounds();
+      let canZoomIn = this.scale < bounds.maxScale - 1e-6;
+      let canZoomOut = this.scale > bounds.minScale + 1e-6;
+      let canReset = canZoomOut || Math.abs(this.panX) > 0.5 || Math.abs(this.panY) > 0.5;
+
+      $("#zoomIn").prop("disabled", !canZoomIn);
+      $("#zoomOut").prop("disabled", !canZoomOut);
+      $("#zoomReset").prop("disabled", !canReset);
     },
 
     persistState: function() {
@@ -2065,6 +2213,82 @@ window.t = (function(){
       this.applyTransform();
     },
 
+    startPanDrag: function(clientX, clientY, pointerId) {
+      if (this.scale <= this.getZoomBounds().minScale) return false;
+      this.dragPan.active = true;
+      this.dragPan.pointerId = pointerId;
+      this.dragPan.lastX = Number(clientX) || 0;
+      this.dragPan.lastY = Number(clientY) || 0;
+      return true;
+    },
+
+    updatePanDrag: function(clientX, clientY, pointerId) {
+      if (!this.dragPan.active) return;
+      if (this.dragPan.pointerId != null && pointerId != null && this.dragPan.pointerId !== pointerId) return;
+
+      let x = Number(clientX) || 0;
+      let y = Number(clientY) || 0;
+      let dx = x - this.dragPan.lastX;
+      let dy = y - this.dragPan.lastY;
+      this.dragPan.lastX = x;
+      this.dragPan.lastY = y;
+
+      let bounds = this.getPanBounds();
+      if (!bounds.canPanX && !bounds.canPanY) return;
+
+      if (bounds.canPanX) this.panX += dx;
+      if (bounds.canPanY) this.panY += dy;
+      this.applyTransform();
+    },
+
+    stopPanDrag: function(pointerId) {
+      if (pointerId != null && this.dragPan.pointerId != null && this.dragPan.pointerId !== pointerId) return;
+      this.dragPan.active = false;
+      this.dragPan.pointerId = null;
+    },
+
+    setViewportCenter: function(centerX, centerY, apply) {
+      let cx = Math.max(0, Math.min(1, Number(centerX) || 0.5));
+      let cy = Math.max(0, Math.min(1, Number(centerY) || 0.5));
+      let pb = this.getPanBounds();
+      let zb = this.getZoomBounds();
+      let scaleRel = Math.max(1, this.scale / zb.minScale);
+      let viewW = Math.min(1, 1 / scaleRel);
+      let viewH = Math.min(1, 1 / scaleRel);
+
+      this.panX = (pb.maxPanX > 0 && viewW < 1) ? ((0.5 - cx) * (2 * pb.maxPanX) / (1 - viewW)) : 0;
+      this.panY = (pb.maxPanY > 0 && viewH < 1) ? ((0.5 - cy) * (2 * pb.maxPanY) / (1 - viewH)) : 0;
+
+      if (apply !== false) this.applyTransform();
+    },
+
+    zoomAtPoint: function(centerX, centerY, deltaY) {
+      let bounds = this.getZoomBounds();
+      let nextScale = deltaY < 0
+        ? Math.min(this.scale * this.zoomFactor, bounds.maxScale)
+        : Math.max(this.scale / this.zoomFactor, bounds.minScale);
+
+      if (nextScale === this.scale) {
+        this.setViewportCenter(centerX, centerY, true);
+        return;
+      }
+
+      this.scale = nextScale;
+      this.setViewportCenter(centerX, centerY, true);
+    },
+
+    zoomAtClientPoint: function(clientX, clientY, deltaY) {
+      let containerEl = this.container && this.container[0];
+      if (!containerEl) return;
+
+      let rect = containerEl.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      let nx = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      let ny = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+      this.zoomAtPoint(nx, ny, deltaY);
+    },
+
     panBy: function(dirX, dirY) {
       let bounds = this.getPanBounds();
       if (!bounds.canPanX && !bounds.canPanY) return;
@@ -2072,6 +2296,26 @@ window.t = (function(){
       let step = this.panKeyStep / Math.max(this.scale, this.getZoomBounds().minScale);
       if (bounds.canPanX && dirX) this.panX -= dirX * step;
       if (bounds.canPanY && dirY) this.panY -= dirY * step;
+      this.applyTransform();
+    },
+
+    panVector: function(dirX, dirY, intensity) {
+      let bounds = this.getPanBounds();
+      if (!bounds.canPanX && !bounds.canPanY) return;
+
+      let x = Number(dirX) || 0;
+      let y = Number(dirY) || 0;
+      let mag = Math.hypot(x, y);
+      if (!mag) return;
+
+      x /= mag;
+      y /= mag;
+
+      let power = Math.max(0, Math.min(1, Number(intensity) || 1));
+      let step = (this.panKeyStep / Math.max(this.scale, this.getZoomBounds().minScale)) * power;
+
+      if (bounds.canPanX) this.panX -= x * step;
+      if (bounds.canPanY) this.panY -= y * step;
       this.applyTransform();
     },
 
@@ -2116,46 +2360,36 @@ window.t = (function(){
       this.panY = bounds.canPanY ? Math.max(Math.min(this.panY, bounds.maxPanY), -bounds.maxPanY) : 0;
     },
     
-    setupWheelPan: function() {
+    setupWheelZoom: function() {
       this.container[0].addEventListener("wheel", function(e) {
         e.preventDefault();
 
-        let bounds = this.getPanBounds();
-        let canPanX = bounds.canPanX;
-        let canPanY = bounds.canPanY;
-        
-        if (!canPanX && !canPanY) {
-          this.panX = 0;
-          this.panY = 0;
-          this.applyTransform();
-          return;
-        }
-        
-        let panSpeed = Math.max(0.1, 0.1 / this.scale);
-        
-        let deltaX = 0, deltaY = 0;
-        
-        if (e.shiftKey) {
-          if (canPanX) deltaX = -e.deltaY * panSpeed;
-        } else {
-          if (canPanX) deltaX = -e.deltaX * panSpeed;
-          if (canPanY) deltaY = -e.deltaY * panSpeed;
-        }
-        
-        if (canPanX) {
-          this.panX = Math.max(Math.min(this.panX + deltaX, bounds.maxPanX), -bounds.maxPanX);
-        }
-        if (canPanY) {
-          this.panY = Math.max(Math.min(this.panY + deltaY, bounds.maxPanY), -bounds.maxPanY);
-        }
-        
-        this.applyTransform();
-      }.bind(this));
+        // Main map wheel now zooms at pointer location for direct navigation.
+        this.zoomAtClientPoint(e.clientX, e.clientY, e.deltaY);
+      }.bind(this), { passive: false });
     }
   };
   
   StarblastMap.Engine.zoom.init();
   StarblastMap.minimap.refresh();
+
+  if (StarblastMap.minimap && StarblastMap.minimap.canvas) {
+    let minimapCanvas = StarblastMap.minimap.canvas;
+
+    minimapCanvas.addEventListener("click", function(e) {
+      let point = StarblastMap.minimap.getNormalizedPointFromEvent(e);
+      StarblastMap.minimap.setSelectedPoint(point.x, point.y, true);
+      StarblastMap.Engine.zoom.setViewportCenter(point.x, point.y, true);
+    });
+
+    minimapCanvas.addEventListener("wheel", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      let point = StarblastMap.minimap.getNormalizedPointFromEvent(e);
+      StarblastMap.minimap.setSelectedPoint(point.x, point.y, true);
+      StarblastMap.Engine.zoom.zoomAtPoint(point.x, point.y, e.deltaY);
+    }, { passive: false });
+  }
   
   $("#zoomIn").on("click", function() {
     StarblastMap.Engine.zoom.zoomIn();
@@ -2169,36 +2403,170 @@ window.t = (function(){
     StarblastMap.Engine.zoom.resetZoom();
   });
 
-  let panHoldTimer = null;
-  let startPanHold = function(dx, dy) {
-    let pan = StarblastMap.Engine.zoom.panBy.bind(StarblastMap.Engine.zoom);
-    pan(dx, dy);
-    if (panHoldTimer) clearInterval(panHoldTimer);
-    panHoldTimer = setInterval(function() { pan(dx, dy); }, 16);
-  };
+  StarblastMap.Engine.joystick = {
+    container: $("#panJoystick"),
+    stick: $("#panStick"),
+    keyState: { left: false, right: false, up: false, down: false },
+    pointerActive: false,
+    pointerId: null,
+    pointerX: 0,
+    pointerY: 0,
+    maxRadius: 34,
+    loopId: null,
+    running: false,
 
-  let stopPanHold = function() {
-    if (panHoldTimer) {
-      clearInterval(panHoldTimer);
-      panHoldTimer = null;
+    init: function() {
+      let c = this.container[0];
+      let s = this.stick[0];
+      if (!c || !s) return;
+
+      c.addEventListener("mousedown", function(e) {
+        e.preventDefault();
+        this.startPointer("mouse", e.clientX, e.clientY);
+      }.bind(this));
+
+      c.addEventListener("touchstart", function(e) {
+        if (!e.touches.length) return;
+        e.preventDefault();
+        let t = e.touches[0];
+        this.startPointer(t.identifier, t.clientX, t.clientY);
+      }.bind(this), { passive: false });
+
+      window.addEventListener("mousemove", function(e) {
+        if (!this.pointerActive || this.pointerId !== "mouse") return;
+        this.updatePointer(e.clientX, e.clientY);
+      }.bind(this));
+
+      window.addEventListener("mouseup", function() {
+        if (this.pointerId === "mouse") this.stopPointer("mouse");
+      }.bind(this));
+
+      window.addEventListener("touchmove", function(e) {
+        if (!this.pointerActive) return;
+        let active = null;
+        for (let t of e.touches) {
+          if (t.identifier === this.pointerId) {
+            active = t;
+            break;
+          }
+        }
+        if (!active) return;
+        e.preventDefault();
+        this.updatePointer(active.clientX, active.clientY);
+      }.bind(this), { passive: false });
+
+      let stopTouch = function(e) {
+        for (let t of e.changedTouches || []) {
+          if (t.identifier === this.pointerId) {
+            this.stopPointer(t.identifier);
+            break;
+          }
+        }
+      }.bind(this);
+      window.addEventListener("touchend", stopTouch);
+      window.addEventListener("touchcancel", stopTouch);
+
+      this.startLoop();
+      this.resetStick();
+    },
+
+    startPointer: function(id, clientX, clientY) {
+      this.pointerActive = true;
+      this.pointerId = id;
+      this.container.attr("data-active", "true");
+      this.updatePointer(clientX, clientY);
+    },
+
+    stopPointer: function(id) {
+      if (!this.pointerActive) return;
+      if (id != null && this.pointerId != null && id !== this.pointerId) return;
+      this.pointerActive = false;
+      this.pointerId = null;
+      this.pointerX = 0;
+      this.pointerY = 0;
+      this.container.removeAttr("data-active");
+      this.resetStick();
+    },
+
+    updatePointer: function(clientX, clientY) {
+      let c = this.container[0];
+      if (!c) return;
+      let rect = c.getBoundingClientRect();
+      let cx = rect.left + rect.width / 2;
+      let cy = rect.top + rect.height / 2;
+
+      let dx = (Number(clientX) || 0) - cx;
+      let dy = (Number(clientY) || 0) - cy;
+      let dist = Math.hypot(dx, dy);
+      let max = this.maxRadius;
+      if (dist > max && dist > 0) {
+        let ratio = max / dist;
+        dx *= ratio;
+        dy *= ratio;
+      }
+
+      this.pointerX = dx / max;
+      this.pointerY = dy / max;
+      this.renderStick(dx, dy);
+    },
+
+    renderStick: function(px, py) {
+      this.stick.css("transform", `translate(${px}px, ${py}px)`);
+      this.stick.attr("aria-valuenow", Math.max(-1, Math.min(1, -py / this.maxRadius)).toFixed(2));
+    },
+
+    resetStick: function() {
+      this.renderStick(0, 0);
+    },
+
+    setKeyDirection: function(dir, active) {
+      if (!(dir in this.keyState)) return;
+      this.keyState[dir] = !!active;
+    },
+
+    getKeyVector: function() {
+      let x = (this.keyState.right ? 1 : 0) - (this.keyState.left ? 1 : 0);
+      let y = (this.keyState.down ? 1 : 0) - (this.keyState.up ? 1 : 0);
+      if (!x && !y) return { x: 0, y: 0, mag: 0 };
+      let mag = Math.hypot(x, y);
+      return { x: x / mag, y: y / mag, mag: 1 };
+    },
+
+    getMergedVector: function() {
+      let key = this.getKeyVector();
+      let px = this.pointerActive ? this.pointerX : 0;
+      let py = this.pointerActive ? this.pointerY : 0;
+      let x = key.x + px;
+      let y = key.y + py;
+      let mag = Math.hypot(x, y);
+      if (!mag) return { x: 0, y: 0, mag: 0 };
+      return {
+        x: x / mag,
+        y: y / mag,
+        mag: Math.min(1, mag)
+      };
+    },
+
+    startLoop: function() {
+      if (this.running) return;
+      this.running = true;
+      let tick = function() {
+        if (!this.running) return;
+        if (!this.pointerActive) {
+          let key = this.getKeyVector();
+          this.renderStick(key.x * this.maxRadius, key.y * this.maxRadius);
+        }
+        let v = this.getMergedVector();
+        if (v.mag > 0) {
+          StarblastMap.Engine.zoom.panVector(v.x, v.y, v.mag);
+        }
+        this.loopId = window.requestAnimationFrame(tick);
+      }.bind(this);
+      this.loopId = window.requestAnimationFrame(tick);
     }
   };
 
-  let bindPanButton = function(id, dx, dy) {
-    let el = $("#" + id)[0];
-    if (!el) return;
-    el.addEventListener("mousedown", function(e) { e.preventDefault(); startPanHold(dx, dy); });
-    el.addEventListener("touchstart", function(e) { e.preventDefault(); startPanHold(dx, dy); }, { passive: false });
-    el.addEventListener("mouseup", stopPanHold);
-    el.addEventListener("mouseleave", stopPanHold);
-    el.addEventListener("touchend", stopPanHold);
-    el.addEventListener("touchcancel", stopPanHold);
-  };
-
-  bindPanButton("panUp", 0, -1);
-  bindPanButton("panDown", 0, 1);
-  bindPanButton("panLeft", -1, 0);
-  bindPanButton("panRight", 1, 0);
+  StarblastMap.Engine.joystick.init();
 
   $("#gridToggle").on("click", function() {
     $("#border-show").prop("checked", !$("#border-show").is(":checked"));

@@ -236,11 +236,13 @@ input[type=color] {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 0.2vmax;
+    padding: 0 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 40px;
+    height: 30px;
+    font-size: 0.85em;
+    line-height: 1.05;
     overflow: hidden;
 }
 
@@ -265,7 +267,7 @@ input[type=color] {
 
 #footer,
 #footer>* {
-    padding: 0.2vmax;
+    padding: 0;
     margin: 0;
 }
 
@@ -276,7 +278,8 @@ input[type=checkbox] {
 
 #mapBox {
     overflow: hidden;
-    margin: 0.5em 0 2em 0;
+    margin: 0.5em 0 0 0;
+    box-sizing: border-box;
 }
 
 #mapBox canvas {
@@ -431,9 +434,10 @@ table:not(#modules),
 }
 
 #mirrorChoose button {
-    width: auto;
-    min-width: 44px;
-    padding: 0 10px;
+    width: clamp(30px, 2.1vw, 36px);
+    height: clamp(30px, 2.1vw, 36px);
+    min-width: 0;
+    padding: 0;
 }
 
 .mirror-label {
@@ -675,13 +679,60 @@ textarea:focus-visible,
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
-#panJoystick .zoom-control {
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px;
-    min-height: 34px;
-    justify-self: center;
-    align-self: center;
+#panJoystick {
+    position: absolute;
+    right: 20px;
+    bottom: 56px;
+    width: 118px;
+    height: 118px;
+    z-index: 101;
+    border-radius: 50%;
+    background: rgba(24, 36, 63, 0.9);
+    border: 1px solid rgba(142, 176, 255, 0.45);
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.45), 0 4px 14px rgba(0, 0, 0, 0.35);
+    touch-action: none;
+    user-select: none;
+}
+
+#panJoystickRing {
+    position: absolute;
+    inset: 10px;
+    border-radius: 50%;
+    border: 1px dashed rgba(172, 198, 255, 0.42);
+}
+
+#panJoystickDeadzone {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    margin-left: -15px;
+    margin-top: -15px;
+    border-radius: 50%;
+    border: 1px solid rgba(172, 198, 255, 0.3);
+}
+
+#panStick {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    margin-left: -17px;
+    margin-top: -17px;
+    border-radius: 50%;
+    background: #6d95ff;
+    border: 1px solid rgba(214, 227, 255, 0.55);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.38);
+    cursor: grab;
+    transition: box-shadow 0.16s ease;
+}
+
+#panStick:active,
+#panJoystick[data-active="true"] #panStick {
+    cursor: grabbing;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.34);
 }
 
 #visibilityAids .aid-line {
@@ -763,6 +814,9 @@ textarea:focus-visible,
 
 #mapContainer {
     cursor: default;
+    /* Always-visible map bounds, independent of grid/aids visibility. */
+    outline: 1px solid rgba(142, 176, 255, 0.55);
+    outline-offset: -1px;
 }
 
 #mapContainer:active {
@@ -776,6 +830,7 @@ textarea:focus-visible,
 
 #minimap {
     image-rendering: pixelated;
+    cursor: crosshair;
 }
 
 #minimapStats {
@@ -820,13 +875,12 @@ textarea:focus-visible,
         bottom: 52px !important;
         width: 108px !important;
         height: 108px !important;
-        gap: 5px !important;
     }
 
-    #panJoystick .zoom-control {
-        width: 32px !important;
-        height: 32px !important;
-        min-width: 32px;
-        min-height: 32px;
+    #panStick {
+        width: 32px;
+        height: 32px;
+        margin-left: -16px;
+        margin-top: -16px;
     }
 }
