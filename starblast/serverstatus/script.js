@@ -15,7 +15,7 @@
   }, setAdblocker = function (bool) {
     $("#adblocker").css("display", bool?"":"none")
   }, fetchLocation = function(ip, action) {
-    $.get("https://ipwhois.app/json/"+ip+"?objects=country,country_flag,region,isp,city").then(function (data) {
+    $.get(`https://bhpsngum.is-now.online/geo?ip=${ip}`).then(function (data) {
       IPs[ip] = data;
       saveLocal("server-ips", IPs);
       setAdblocker(false);
