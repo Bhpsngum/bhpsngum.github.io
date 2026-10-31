@@ -40,7 +40,8 @@
     {"name": "Seasonal - Summer 2024", "id": "summer_2024", "active": false, "url": "summer_2024.png"},
     {"name": "Seasonal - Fall 2024", "id": "fall_2024", "active": false, "url": "fall_2024.png"},
     {"name": "Seasonal - Summer 2025", "id": "summer_2025", "active": false, "url": "summer_2025.png"},
-    {"name": "Seasonal - Winter 2025", "id": "winter_2025", "active": false, "url": "winter_2025.png"}
+    {"name": "Seasonal - Winter 2025", "id": "winter_2025", "active": false, "url": "winter_2025.png"},
+    {"name": "Seasonal - Dimed 2026", "id": "dimed_2026", "active": false, "url": "dimed_2026.png"}
   ],
   "sucp": [
     {"name": "Developer", "id": "dev", "active": true, "url": "dev.png"},
