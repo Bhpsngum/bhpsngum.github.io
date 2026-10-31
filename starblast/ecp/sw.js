@@ -27,10 +27,10 @@ self.addEventListener('fetch', (e) => {
     try {
       const response = await fetch(e.request);
       if (response.ok) {
-        let url;
-        try { url = new URL(e.request.url) } catch(e) {};
+        let url = {};
+        try { url = new URL(e.request.url) } catch {};
         
-        if ((e.request||{}).method == 'GET' || !url || url.protocol === 'http:' || url.protocol === 'https:') try {
+        if ((e.request||{}).method === 'GET' && (url.protocol === 'http:' || url.protocol === 'https:')) try {
           const cache = await caches.open(cacheName);
           cache.put(e.request, response.clone());
         }
