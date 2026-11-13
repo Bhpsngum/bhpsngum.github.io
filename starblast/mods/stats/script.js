@@ -152,7 +152,7 @@
           adjustwidth();
           setTimeout(adjustwidth, 1);
           setInterval(count, 1000);
-          addServiceWorker("/sw.js", function(t){sw = t});
+          addServiceWorker("../../../sw.js", function(t){sw = t});
           init = !0;
         }
         queueNextUpdate();
