@@ -1,40 +1,22 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>String to JS variable name converter</title>
-    <link rel="icon" href="js-icon.jpg">
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.jsdelivr.net/gh/Bhpsngum/utilitiesNstuffs@latest/getProperVariableName/JS/getProperVariableName.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
-  </head>
-  <body>
-    <h2>String to JavaScript variable name converter</h2>
-    <h3>get a proper JavaScript variable name according to the latest version from your input string</h3>
-    <input type="text" class= "bar" id="input" placeholder="e.g. Է"></input>
-    <br>
-    <input type="checkbox" id="strictWarning">Force mutable</input>
-    <input type="checkbox" id="strict">Strict mode</input>
-    <input type="checkbox" id="auto">Automatic mode</input>
-    <br>
-    <button id="submit" type="text">Get Proper JavaScript Variable Name</button>
-    <br>
-    <input type="text" id="output" class="bar" readonly=true></input>
-    <br>
-    <button id="copy">Copy</button>
-    <br>
-    <p id="error-info"></p>
-    <br>
-    <p id="error"></input>
-    <br>
-    <p id="warning" style="display:none">However, avoid using JavaScript variable name from this input string because it was initially defined as a global variable or the properties of them, therefore it's set to read-only. Setting them won’t have an effect.
-      <br></br>
-      <strong>Tip:</strong>
-      <a href="#" id="esi">Enable 'Force mutable'</a> to create more proper & mutable variable name
-    </p>
-    </br>
-    <p class="info">Got interested? <a href="https://github.com/Bhpsngum/utilitiesNstuffs#getpropervariablename-js-only">Fork this on GitHub!</a></p>
-    <script src="script.js"></script>
-  </body>
-</html>
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#080d18"><meta name="description" content="Convert strings into valid JavaScript variable names."><title>JavaScript variable name converter — Bhpsngum</title><link rel="icon" href="js-icon.jpg"><link rel="stylesheet" href="../../web.css"><script src="https://cdn.jsdelivr.net/gh/Bhpsngum/utilitiesNstuffs@latest/getProperVariableName/JS/getProperVariableName.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script></head>
+<body>
+  <header class="site-header"><a class="brand" href="/"><span class="brand-mark">B</span><span>bhpsngum<span style="color:var(--cyan)">.</span></span></a><nav class="site-nav" aria-label="Main navigation"><a href="/">Home</a><a href="/starblast/">Starblast tools</a><a href="/util/" aria-current="page">Utilities</a><a href="https://github.com/Bhpsngum/" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav></header>
+  <main class="page-shell"><section class="hero"><p class="eyebrow">Developer utility / JavaScript</p><h1>Variable name<br>converter.</h1><p class="lead">Check a JavaScript identifier or turn your text into a valid variable name.</p></section>
+    <section class="panel">
+      <label for="input" class="eyebrow">Your input</label><input type="text" class="field" id="input" placeholder="e.g. my cool variable name" autocomplete="off" style="margin:10px 0 20px">
+      <div style="display:flex;flex-wrap:wrap;gap:18px;margin:4px 0 22px;color:var(--muted)">
+        <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="strictWarning">Force mutable</label>
+        <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="strict">Strict mode</label>
+        <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="auto">Automatic mode</label>
+      </div>
+      <button id="submit" type="button">Convert variable name</button>
+      <div style="margin-top:28px"><label for="output" class="eyebrow">Result</label><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px"><input type="text" id="output" class="field" readonly aria-label="Converted variable name" style="flex:1;min-width:220px"><button id="copy" type="button">Copy result</button></div></div>
+      <p id="error-info" class="muted" aria-live="polite"></p><p id="error" role="alert"></p>
+      <p id="warning" style="display:none">This name is valid but may refer to a read-only global. Enable “Force mutable” to generate a mutable alternative. <a href="#" id="esi">Enable Force mutable</a></p>
+    </section>
+    <p class="muted">Want to explore the implementation? <a href="https://github.com/Bhpsngum/utilitiesNstuffs#getpropervariablename-js-only" target="_blank" rel="noopener noreferrer">View the source on GitHub ↗</a></p>
+  </main><footer class="site-footer"><a href="/util/">← All utilities</a></footer>
+  <script src="script.js"></script>
+</body></html>
