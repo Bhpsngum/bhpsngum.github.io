@@ -6,10 +6,16 @@
   const toolsUrl = new URL("tools.json", document.baseURI);
   const fallbackImage = new URL("../icon.png", document.baseURI).href;
 
-  function safeToolUrl(value) {
+  const projectRoot = new URL("../", document.baseURI);
+
+  function safeToolUrl(value, baseUrl = document.baseURI) {
     if (typeof value !== "string" || !value.trim()) return null;
     try {
-      const url = new URL(value, document.baseURI);
+      const clean = value.trim();
+      // Legacy pages use root-relative /starblast/... image paths.
+      const url = clean.startsWith("/") && !clean.startsWith("//")
+        ? new URL(clean.slice(1), projectRoot)
+        : new URL(clean, baseUrl);
       if (url.protocol !== "http:" && url.protocol !== "https:") return null;
       return url;
     } catch (_) {
@@ -24,7 +30,7 @@
     const card = document.createElement("article");
     card.className = "toolBox card";
     const preview = document.createElement("img");
-    const imageUrl = safeToolUrl(tool.preview);
+    const imageUrl = safeToolUrl(tool.preview, destination);
     preview.src = imageUrl ? imageUrl.href : fallbackImage;
     preview.alt = "";
     preview.loading = "lazy";
