@@ -1,49 +1,79 @@
-(function(){
-  let ToolBox = function(prop) {
-    let onclick = `onclick="window.open('${prop.dir}')"`;
-    return `<div id="${prop.dir.replace(/[^0-9A-Z]/gi,"_")}" class="toolBox">
-      <img src="${prop.preview}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)" ${onclick}>
-      <img class="toolIcon" src="${prop.icon}" onerror="setTimeout(function(){this.src = this.src}.bind(this),5000)" ${onclick}>
-      <h3 ${onclick}>${prop.name}</h3>
-      <p ${onclick}>${prop.description}</p>
-      <a href="${prop.dir}">${location.host}/${prop.dir.match(/^\.*\//)?"":"starblast/"}${prop.dir.replace(/^\.*\//, "")}</a>
-    </div>`
-  }
-  let insertToolBox = function (dir) {
-    $("#tools").append(ToolBox(dir));
-    adjustwidth()
-  }
-  $.getJSON("tools.json").then(function(json) {
-    $("#tools").html("");
-    for (let link of json) {
-      if ("string" == typeof link) {
-        $.get(link).then(e=>{
-          let t = [];
-          e.replace(/<meta\s+([^>]+?)(\s|\/)*>/g,(a,b)=>{
-            let obj = {}
-            b = b.replace(/(\w+)\s*=\s*("|')(.+?)\2/g,(a,b,c,d)=>obj[b]=d);
-            t.push(obj)
-          });
-          insertToolBox({
-            dir: link,
-            name: t.find(meta => "og:title" == meta.name).content,
-            description: t.find(meta => "description" == meta.name).content,
-            icon: link + "/favicon.ico",
-            preview: t.find(meta => "og:image" == meta.name).content
-          });
-          setTimeout(adjustwidth, 1)
-        });
-      }
-      else insertToolBox(link)
+(function () {
+  const container = document.querySelector("#tools");
+  const status = document.querySelector("#welcome-text");
+  const toolsUrl = new URL("tools.json", document.baseURI);
+
+  function makeCard(tool) {
+    const card = document.createElement("article");
+    card.className = "toolBox card";
+    const preview = document.createElement("img");
+    preview.src = tool.preview || "/icon.png";
+    preview.alt = "";
+    preview.loading = "lazy";
+    const title = document.createElement("h3");
+    title.textContent = tool.name || "Starblast tool";
+    const description = document.createElement("p");
+    description.textContent = tool.description || "Open this community tool.";
+    const link = document.createElement("a");
+    link.className = "card-link";
+    link.href = tool.dir;
+    link.textContent = "Open tool →";
+    if (/^https?:/i.test(tool.dir)) {
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
     }
-  }).catch(function(){
-    $("#welcome-text").css("color","red");
-    $("#welcome-text").html("Failed to load tools data")
-  });
-  let img_size = 360, padding_ratio = 1/30, full_ratio = 1+4*padding_ratio, adjustwidth = function(){
-    let g = $(window).width(), x = Math.round(g/(img_size*full_ratio)), t = g/(x||1)/full_ratio, m = Math.trunc(t*padding_ratio);
-    $(".toolBox").css({width: Math.trunc(t)+"px",padding: m+"px", margin: m+"px"});
-    $(".toolIcon").css({right: m+"px", top: m+"px"})
+    card.append(preview, title, description, link);
+    card.addEventListener("click", function (event) {
+      if (event.target.closest("a")) return;
+      if (/^https?:/i.test(tool.dir)) window.open(tool.dir, "_blank", "noopener,noreferrer");
+      else window.location.href = tool.dir;
+    });
+    card.style.cursor = "pointer";
+    return card;
   }
-  window.addEventListener("resize", adjustwidth)
+
+  function metaValue(documentText, name) {
+    const parsed = new DOMParser().parseFromString(documentText, "text/html");
+    const item = parsed.querySelector('meta[property="' + name + '"], meta[name="' + name + '"]');
+    return item ? item.content : "";
+  }
+
+  fetch(toolsUrl)
+    .then(response => {
+      if (!response.ok) throw new Error("Could not load tools list");
+      return response.json();
+    })
+    .then(async entries => {
+      const results = await Promise.all(entries.map(async entry => {
+        if (typeof entry !== "string") return entry;
+        const dir = entry.startsWith("http") ? entry : entry.replace(/^\/+/, "");
+        const url = entry.startsWith("http") ? entry : new URL(dir + (dir.endsWith("/") ? "" : "/"), document.baseURI).href;
+        try {
+          const response = await fetch(url);
+          if (!response.ok) throw new Error("Metadata unavailable");
+          const html = await response.text();
+          return {
+            dir: entry.startsWith("http") ? entry : "/" + (dir.startsWith("starblast/") ? dir : "starblast/" + dir),
+            name: metaValue(html, "og:title") || dir.replace(/\/$/, "").split("/").pop(),
+            description: metaValue(html, "description") || "A community tool for Starblast.",
+            preview: metaValue(html, "og:image") || "/icon.png"
+          };
+        } catch (_) {
+          return {
+            dir: entry.startsWith("http") ? entry : "/" + (dir.startsWith("starblast/") ? dir : "starblast/" + dir),
+            name: dir.replace(/\/$/, "").split("/").pop().replace(/[-_]/g, " "),
+            description: "Open this Starblast community tool.",
+            preview: "/icon.png"
+          };
+        }
+      }));
+      container.replaceChildren(...results.map(makeCard));
+      if (status) status.remove();
+    })
+    .catch(() => {
+      if (status) {
+        status.textContent = "Tools could not be loaded right now. Please try again later.";
+        status.style.color = "var(--danger)";
+      }
+    });
 })();
